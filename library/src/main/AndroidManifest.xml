@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.phantomvk.identifier.library">
+
+    <!--  For Google Mobile Services implementation.  -->
+    <uses-permission android:name="com.google.android.gms.permission.AD_ID" />
+
+    <!-- asus -->
+    <uses-permission android:name="com.asus.msa.SupplementaryDID.ACCESS" />
+
+    <!-- freeme -->
+    <uses-permission android:name="freemme.permission.msa" />
+    <uses-permission android:name="freemme.permission.msa.SECURITY_ACCESS" />
+
+    <!-- oppo -->
+    <uses-permission android:name="oplus.permission.settings.LAUNCH_FOR_EXPORT" />
+
+    <!-- vivo -->
+    <uses-permission android:name="com.vivo.identifier.permission.OAID_STATE_DIALOG" />
+
+    <queries>
+        <!-- google -->
+        <package android:name="com.google.android.gms" />
+        <package android:name="com.android.vending" />
+
+        <!-- freeme -->
+        <package android:name="com.android.creator" />
+        <package android:name="com.zhuoyi.security.lite" />
+        <package android:name="com.freeme.secureguard" />
+        <package android:name="com.android.secureguard" />
+
+        <!-- zte -->
+        <package android:name="com.mdid.msa" />
+
+        <!-- samsung -->
+        <package android:name="com.samsung.android.deviceidservice" />
+
+        <!-- coolpad -->
+        <package android:name="com.coolpad.deviceidsupport" />
+
+        <!-- oppo -->
+        <package android:name="com.heytap.openid" />
+
+        <!-- huawei -->
+        <package android:name="com.huawei.hwid" />
+        <package android:name="com.huawei.hwid.tv" />
+        <package android:name="com.huawei.hms" />
+
+        <!-- asus -->
+        <package android:name="com.asus.msa.SupplementaryDID" />
+
+        <!-- lenovo -->
+        <package android:name="com.zui.deviceidservice" />
+    </queries>
+</manifest>
