@@ -1,4 +1,4 @@
-package com.phantomvk.identifier.library
+package com.phantomvk.identifier
 
 import com.phantomvk.identifier.util.HashCalculator
 import org.junit.Test

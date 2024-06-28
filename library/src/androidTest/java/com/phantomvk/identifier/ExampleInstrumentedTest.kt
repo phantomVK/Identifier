@@ -1,4 +1,4 @@
-package com.phantomvk.identifier.library
+package com.phantomvk.identifier
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.phantomvk.identifier.library.test", appContext.packageName)
+        assertEquals("com.phantomvk.identifier.test", appContext.packageName)
     }
 }
