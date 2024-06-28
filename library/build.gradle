@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace "com.phantomvk.identifier.library"
+    namespace "com.phantomvk.identifier"
     compileSdk rootProject.ext.compileSdk
 
     defaultConfig {
@@ -43,4 +43,14 @@ dependencies {
     testImplementation "junit:junit:$junit"
     androidTestImplementation "androidx.test.ext:junit:$android_junit"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_core"
+}
+
+group = "com.phantomvk.identifier"
+ext {
+    libraryName = 'Identifier'
+    artifact = 'identifier'
+    libraryDescription = 'The Open Anonymous Device Identifier.'
+
+    siteUrl = 'https://github.com/phantomVK/Identifier'
+    gitUrl = 'git@github.com:phantomVK/Identifier.git'
 }
