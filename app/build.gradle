@@ -16,10 +16,29 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs {
+        release {
+            def rootProject = rootProject.file("../config/keystore.properties")
+            if (!rootProject.exists()) return
+
+            def prop = new Properties()
+            new FileInputStream(rootProject).withCloseable { res -> prop.load(res) }
+
+            if (!prop.isEmpty()) {
+                keyAlias prop['keyAlias']
+                keyPassword prop['keyPassword']
+                storePassword prop['storePassword']
+                storeFile file(prop['keyStore'])
+            }
+        }
+    }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
+            crunchPngs true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
     compileOptions {
