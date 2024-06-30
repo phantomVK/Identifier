@@ -5,6 +5,7 @@ import android.widget.Toast;
 
 import com.phantomvk.identifier.log.Logger;
 import com.phantomvk.identifier.log.TraceLevel;
+import com.phantomvk.identifier.util.MainThreadKt;
 
 public class LoggerImpl implements Logger {
     @Override

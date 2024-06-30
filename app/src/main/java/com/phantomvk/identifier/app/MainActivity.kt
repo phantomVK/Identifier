@@ -41,14 +41,12 @@ class MainActivity : AppCompatActivity() {
   }
 
   private fun updateTextInfo(msg: String? = null, t: Throwable? = null) {
-    runOnUiThread {
-      val deviceInfo = deviceInfo(msg)
-      infoTextView.text = deviceInfo
-      Log.i("IdentifierTAG", deviceInfo, t)
+    val deviceInfo = deviceInfo(msg)
+    infoTextView.text = deviceInfo
+    Log.i("IdentifierTAG", deviceInfo, t)
 
-      if (!msg.isNullOrBlank()) {
-        copyToClipboard(deviceInfo)
-      }
+    if (!msg.isNullOrBlank()) {
+      copyToClipboard(deviceInfo)
     }
   }
 

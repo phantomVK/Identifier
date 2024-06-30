@@ -13,5 +13,5 @@ interface Disposable {
    * Returns true if this resource has been disposed.
    * @return true if this resource has been disposed
    */
-//  val isDisposed: Boolean
+  fun isDisposed(): Boolean
 }

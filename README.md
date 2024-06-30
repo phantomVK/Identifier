@@ -28,7 +28,7 @@ dependencies {
 Usage
 -------
 
-Add following code to app's Application.class to init IdentifierManager. Those code takes no time to execute, keep it in the main thread is fine.
+Add following code to app's Application.class to init IdentifierManager. Those code takes no time to execute, keep it run on the main thread is fine.
 
 ```kotlin
 class Application : android.app.Application() {

@@ -16,10 +16,10 @@ class SerialRunnable(config: ProviderConfig) : AbstractProvider(config), Disposa
     private var cachedId: String? = null
   }
 
-  private val proxy = ResultListenerProxy(config.callback)
+  private val disposable = DisposableResultListener(config.callback)
 
   init {
-    setCallback(proxy)
+    setCallback(disposable)
   }
 
   override fun getTag(): String {
@@ -42,14 +42,16 @@ class SerialRunnable(config: ProviderConfig) : AbstractProvider(config), Disposa
     var isSuccess = false
     val providers = ManufacturerFactory.getProviders(config)
     for (provider in providers) {
-      if (proxy.isDisposed()) {
+      if (disposable.isDisposed()) {
         return
       }
 
       val latch = CountDownLatch(1)
       val resultCallback = object : OnResultListener {
         override fun onSuccess(id: String) {
-          Log.i(getTag(), "${provider.getTag()} Success $id")
+          if (IdentifierManager.getInstance().isDebug) {
+            Log.i(getTag(), "${provider.getTag()} Success $id")
+          }
 
           if (IdentifierManager.getInstance().isMemCacheEnabled) {
             cachedId = id
@@ -79,6 +81,10 @@ class SerialRunnable(config: ProviderConfig) : AbstractProvider(config), Disposa
   }
 
   override fun dispose() {
-    proxy.dispose()
+    disposable.dispose()
+  }
+
+  override fun isDisposed(): Boolean {
+    return disposable.isDisposed()
   }
 }
