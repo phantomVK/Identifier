@@ -38,14 +38,14 @@ class SerialRunnable(config: ProviderConfig) : AbstractProvider(config), Disposa
       return
     }
 
+    if (disposable.isDisposed()) {
+      return
+    }
+
     // fetch latest id.
     var isSuccess = false
     val providers = ManufacturerFactory.getProviders(config)
     for (provider in providers) {
-      if (disposable.isDisposed()) {
-        return
-      }
-
       val latch = CountDownLatch(1)
       val resultCallback = object : OnResultListener {
         override fun onSuccess(id: String) {
@@ -68,10 +68,14 @@ class SerialRunnable(config: ProviderConfig) : AbstractProvider(config), Disposa
         }
       }
 
+      if (disposable.isDisposed()) {
+        return
+      }
+
       provider.setCallback(resultCallback)
       provider.run()
-
       latch.await()
+
       if (isSuccess) {
         return
       }
