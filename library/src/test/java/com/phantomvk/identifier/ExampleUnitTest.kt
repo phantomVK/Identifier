@@ -13,7 +13,7 @@ import org.junit.Assert.*
 class ExampleUnitTest {
     @Test
     fun addition_isCorrect() {
-        val result = HashCalculator.hash("MD5", "MD5")
+        val result = HashCalculator.hash("MD5", "MD5".toByteArray())
         assertEquals(result, "7f138a09169b250e9dcb378140907378")
     }
 }

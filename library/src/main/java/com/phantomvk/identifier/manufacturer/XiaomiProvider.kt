@@ -19,7 +19,7 @@ class XiaomiProvider(config: ProviderConfig) : AbstractProvider(config) {
   }
 
   override fun execute() {
-    val id = XiaomiClazz.getId(config.context, IdEnum.OAID)
+    val id = XiaomiClazz.getId(config.context, 1)
     checkId(id, getCallback())
   }
 }
@@ -51,16 +51,15 @@ object XiaomiClazz {
     }
   }
 
-  fun getId(context: Context, type: IdEnum): String? {
+  fun getId(context: Context, type: Int): String? {
     val method = when (type) {
-      IdEnum.UDID -> sMethodGetUDID
-      IdEnum.OAID -> sMethodGetOAID
-      IdEnum.VAID -> sMethodGetVAID
-      IdEnum.AAID -> sMethodGetAAID
+      0 -> sMethodGetUDID
+      1 -> sMethodGetOAID
+      2 -> sMethodGetVAID
+      3 -> sMethodGetAAID
+      else -> sMethodGetOAID
     }
 
     return method?.invoke(sInstance ?: return null, context) as? String
   }
 }
-
-enum class IdEnum { UDID, OAID, VAID, AAID }

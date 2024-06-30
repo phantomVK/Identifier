@@ -51,8 +51,7 @@ android {
 }
 
 dependencies {
-    debugImplementation project(":library")
-    releaseImplementation "com.github.phantomVK:Identifier:0.1.1"
+    implementation project(":library")
 
     implementation "androidx.core:core-ktx:$core_ktx"
     implementation "androidx.appcompat:appcompat:$appcompat"

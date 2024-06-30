@@ -3,13 +3,6 @@ package com.phantomvk.identifier.util
 import java.security.MessageDigest
 
 object HashCalculator {
-  /**
-   * Calculate hash value using specified algorithm.
-   */
-  fun hash(algorithm: String, str: String): String? {
-    if (str.isBlank()) return null
-    return hash(algorithm, str.toByteArray())
-  }
 
   /**
    * Calculate hash value using specified algorithm.
