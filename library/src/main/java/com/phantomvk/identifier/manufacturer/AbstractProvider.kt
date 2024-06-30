@@ -66,7 +66,7 @@ abstract class AbstractProvider(protected val config: ProviderConfig) : Runnable
       return CallBinderResult.Failed(ID_IS_NULL_OR_BLANK)
     }
 
-    if (id == BLANK_ID_FORMAT) {
+    if (id == BLANK_ID_FORMAT || id == BLANK_ID_FORMAT_VIVO) {
       return CallBinderResult.Failed(ID_IS_INVALID)
     }
 

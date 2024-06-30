@@ -5,12 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
 import android.os.IBinder
-import com.phantomvk.identifier.impl.Constants.BIND_SERVICE_ERROR
-import com.phantomvk.identifier.impl.Constants.BIND_SERVICE_RETURN_FALSE
 import com.phantomvk.identifier.impl.Constants.EXCEPTION_THROWN
-import com.phantomvk.identifier.impl.Constants.SERVICE_BINDING_DIED
-import com.phantomvk.identifier.impl.Constants.SERVICE_DISCONNECTED
-import com.phantomvk.identifier.impl.Constants.SERVICE_NULL_BINDING
 import com.phantomvk.identifier.interfaces.BinderCallback
 import com.phantomvk.identifier.interfaces.OnResultListener
 import com.phantomvk.identifier.model.CallBinderResult
@@ -37,16 +32,16 @@ object ServiceManager {
       }
 
       override fun onServiceDisconnected(name: ComponentName) {
-        callback.onError(SERVICE_DISCONNECTED)
+        callback.onError("Service is disconnected.")
       }
 
       override fun onBindingDied(name: ComponentName) {
-        callback.onError(SERVICE_BINDING_DIED)
+        callback.onError("Service is on binding died.")
         unbindService(context, this)
       }
 
       override fun onNullBinding(name: ComponentName) {
-        callback.onError(SERVICE_NULL_BINDING)
+        callback.onError("Service is on null binding.")
         unbindService(context, this)
       }
     }
@@ -54,10 +49,10 @@ object ServiceManager {
     try {
       val success = context.bindService(intent, conn, Context.BIND_AUTO_CREATE)
       if (!success) {
-        callback.onError(BIND_SERVICE_RETURN_FALSE, null)
+        callback.onError("Bind service return false.", null)
       }
     } catch (t: Throwable) {
-      callback.onError(BIND_SERVICE_ERROR, t)
+      callback.onError("Bind service error.", t)
     }
   }
 
