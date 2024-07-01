@@ -3,18 +3,19 @@ Identifier
 
 [![](https://jitpack.io/v/phantomVK/Identifier.svg)](https://jitpack.io/#phantomVK/Identifier) [![license](https://img.shields.io/badge/License-Apache2.0-brightgreen)](https://github.com/phantomVK/SlideBack/blob/master/LICENSE)
 
-[中文README](./README_CN.md)
+[中文版README](./README_CN.md)
 
-Summary
+
+简介
 -----------
 
-The Open Anonymous Device Identifier for Android. More infomation see [Compatibility list](./COMPATIBILITY_LIST.md)
+安卓开放匿名设备标识符，[设备兼容性列表](./COMPATIBILITY_LIST.md)
 
 <img src="./static/sample.png" alt="png" width="480" height="349" style="display: inline;"/>
 
-Download
+下载
 -----------
-Download the dependency from __JitPack__ using __Gradle__.
+配置 __Gradle__ 的 __JitPack__ 下载依赖源。
 
 ```groovy
 // build.gradle(Project)
@@ -30,10 +31,10 @@ dependencies {
 }
 ```
 
-Usage
+使用
 -------
 
-Add following code to app's Application.class to init IdentifierManager. Those code takes no time to execute, keep it run on the main thread is fine.
+在app的 Application.class 初始化 IdentifierManager。本初始化逻辑不耗时，可以放心在主线程执行。
 
 ```kotlin
 class Application : android.app.Application() {
@@ -43,14 +44,14 @@ class Application : android.app.Application() {
     IdentifierManager.Builder()
       .isDebug(false)
       .setMemCacheEnable(true)
-      .setExecutor { Thread(it).start() } // optional: setup custom ThreadPoolExecutor
+      .setExecutor { Thread(it).start() } // 可选: 设置自定义ThreadPoolExecutor
       .setLogger(LoggerImpl())
       .init()
   }
 }
 ```
 
-How to query the latest oaid:
+如何获取标识符
 
 ```kotlin
 IdentifierManager.getInstance()
@@ -62,7 +63,7 @@ IdentifierManager.getInstance()
   .start()
 ```
 
-License
+许可证
 --------
 
 ```
