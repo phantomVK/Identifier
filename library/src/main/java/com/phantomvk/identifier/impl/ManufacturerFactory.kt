@@ -45,6 +45,7 @@ import com.phantomvk.identifier.manufacturer.SamsungProvider
 import com.phantomvk.identifier.manufacturer.VivoProvider
 import com.phantomvk.identifier.manufacturer.XiaomiProvider
 import com.phantomvk.identifier.manufacturer.XtcProvider
+import com.phantomvk.identifier.manufacturer.ZteProvider
 import com.phantomvk.identifier.model.ProviderConfig
 
 object ManufacturerFactory {
@@ -168,6 +169,13 @@ object ManufacturerFactory {
 
     if (isCoosea()) {
       val provider = CooseaProvider(config)
+      if (provider.isSupported()) {
+        providers.add(provider)
+      }
+    }
+
+    if (isZTE()) {
+      val provider = ZteProvider(config)
       if (provider.isSupported()) {
         providers.add(provider)
       }

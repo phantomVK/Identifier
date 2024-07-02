@@ -16,11 +16,14 @@ buildscript {
         compileSdk = 34
         minSdk = 21
         targetSdk = 34
-        versionCode = 105
-        versionName = "0.1.5"
+        versionCode = 106
+        versionName = "0.1.6"
 
         core_ktx = '1.13.1'
         appcompat = '1.7.0'
+
+        hms = '3.4.62.300'
+        mcs = '1.0.3.300'
 
         junit = '4.13.2'
         android_junit = '1.2.1'

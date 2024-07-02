@@ -53,6 +53,9 @@ android {
 dependencies {
     implementation project(":library")
 
+//    implementation("com.huawei.hms:ads-identifier:$hms")
+//    implementation("com.hihonor.mcs:ads-identifier:$mcs")
+
     implementation "androidx.core:core-ktx:$core_ktx"
     implementation "androidx.appcompat:appcompat:$appcompat"
 

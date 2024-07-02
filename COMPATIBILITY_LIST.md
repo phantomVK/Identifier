@@ -125,3 +125,9 @@
 |    Xiaomi    | Xiaomi |     12Pro     |   2201122C   |    zeus    |   31    |      Xiaomi/zeus/zeus:12/SKQ1.211006.001/V13.0.30.0.SLBCNXM:user/release-keys       |
 |    Xiaomi    | Xiaomi |      12S      |   2203121C   |    thor    |   31    |      Xiaomi/thor/thor:12/SKQ1.220303.001/V13.0.11.0.SLACNXM:user/release-keys       |
 |    Xiaomi    | Xiaomi |      14       |  23127PN0CC  |   houji    |   34    |     Xiaomi/houji/houji:14/UKQ1.230804.001/V816.0.36.0.UNCCNXM:user/release-keys     |
+
+#### Xiaomi
+
+| Manufacturer | Brand |  Name   |   Model    | Device  | SDK_INT |                                 FingerPrint                                 |   
+|:------------:|:-----:|:-------:|:----------:|:-------:|:-------:|:---------------------------------------------------------------------------:|
+|     ZTE      |  ZTE  | S30 Pro | ZTE A2122H | P768A02 |   30    | ZTE/CN_P768S01/P768A02:11/RKQ1.201221.002/20220531.233000:user/release-keys |

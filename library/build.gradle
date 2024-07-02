@@ -38,8 +38,8 @@ dependencies {
     implementation "androidx.core:core-ktx:$core_ktx"
     implementation "androidx.appcompat:appcompat:$appcompat"
 
-    compileOnly("com.huawei.hms:ads-identifier:3.4.62.300")
-    compileOnly("com.hihonor.mcs:ads-identifier:1.0.3.300")
+    compileOnly("com.huawei.hms:ads-identifier:$hms")
+    compileOnly("com.hihonor.mcs:ads-identifier:$mcs")
 
     testImplementation "junit:junit:$junit"
     androidTestImplementation "androidx.test.ext:junit:$android_junit"

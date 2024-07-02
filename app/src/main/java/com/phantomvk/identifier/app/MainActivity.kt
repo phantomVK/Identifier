@@ -51,14 +51,15 @@ class MainActivity : AppCompatActivity() {
   private fun updateTextInfo(msg: String? = null, t: Throwable? = null) {
     lifecycleScope.launch(Dispatchers.IO) {
       val deviceInfo = deviceInfo()
-      val str = getResultList().joinToString("\n\n") { "${it.tag}:\t${it.id}" }
+      val str = getResultList().joinToString("\n\n") { "* ${it.tag}:\n${it.id}" }
       val finalStr = deviceInfo + "\n\n\n" + str
       Log.i("IdentifierTAG", finalStr, t)
       if (msg?.isNotBlank() == true) {
         copyToClipboard(finalStr)
       }
 
-      launch(Dispatchers.Main) { findViewById<TextView>(R.id.system_textview).text = finalStr }
+      val textView = findViewById<TextView>(R.id.system_textview)
+      launch(Dispatchers.Main) { textView.text = finalStr }
     }
   }
 
