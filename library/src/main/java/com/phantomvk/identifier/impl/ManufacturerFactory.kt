@@ -72,18 +72,7 @@ object ManufacturerFactory {
       }
     }
 
-    if (isHonor()) {
-      val provider = HonorProvider(config)
-      if (provider.isSupported()) {
-        providers.add(provider)
-      }
-
-      val settingsProvider = HonorSettingsProvider(config)
-      if (settingsProvider.isSupported()) {
-        providers.add(settingsProvider)
-      }
-    }
-
+    // Huawei has higher priority than Honor.
     if (isHuawei() || isEmui()) {
       val provider = HuaweiSdkProvider(config)
       if (provider.isSupported()) {
@@ -98,6 +87,18 @@ object ManufacturerFactory {
       val serviceProvider = HuaweiServiceProvider(config)
       if (serviceProvider.isSupported()) {
         providers.add(serviceProvider)
+      }
+    }
+
+    if (isHonor()) {
+      val provider = HonorProvider(config)
+      if (provider.isSupported()) {
+        providers.add(provider)
+      }
+
+      val settingsProvider = HonorSettingsProvider(config)
+      if (settingsProvider.isSupported()) {
+        providers.add(settingsProvider)
       }
     }
 

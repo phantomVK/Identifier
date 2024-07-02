@@ -1,4 +1,30 @@
-### Compatible Android device list.
+## Verified manufacturer list
+
+| Manufacturer | verified |   
+|:------------:|:--------:|
+|     ASUS     |    Y     |
+|  BlackShark  |    Y     |
+|   Coolpad    |          |
+|    Coosea    |          |
+|    Freeme    |          |
+|    Google    |    Y     |
+|    Honor     |    Y     |
+|    Huawei    |    Y     |
+|    Lenovo    |    Y     |
+|    Meizu     |    Y     |
+|   Motorola   |    Y     |
+|     Msa      |          |
+|    Nubia     |    Y     |
+|   OnePlus    |    Y     |
+|     Qiku     |          |
+|     Oppo     |    Y     |
+|   Samsung    |    Y     |
+|     Vivo     |    Y     |
+|    Xiaomi    |    Y     |
+|     Xtc      |          |
+|     Zte      |    Y     |
+
+## Compatible Android device list.
 
 ### ASUS
 
@@ -47,12 +73,6 @@
 |    HUAWEI    | HUAWEI |    P50     | ABR-AL00  | HWABR-Q  |   30    | HUAWEI/ABR-AL00/HWABR-Q:11/HUAWEIABR-AL00/102.0.1.268C00:user/release-keys  |
 |    HUAWEI    | HUAWEI |  Mate 50E  | CET-AL60  | HWCET-QL |   31    | HUAWEI/CET-AL60/HWCET-QL:12/HUAWEICET-AL60/104.0.0.132C00:user/release-keys |
 
-### Nubia
-
-| Manufacturer | Brand |    Name     | Model  | Device | SDK_INT |                                  FingerPrint                                   |   
-|:------------:|:-----:|:-----------:|:------:|:------:|:-------:|:------------------------------------------------------------------------------:|
-|    nubia     | nubia | Red Magic 6 | NX669J | NX669J |   30    | nubia/NX669J/NX669J:11/RKQ1.201105.002/nubia.20210205.023207:user/release-keys |
-
 #### Meizu
 
 | Manufacturer | Brand | Name |   Model   |  Device  | SDK_INT |                                 FingerPrint                                 |   
@@ -69,6 +89,12 @@
 |   motorola   | motorola | One 5G Ace  | motorola one 5G ace |  kiev  |   30    |     motorola/kiev_retailu/kiev:11/RZKS31.Q3-45-16-8-7/8aa22:user/release-keys      |
 |   motorola   | motorola | G Stylus 5G |  moto g stylus 5G   | denver |   31    | motorola/denver_global/denver:12/S2RES32.29-16-1-2/b50654-d6017a:user/release-keys |
 |   motorola   | motorola |  Edge X30   |      XT2201-2       | hiphic |   31    |     motorola/hiphic_cn/hiphic:12/S3SC32.7-42-20/02af5-df139:user/release-keys      |
+
+### Nubia
+
+| Manufacturer | Brand |    Name     | Model  | Device | SDK_INT |                                  FingerPrint                                   |   
+|:------------:|:-----:|:-----------:|:------:|:------:|:-------:|:------------------------------------------------------------------------------:|
+|    nubia     | nubia | Red Magic 6 | NX669J | NX669J |   30    | nubia/NX669J/NX669J:11/RKQ1.201105.002/nubia.20210205.023207:user/release-keys |
 
 #### OnePlus
 
