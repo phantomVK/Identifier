@@ -1,6 +1,7 @@
 package com.phantomvk.identifier.manufacturer
 
 import android.net.Uri
+import com.phantomvk.identifier.impl.Constants.LIMIT_AD_TRACKING_IS_ENABLED
 import com.phantomvk.identifier.impl.Constants.NO_AVAILABLE_COLUMN_INDEX
 import com.phantomvk.identifier.impl.Constants.QUERY_CURSOR_IS_NULL
 import com.phantomvk.identifier.model.ProviderConfig
@@ -26,6 +27,20 @@ class MeizuProvider(config: ProviderConfig) : AbstractProvider(config) {
 
     cursor.use { c ->
       c.moveToFirst()
+
+      if (config.isLimitAdTracking) {
+        val code = c.getColumnIndex("code")
+        if (code >= 0 && c.getLong(code) == 6L) {
+          getCallback().onError(LIMIT_AD_TRACKING_IS_ENABLED)
+          return
+        }
+
+        val expired = c.getColumnIndex("expired")
+        if (expired >= 0 && c.getLong(expired) == 0L) {
+          getCallback().onError(LIMIT_AD_TRACKING_IS_ENABLED)
+          return
+        }
+      }
 
       val index = c.getColumnIndex("value")
       if (index == -1) {

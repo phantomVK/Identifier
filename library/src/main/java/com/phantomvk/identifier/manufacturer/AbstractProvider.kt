@@ -1,7 +1,5 @@
 package com.phantomvk.identifier.manufacturer
 
-import com.phantomvk.identifier.impl.Constants.BLANK_ID_FORMAT
-import com.phantomvk.identifier.impl.Constants.BLANK_ID_FORMAT_VIVO
 import com.phantomvk.identifier.impl.Constants.EXCEPTION_THROWN
 import com.phantomvk.identifier.impl.Constants.ID_IS_INVALID
 import com.phantomvk.identifier.impl.Constants.ID_IS_NULL_OR_BLANK
@@ -61,29 +59,18 @@ abstract class AbstractProvider(protected val config: ProviderConfig) : Runnable
     }
   }
 
-  fun checkId(id: String?): CallBinderResult {
+  fun checkId(id: String?, callback: OnResultListener? = null): CallBinderResult {
     if (id.isNullOrBlank()) {
+      callback?.onError(ID_IS_NULL_OR_BLANK)
       return CallBinderResult.Failed(ID_IS_NULL_OR_BLANK)
     }
 
-    if (id == BLANK_ID_FORMAT || id == BLANK_ID_FORMAT_VIVO) {
+    if (id.all { it == '0' || it == '-' }) {
+      callback?.onError(ID_IS_INVALID)
       return CallBinderResult.Failed(ID_IS_INVALID)
     }
 
+    callback?.onSuccess(id)
     return CallBinderResult.Success(id)
-  }
-
-  fun checkId(id: String?, callback: OnResultListener) {
-    if (id.isNullOrBlank()) {
-      callback.onError(ID_IS_NULL_OR_BLANK)
-      return
-    }
-
-    if (id == BLANK_ID_FORMAT || id == BLANK_ID_FORMAT_VIVO) {
-      callback.onError(ID_IS_INVALID)
-      return
-    }
-
-    callback.onSuccess(id)
   }
 }

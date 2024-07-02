@@ -1,19 +1,13 @@
 package com.phantomvk.identifier.app;
 
-import android.os.Handler;
-import android.os.Looper;
 import android.text.TextUtils;
-import android.widget.Toast;
 
 import com.phantomvk.identifier.log.Logger;
 import com.phantomvk.identifier.log.TraceLevel;
 
 public class LoggerImpl implements Logger {
-    private final Handler mainHandler = new Handler(Looper.getMainLooper());
-
     @Override
     public void log(TraceLevel level, String tag, String msg, Throwable tr) {
-        mainHandler.post(() -> Toast.makeText(Application.sApplication, msg, Toast.LENGTH_LONG).show());
         switch (level) {
             case VERBOSE:
                 if (tr == null) {

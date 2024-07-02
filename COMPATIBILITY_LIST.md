@@ -58,6 +58,7 @@
 | Manufacturer | Brand | Name |   Model   |  Device  | SDK_INT |                                 FingerPrint                                 |   
 |:------------:|:-----:|:----:|:---------:|:--------:|:-------:|:---------------------------------------------------------------------------:|
 |    Meizu     | Meizu | 16th |   16th    |   16th   |   27    | Meizu/meizu_16th_CN/16th:8.1.0/OPM1.171019.026/1594833800:user/release-keys |
+|    meizu     | meizu | 18s  | MEIZU 18s | meizu18s |   33    | meizu/meizu_18s_CN/meizu18s:13/TKQ1.221114.001/1682511453:user/release-keys |
 |    meizu     | meizu | 18X  | MEIZU 18X | meizu18X |   30    | meizu/meizu_18X_CN/meizu18X:11/RKQ1.210408.001/1627442563:user/release-keys |
 
 #### OnePlus

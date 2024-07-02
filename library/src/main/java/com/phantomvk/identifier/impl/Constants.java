@@ -1,8 +1,9 @@
 package com.phantomvk.identifier.impl;
 
 public final class Constants {
-    public static final String BLANK_ID_FORMAT = "00000000-0000-0000-0000-000000000000";
-    public static final String BLANK_ID_FORMAT_VIVO = "0000000000000000000000000000000000000000000000000000000000000000";
+//    public static final String BLANK_ID_FORMAT = "00000000-0000-0000-0000-000000000000";
+//    public static final String BLANK_ID_FORMAT_VIVO = "0000000000000000000000000000000000000000000000000000000000000000";
+//    public static final String BLANK_ID_FORMAT_MEIZU = "00000000000000000000000000000000";
 
     public static final String AIDL_INTERFACE_IS_NULL = "Aidl interface is null.";
     public static final String CONTENT_PROVIDER_CLIENT_IS_NULL = "ContentProvider client is null.";

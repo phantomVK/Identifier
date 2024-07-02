@@ -11,12 +11,19 @@ import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.phantomvk.identifier.IdentifierManager
+import com.phantomvk.identifier.impl.ManufacturerFactory
+import com.phantomvk.identifier.interfaces.Disposable
 import com.phantomvk.identifier.interfaces.OnResultListener
+import com.phantomvk.identifier.model.ProviderConfig
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import java.util.concurrent.CountDownLatch
 
 class MainActivity : AppCompatActivity() {
 
-  private val infoTextView by lazy(LazyThreadSafetyMode.NONE) { findViewById<TextView>(R.id.system_textview) }
+  private var disposable: Disposable? = null
 
   @SuppressLint("SetTextI18n")
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,7 +40,8 @@ class MainActivity : AppCompatActivity() {
       override fun onError(msg: String, t: Throwable?) { updateTextInfo(msg, t) }
     }
 
-    IdentifierManager
+    disposable?.dispose()
+    disposable = IdentifierManager
       .getInstance()
       .create(this, listener)
       .setLimitAdTracking(false)
@@ -41,16 +49,20 @@ class MainActivity : AppCompatActivity() {
   }
 
   private fun updateTextInfo(msg: String? = null, t: Throwable? = null) {
-    val deviceInfo = deviceInfo(msg)
-    infoTextView.text = deviceInfo
-    Log.i("IdentifierTAG", deviceInfo, t)
+    lifecycleScope.launch(Dispatchers.IO) {
+      val deviceInfo = deviceInfo()
+      val str = getResultList().joinToString("\n\n") { "${it.tag}:\t${it.id}" }
+      val finalStr = deviceInfo + "\n\n\n" + str
+      Log.i("IdentifierTAG", finalStr, t)
+      if (msg?.isNotBlank() == true) {
+        copyToClipboard(finalStr)
+      }
 
-    if (!msg.isNullOrBlank()) {
-      copyToClipboard(deviceInfo)
+      launch(Dispatchers.Main) { findViewById<TextView>(R.id.system_textview).text = finalStr }
     }
   }
 
-  private fun deviceInfo(id: String? = null): String {
+  private fun deviceInfo(): String {
     return """
         * Manufacturer: ${Build.MANUFACTURER}
         * Brand: ${Build.BRAND}
@@ -62,7 +74,6 @@ class MainActivity : AppCompatActivity() {
         * Fingerprint: ${Build.FINGERPRINT}
         * AndroidId: ${getAndroidID(this)}
         * | ${Build.MANUFACTURER} | ${Build.BRAND} | === | ${Build.MODEL} | ${Build.DEVICE} | ${Build.VERSION.SDK_INT} | ${Build.FINGERPRINT} |
-        * oaid: $id
       """.trimIndent()
   }
 
@@ -79,5 +90,42 @@ class MainActivity : AppCompatActivity() {
   private fun getAndroidID(context: Context): String? {
     val id = Settings.Secure.getString(context.contentResolver, Settings.Secure.ANDROID_ID)
     return if (id == null || id == "9774d56d682e549c") null else id
+  }
+
+  private class ResultModel(val tag: String, val id: String)
+
+  private fun getResultList(): List<ResultModel> {
+    val list = ArrayList<ResultModel>()
+    val listener = object : OnResultListener {
+      override fun onSuccess(id: String) {}
+      override fun onError(msg: String, t: Throwable?) {}
+    }
+    val config = ProviderConfig(applicationContext, listener)
+    val providers = ManufacturerFactory.getProviders(config)
+
+    for (provider in providers) {
+      val latch = CountDownLatch(1)
+      val resultCallback = object : OnResultListener {
+        override fun onSuccess(id: String) {
+          list.add(ResultModel(provider.getTag(), id))
+          latch.countDown()
+        }
+
+        override fun onError(msg: String, t: Throwable?) {
+          list.add(ResultModel(provider.getTag(), msg))
+          latch.countDown()
+        }
+      }
+      provider.setCallback(resultCallback)
+      provider.run()
+      latch.await()
+    }
+
+    return list
+  }
+
+  override fun onDestroy() {
+    super.onDestroy()
+    disposable?.dispose()
   }
 }
