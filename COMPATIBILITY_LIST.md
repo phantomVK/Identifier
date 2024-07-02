@@ -61,6 +61,15 @@
 |    meizu     | meizu | 18s  | MEIZU 18s | meizu18s |   33    | meizu/meizu_18s_CN/meizu18s:13/TKQ1.221114.001/1682511453:user/release-keys |
 |    meizu     | meizu | 18X  | MEIZU 18X | meizu18X |   30    | meizu/meizu_18X_CN/meizu18X:11/RKQ1.210408.001/1627442563:user/release-keys |
 
+#### Motorola
+
+| Manufacturer |  Brand   |    Name     |        Model        | Device | SDK_INT |                                    FingerPrint                                     |   
+|:------------:|:--------:|:-----------:|:-------------------:|:------:|:-------:|:----------------------------------------------------------------------------------:|
+|   motorola   | motorola |     G54     |   moto g(8) play    |  lima  |   29    |            motorola/lima_32/lima:10/QMD30.47-33/bc682:user/release-keys            |
+|   motorola   | motorola | One 5G Ace  | motorola one 5G ace |  kiev  |   30    |     motorola/kiev_retailu/kiev:11/RZKS31.Q3-45-16-8-7/8aa22:user/release-keys      |
+|   motorola   | motorola | G Stylus 5G |  moto g stylus 5G   | denver |   31    | motorola/denver_global/denver:12/S2RES32.29-16-1-2/b50654-d6017a:user/release-keys |
+|   motorola   | motorola |  Edge X30   |      XT2201-2       | hiphic |   31    |     motorola/hiphic_cn/hiphic:12/S3SC32.7-42-20/02af5-df139:user/release-keys      |
+
 #### OnePlus
 
 | Manufacturer |  Brand  | Name  |     Model     |   Device    | SDK_INT |                                      FingerPrint                                       |   
@@ -126,7 +135,7 @@
 |    Xiaomi    | Xiaomi |      12S      |   2203121C   |    thor    |   31    |      Xiaomi/thor/thor:12/SKQ1.220303.001/V13.0.11.0.SLACNXM:user/release-keys       |
 |    Xiaomi    | Xiaomi |      14       |  23127PN0CC  |   houji    |   34    |     Xiaomi/houji/houji:14/UKQ1.230804.001/V816.0.36.0.UNCCNXM:user/release-keys     |
 
-#### Xiaomi
+#### Zte
 
 | Manufacturer | Brand |  Name   |   Model    | Device  | SDK_INT |                                 FingerPrint                                 |   
 |:------------:|:-----:|:-------:|:----------:|:-------:|:-------:|:---------------------------------------------------------------------------:|
