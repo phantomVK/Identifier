@@ -2,9 +2,7 @@ package com.phantomvk.identifier.manufacturer
 
 import android.net.Uri
 import android.os.Build
-import android.os.Build.VERSION_CODES.JELLY_BEAN_MR1
 import android.os.Bundle
-import androidx.annotation.ChecksSdkIntAtLeast
 import com.phantomvk.identifier.impl.Constants.BUNDLE_IS_NULL
 import com.phantomvk.identifier.impl.Constants.CONTENT_PROVIDER_CLIENT_IS_NULL
 import com.phantomvk.identifier.model.ProviderConfig
@@ -15,7 +13,6 @@ class NubiaProvider(config: ProviderConfig) : AbstractProvider(config) {
     return "NubiaProvider"
   }
 
-  @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.Q)
   override fun ifSupported(): Boolean {
     return true
   }
@@ -24,21 +21,17 @@ class NubiaProvider(config: ProviderConfig) : AbstractProvider(config) {
     val bundle: Bundle?
     val uri = Uri.parse("content://cn.nubia.identity/identity")
 
-    if (Build.VERSION.SDK_INT >= JELLY_BEAN_MR1) {
-      val client = config.context.contentResolver.acquireContentProviderClient(uri)
-      if (client == null) {
-        getCallback().onError(CONTENT_PROVIDER_CLIENT_IS_NULL)
-        return
-      }
+    val client = config.context.contentResolver.acquireContentProviderClient(uri)
+    if (client == null) {
+      getCallback().onError(CONTENT_PROVIDER_CLIENT_IS_NULL)
+      return
+    }
 
-      bundle = client.call("getOAID", null, null)
-      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-        client.close()
-      } else {
-        client.release()
-      }
+    bundle = client.call("getOAID", null, null)
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+      client.close()
     } else {
-      bundle = config.context.contentResolver.call(uri, "getOAID", null, null)
+      client.release()
     }
 
     if (bundle == null) {

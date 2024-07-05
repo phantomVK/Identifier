@@ -3,7 +3,6 @@ package com.phantomvk.identifier.manufacturer
 import android.os.Build
 import android.provider.Settings
 import androidx.annotation.ChecksSdkIntAtLeast
-import androidx.annotation.RequiresApi
 import com.phantomvk.identifier.impl.Constants.LIMIT_AD_TRACKING_IS_ENABLED
 import com.phantomvk.identifier.model.ProviderConfig
 
@@ -13,12 +12,11 @@ class HuaweiSettingsProvider(config: ProviderConfig) : AbstractProvider(config) 
     return "HuaweiSettingsProvider"
   }
 
-  @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.O)
+  @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.N)
   override fun ifSupported(): Boolean {
-    return Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
+    return Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
   }
 
-  @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
   override fun execute() {
     if (config.isLimitAdTracking) {
       try {

@@ -1,9 +1,6 @@
 package com.phantomvk.identifier.manufacturer
 
-import android.os.Build
 import android.provider.Settings
-import androidx.annotation.ChecksSdkIntAtLeast
-import androidx.annotation.RequiresApi
 import com.phantomvk.identifier.impl.Constants.LIMIT_AD_TRACKING_IS_ENABLED
 import com.phantomvk.identifier.model.ProviderConfig
 
@@ -13,12 +10,10 @@ class HonorSettingsProvider(config: ProviderConfig) : AbstractProvider(config) {
     return "HonorSettingsProvider"
   }
 
-  @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
   override fun ifSupported(): Boolean {
-    return Build.VERSION.SDK_INT >= 17
+    return true
   }
 
-  @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
   override fun execute() {
     val resolver = config.context.contentResolver
 

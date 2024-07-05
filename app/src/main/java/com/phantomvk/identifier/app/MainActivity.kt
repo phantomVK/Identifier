@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity() {
 
   private fun updateTextInfo(msg: String? = null, t: Throwable? = null) {
     lifecycleScope.launch(Dispatchers.IO) {
-      val deviceInfo = deviceInfo()
+      val deviceInfo = deviceInfo(if (t == null) msg ?: "" else "-")
       val str = getResultList().joinToString("\n\n") { "* ${it.tag}:\n${it.id}" }
       val finalStr = deviceInfo + "\n\n\n" + str
       Log.i("IdentifierTAG", finalStr, t)
@@ -63,7 +63,7 @@ class MainActivity : AppCompatActivity() {
     }
   }
 
-  private fun deviceInfo(): String {
+  private fun deviceInfo(id: String): String {
     return """
         * Manufacturer: ${Build.MANUFACTURER}
         * Brand: ${Build.BRAND}
@@ -73,8 +73,9 @@ class MainActivity : AppCompatActivity() {
         * Display: ${Build.DISPLAY}
         * Incremental: ${Build.VERSION.INCREMENTAL}
         * Fingerprint: ${Build.FINGERPRINT}
-        * AndroidId: ${getAndroidID(this)}
         * | ${Build.MANUFACTURER} | ${Build.BRAND} | === | ${Build.MODEL} | ${Build.DEVICE} | ${Build.VERSION.SDK_INT} | ${Build.FINGERPRINT} |
+        * AndroidId: ${getAndroidID(this)}
+        * oaid: $id
       """.trimIndent()
   }
 

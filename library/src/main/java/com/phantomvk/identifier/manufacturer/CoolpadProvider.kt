@@ -2,7 +2,6 @@ package com.phantomvk.identifier.manufacturer
 
 import android.content.ComponentName
 import android.content.Intent
-import android.os.Build
 import android.os.IBinder
 import android.provider.Settings
 import com.phantomvk.identifier.impl.Constants.AIDL_INTERFACE_IS_NULL
@@ -31,8 +30,6 @@ class CoolpadProvider(config: ProviderConfig) : AbstractProvider(config) {
   }
 
   private fun tryContentResolver(): Boolean {
-    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) return false
-
     try {
       val id = Settings.Global.getString(config.context.contentResolver, "coolos.oaid")
       if (checkId(id) is CallBinderResult.Success) {
