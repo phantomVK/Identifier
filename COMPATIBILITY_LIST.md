@@ -61,6 +61,8 @@
 
 | Manufacturer | Brand  |    Name    |   Model   |  Device  | SDK_INT |                                 FingerPrint                                 |   
 |:------------:|:------:|:----------:|:---------:|:--------:|:-------:|:---------------------------------------------------------------------------:|
+|    HUAWEI    | HUAWEI |    nova    | CAZ-AL10  |  HWCAZ   |   24    |     HUAWEI/CAZ-AL10/HWCAZ:7.0/HUAWEICAZ-AL10/C00B387:user/release-keys      |
+|    HUAWEI    | HONOR  |  P8 Lite   | PRA-AL00X | HWPRA-H  |   24    |    HONOR/PRA-AL00X/HWPRA-H:7.0/HONORPRA-AL00X/C00B223:user/release-keys     |
 |    HUAWEI    | HONOR  |     9X     | HLK-AL00  | HWHLK-H  |   29    |  HONOR/HLK-AL00/HWHLK-H:10/HONORHLK-AL00/102.0.0.263C00:user/release-keys   |
 |    HUAWEI    | HONOR  |   Play 3   | ASK-AL00x | HWASK-H  |   29    | HONOR/ASK-AL00x/HWASK-H:10/HONORASK-AL00x/102.0.0.273C00:user/release-keys  |
 |    HUAWEI    | HUAWEI | Nova 5 Pro | SEA-AL10  | HWSEA-A  |   29    |  HUAWEI/SEA-AL10/HWSEA-A:10/HUAWEISEA-AL10/11.0.0.139C00:user/release-keys  |
