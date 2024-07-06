@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace "com.phantomvk.identifier.aild"
+    namespace "com.phantomvk.identifier.aidl"
     compileSdk rootProject.ext.compileSdk
 
     defaultConfig {
