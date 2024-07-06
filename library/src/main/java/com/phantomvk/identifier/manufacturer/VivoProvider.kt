@@ -14,9 +14,9 @@ class VivoProvider(config: ProviderConfig) : AbstractProvider(config) {
   }
 
   override fun ifSupported(): Boolean {
-    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) {
-      return false
-    }
+//    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) {
+//      return false
+//    }
 
     val value = sysProperty("persist.sys.identifierid.supported", "0")
     return value == "1"

@@ -59,7 +59,7 @@ abstract class AbstractProvider(protected val config: ProviderConfig) : Runnable
     }
   }
 
-  fun checkId(id: String?, callback: OnResultListener? = null): CallBinderResult {
+  protected fun checkId(id: String?, callback: OnResultListener? = null): CallBinderResult {
     if (id.isNullOrBlank()) {
       callback?.onError(ID_IS_NULL_OR_BLANK)
       return CallBinderResult.Failed(ID_IS_NULL_OR_BLANK)

@@ -16,8 +16,8 @@ buildscript {
         compileSdk = 34
         minSdk = 21
         targetSdk = 34
-        versionCode = 107
-        versionName = "0.1.7"
+        versionCode = 108
+        versionName = "0.1.8"
 
         core_ktx = '1.13.1'
         appcompat = '1.7.0'
