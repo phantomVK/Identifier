@@ -17,6 +17,7 @@ import com.phantomvk.identifier.impl.Devices.isOnePlus
 import com.phantomvk.identifier.impl.Devices.isOppo
 import com.phantomvk.identifier.impl.Devices.isOppoRom
 import com.phantomvk.identifier.impl.Devices.isQiku
+import com.phantomvk.identifier.impl.Devices.isRealme
 import com.phantomvk.identifier.impl.Devices.isSamsung
 import com.phantomvk.identifier.impl.Devices.isSsui
 import com.phantomvk.identifier.impl.Devices.isVivo
@@ -123,7 +124,7 @@ object ManufacturerFactory {
       }
     }
 
-    if (isOppo() || isOppoRom() || isOnePlus()) {
+    if (isOppo() || isRealme() || isOppoRom() || isOnePlus()) {
       val heyTapProvider = OppoHeyTapProvider(config)
       if (heyTapProvider.isSupported()) {
         providers.add(heyTapProvider)

@@ -68,8 +68,12 @@ object Devices {
 
   fun isOppo(): Boolean {
     return Build.MANUFACTURER.equals("OPPO", true)
-        && (Build.BRAND.equals("OPPO", true)
-        || Build.BRAND.equals("REALME", true))
+        && Build.BRAND.equals("OPPO", true)
+  }
+
+  fun isRealme(): Boolean {
+    return Build.MANUFACTURER.equals("realme", true)
+        && Build.BRAND.equals("realme", true)
   }
 
   fun isOppoRom(): Boolean {
