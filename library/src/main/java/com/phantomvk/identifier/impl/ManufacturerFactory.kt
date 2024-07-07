@@ -30,6 +30,7 @@ import com.phantomvk.identifier.manufacturer.CooseaProvider
 import com.phantomvk.identifier.manufacturer.FreemeProvider
 import com.phantomvk.identifier.manufacturer.GmsProvider
 import com.phantomvk.identifier.manufacturer.HonorProvider
+import com.phantomvk.identifier.manufacturer.HonorServiceProvider
 import com.phantomvk.identifier.manufacturer.HonorSettingsProvider
 import com.phantomvk.identifier.manufacturer.HuaweiSdkProvider
 import com.phantomvk.identifier.manufacturer.HuaweiServiceProvider
@@ -95,6 +96,11 @@ object ManufacturerFactory {
       val provider = HonorProvider(config)
       if (provider.isSupported()) {
         providers.add(provider)
+      }
+
+      val honorServiceProvider = HonorServiceProvider(config)
+      if (honorServiceProvider.isSupported()) {
+        providers.add(honorServiceProvider)
       }
 
       val settingsProvider = HonorSettingsProvider(config)

@@ -17,7 +17,7 @@ android {
     }
 
     buildFeatures {
-        aidl = false
+        aidl true
     }
     buildTypes {
         release {
