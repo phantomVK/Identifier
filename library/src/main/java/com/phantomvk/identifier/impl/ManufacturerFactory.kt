@@ -1,28 +1,6 @@
 package com.phantomvk.identifier.impl
 
-import com.phantomvk.identifier.impl.Devices.isAsus
-import com.phantomvk.identifier.impl.Devices.isBlackShark
-import com.phantomvk.identifier.impl.Devices.isCoosea
-import com.phantomvk.identifier.impl.Devices.isEmui
-import com.phantomvk.identifier.impl.Devices.isFlyme
-import com.phantomvk.identifier.impl.Devices.isFreeme
-import com.phantomvk.identifier.impl.Devices.isHonor
-import com.phantomvk.identifier.impl.Devices.isHuawei
-import com.phantomvk.identifier.impl.Devices.isLenovo
-import com.phantomvk.identifier.impl.Devices.isMeizu
-import com.phantomvk.identifier.impl.Devices.isMiui
-import com.phantomvk.identifier.impl.Devices.isMotorola
-import com.phantomvk.identifier.impl.Devices.isNubia
-import com.phantomvk.identifier.impl.Devices.isOnePlus
-import com.phantomvk.identifier.impl.Devices.isOppo
-import com.phantomvk.identifier.impl.Devices.isOppoRom
-import com.phantomvk.identifier.impl.Devices.isQiku
-import com.phantomvk.identifier.impl.Devices.isRealme
-import com.phantomvk.identifier.impl.Devices.isSamsung
-import com.phantomvk.identifier.impl.Devices.isSsui
-import com.phantomvk.identifier.impl.Devices.isVivo
-import com.phantomvk.identifier.impl.Devices.isXiaomi
-import com.phantomvk.identifier.impl.Devices.isZTE
+import android.os.Build
 import com.phantomvk.identifier.manufacturer.AbstractProvider
 import com.phantomvk.identifier.manufacturer.AsusProvider
 import com.phantomvk.identifier.manufacturer.CoolpadProvider
@@ -49,50 +27,52 @@ import com.phantomvk.identifier.manufacturer.XiaomiProvider
 import com.phantomvk.identifier.manufacturer.XtcProvider
 import com.phantomvk.identifier.manufacturer.ZteProvider
 import com.phantomvk.identifier.model.ProviderConfig
+import com.phantomvk.identifier.util.sysProperty
 
 object ManufacturerFactory {
 
+  private fun isBrand(brand: String): Boolean {
+    return Build.MANUFACTURER.equals(brand, true)
+        && Build.BRAND.equals(brand, true)
+  }
+
+  private fun isBrand(manufacturer: String, brand: String): Boolean {
+    return Build.MANUFACTURER.equals(manufacturer, true)
+        && Build.BRAND.equals(brand, true)
+  }
+
+  private fun sysPropertyContains(key: String): Boolean {
+    return !sysProperty(key, "").isNullOrBlank()
+  }
+
+  private fun sysPropertyEquals(key: String, value: String): Boolean {
+    return sysProperty(key, "").equals(value, true)
+  }
+
   fun getProviders(config: ProviderConfig): List<AbstractProvider> {
     val providers = LinkedHashSet<AbstractProvider>()
-
-    if (isAsus()) {
+    if (isBrand("ASUS")) {
       val provider = AsusProvider(config)
       if (provider.isSupported()) {
         providers.add(provider)
       }
     }
 
-    val coolpadProvider = CoolpadProvider(config)
-    if (coolpadProvider.isSupported()) {
-      providers.add(coolpadProvider)
+    if (isBrand("coolpad")) {
+      val coolpadProvider = CoolpadProvider(config)
+      if (coolpadProvider.isSupported()) {
+        providers.add(coolpadProvider)
+      }
     }
 
-    if (isFreeme()) {
+    if (sysPropertyContains("ro.build.freeme.label")) {
       val provider = FreemeProvider(config)
       if (provider.isSupported()) {
         providers.add(provider)
       }
     }
 
-    // Huawei has higher priority than Honor.
-    if (isHuawei() || isEmui()) {
-      val provider = HuaweiSdkProvider(config)
-      if (provider.isSupported()) {
-        providers.add(provider)
-      }
-
-      val settingsProvider = HuaweiSettingsProvider(config)
-      if (settingsProvider.isSupported()) {
-        providers.add(settingsProvider)
-      }
-
-      val serviceProvider = HuaweiServiceProvider(config)
-      if (serviceProvider.isSupported()) {
-        providers.add(serviceProvider)
-      }
-    }
-
-    if (isHonor()) {
+    if (isBrand("HONOR")) {
       val provider = HonorProvider(config)
       if (provider.isSupported()) {
         providers.add(provider)
@@ -109,28 +89,59 @@ object ManufacturerFactory {
       }
     }
 
-    if (isLenovo() || isMotorola()) {
+    if (isBrand("HUAWEI")
+      || isBrand("HUAWEI", "HONOR")
+      || sysPropertyContains("ro.build.version.emui")
+    ) {
+      val provider = HuaweiSdkProvider(config)
+      if (provider.isSupported()) {
+        providers.add(provider)
+      }
+
+      val settingsProvider = HuaweiSettingsProvider(config)
+      if (settingsProvider.isSupported()) {
+        providers.add(settingsProvider)
+      }
+
+      val serviceProvider = HuaweiServiceProvider(config)
+      if (serviceProvider.isSupported()) {
+        providers.add(serviceProvider)
+      }
+    }
+
+    if (isBrand("LENOVO")
+      || isBrand("LENOVO", "ZUK")
+      || isBrand("MOTOROLA")
+    ) {
       val provider = LenovoProvider(config)
       if (provider.isSupported()) {
         providers.add(provider)
       }
     }
 
-    if (isXiaomi() || isBlackShark() || isMiui()) {
+    if (isBrand("XIAOMI")
+      || isBrand("XIAOMI", "REDMI")
+      || isBrand("BLACKSHARK")
+      || sysPropertyContains("ro.miui.ui.version.name")
+    ) {
       val provider = XiaomiProvider(config)
       if (provider.isSupported()) {
         providers.add(provider)
       }
     }
 
-    if (isNubia()) {
+    if (isBrand("NUBIA")) {
       val provider = NubiaProvider(config)
       if (provider.isSupported()) {
         providers.add(provider)
       }
     }
 
-    if (isOppo() || isRealme() || isOppoRom() || isOnePlus()) {
+    if (isBrand("OPPO")
+      || isBrand("realme")
+      || isBrand("ONEPLUS")
+      || sysPropertyContains("ro.build.version.opporom")
+    ) {
       val heyTapProvider = OppoHeyTapProvider(config)
       if (heyTapProvider.isSupported()) {
         providers.add(heyTapProvider)
@@ -142,14 +153,14 @@ object ManufacturerFactory {
       }
     }
 
-    if (isVivo()) {
+    if (isBrand("VIVO") || sysPropertyContains("ro.vivo.os.version")) {
       val provider = VivoProvider(config)
       if (provider.isSupported()) {
         providers.add(provider)
       }
     }
 
-    if (isQiku()) {
+    if (sysPropertyEquals("ro.build.uiversion", "360UI")) {
       val provider = QikuServiceProvider(config)
       if (provider.isSupported()) {
         providers.add(provider)
@@ -161,38 +172,31 @@ object ManufacturerFactory {
       }
     }
 
-    if (isSamsung()) {
+    if (isBrand("SAMSUNG")) {
       val provider = SamsungProvider(config)
       if (provider.isSupported()) {
         providers.add(provider)
       }
     }
 
-    if (isMeizu() || isFlyme()) {
+    if (isBrand("MEIZU") || Build.DISPLAY.contains("FLYME", true)) {
       val provider = MeizuProvider(config)
       if (provider.isSupported()) {
         providers.add(provider)
       }
     }
 
-    if (isCoosea()) {
+    if (sysPropertyEquals("ro.odm.manufacturer", "PRIZE")) {
       val provider = CooseaProvider(config)
       if (provider.isSupported()) {
         providers.add(provider)
       }
     }
 
-    if (isZTE()) {
+    if (isBrand("ZTE")) {
       val provider = ZteProvider(config)
       if (provider.isSupported()) {
         providers.add(provider)
-      }
-    }
-
-    if (isZTE() || isSsui()) {
-      val msaProvider = MsaProvider(config)
-      if (msaProvider.isSupported()) {
-        providers.add(msaProvider)
       }
     }
 
@@ -201,14 +205,14 @@ object ManufacturerFactory {
       providers.add(xtcProvider)
     }
 
-    val msaProvider = MsaProvider(config)
-    if (msaProvider.isSupported()) {
-      providers.add(msaProvider)
-    }
-
     val provider = GmsProvider(config)
     if (provider.isSupported()) {
       providers.add(provider)
+    }
+
+    val msaProvider = MsaProvider(config)
+    if (msaProvider.isSupported()) {
+      providers.add(msaProvider)
     }
 
     return providers.toList()
