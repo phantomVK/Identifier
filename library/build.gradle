@@ -38,7 +38,6 @@ android {
 
 dependencies {
 
-    implementation "androidx.core:core-ktx:$core_ktx"
     implementation "androidx.appcompat:appcompat:$appcompat"
 
     compileOnly("com.huawei.hms:ads-identifier:$hms")

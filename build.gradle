@@ -19,7 +19,6 @@ buildscript {
         versionCode = 200
         versionName = "0.2.0"
 
-        core_ktx = '1.13.1'
         appcompat = '1.7.0'
 
         hms = '3.4.62.300'
