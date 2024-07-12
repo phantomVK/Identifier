@@ -11,11 +11,6 @@ import java.util.concurrent.CountDownLatch
 
 class SerialRunnable(config: ProviderConfig) : AbstractProvider(config), Disposable {
 
-  private companion object {
-    @Volatile
-    private var cachedId: String? = null
-  }
-
   private val disposable = DisposableResultListener(config.callback)
 
   init {
@@ -31,13 +26,6 @@ class SerialRunnable(config: ProviderConfig) : AbstractProvider(config), Disposa
   }
 
   override fun execute() {
-    // return cached id if existed.
-    val curCachedId = cachedId
-    if (curCachedId != null) {
-      getCallback().onSuccess(curCachedId)
-      return
-    }
-
     if (disposable.isDisposed()) {
       return
     }
@@ -51,10 +39,6 @@ class SerialRunnable(config: ProviderConfig) : AbstractProvider(config), Disposa
         override fun onSuccess(id: String) {
           if (IdentifierManager.getInstance().isDebug) {
             Log.i(getTag(), "${provider.getTag()} Success $id")
-          }
-
-          if (IdentifierManager.getInstance().isMemCacheEnabled) {
-            cachedId = id
           }
 
           getCallback().onSuccess(id)
