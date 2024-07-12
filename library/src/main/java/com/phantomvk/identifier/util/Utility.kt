@@ -1,6 +1,5 @@
 package com.phantomvk.identifier.util
 
-import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.content.pm.Signature
 import android.os.Build
@@ -26,7 +25,6 @@ fun getSignatures(pm: PackageManager, packageName: String): Array<Signature>? {
   return signatures
 }
 
-@SuppressLint("PrivateApi")
 fun sysProperty(key: String, defValue: String): String? {
   return try {
     val clazz = Class.forName("android.os.SystemProperties")

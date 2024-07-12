@@ -1,6 +1,5 @@
 package com.phantomvk.identifier.manufacturer
 
-import android.annotation.SuppressLint
 import android.os.IBinder
 import android.os.Parcel
 import android.os.RemoteException
@@ -16,7 +15,6 @@ class QikuBinderProvider(config: ProviderConfig) : AbstractProvider(config) {
     return "QikuBinderProvider"
   }
 
-  @SuppressLint("PrivateApi")
   override fun ifSupported(): Boolean {
     val clazz = Class.forName("android.os.ServiceManager")
     val method = clazz.getDeclaredMethod("getService", String::class.java)

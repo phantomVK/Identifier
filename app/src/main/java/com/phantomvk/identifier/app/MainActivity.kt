@@ -1,6 +1,5 @@
 package com.phantomvk.identifier.app
 
-import android.annotation.SuppressLint
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
@@ -25,7 +24,6 @@ class MainActivity : AppCompatActivity() {
 
   private var disposable: Disposable? = null
 
-  @SuppressLint("SetTextI18n")
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_main)
@@ -88,7 +86,6 @@ class MainActivity : AppCompatActivity() {
     }
   }
 
-  @SuppressLint("HardwareIds")
   private fun getAndroidID(context: Context): String? {
     val id = Settings.Secure.getString(context.contentResolver, Settings.Secure.ANDROID_ID)
     return if (id == null || id == "9774d56d682e549c") null else id
