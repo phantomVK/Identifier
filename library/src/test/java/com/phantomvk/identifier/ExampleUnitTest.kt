@@ -1,6 +1,6 @@
 package com.phantomvk.identifier
 
-import com.phantomvk.identifier.util.HashCalculator
+import com.phantomvk.identifier.util.hash
 import org.junit.Test
 
 import org.junit.Assert.*
@@ -13,7 +13,7 @@ import org.junit.Assert.*
 class ExampleUnitTest {
     @Test
     fun addition_isCorrect() {
-        val result = HashCalculator.hash("MD5", "MD5".toByteArray())
+        val result = hash("MD5", "MD5".toByteArray())
         assertEquals(result, "7f138a09169b250e9dcb378140907378")
     }
 }

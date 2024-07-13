@@ -30,24 +30,20 @@ class SerialRunnable(config: ProviderConfig) : AbstractProvider(config), Disposa
       return
     }
 
-    // fetch latest id.
+    // Start querying id.
     var isSuccess = false
     val providers = ManufacturerFactory.getProviders(config)
     for (provider in providers) {
       val latch = CountDownLatch(1)
       val resultCallback = object : OnResultListener {
         override fun onSuccess(id: String) {
-          if (IdentifierManager.getInstance().isDebug) {
-            Log.i(getTag(), "${provider.getTag()} Success $id")
-          }
-
           getCallback().onSuccess(id)
           isSuccess = true
           latch.countDown()
         }
 
         override fun onError(msg: String, t: Throwable?) {
-          Log.e("SerialRunnable", "${provider.getTag()} Error", t)
+          Log.e(getTag(), "${provider.getTag()} onError.", t)
           latch.countDown()
         }
       }

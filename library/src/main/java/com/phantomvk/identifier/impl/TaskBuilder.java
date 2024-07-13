@@ -50,7 +50,7 @@ public class TaskBuilder {
 
     @NonNull
     public Disposable start() {
-        // cachedId is always null when cache is disable.
+        // cachedId is always null when cache is disabled.
         String id = cachedId;
         if (!TextUtils.isEmpty(id)) {
             MainThreadKt.runOnMainThread(0, () -> config.getCallback().onSuccess(id));

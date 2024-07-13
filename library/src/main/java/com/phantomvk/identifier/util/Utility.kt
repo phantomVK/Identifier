@@ -3,6 +3,7 @@ package com.phantomvk.identifier.util
 import android.content.pm.PackageManager
 import android.content.pm.Signature
 import android.os.Build
+import java.security.MessageDigest
 
 fun getSignatures(pm: PackageManager, packageName: String): Array<Signature>? {
   if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
@@ -30,6 +31,26 @@ fun sysProperty(key: String, defValue: String): String? {
     val clazz = Class.forName("android.os.SystemProperties")
     val method = clazz.getMethod("get", String::class.java, String::class.java)
     method.invoke(clazz, key, defValue) as String
+  } catch (t: Throwable) {
+    null
+  }
+}
+
+/**
+ * Calculate hash value using specified algorithm.
+ */
+fun hash(algorithm: String, bytes: ByteArray): String? {
+  if (bytes.isEmpty()) return null
+
+  return try {
+    val sb = StringBuilder()
+    val byteArray = MessageDigest.getInstance(algorithm).digest(bytes)
+
+    for (byte in byteArray) {
+      sb.append(String.format("%02x", byte))
+    }
+
+    sb.toString()
   } catch (t: Throwable) {
     null
   }

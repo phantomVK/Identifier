@@ -10,8 +10,8 @@ import com.phantomvk.identifier.impl.ServiceManager
 import com.phantomvk.identifier.interfaces.BinderCallback
 import com.phantomvk.identifier.model.CallBinderResult
 import com.phantomvk.identifier.model.ProviderConfig
-import com.phantomvk.identifier.util.HashCalculator
 import com.phantomvk.identifier.util.getSignatures
+import com.phantomvk.identifier.util.hash
 import generated.com.oplus.stdid.IStdID
 
 class OppoColorOsProvider(config: ProviderConfig) : AbstractProvider(config) {
@@ -40,7 +40,7 @@ class OppoColorOsProvider(config: ProviderConfig) : AbstractProvider(config) {
         }
 
         val byteArray = signature.toByteArray()
-        val sign = HashCalculator.hash("SHA1", byteArray)
+        val sign = hash("SHA1", byteArray)
         if (sign.isNullOrBlank()) {
           return CallBinderResult.Failed(SIGNATURE_HASH_IS_NULL)
         }
