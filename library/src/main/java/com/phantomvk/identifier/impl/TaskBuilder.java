@@ -50,23 +50,22 @@ public class TaskBuilder {
 
     @NonNull
     public Disposable start() {
-        if (IdentifierManager.getInstance().isMemCacheEnabled()) {
-            String id = cachedId;
-            if (!TextUtils.isEmpty(id)) {
-                MainThreadKt.runOnMainThread(0, () -> config.getCallback().onSuccess(id));
+        // cachedId is always null when cache is disable.
+        String id = cachedId;
+        if (!TextUtils.isEmpty(id)) {
+            MainThreadKt.runOnMainThread(0, () -> config.getCallback().onSuccess(id));
 
-                // In order to return a non-null object.
-                return new Disposable() {
-                    @Override
-                    public void dispose() {
-                    }
+            // In order to return a non-null object.
+            return new Disposable() {
+                @Override
+                public void dispose() {
+                }
 
-                    @Override
-                    public boolean isDisposed() {
-                        return true;
-                    }
-                };
-            }
+                @Override
+                public boolean isDisposed() {
+                    return true;
+                }
+            };
         }
 
         Executor executor = IdentifierManager.getInstance().getExecutor();
@@ -90,6 +89,7 @@ public class TaskBuilder {
             }
         };
 
+        // post the runnable to the executor even on the async thread.
         executor.execute(runnableWrapper);
         return runnable;
     }
