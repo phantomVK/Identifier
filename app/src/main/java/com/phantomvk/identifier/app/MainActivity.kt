@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
   private fun updateTextInfo(msg: String? = null, t: Throwable? = null) {
     lifecycleScope.launch(Dispatchers.IO) {
       val deviceInfo = deviceInfo(if (t == null) msg ?: "" else "-")
-      val str = getResultList().joinToString("\n\n") { "* ${it.tag}: ${it.id}" }
+      val str = getResultList().joinToString("\n\n") { "# ${it.tag}: ${it.id}" }
       val finalStr = deviceInfo + "\n\n" + str
       Log.i("IdentifierTAG", finalStr, t)
       if (msg?.isNotBlank() == true) {
