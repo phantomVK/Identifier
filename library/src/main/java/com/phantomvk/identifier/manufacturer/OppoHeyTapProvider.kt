@@ -50,9 +50,10 @@ class OppoHeyTapProvider(config: ProviderConfig) : AbstractProvider(config) {
       }
     }
 
-    val intent = Intent("action.com.heytap.openid.OPEN_ID_SERVICE")
-    val component = ComponentName("com.heytap.openid", "com.heytap.openid.IdentifyService")
-    intent.setComponent(component)
+    val pkg = "com.heytap.openid"
+    val cls = "com.heytap.openid.IdentifyService"
+    val component = ComponentName(pkg, cls)
+    val intent = Intent("action.com.heytap.openid.OPEN_ID_SERVICE").setComponent(component)
     ServiceManager.bindService(config.context, intent, getCallback(), binderCallback)
   }
 

@@ -55,12 +55,10 @@ class CoolpadProvider(config: ProviderConfig) : AbstractProvider(config) {
       }
     }
 
-    val intent = Intent()
-    val componentName = ComponentName(
-      "com.coolpad.deviceidsupport",
-      "com.coolpad.deviceidsupport.DeviceIdService"
-    )
-    intent.setComponent(componentName)
+    val pkg = "com.coolpad.deviceidsupport"
+    val cls = "com.coolpad.deviceidsupport.DeviceIdService"
+    val componentName = ComponentName(pkg, cls)
+    val intent = Intent().setComponent(componentName)
     ServiceManager.bindService(config.context, intent, getCallback(), binderCallback)
   }
 }

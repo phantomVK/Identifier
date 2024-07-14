@@ -40,8 +40,9 @@ class LenovoProvider(config: ProviderConfig) : AbstractProvider(config) {
       }
     }
 
-    val intent = Intent()
-    intent.setClassName("com.zui.deviceidservice", "com.zui.deviceidservice.DeviceidService")
+    val pkg = "com.zui.deviceidservice"
+    val cls = "com.zui.deviceidservice.DeviceidService"
+    val intent = Intent().setClassName(pkg, cls)
     ServiceManager.bindService(config.context, intent, getCallback(), binderCallback)
   }
 }

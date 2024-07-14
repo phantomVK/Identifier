@@ -1,13 +1,12 @@
 package com.phantomvk.identifier.manufacturer
 
 import android.app.KeyguardManager
-import android.content.Context
+import android.content.Context.KEYGUARD_SERVICE
 import com.phantomvk.identifier.model.ProviderConfig
 
 class CooseaProvider(config: ProviderConfig) : AbstractProvider(config) {
 
-  private val manager =
-    config.context.getSystemService(Context.KEYGUARD_SERVICE) as? KeyguardManager
+  private val manager = config.context.getSystemService(KEYGUARD_SERVICE) as? KeyguardManager
 
   override fun getTag(): String {
     return "CooseaProvider"

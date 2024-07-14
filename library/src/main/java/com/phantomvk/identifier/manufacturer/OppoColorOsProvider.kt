@@ -50,9 +50,10 @@ class OppoColorOsProvider(config: ProviderConfig) : AbstractProvider(config) {
       }
     }
 
-    val intent = Intent("action.com.oplus.stdid.ID_SERVICE")
-    val component = ComponentName("com.coloros.mcs", "com.oplus.stdid.IdentifyService")
-    intent.setComponent(component)
+    val pkg = "com.coloros.mcs"
+    val cls = "com.oplus.stdid.IdentifyService"
+    val component = ComponentName(pkg, cls)
+    val intent = Intent("action.com.oplus.stdid.ID_SERVICE").setComponent(component)
     ServiceManager.bindService(config.context, intent, getCallback(), binderCallback)
   }
 }

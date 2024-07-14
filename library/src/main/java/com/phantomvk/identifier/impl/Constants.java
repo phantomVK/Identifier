@@ -8,7 +8,7 @@ public final class Constants {
     public static final String AIDL_INTERFACE_IS_NULL = "Aidl interface is null.";
     public static final String CONTENT_PROVIDER_CLIENT_IS_NULL = "ContentProvider client is null.";
     public static final String BUNDLE_IS_NULL = "Bundle is null.";
-    public static final String EXCEPTION_THROWN = "Exception thrown when getting id.";
+    public static final String EXCEPTION_THROWN = "Exception thrown when querying id.";
     public static final String ID_INFO_IS_NULL = "Advertising identifier info is null.";
     public static final String ID_IS_NULL_OR_BLANK = "ID is null or blank.";
     public static final String ID_IS_INVALID = "ID is invalid.";
