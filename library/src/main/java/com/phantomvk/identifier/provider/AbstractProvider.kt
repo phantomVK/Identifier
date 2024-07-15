@@ -1,4 +1,4 @@
-package com.phantomvk.identifier.manufacturer
+package com.phantomvk.identifier.provider
 
 import com.phantomvk.identifier.impl.Constants.EXCEPTION_THROWN
 import com.phantomvk.identifier.impl.Constants.ID_IS_INVALID

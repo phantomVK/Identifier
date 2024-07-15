@@ -1,11 +1,10 @@
 package com.phantomvk.identifier.impl
 
-import com.phantomvk.identifier.IdentifierManager
 import com.phantomvk.identifier.impl.Constants.NO_IMPLEMENTATION_FOUND
 import com.phantomvk.identifier.interfaces.Disposable
 import com.phantomvk.identifier.interfaces.OnResultListener
 import com.phantomvk.identifier.log.Log
-import com.phantomvk.identifier.manufacturer.AbstractProvider
+import com.phantomvk.identifier.provider.AbstractProvider
 import com.phantomvk.identifier.model.ProviderConfig
 import java.util.concurrent.CountDownLatch
 

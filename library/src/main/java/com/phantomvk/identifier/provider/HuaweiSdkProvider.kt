@@ -1,14 +1,14 @@
-package com.phantomvk.identifier.manufacturer
+package com.phantomvk.identifier.provider
 
-import com.hihonor.ads.identifier.AdvertisingIdClient
+import com.huawei.hms.ads.identifier.AdvertisingIdClient
 import com.phantomvk.identifier.impl.Constants.ID_INFO_IS_NULL
 import com.phantomvk.identifier.impl.Constants.LIMIT_AD_TRACKING_IS_ENABLED
 import com.phantomvk.identifier.model.ProviderConfig
 
-class HonorProvider(config: ProviderConfig) : AbstractProvider(config) {
+class HuaweiSdkProvider(config: ProviderConfig) : AbstractProvider(config) {
 
   override fun getTag(): String {
-    return "HonorProvider"
+    return "HuaweiSdkProvider"
   }
 
   override fun ifSupported(): Boolean {
@@ -18,13 +18,13 @@ class HonorProvider(config: ProviderConfig) : AbstractProvider(config) {
   override fun execute() {
     val info = AdvertisingIdClient.getAdvertisingIdInfo(config.context)
     if (info == null) {
-      getCallback().onError(ID_INFO_IS_NULL)
+      getCallback().onError(ID_INFO_IS_NULL, null)
       return
     }
 
     if (config.isLimitAdTracking) {
-      if (info.isLimit) {
-        getCallback().onError(LIMIT_AD_TRACKING_IS_ENABLED)
+      if (info.isLimitAdTrackingEnabled) {
+        getCallback().onError(LIMIT_AD_TRACKING_IS_ENABLED, null)
         return
       }
     }

@@ -1,4 +1,4 @@
-package com.phantomvk.identifier.manufacturer
+package com.phantomvk.identifier.provider
 
 import android.net.Uri
 import com.phantomvk.identifier.model.ProviderConfig

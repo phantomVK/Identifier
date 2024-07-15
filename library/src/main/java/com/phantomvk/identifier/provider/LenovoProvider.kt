@@ -1,4 +1,4 @@
-package com.phantomvk.identifier.manufacturer
+package com.phantomvk.identifier.provider
 
 import android.content.Intent
 import android.os.IBinder
@@ -8,29 +8,29 @@ import com.phantomvk.identifier.impl.ServiceManager
 import com.phantomvk.identifier.interfaces.BinderCallback
 import com.phantomvk.identifier.model.CallBinderResult
 import com.phantomvk.identifier.model.ProviderConfig
-import generated.com.android.creator.IdsSupplier
+import generated.com.zui.deviceidservice.IDeviceidInterface
 
-class FreemeProvider(config: ProviderConfig) : AbstractProvider(config) {
+class LenovoProvider(config: ProviderConfig) : AbstractProvider(config) {
 
   override fun getTag(): String {
-    return "FreemeProvider"
+    return "LenovoProvider"
   }
 
   override fun ifSupported(): Boolean {
-    return isPackageInfoExisted("com.android.creator")
+    return isPackageInfoExisted("com.zui.deviceidservice")
   }
 
   override fun execute() {
     val binderCallback = object : BinderCallback {
       override fun call(binder: IBinder): CallBinderResult {
-        val asInterface = IdsSupplier.Stub.asInterface(binder)
+        val asInterface = IDeviceidInterface.Stub.asInterface(binder)
         if (asInterface == null) {
           return CallBinderResult.Failed(AIDL_INTERFACE_IS_NULL)
         }
 
         if (config.isLimitAdTracking) {
-          val isSupported = asInterface.isSupported
-          if (!isSupported) {
+          val isSupport = asInterface.isSupport
+          if (!isSupport) {
             return CallBinderResult.Failed(LIMIT_AD_TRACKING_IS_ENABLED)
           }
         }
@@ -40,8 +40,9 @@ class FreemeProvider(config: ProviderConfig) : AbstractProvider(config) {
       }
     }
 
-    val intent = Intent("android.service.action.msa")
-    intent.setPackage("com.android.creator")
+    val pkg = "com.zui.deviceidservice"
+    val cls = "com.zui.deviceidservice.DeviceidService"
+    val intent = Intent().setClassName(pkg, cls)
     ServiceManager.bindService(config.context, intent, getCallback(), binderCallback)
   }
 }

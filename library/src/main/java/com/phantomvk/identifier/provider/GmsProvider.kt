@@ -1,4 +1,4 @@
-package com.phantomvk.identifier.manufacturer
+package com.phantomvk.identifier.provider
 
 import android.content.Intent
 import android.os.IBinder
@@ -8,41 +8,45 @@ import com.phantomvk.identifier.impl.ServiceManager
 import com.phantomvk.identifier.interfaces.BinderCallback
 import com.phantomvk.identifier.model.CallBinderResult
 import com.phantomvk.identifier.model.ProviderConfig
-import generated.com.zui.deviceidservice.IDeviceidInterface
+import generated.com.google.android.gms.ads.identifier.internal.IAdvertisingIdService
 
-class LenovoProvider(config: ProviderConfig) : AbstractProvider(config) {
+/**
+ * Google Mobile Services
+ *
+ * https://developers.google.com/android/reference/com/google/android/gms/ads/identifier/AdvertisingIdClient.Info
+ */
+class GmsProvider(config: ProviderConfig) : AbstractProvider(config) {
 
   override fun getTag(): String {
-    return "LenovoProvider"
+    return "GmsProvider"
   }
 
   override fun ifSupported(): Boolean {
-    return isPackageInfoExisted("com.zui.deviceidservice")
+    return isPackageInfoExisted("com.android.vending")
   }
 
   override fun execute() {
     val binderCallback = object : BinderCallback {
       override fun call(binder: IBinder): CallBinderResult {
-        val asInterface = IDeviceidInterface.Stub.asInterface(binder)
+        val asInterface = IAdvertisingIdService.Stub.asInterface(binder)
         if (asInterface == null) {
           return CallBinderResult.Failed(AIDL_INTERFACE_IS_NULL)
         }
 
         if (config.isLimitAdTracking) {
-          val isSupport = asInterface.isSupport
-          if (!isSupport) {
+          val isLimited = asInterface.isLimitAdTrackingEnabled(true)
+          if (isLimited) {
             return CallBinderResult.Failed(LIMIT_AD_TRACKING_IS_ENABLED)
           }
         }
 
-        val id = asInterface.oaid
+        val id = asInterface.id
         return checkId(id)
       }
     }
 
-    val pkg = "com.zui.deviceidservice"
-    val cls = "com.zui.deviceidservice.DeviceidService"
-    val intent = Intent().setClassName(pkg, cls)
+    val intent = Intent("com.google.android.gms.ads.identifier.service.START")
+    intent.setPackage("com.google.android.gms")
     ServiceManager.bindService(config.context, intent, getCallback(), binderCallback)
   }
 }

@@ -1,4 +1,4 @@
-package com.phantomvk.identifier.manufacturer
+package com.phantomvk.identifier.provider
 
 import android.content.ComponentName
 import android.content.Intent
@@ -12,22 +12,22 @@ import com.phantomvk.identifier.model.CallBinderResult
 import com.phantomvk.identifier.model.ProviderConfig
 import com.phantomvk.identifier.util.getSignatures
 import com.phantomvk.identifier.util.hash
-import generated.com.oplus.stdid.IStdID
+import generated.com.heytap.openid.IOpenID
 
-class OppoColorOsProvider(config: ProviderConfig) : AbstractProvider(config) {
+class OppoHeyTapProvider(config: ProviderConfig) : AbstractProvider(config) {
 
   override fun getTag(): String {
-    return "OppoColorOsProvider"
+    return "OppoHeyTapProvider"
   }
 
   override fun ifSupported(): Boolean {
-    return isPackageInfoExisted("com.coloros.mcs")
+    return isPackageInfoExisted("com.heytap.openid")
   }
 
   override fun execute() {
     val binderCallback = object : BinderCallback {
       override fun call(binder: IBinder): CallBinderResult {
-        val asInterface = IStdID.Stub.asInterface(binder)
+        val asInterface = IOpenID.Stub.asInterface(binder)
         if (asInterface == null) {
           return CallBinderResult.Failed(AIDL_INTERFACE_IS_NULL)
         }
@@ -50,10 +50,20 @@ class OppoColorOsProvider(config: ProviderConfig) : AbstractProvider(config) {
       }
     }
 
-    val pkg = "com.coloros.mcs"
-    val cls = "com.oplus.stdid.IdentifyService"
+    val pkg = "com.heytap.openid"
+    val cls = "com.heytap.openid.IdentifyService"
     val component = ComponentName(pkg, cls)
-    val intent = Intent("action.com.oplus.stdid.ID_SERVICE").setComponent(component)
+    val intent = Intent("action.com.heytap.openid.OPEN_ID_SERVICE").setComponent(component)
     ServiceManager.bindService(config.context, intent, getCallback(), binderCallback)
   }
+
+//  private fun getIdName(name: String): String {
+//    return when (name) {
+//      "UDID" -> "GUID"
+//      "OAID" -> "OUID"
+//      "VAID" -> "DUID"
+//      "AAID" -> "AUID"
+//      else -> "OUID"
+//    }
+//  }
 }

@@ -1,4 +1,4 @@
-package com.phantomvk.identifier.manufacturer
+package com.phantomvk.identifier.provider
 
 import android.app.KeyguardManager
 import android.content.Context.KEYGUARD_SERVICE

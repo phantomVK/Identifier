@@ -1,5 +1,6 @@
-package com.phantomvk.identifier.manufacturer
+package com.phantomvk.identifier.provider
 
+import android.content.ComponentName
 import android.content.Intent
 import android.os.IBinder
 import com.phantomvk.identifier.impl.Constants.AIDL_INTERFACE_IS_NULL
@@ -8,45 +9,43 @@ import com.phantomvk.identifier.impl.ServiceManager
 import com.phantomvk.identifier.interfaces.BinderCallback
 import com.phantomvk.identifier.model.CallBinderResult
 import com.phantomvk.identifier.model.ProviderConfig
-import generated.com.google.android.gms.ads.identifier.internal.IAdvertisingIdService
+import generated.com.asus.msa.SupplementaryDID.IDidAidlInterface
 
-/**
- * Google Mobile Services
- *
- * https://developers.google.com/android/reference/com/google/android/gms/ads/identifier/AdvertisingIdClient.Info
- */
-class GmsProvider(config: ProviderConfig) : AbstractProvider(config) {
+class AsusProvider(config: ProviderConfig) : AbstractProvider(config) {
 
   override fun getTag(): String {
-    return "GmsProvider"
+    return "AsusProvider"
   }
 
   override fun ifSupported(): Boolean {
-    return isPackageInfoExisted("com.android.vending")
+    return isPackageInfoExisted("com.asus.msa.SupplementaryDID")
   }
 
   override fun execute() {
     val binderCallback = object : BinderCallback {
       override fun call(binder: IBinder): CallBinderResult {
-        val asInterface = IAdvertisingIdService.Stub.asInterface(binder)
+        val asInterface = IDidAidlInterface.Stub.asInterface(binder)
         if (asInterface == null) {
           return CallBinderResult.Failed(AIDL_INTERFACE_IS_NULL)
         }
 
         if (config.isLimitAdTracking) {
-          val isLimited = asInterface.isLimitAdTrackingEnabled(true)
-          if (isLimited) {
+          val isSupport = asInterface.isSupport
+          if (!isSupport) {
             return CallBinderResult.Failed(LIMIT_AD_TRACKING_IS_ENABLED)
           }
         }
 
-        val id = asInterface.id
+        val id = asInterface.oaid
         return checkId(id)
       }
     }
 
-    val intent = Intent("com.google.android.gms.ads.identifier.service.START")
-    intent.setPackage("com.google.android.gms")
+    val pkg = "com.asus.msa.SupplementaryDID"
+    val cls = "com.asus.msa.SupplementaryDID.SupplementaryDIDService"
+    val intent = Intent("com.asus.msa.action.ACCESS_DID")
+    val componentName = ComponentName(pkg, cls)
+    intent.setComponent(componentName)
     ServiceManager.bindService(config.context, intent, getCallback(), binderCallback)
   }
 }
