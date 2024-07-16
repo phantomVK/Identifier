@@ -1,6 +1,6 @@
 ## Verified manufacturer list
 
-| Manufacturer | verified |   
+| Manufacturer | verified |
 |:------------:|:--------:|
 |     ASUS     |    Y     |
 |  BlackShark  |    Y     |
@@ -29,26 +29,26 @@
 
 ### ASUS
 
-| Manufacturer | Brand |            Name            |    Model    |   Device    | SDK_INT |                                    FingerPrint                                    |   
+| Manufacturer | Brand |            Name            |    Model    |   Device    | SDK_INT |                                    FingerPrint                                    |
 |:------------:|:-----:|:--------------------------:|:-----------:|:-----------:|:-------:|:---------------------------------------------------------------------------------:|
 |     asus     | asus  | ROG Phone II Elite Edition | ASUS_I001DA | ASUS_I001_1 |   28    |  asus/CN_I001D/ASUS_I001_1:9/PKQ1.190414.001/16.0631.1908.12-0:user/release-keys  |
 |     asus     | asus  | ROG Phone II Elite Edition | ASUS_I001DA | ASUS_I001_1 |   30    | asus/CN_I001D/ASUS_I001_1:11/RKQ1.200710.002/18.0210.2111.190-0:user/release-keys |
 
 ### BlackShark
 
-| Manufacturer |   Brand    |     Name     |    Model     | Device  | SDK_INT |                                     FingerPrint                                     |   
+| Manufacturer |   Brand    |     Name     |    Model     | Device  | SDK_INT |                                     FingerPrint                                     |
 |:------------:|:----------:|:------------:|:------------:|:-------:|:-------:|:-----------------------------------------------------------------------------------:|
 |  blackshark  | blackshark | Blackshark 4 | SHARK PRS-A0 | penrose |   30    | blackshark/PRS-A0/penrose:11/PROS2103280CN00MP1/V12.0.1.0.RBICNBS:user/release-keys |
 
 ### Google
 
-| Manufacturer | Brand  |  Name   |  Model  | Device | SDK_INT |                            FingerPrint                             |   
+| Manufacturer | Brand  |  Name   |  Model  | Device | SDK_INT |                            FingerPrint                             |
 |:------------:|:------:|:-------:|:-------:|:------:|:-------:|:------------------------------------------------------------------:|
 |    Google    | google | Pixel 4 | Pixel 4 | flame  |   33    | google/flame/flame:13/TP1A.221005.002.B2/9382335:user/release-keys |
 
 ### Honor
 
-| Manufacturer | Brand |     Name     |  Model   |  Device  | SDK_INT |                                 FingerPrint                                  |   
+| Manufacturer | Brand |     Name     |  Model   |  Device  | SDK_INT |                                 FingerPrint                                  |
 |:------------:|:-----:|:------------:|:--------:|:--------:|:-------:|:----------------------------------------------------------------------------:|
 |    HONOR     | HONOR |   Play 20    | KOZ-AL00 | HNKOZ-S  |   29    |    HONOR/KOZ-AL00/HNKOZ-S:10/HONORKOZ-AL00/4.0.0.216C00:user/release-keys    |
 |    HONOR     | HONOR | Play 30 Plus | CMA-AN00 | HNCMA-MC |   30    |   HONOR/CMA-AN00/HNCMA-MC:11/HONORCMA-AN00/5.0.0.168C00:user/release-keys    |
@@ -60,7 +60,7 @@
 
 ### Huawei
 
-| Manufacturer | Brand  |     Name     |   Model   |  Device  | SDK_INT |                                 FingerPrint                                 |   
+| Manufacturer | Brand  |     Name     |   Model   |  Device  | SDK_INT |                                 FingerPrint                                 |
 |:------------:|:------:|:------------:|:---------:|:--------:|:-------:|:---------------------------------------------------------------------------:|
 |    HUAWEI    | HUAWEI |     nova     | CAZ-AL10  |  HWCAZ   |   24    |     HUAWEI/CAZ-AL10/HWCAZ:7.0/HUAWEICAZ-AL10/C00B387:user/release-keys      |
 |    HUAWEI    | HONOR  |   P8 Lite    | PRA-AL00X | HWPRA-H  |   24    |    HONOR/PRA-AL00X/HWPRA-H:7.0/HONORPRA-AL00X/C00B223:user/release-keys     |
@@ -79,7 +79,7 @@
 
 #### Meizu
 
-| Manufacturer | Brand | Name |   Model   |  Device  | SDK_INT |                                 FingerPrint                                 |   
+| Manufacturer | Brand | Name |   Model   |  Device  | SDK_INT |                                 FingerPrint                                 |
 |:------------:|:-----:|:----:|:---------:|:--------:|:-------:|:---------------------------------------------------------------------------:|
 |    Meizu     | Meizu | 16th |   16th    |   16th   |   27    | Meizu/meizu_16th_CN/16th:8.1.0/OPM1.171019.026/1594833800:user/release-keys |
 |    meizu     | meizu | 18s  | MEIZU 18s | meizu18s |   33    | meizu/meizu_18s_CN/meizu18s:13/TKQ1.221114.001/1682511453:user/release-keys |
@@ -87,7 +87,7 @@
 
 #### Motorola
 
-| Manufacturer |  Brand   |    Name     |        Model        | Device | SDK_INT |                                    FingerPrint                                     |   
+| Manufacturer |  Brand   |    Name     |        Model        | Device | SDK_INT |                                    FingerPrint                                     |
 |:------------:|:--------:|:-----------:|:-------------------:|:------:|:-------:|:----------------------------------------------------------------------------------:|
 |   motorola   | motorola |     G54     |   moto g(8) play    |  lima  |   29    |            motorola/lima_32/lima:10/QMD30.47-33/bc682:user/release-keys            |
 |   motorola   | motorola | One 5G Ace  | motorola one 5G ace |  kiev  |   30    |     motorola/kiev_retailu/kiev:11/RZKS31.Q3-45-16-8-7/8aa22:user/release-keys      |
@@ -96,13 +96,13 @@
 
 ### Nubia
 
-| Manufacturer | Brand |    Name     | Model  | Device | SDK_INT |                                  FingerPrint                                   |   
+| Manufacturer | Brand |    Name     | Model  | Device | SDK_INT |                                  FingerPrint                                   |
 |:------------:|:-----:|:-----------:|:------:|:------:|:-------:|:------------------------------------------------------------------------------:|
 |    nubia     | nubia | Red Magic 6 | NX669J | NX669J |   30    | nubia/NX669J/NX669J:11/RKQ1.201105.002/nubia.20210205.023207:user/release-keys |
 
 #### OnePlus
 
-| Manufacturer |  Brand  | Name  |     Model     |   Device    | SDK_INT |                                      FingerPrint                                       |   
+| Manufacturer |  Brand  | Name  |     Model     |   Device    | SDK_INT |                                      FingerPrint                                       |
 |:------------:|:-------:|:-----:|:-------------:|:-----------:|:-------:|:--------------------------------------------------------------------------------------:|
 |   OnePlus    | OnePlus |  5T   | ONEPLUS A5010 |  OnePlus5T  |   28    |       OnePlus/OnePlus5T/OnePlus5T:9/PKQ1.180716.001/2002242012:user/release-keys       |
 |   OnePlus    | OnePlus | 7 Pro |    GM1910     | OnePlus7Pro |   30    |    OnePlus/OnePlus7Pro/OnePlus7Pro:11/RKQ1.201022.002/2206171030:user/release-keys     |
@@ -113,7 +113,7 @@
 
 #### Oppo
 
-| Manufacturer | Brand |     Name      |   Model   |  Device  | SDK_INT |                                  FingerPrint                                  |   
+| Manufacturer | Brand |     Name      |   Model   |  Device  | SDK_INT |                                  FingerPrint                                  |
 |:------------:|:-----:|:-------------:|:---------:|:--------:|:-------:|:-----------------------------------------------------------------------------:|
 |     OPPO     | OPPO  |     A79k      | OPPO A79k |   A79k   |   25    |           OPPO/A79k/A79k:7.1.1/N6F26Q/1573311976:user/release-keys            |
 |     OPPO     | OPPO  |      A5       |  PBAM00   |  PBAM00  |   27    |     OPPO/PBAM00/PBAM00:8.1.0/OPM1.171019.026/1594640100:user/release-keys     |
@@ -122,6 +122,8 @@
 |     OPPO     | OPPO  |      A8       |  PDBM00   |  OP4AED  |   28    |       OPPO/PDBM00/OP4AED:9/PPR1.180610.011/1641904128:user/release-keys       |
 |     OPPO     | OPPO  |      R15      |  PACM00   |  PACM00  |   29    |      OPPO/PACM00/PACM00:10/QP1A.190711.020/2021050100:user/release-keys       |
 |     OPPO     | OPPO  | Reno 10x Zoom |  PCCM00   |  OP46C3  |   31    |    OPPO/PCCM00/OP46C3:12/SKQ1.211113.001/P.202210140345:user/release-keys     |
+|     OPPO     | OPPO  |     A92s      |  PDKT00   |  OP4ABB  |   31    |     OPPO/PDKT00/OP4ABB:12/SP1A.210812.016/Q.10149fc_722:user/release-keys     |
+|     OPPO     | OPPO  |   Reno4 SE    |  PEAM00   |  OP4E6B  |   29    |      OPPO/PEAM00/OP4E6B:10/QP1A.190711.020/1618364652:user/release-keys       |
 |     OPPO     | OPPO  |    A53 5G     |  PECM30   |  OP4E49  |   29    |      OPPO/PECM30/OP4E49:10/QP1A.190711.020/1630410391:user/release-keys       |
 |     OPPO     | OPPO  |    Reno 5K    |  PEGM10   |  OP4E59  |   31    |    OPPO/PEGM10/OP4E59:12/RKQ1.211103.002/R.202210110611:user/release-keys     |
 |     OPPO     | OPPO  |      A55      |  PEMM20   |  OP4E8C  |   30    |     OPPO/PEMM20/OP4E8C:11/RP1A.200720.011/1641633889965:user/release-keys     |
@@ -133,7 +135,7 @@
 
 #### realme
 
-| Manufacturer | Brand  |  Name  |  Model  |  Device   | SDK_INT |                                  FingerPrint                                   |   
+| Manufacturer | Brand  |  Name  |  Model  |  Device   | SDK_INT |                                  FingerPrint                                   |
 |:------------:|:------:|:------:|:-------:|:---------:|:-------:|:------------------------------------------------------------------------------:|
 |    realme    | realme | Q2 Pro | RMX2173 | RMX2173CN |   29    |    realme/RMX2173/RMX2173CN:10/QP1A.190711.020/1600672727:user/release-keys    |
 |    realme    | realme | 7 Pro  | RMX2170 | RMX2170L1 |   31    | realme/RMX2170T2/RMX2170L1:12/SKQ1.210216.001/Q.202212131525:user/release-keys |
@@ -147,7 +149,7 @@
 
 #### Vivo
 
-| Manufacturer | Brand |   Name    |   Model   | Device  | SDK_INT |                                FingerPrint                                |   
+| Manufacturer | Brand |   Name    |   Model   | Device  | SDK_INT |                                FingerPrint                                |
 |:------------:|:-----:|:---------:|:---------:|:-------:|:-------:|:-------------------------------------------------------------------------:|
 |     vivo     | vivo  |    Y93    |  V1818A   | PD1818  |   27    | vivo/PD1818/PD1818:8.1.0/OPM1.171019.026/compil08311833:user/release-keys |
 |     vivo     | vivo  |    Y93    |  V1818CA  | PD1818C |   27    |      vivo/PD1818C/PD1818C:8.1.0/O11019/1692149494:user/release-keys       |
@@ -161,7 +163,7 @@
 
 #### Xiaomi
 
-| Manufacturer | Brand  |     Name      |    Model     |   Device   | SDK_INT |                                     FingerPrint                                     |   
+| Manufacturer | Brand  |     Name      |    Model     |   Device   | SDK_INT |                                     FingerPrint                                     |
 |:------------:|:------:|:-------------:|:------------:|:----------:|:-------:|:-----------------------------------------------------------------------------------:|
 |    Xiaomi    | Redmi  | Note 9 Pro 5G |  M2007J17C   | gauguinpro |   29    | Redmi/gauguinpro/gauguinpro:10/QKQ1.200628.002/V12.0.10.0.QJSCNXM:user/release-keys |
 |    Xiaomi    | Redmi  |   Note 9 4G   |  M2010J19SC  |    lime    |   31    |       Redmi/lime/lime:12/SKQ1.211202.001/V14.0.2.0.SJQCNXM:user/release-keys        |
@@ -178,6 +180,6 @@
 
 #### Zte
 
-| Manufacturer | Brand |  Name   |   Model    | Device  | SDK_INT |                                 FingerPrint                                 |   
+| Manufacturer | Brand |  Name   |   Model    | Device  | SDK_INT |                                 FingerPrint                                 |
 |:------------:|:-----:|:-------:|:----------:|:-------:|:-------:|:---------------------------------------------------------------------------:|
 |     ZTE      |  ZTE  | S30 Pro | ZTE A2122H | P768A02 |   30    | ZTE/CN_P768S01/P768A02:11/RKQ1.201221.002/20220531.233000:user/release-keys |
