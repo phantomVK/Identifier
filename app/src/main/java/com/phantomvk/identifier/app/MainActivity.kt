@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
     disposable?.dispose()
     disposable = IdentifierManager
       .getInstance()
-      .create(this, listener)
+      .create(listener)
       .setLimitAdTracking(false)
       .start()
   }

@@ -41,7 +41,7 @@ class Application : android.app.Application() {
   override fun onCreate() {
     super.onCreate()
 
-    IdentifierManager.Builder()
+    IdentifierManager.Builder(this)
       .isDebug(false)
       .setMemCacheEnable(true)
       .setExecutor { Thread(it).start() } // 可选: 设置自定义ThreadPoolExecutor
@@ -55,7 +55,7 @@ class Application : android.app.Application() {
 
 ```kotlin
 IdentifierManager.getInstance()
-  .create(applicationContext, object : OnResultListener {
+  .create(object : OnResultListener {
     override fun onSuccess(id: String) {}
     override fun onError(msg: String, t: Throwable?) {}
   })

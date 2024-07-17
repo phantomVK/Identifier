@@ -13,36 +13,18 @@ class DisposableResultListener(callback: OnResultListener) : OnResultListener, D
   private val reference = WeakReference(callback)
 
   override fun onError(msg: String, t: Throwable?) {
-    if (disposed) {
-      return
-    }
-
-    synchronized(this) {
-      if (disposed) {
-        return
-      }
-
-      reference.get()?.let { runOnMainThread { it.onError(msg, t) } }
-      dispose()
-    }
+    invokeCallback { it.onError(msg, t) }
   }
 
   override fun onSuccess(id: String) {
-    if (disposed) {
-      return
-    }
-
-    synchronized(this) {
-      if (disposed) {
-        return
-      }
-
-      reference.get()?.let { runOnMainThread { it.onSuccess(id) } }
-      dispose()
-    }
+    invokeCallback { it.onSuccess(id) }
   }
 
   override fun dispose() {
+    invokeCallback()
+  }
+
+  private fun invokeCallback(callback: ((OnResultListener) -> Any)? = null) {
     if (disposed) {
       return
     }
@@ -52,8 +34,14 @@ class DisposableResultListener(callback: OnResultListener) : OnResultListener, D
         return
       }
 
-      disposed = true
+      if (callback != null) {
+        reference.get()?.let {
+          runOnMainThread { callback.invoke(it) }
+        }
+      }
+
       reference.clear()
+      disposed = true
     }
   }
 

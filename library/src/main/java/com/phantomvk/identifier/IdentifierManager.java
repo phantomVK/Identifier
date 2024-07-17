@@ -15,6 +15,7 @@ import java.util.concurrent.Executor;
 public final class IdentifierManager {
     private static volatile IdentifierManager sInstance = null;
 
+    private Context context = null;
     private Executor executor = null;
     private boolean memCacheEnabled = false;
     private boolean isDebug = false;
@@ -45,19 +46,24 @@ public final class IdentifierManager {
     }
 
     public TaskBuilder create(
-            @NonNull Context context,
             @NonNull OnResultListener callback
     ) {
-        return new TaskBuilder(context.getApplicationContext(), callback);
+        return new TaskBuilder(context, callback);
     }
 
     public static class Builder {
+        private final Context context;
         private Logger logger = null;
         private Executor executor = null;
         private boolean memCacheEnabled = false;
         private boolean isDebug = false;
 
-        public Builder() {
+        public Builder(Context context) {
+            if (context == null) {
+                throw new NullPointerException("Context should not be null.");
+            }
+
+            this.context = context.getApplicationContext();
         }
 
         @NonNull
@@ -91,6 +97,7 @@ public final class IdentifierManager {
 
                 // init
                 IdentifierManager manager = new IdentifierManager();
+                manager.context = context.getApplicationContext();
                 manager.memCacheEnabled = memCacheEnabled;
                 manager.executor = executor;
                 manager.isDebug = isDebug;

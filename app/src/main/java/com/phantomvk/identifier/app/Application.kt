@@ -14,7 +14,7 @@ class Application : Application() {
     sApplication = this
 
     // init.
-    IdentifierManager.Builder()
+    IdentifierManager.Builder(this)
       .isDebug(true)
       .setMemCacheEnable(false)
       .setExecutor { Thread(it).start() }
