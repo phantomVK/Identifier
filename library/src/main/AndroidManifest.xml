@@ -40,6 +40,9 @@
         <!-- oppo -->
         <package android:name="com.heytap.openid" />
 
+        <!-- 360 -->
+        <package android:name="com.qiku.id" />
+
         <!-- huawei -->
         <package android:name="com.huawei.hwid" />
         <package android:name="com.huawei.hwid.tv" />
