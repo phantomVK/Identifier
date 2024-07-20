@@ -4,7 +4,6 @@ import android.net.Uri
 import com.phantomvk.identifier.impl.Constants.NO_AVAILABLE_COLUMN_INDEX
 import com.phantomvk.identifier.impl.Constants.QUERY_CURSOR_IS_NULL
 import com.phantomvk.identifier.model.ProviderConfig
-import com.phantomvk.identifier.util.sysProperty
 
 class VivoProvider(config: ProviderConfig) : AbstractProvider(config) {
 
@@ -16,9 +15,11 @@ class VivoProvider(config: ProviderConfig) : AbstractProvider(config) {
 //    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) {
 //      return false
 //    }
+//
+//    val value = sysProperty("persist.sys.identifierid.supported", "0")
+//    return value == "1"
 
-    val value = sysProperty("persist.sys.identifierid.supported", "0")
-    return value == "1"
+    return true
   }
 
   override fun execute() {

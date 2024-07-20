@@ -27,7 +27,6 @@ import com.phantomvk.identifier.provider.XiaomiProvider
 import com.phantomvk.identifier.provider.XtcProvider
 import com.phantomvk.identifier.provider.ZteProvider
 import com.phantomvk.identifier.model.ProviderConfig
-import com.phantomvk.identifier.util.sysProperty
 
 object ManufacturerFactory {
 
@@ -39,6 +38,16 @@ object ManufacturerFactory {
   private fun isBrand(manufacturer: String, brand: String): Boolean {
     return Build.MANUFACTURER.equals(manufacturer, true)
         && Build.BRAND.equals(brand, true)
+  }
+
+  private fun sysProperty(key: String, defValue: String): String? {
+    return try {
+      val clazz = Class.forName("android.os.SystemProperties")
+      val method = clazz.getMethod("get", String::class.java, String::class.java)
+      method.invoke(clazz, key, defValue) as String
+    } catch (t: Throwable) {
+      null
+    }
   }
 
   private fun sysPropertyContains(key: String): Boolean {
@@ -154,8 +163,9 @@ object ManufacturerFactory {
     }
 
     if (isBrand("VIVO") || sysPropertyContains("ro.vivo.os.version")) {
-      val provider = VivoProvider(config)
-      if (provider.isSupported()) {
+      val isSupported = sysProperty("persist.sys.identifierid.supported", "0") == "1"
+      if (isSupported) {
+        val provider = VivoProvider(config)
         providers.add(provider)
       }
     }
