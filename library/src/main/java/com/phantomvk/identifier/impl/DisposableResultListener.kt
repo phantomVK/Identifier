@@ -24,7 +24,11 @@ class DisposableResultListener(callback: OnResultListener) : OnResultListener, D
     invokeCallback()
   }
 
-  private fun invokeCallback(callback: ((OnResultListener) -> Any)? = null) {
+  override fun isDisposed(): Boolean {
+    return disposed
+  }
+
+  private fun invokeCallback(callback: ((OnResultListener) -> Unit)? = null) {
     if (disposed) {
       return
     }
@@ -43,9 +47,5 @@ class DisposableResultListener(callback: OnResultListener) : OnResultListener, D
       reference.clear()
       disposed = true
     }
-  }
-
-  override fun isDisposed(): Boolean {
-    return disposed
   }
 }
