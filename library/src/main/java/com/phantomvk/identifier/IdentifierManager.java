@@ -19,6 +19,7 @@ public final class IdentifierManager {
     private Executor executor = null;
     private boolean memCacheEnabled = false;
     private boolean isDebug = false;
+    private boolean isExperimental = false;
 
     private IdentifierManager() {
     }
@@ -45,6 +46,10 @@ public final class IdentifierManager {
         return isDebug;
     }
 
+    public boolean isExperimental() {
+        return isExperimental;
+    }
+
     public TaskBuilder create(
             @NonNull OnResultListener callback
     ) {
@@ -57,6 +62,7 @@ public final class IdentifierManager {
         private Executor executor = null;
         private boolean memCacheEnabled = false;
         private boolean isDebug = false;
+        private boolean isExperimental = false;
 
         public Builder(Context context) {
             if (context == null) {
@@ -67,8 +73,14 @@ public final class IdentifierManager {
         }
 
         @NonNull
-        public Builder isDebug(boolean debug) {
-            isDebug = debug;
+        public Builder setDebug(boolean enable) {
+            isDebug = enable;
+            return this;
+        }
+
+        @NonNull
+        public Builder setExperimental(boolean enable) {
+            isExperimental = enable;
             return this;
         }
 
@@ -101,6 +113,7 @@ public final class IdentifierManager {
                 manager.memCacheEnabled = memCacheEnabled;
                 manager.executor = executor;
                 manager.isDebug = isDebug;
+                manager.isExperimental = isExperimental;
                 sInstance = manager;
             } else {
                 throw new RuntimeException("Should not init twice.");

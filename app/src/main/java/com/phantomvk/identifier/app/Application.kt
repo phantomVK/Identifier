@@ -15,7 +15,8 @@ class Application : Application() {
 
     // init.
     IdentifierManager.Builder(this)
-      .isDebug(true)
+      .setDebug(true)
+      .setExperimental(true)
       .setMemCacheEnable(false)
       .setExecutor { Thread(it).start() }
       .setLogger(LoggerImpl())
