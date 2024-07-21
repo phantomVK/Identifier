@@ -22,27 +22,17 @@ class CoolpadProvider(config: ProviderConfig) : AbstractProvider(config) {
   }
 
   override fun execute() {
-    if (tryContentResolver()) {
-      return
-    } else {
-      tryService()
-    }
-  }
-
-  private fun tryContentResolver(): Boolean {
+    // Querying id from settings.
     try {
       val id = Settings.Global.getString(config.context.contentResolver, "coolos.oaid")
       if (checkId(id) is CallBinderResult.Success) {
         getCallback().onSuccess(id)
-        return true
+        return
       }
     } catch (ignore: Throwable) {
     }
 
-    return false
-  }
-
-  private fun tryService() {
+    // Querying id from service.
     val binderCallback = object : BinderCallback {
       override fun call(binder: IBinder): CallBinderResult {
         val asInterface = IDeviceIdManager.Stub.asInterface(binder)
