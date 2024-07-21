@@ -2,7 +2,6 @@ package com.phantomvk.identifier.provider
 
 import android.app.KeyguardManager
 import android.content.Context.KEYGUARD_SERVICE
-import com.phantomvk.identifier.IdentifierManager
 import com.phantomvk.identifier.model.ProviderConfig
 
 class CooseaProvider(config: ProviderConfig) : AbstractProvider(config) {
@@ -14,7 +13,6 @@ class CooseaProvider(config: ProviderConfig) : AbstractProvider(config) {
   }
 
   override fun ifSupported(): Boolean {
-    if (!IdentifierManager.getInstance().isExperimental) return false
     if (manager == null) return false
     val method = manager::class.java.getDeclaredMethod("isSupported")
     return (method.invoke(manager) as? Boolean) == true

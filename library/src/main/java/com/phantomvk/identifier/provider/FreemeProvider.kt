@@ -2,7 +2,6 @@ package com.phantomvk.identifier.provider
 
 import android.content.Intent
 import android.os.IBinder
-import com.phantomvk.identifier.IdentifierManager
 import com.phantomvk.identifier.impl.Constants.AIDL_INTERFACE_IS_NULL
 import com.phantomvk.identifier.impl.Constants.LIMIT_AD_TRACKING_IS_ENABLED
 import com.phantomvk.identifier.impl.ServiceManager
@@ -18,7 +17,6 @@ class FreemeProvider(config: ProviderConfig) : AbstractProvider(config) {
   }
 
   override fun ifSupported(): Boolean {
-    if (!IdentifierManager.getInstance().isExperimental) return false
     return isPackageInfoExisted("com.android.creator")
   }
 

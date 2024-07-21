@@ -1,6 +1,8 @@
 package com.phantomvk.identifier.impl
 
 import android.os.Build
+import com.phantomvk.identifier.IdentifierManager
+import com.phantomvk.identifier.model.ProviderConfig
 import com.phantomvk.identifier.provider.AbstractProvider
 import com.phantomvk.identifier.provider.AsusProvider
 import com.phantomvk.identifier.provider.CoolpadProvider
@@ -26,7 +28,6 @@ import com.phantomvk.identifier.provider.VivoProvider
 import com.phantomvk.identifier.provider.XiaomiProvider
 import com.phantomvk.identifier.provider.XtcProvider
 import com.phantomvk.identifier.provider.ZteProvider
-import com.phantomvk.identifier.model.ProviderConfig
 
 object ManufacturerFactory {
 
@@ -71,13 +72,6 @@ object ManufacturerFactory {
       val coolpadProvider = CoolpadProvider(config)
       if (coolpadProvider.isSupported()) {
         providers.add(coolpadProvider)
-      }
-    }
-
-    if (sysPropertyContains("ro.build.freeme.label")) {
-      val provider = FreemeProvider(config)
-      if (provider.isSupported()) {
-        providers.add(provider)
       }
     }
 
@@ -170,18 +164,6 @@ object ManufacturerFactory {
       }
     }
 
-    if (sysPropertyEquals("ro.build.uiversion", "360UI")) {
-      val provider = QikuServiceProvider(config)
-      if (provider.isSupported()) {
-        providers.add(provider)
-      }
-
-      val serviceProvider = QikuBinderProvider(config)
-      if (serviceProvider.isSupported()) {
-        providers.add(serviceProvider)
-      }
-    }
-
     if (isBrand("SAMSUNG")) {
       val provider = SamsungProvider(config)
       if (provider.isSupported()) {
@@ -196,17 +178,54 @@ object ManufacturerFactory {
       }
     }
 
-    if (sysPropertyEquals("ro.odm.manufacturer", "PRIZE")) {
-      val provider = CooseaProvider(config)
+    if (isBrand("ZTE")) {
+      val provider = ZteProvider(config)
       if (provider.isSupported()) {
         providers.add(provider)
       }
     }
 
-    if (isBrand("ZTE")) {
-      val provider = ZteProvider(config)
-      if (provider.isSupported()) {
-        providers.add(provider)
+    val provider = GmsProvider(config)
+    if (provider.isSupported()) {
+      providers.add(provider)
+    }
+
+    addExperimentalProviders(config, providers)
+
+    return providers.toList()
+  }
+
+  private fun addExperimentalProviders(
+    config: ProviderConfig,
+    providers: LinkedHashSet<AbstractProvider>
+  ) {
+    if (!IdentifierManager.getInstance().isExperimental) {
+      return
+    }
+
+    if (sysPropertyEquals("ro.build.uiversion", "360UI")) {
+      val qikuServiceProvider = QikuServiceProvider(config)
+      if (qikuServiceProvider.isSupported()) {
+        providers.add(qikuServiceProvider)
+      }
+
+      val qikuBinderProvider = QikuBinderProvider(config)
+      if (qikuBinderProvider.isSupported()) {
+        providers.add(qikuBinderProvider)
+      }
+    }
+
+    if (sysPropertyContains("ro.build.freeme.label")) {
+      val freemeProvider = FreemeProvider(config)
+      if (freemeProvider.isSupported()) {
+        providers.add(freemeProvider)
+      }
+    }
+
+    if (sysPropertyEquals("ro.odm.manufacturer", "PRIZE")) {
+      val cooseaProvider = CooseaProvider(config)
+      if (cooseaProvider.isSupported()) {
+        providers.add(cooseaProvider)
       }
     }
 
@@ -215,16 +234,9 @@ object ManufacturerFactory {
       providers.add(xtcProvider)
     }
 
-    val provider = GmsProvider(config)
-    if (provider.isSupported()) {
-      providers.add(provider)
-    }
-
     val msaProvider = MsaProvider(config)
     if (msaProvider.isSupported()) {
       providers.add(msaProvider)
     }
-
-    return providers.toList()
   }
 }
