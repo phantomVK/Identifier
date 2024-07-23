@@ -3,7 +3,6 @@ package com.phantomvk.identifier.provider
 import android.content.Intent
 import android.os.IBinder
 import com.phantomvk.identifier.impl.Constants.AIDL_INTERFACE_IS_NULL
-import com.phantomvk.identifier.impl.ServiceManager
 import com.phantomvk.identifier.interfaces.BinderCallback
 import com.phantomvk.identifier.model.CallBinderResult
 import com.phantomvk.identifier.model.ProviderConfig
@@ -37,6 +36,6 @@ class SamsungProvider(config: ProviderConfig) : AbstractProvider(config) {
 
     val intent = Intent()
     intent.setClassName(pkgName, className)
-    ServiceManager.bindService(config.context, intent, getCallback(), binderCallback)
+    bindService(config.context, intent, getCallback(), binderCallback)
   }
 }

@@ -5,7 +5,6 @@ import android.os.Build
 import android.os.IBinder
 import com.phantomvk.identifier.impl.Constants.AIDL_INTERFACE_IS_NULL
 import com.phantomvk.identifier.impl.Constants.LIMIT_AD_TRACKING_IS_ENABLED
-import com.phantomvk.identifier.impl.ServiceManager
 import com.phantomvk.identifier.interfaces.BinderCallback
 import com.phantomvk.identifier.model.CallBinderResult
 import com.phantomvk.identifier.model.ProviderConfig
@@ -55,6 +54,6 @@ class HuaweiServiceProvider(config: ProviderConfig) : AbstractProvider(config) {
 
     val intent = Intent("com.uodis.opendevice.OPENIDS_SERVICE")
     intent.setPackage(name)
-    ServiceManager.bindService(config.context, intent, getCallback(), binderCallback)
+    bindService(config.context, intent, getCallback(), binderCallback)
   }
 }

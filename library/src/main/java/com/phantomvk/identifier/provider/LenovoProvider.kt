@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.IBinder
 import com.phantomvk.identifier.impl.Constants.AIDL_INTERFACE_IS_NULL
 import com.phantomvk.identifier.impl.Constants.LIMIT_AD_TRACKING_IS_ENABLED
-import com.phantomvk.identifier.impl.ServiceManager
 import com.phantomvk.identifier.interfaces.BinderCallback
 import com.phantomvk.identifier.model.CallBinderResult
 import com.phantomvk.identifier.model.ProviderConfig
@@ -43,6 +42,6 @@ class LenovoProvider(config: ProviderConfig) : AbstractProvider(config) {
     val pkg = "com.zui.deviceidservice"
     val cls = "com.zui.deviceidservice.DeviceidService"
     val intent = Intent().setClassName(pkg, cls)
-    ServiceManager.bindService(config.context, intent, getCallback(), binderCallback)
+    bindService(config.context, intent, getCallback(), binderCallback)
   }
 }

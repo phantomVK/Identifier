@@ -4,7 +4,6 @@ import android.content.ComponentName
 import android.content.Intent
 import android.os.IBinder
 import com.phantomvk.identifier.impl.Constants.AIDL_INTERFACE_IS_NULL
-import com.phantomvk.identifier.impl.ServiceManager
 import com.phantomvk.identifier.interfaces.BinderCallback
 import com.phantomvk.identifier.model.CallBinderResult
 import com.phantomvk.identifier.model.ProviderConfig
@@ -43,7 +42,7 @@ class OppoHeyTapProvider(config: ProviderConfig) : AbstractProvider(config) {
     val cls = "com.heytap.openid.IdentifyService"
     val component = ComponentName(pkg, cls)
     val intent = Intent("action.com.heytap.openid.OPEN_ID_SERVICE").setComponent(component)
-    ServiceManager.bindService(config.context, intent, getCallback(), binderCallback)
+    bindService(config.context, intent, getCallback(), binderCallback)
   }
 
 //  private fun getIdName(name: String): String {

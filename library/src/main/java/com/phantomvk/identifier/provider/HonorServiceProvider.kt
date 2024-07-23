@@ -7,7 +7,6 @@ import com.phantomvk.identifier.impl.Constants.AIDL_INTERFACE_IS_NULL
 import com.phantomvk.identifier.impl.Constants.BUNDLE_IS_NULL
 import com.phantomvk.identifier.impl.Constants.ID_INFO_IS_NULL
 import com.phantomvk.identifier.impl.Constants.LIMIT_AD_TRACKING_IS_ENABLED
-import com.phantomvk.identifier.impl.ServiceManager
 import com.phantomvk.identifier.interfaces.BinderCallback
 import com.phantomvk.identifier.model.CallBinderResult
 import com.phantomvk.identifier.model.ProviderConfig
@@ -47,7 +46,7 @@ class HonorServiceProvider(config: ProviderConfig) : AbstractProvider(config) {
 
     val intent = Intent("com.hihonor.id.HnOaIdService")
     intent.setPackage("com.hihonor.id")
-    ServiceManager.bindService(config.context, intent, getCallback(), binderCallback)
+    bindService(config.context, intent, getCallback(), binderCallback)
   }
 
   private fun isLimited(asInterface: IOAIDService): CallBinderResult? {
