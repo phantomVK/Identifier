@@ -43,6 +43,7 @@ class Application : android.app.Application() {
 
     IdentifierManager.Builder(this)
       .isDebug(false)
+      .setExperimental(false)
       .setMemCacheEnable(true)
       .setExecutor { Thread(it).start() } // 可选: 设置自定义ThreadPoolExecutor
       .setLogger(LoggerImpl())

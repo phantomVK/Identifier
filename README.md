@@ -42,6 +42,7 @@ class Application : android.app.Application() {
 
     IdentifierManager.Builder(this)
       .isDebug(false)
+      .setExperimental(false)
       .setMemCacheEnable(true)
       .setExecutor { Thread(it).start() } // optional: setup custom ThreadPoolExecutor
       .setLogger(LoggerImpl())
