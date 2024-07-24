@@ -45,6 +45,6 @@ class AsusProvider(config: ProviderConfig) : AbstractProvider(config) {
     val intent = Intent("com.asus.msa.action.ACCESS_DID")
     val componentName = ComponentName(pkg, cls)
     intent.setComponent(componentName)
-    bindService(config.context, intent, getCallback(), binderCallback)
+    bindService(intent, binderCallback)
   }
 }

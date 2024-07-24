@@ -45,7 +45,7 @@ class MsaProvider(config: ProviderConfig) : AbstractProvider(config) {
     val intent = Intent("com.bun.msa.action.bindto.service")
     intent.setClassName("com.mdid.msa", "com.mdid.msa.service.MsaIdService")
     intent.putExtra("com.bun.msa.param.pkgname", config.context.packageName)
-    bindService(config.context, intent, getCallback(), binderCallback)
+    bindService(intent, binderCallback)
   }
 
   private fun startMsaKlService(): Boolean {

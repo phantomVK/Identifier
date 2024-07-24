@@ -145,47 +145,45 @@ abstract class AbstractProvider(protected val config: ProviderConfig) : Runnable
   }
 
   protected fun bindService(
-    context: Context,
     intent: Intent,
-    callback: OnResultListener,
     binderCallback: BinderCallback
   ) {
     val conn = object : ServiceConnection {
       override fun onServiceConnected(name: ComponentName, service: IBinder) {
         try {
           when (val result = binderCallback.call(service)) {
-            is CallBinderResult.Success -> callback.onSuccess(result.id)
-            is CallBinderResult.Failed -> callback.onError(result.msg)
+            is CallBinderResult.Success -> getCallback().onSuccess(result.id)
+            is CallBinderResult.Failed -> getCallback().onError(result.msg)
           }
         } catch (t: Throwable) {
-          callback.onError(EXCEPTION_THROWN, t)
+          getCallback().onError(EXCEPTION_THROWN, t)
         } finally {
-          unbindService(context, this)
+          unbindService(config.context, this)
         }
       }
 
       override fun onServiceDisconnected(name: ComponentName) {
-        callback.onError("Service is disconnected.")
+        getCallback().onError("Service is disconnected.")
       }
 
       override fun onBindingDied(name: ComponentName) {
-        callback.onError("Service is on binding died.")
-        unbindService(context, this)
+        getCallback().onError("Service is on binding died.")
+        unbindService(config.context, this)
       }
 
       override fun onNullBinding(name: ComponentName) {
-        callback.onError("Service is on null binding.")
-        unbindService(context, this)
+        getCallback().onError("Service is on null binding.")
+        unbindService(config.context, this)
       }
     }
 
     try {
-      val success = context.bindService(intent, conn, Context.BIND_AUTO_CREATE)
+      val success = config.context.bindService(intent, conn, Context.BIND_AUTO_CREATE)
       if (!success) {
-        callback.onError("Bind service return false.", null)
+        getCallback().onError("Bind service return false.", null)
       }
     } catch (t: Throwable) {
-      callback.onError("Bind service error.", t)
+      getCallback().onError("Bind service error.", t)
     }
   }
 

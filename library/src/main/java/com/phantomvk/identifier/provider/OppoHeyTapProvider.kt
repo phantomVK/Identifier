@@ -42,7 +42,7 @@ class OppoHeyTapProvider(config: ProviderConfig) : AbstractProvider(config) {
     val cls = "com.heytap.openid.IdentifyService"
     val component = ComponentName(pkg, cls)
     val intent = Intent("action.com.heytap.openid.OPEN_ID_SERVICE").setComponent(component)
-    bindService(config.context, intent, getCallback(), binderCallback)
+    bindService(intent, binderCallback)
   }
 
 //  private fun getIdName(name: String): String {

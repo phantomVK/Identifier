@@ -41,6 +41,6 @@ class QikuServiceProvider(config: ProviderConfig) : AbstractProvider(config) {
 
     val intent = Intent("qiku.service.action.id")
     intent.setPackage("com.qiku.id")
-    bindService(config.context, intent, getCallback(), binderCallback)
+    bindService(intent, binderCallback)
   }
 }

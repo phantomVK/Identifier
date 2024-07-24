@@ -46,7 +46,7 @@ class HonorServiceProvider(config: ProviderConfig) : AbstractProvider(config) {
 
     val intent = Intent("com.hihonor.id.HnOaIdService")
     intent.setPackage("com.hihonor.id")
-    bindService(config.context, intent, getCallback(), binderCallback)
+    bindService(intent, binderCallback)
   }
 
   private fun isLimited(asInterface: IOAIDService): CallBinderResult? {

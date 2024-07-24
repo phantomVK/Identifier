@@ -46,6 +46,6 @@ class GmsProvider(config: ProviderConfig) : AbstractProvider(config) {
 
     val intent = Intent("com.google.android.gms.ads.identifier.service.START")
     intent.setPackage("com.google.android.gms")
-    bindService(config.context, intent, getCallback(), binderCallback)
+    bindService(intent, binderCallback)
   }
 }

@@ -54,6 +54,6 @@ class HuaweiServiceProvider(config: ProviderConfig) : AbstractProvider(config) {
 
     val intent = Intent("com.uodis.opendevice.OPENIDS_SERVICE")
     intent.setPackage(name)
-    bindService(config.context, intent, getCallback(), binderCallback)
+    bindService(intent, binderCallback)
   }
 }

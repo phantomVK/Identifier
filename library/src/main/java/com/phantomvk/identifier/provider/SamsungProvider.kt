@@ -36,6 +36,6 @@ class SamsungProvider(config: ProviderConfig) : AbstractProvider(config) {
 
     val intent = Intent()
     intent.setClassName(pkgName, className)
-    bindService(config.context, intent, getCallback(), binderCallback)
+    bindService(intent, binderCallback)
   }
 }

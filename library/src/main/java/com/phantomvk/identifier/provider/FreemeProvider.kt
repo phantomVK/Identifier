@@ -41,6 +41,6 @@ class FreemeProvider(config: ProviderConfig) : AbstractProvider(config) {
 
     val intent = Intent("android.service.action.msa")
     intent.setPackage("com.android.creator")
-    bindService(config.context, intent, getCallback(), binderCallback)
+    bindService(intent, binderCallback)
   }
 }
