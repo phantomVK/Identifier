@@ -17,9 +17,9 @@ public final class IdentifierManager {
 
     private Context context = null;
     private Executor executor = null;
-    private boolean memCacheEnabled = false;
     private boolean isDebug = false;
     private boolean isExperimental = false;
+    private boolean isMemCacheEnabled = false;
 
     private IdentifierManager() {
     }
@@ -38,10 +38,6 @@ public final class IdentifierManager {
         return executor;
     }
 
-    public boolean isMemCacheEnabled() {
-        return memCacheEnabled;
-    }
-
     public boolean isDebug() {
         return isDebug;
     }
@@ -50,9 +46,11 @@ public final class IdentifierManager {
         return isExperimental;
     }
 
-    public TaskBuilder create(
-            @NonNull OnResultListener callback
-    ) {
+    public boolean isMemCacheEnabled() {
+        return isMemCacheEnabled;
+    }
+
+    public TaskBuilder create(@NonNull OnResultListener callback) {
         return new TaskBuilder(context, callback);
     }
 
@@ -60,9 +58,9 @@ public final class IdentifierManager {
         private final Context context;
         private Logger logger = null;
         private Executor executor = null;
-        private boolean memCacheEnabled = false;
         private boolean isDebug = false;
         private boolean isExperimental = false;
+        private boolean isMemCacheEnabled = false;
 
         public Builder(Context context) {
             if (context == null) {
@@ -86,7 +84,7 @@ public final class IdentifierManager {
 
         @NonNull
         public Builder setMemCacheEnable(boolean enable) {
-            this.memCacheEnabled = enable;
+            isMemCacheEnabled = enable;
             return this;
         }
 
@@ -102,21 +100,23 @@ public final class IdentifierManager {
             return this;
         }
 
-        public synchronized void init() {
-            if (sInstance == null) {
-                // set logger
-                Log.setLogger(logger);
-
-                // init
-                IdentifierManager manager = new IdentifierManager();
-                manager.context = context.getApplicationContext();
-                manager.memCacheEnabled = memCacheEnabled;
-                manager.executor = executor;
-                manager.isDebug = isDebug;
-                manager.isExperimental = isExperimental;
-                sInstance = manager;
-            } else {
-                throw new RuntimeException("Should not init twice.");
+        public void init() {
+            synchronized (Builder.class) {
+                if (sInstance == null) {
+                    // set logger
+                    Log.setLogger(logger);
+                    
+                    // init
+                    IdentifierManager manager = new IdentifierManager();
+                    manager.context = context.getApplicationContext();
+                    manager.isMemCacheEnabled = isMemCacheEnabled;
+                    manager.executor = executor;
+                    manager.isDebug = isDebug;
+                    manager.isExperimental = isExperimental;
+                    sInstance = manager;
+                } else {
+                    throw new RuntimeException("Should not init twice.");
+                }
             }
         }
     }
