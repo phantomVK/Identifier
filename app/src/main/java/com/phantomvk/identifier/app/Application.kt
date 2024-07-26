@@ -6,13 +6,14 @@ import com.phantomvk.identifier.IdentifierManager
 class Application : Application() {
   override fun onCreate() {
     super.onCreate()
-    IdentifierManager.Builder(this)
+
+    IdentifierManager.Builder(applicationContext)
       .setDebug(true)
-      .setExecutor { Thread(it).start() }
       .setExperimental(true)
       .setLimitAdTracking(false)
-      .setLogger(LoggerImpl())
       .setMemCacheEnable(false)
+      .setExecutor { Thread(it).start() } // optional: setup custom ThreadPoolExecutor
+      .setLogger(LoggerImpl())
       .init()
   }
 }

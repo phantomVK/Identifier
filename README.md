@@ -40,9 +40,10 @@ class Application : android.app.Application() {
   override fun onCreate() {
     super.onCreate()
 
-    IdentifierManager.Builder(this)
-      .isDebug(false)
+    IdentifierManager.Builder(applicationContext)
+      .setDebug(false)
       .setExperimental(false)
+      .setLimitAdTracking(false)
       .setMemCacheEnable(true)
       .setExecutor { Thread(it).start() } // optional: setup custom ThreadPoolExecutor
       .setLogger(LoggerImpl())
@@ -54,13 +55,13 @@ class Application : android.app.Application() {
 How to query the latest oaid:
 
 ```kotlin
-IdentifierManager.getInstance()
-  .create(object : OnResultListener {
+IdentifierManager
+  .getInstance()
+  .setSubscriber(object : OnResultListener {
     override fun onSuccess(id: String) {}
     override fun onError(msg: String, t: Throwable?) {}
   })
-  .setLimitAdTracking(false)
-  .start()
+  .subscribe()
 ```
 
 License

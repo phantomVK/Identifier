@@ -41,9 +41,10 @@ class Application : android.app.Application() {
   override fun onCreate() {
     super.onCreate()
 
-    IdentifierManager.Builder(this)
-      .isDebug(false)
+    IdentifierManager.Builder(applicationContext)
+      .setDebug(false)
       .setExperimental(false)
+      .setLimitAdTracking(false)
       .setMemCacheEnable(true)
       .setExecutor { Thread(it).start() } // 可选: 设置自定义ThreadPoolExecutor
       .setLogger(LoggerImpl())
@@ -55,13 +56,13 @@ class Application : android.app.Application() {
 如何获取标识符
 
 ```kotlin
-IdentifierManager.getInstance()
-  .create(object : OnResultListener {
+IdentifierManager
+  .getInstance()
+  .setSubscriber(object : OnResultListener {
     override fun onSuccess(id: String) {}
     override fun onError(msg: String, t: Throwable?) {}
   })
-  .setLimitAdTracking(false)
-  .start()
+  .subscribe()
 ```
 
 许可证
