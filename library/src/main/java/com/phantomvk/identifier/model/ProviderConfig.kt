@@ -2,6 +2,7 @@ package com.phantomvk.identifier.model
 
 import android.content.Context
 import com.phantomvk.identifier.interfaces.OnResultListener
+import java.lang.ref.WeakReference
 import java.util.concurrent.Executor
 
 class ProviderConfig(val context: Context) {
@@ -10,6 +11,6 @@ class ProviderConfig(val context: Context) {
   var isMemCacheEnabled = false
   var isLimitAdTracking: Boolean = false
 
-  lateinit var callback: OnResultListener
+  lateinit var callback: WeakReference<OnResultListener>
   lateinit var executor: Executor
 }

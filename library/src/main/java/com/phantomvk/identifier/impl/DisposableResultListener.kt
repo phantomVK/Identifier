@@ -5,12 +5,12 @@ import com.phantomvk.identifier.interfaces.OnResultListener
 import com.phantomvk.identifier.util.runOnMainThread
 import java.lang.ref.WeakReference
 
-class DisposableResultListener(callback: OnResultListener) : OnResultListener, Disposable {
+class DisposableResultListener(
+  private val reference: WeakReference<OnResultListener>
+) : OnResultListener, Disposable {
 
   @Volatile
   private var disposed = false
-
-  private val reference = WeakReference(callback)
 
   override fun onError(msg: String, t: Throwable?) {
     invokeCallback { it.onError(msg, t) }

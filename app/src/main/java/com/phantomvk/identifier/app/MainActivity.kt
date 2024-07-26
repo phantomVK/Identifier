@@ -18,6 +18,7 @@ import com.phantomvk.identifier.interfaces.OnResultListener
 import com.phantomvk.identifier.model.ProviderConfig
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.lang.ref.WeakReference
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.Executor
 
@@ -101,10 +102,10 @@ class MainActivity : AppCompatActivity() {
       isLimitAdTracking = false
       isMemCacheEnabled = false
       executor = Executor { r -> Thread(r).start() }
-      callback = object : OnResultListener {
+      callback = WeakReference(object : OnResultListener {
         override fun onSuccess(id: String) {}
         override fun onError(msg: String, t: Throwable?) {}
-      }
+      })
     }
     val providers = ManufacturerFactory.getProviders(config)
 

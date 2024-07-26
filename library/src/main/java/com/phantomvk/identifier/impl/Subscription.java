@@ -1,6 +1,5 @@
 package com.phantomvk.identifier.impl;
 
-import android.os.Looper;
 import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
@@ -11,13 +10,16 @@ import com.phantomvk.identifier.interfaces.OnResultListener;
 import com.phantomvk.identifier.model.ProviderConfig;
 import com.phantomvk.identifier.util.MainThreadKt;
 
+import java.lang.ref.WeakReference;
+
 public class Subscription {
     private volatile static String cachedId = null;
     private final ProviderConfig config;
 
     public Subscription(ProviderConfig config, OnResultListener callback) {
         this.config = config;
-        config.callback = config.isMemCacheEnabled() ? getWrappedCallback(callback) : callback;
+        OnResultListener l = config.isMemCacheEnabled() ? getWrappedCallback(callback) : callback;
+        config.callback = new WeakReference<>(l);
     }
 
     private OnResultListener getWrappedCallback(OnResultListener callback) {
@@ -40,7 +42,10 @@ public class Subscription {
         // cachedId is always null when cache is disabled.
         String id = cachedId;
         if (!TextUtils.isEmpty(id)) {
-            MainThreadKt.runOnMainThread(0, () -> config.getCallback().onSuccess(id));
+            OnResultListener callback = config.getCallback().get();
+            if (callback != null) {
+                MainThreadKt.runOnMainThread(0, () -> callback.onSuccess(id));
+            }
 
             // In order to return a non-null object.
             return new Disposable() {
