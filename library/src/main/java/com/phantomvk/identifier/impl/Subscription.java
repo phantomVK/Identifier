@@ -1,33 +1,26 @@
 package com.phantomvk.identifier.impl;
 
-import android.content.Context;
 import android.os.Looper;
 import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.phantomvk.identifier.IdentifierManager;
 import com.phantomvk.identifier.interfaces.Disposable;
 import com.phantomvk.identifier.interfaces.OnResultListener;
 import com.phantomvk.identifier.model.ProviderConfig;
 import com.phantomvk.identifier.util.MainThreadKt;
 
-import java.util.concurrent.Executor;
-
-public class TaskBuilder {
+public class Subscription {
     private volatile static String cachedId = null;
     private final ProviderConfig config;
 
-    public TaskBuilder(Context context, OnResultListener callback) {
-        config = new ProviderConfig(context, getWrappedCallback(callback));
+    public Subscription(ProviderConfig config, OnResultListener callback) {
+        this.config = config;
+        config.callback = config.isMemCacheEnabled() ? getWrappedCallback(callback) : callback;
     }
 
     private OnResultListener getWrappedCallback(OnResultListener callback) {
-        if (!IdentifierManager.getInstance().isMemCacheEnabled()) {
-            return callback;
-        }
-
         return new OnResultListener() {
             @Override
             public void onSuccess(@NonNull String id) {
@@ -43,13 +36,7 @@ public class TaskBuilder {
     }
 
     @NonNull
-    public TaskBuilder setLimitAdTracking(boolean enable) {
-        config.setLimitAdTracking(enable);
-        return this;
-    }
-
-    @NonNull
-    public Disposable start() {
+    public Disposable subscribe() {
         // cachedId is always null when cache is disabled.
         String id = cachedId;
         if (!TextUtils.isEmpty(id)) {
@@ -68,29 +55,9 @@ public class TaskBuilder {
             };
         }
 
-        Executor executor = IdentifierManager.getInstance().getExecutor();
-        SerialRunnable runnable = new SerialRunnable(config);
-
-        // no available executor found.
-        if (executor == null) {
-            new Thread(runnable).start();
-            return runnable;
-        }
-
-        Runnable runnableWrapper = () -> {
-            if (Looper.myLooper() == Looper.getMainLooper()) {
-                if (IdentifierManager.getInstance().isDebug()) {
-                    throw new RuntimeException("Do not execute runnable on the main thread.");
-                } else {
-                    new Thread(runnable).start();
-                }
-            } else {
-                runnable.run();
-            }
-        };
-
         // post the runnable to the executor even on the async thread.
-        executor.execute(runnableWrapper);
+        SerialRunnable runnable = new SerialRunnable(config);
+        config.getExecutor().execute(runnable);
         return runnable;
     }
 }

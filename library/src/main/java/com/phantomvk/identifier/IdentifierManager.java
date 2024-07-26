@@ -3,12 +3,12 @@ package com.phantomvk.identifier;
 import android.content.Context;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
-import com.phantomvk.identifier.impl.TaskBuilder;
+import com.phantomvk.identifier.impl.Subscription;
 import com.phantomvk.identifier.interfaces.OnResultListener;
 import com.phantomvk.identifier.log.Log;
 import com.phantomvk.identifier.log.Logger;
+import com.phantomvk.identifier.model.ProviderConfig;
 
 import java.util.concurrent.Executor;
 
@@ -19,6 +19,7 @@ public final class IdentifierManager {
     private Executor executor = null;
     private boolean isDebug = false;
     private boolean isExperimental = false;
+    private boolean isLimitAdTracking = false;
     private boolean isMemCacheEnabled = false;
 
     private IdentifierManager() {
@@ -33,25 +34,14 @@ public final class IdentifierManager {
         return sInstance;
     }
 
-    @Nullable
-    public Executor getExecutor() {
-        return executor;
-    }
-
-    public boolean isDebug() {
-        return isDebug;
-    }
-
-    public boolean isExperimental() {
-        return isExperimental;
-    }
-
-    public boolean isMemCacheEnabled() {
-        return isMemCacheEnabled;
-    }
-
-    public TaskBuilder create(@NonNull OnResultListener callback) {
-        return new TaskBuilder(context, callback);
+    public Subscription setSubscriber(@NonNull OnResultListener callback) {
+        ProviderConfig config = new ProviderConfig(context);
+        config.setDebug(isDebug);
+        config.setExecutor(executor);
+        config.setExperimental(isExperimental);
+        config.setLimitAdTracking(isLimitAdTracking);
+        config.setMemCacheEnabled(isMemCacheEnabled);
+        return new Subscription(config, callback);
     }
 
     public static class Builder {
@@ -60,6 +50,7 @@ public final class IdentifierManager {
         private Executor executor = null;
         private boolean isDebug = false;
         private boolean isExperimental = false;
+        private boolean isLimitAdTracking = false;
         private boolean isMemCacheEnabled = false;
 
         public Builder(Context context) {
@@ -79,6 +70,12 @@ public final class IdentifierManager {
         @NonNull
         public Builder setExperimental(boolean enable) {
             isExperimental = enable;
+            return this;
+        }
+
+        @NonNull
+        public Builder setLimitAdTracking(boolean enable) {
+            isLimitAdTracking = enable;
             return this;
         }
 
@@ -105,14 +102,15 @@ public final class IdentifierManager {
                 if (sInstance == null) {
                     // set logger
                     Log.setLogger(logger);
-                    
+
                     // init
                     IdentifierManager manager = new IdentifierManager();
                     manager.context = context.getApplicationContext();
-                    manager.isMemCacheEnabled = isMemCacheEnabled;
-                    manager.executor = executor;
+                    manager.executor = executor == null ? c -> new Thread(c).start() : executor;
                     manager.isDebug = isDebug;
                     manager.isExperimental = isExperimental;
+                    manager.isLimitAdTracking = isLimitAdTracking;
+                    manager.isMemCacheEnabled = isMemCacheEnabled;
                     sInstance = manager;
                 } else {
                     throw new RuntimeException("Should not init twice.");

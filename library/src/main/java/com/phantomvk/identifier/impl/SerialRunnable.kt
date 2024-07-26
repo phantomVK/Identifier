@@ -1,11 +1,12 @@
 package com.phantomvk.identifier.impl
 
+import android.os.Looper
 import com.phantomvk.identifier.impl.Constants.NO_IMPLEMENTATION_FOUND
 import com.phantomvk.identifier.interfaces.Disposable
 import com.phantomvk.identifier.interfaces.OnResultListener
 import com.phantomvk.identifier.log.Log
-import com.phantomvk.identifier.provider.AbstractProvider
 import com.phantomvk.identifier.model.ProviderConfig
+import com.phantomvk.identifier.provider.AbstractProvider
 import java.util.concurrent.CountDownLatch
 
 class SerialRunnable(config: ProviderConfig) : AbstractProvider(config), Disposable {
@@ -22,6 +23,18 @@ class SerialRunnable(config: ProviderConfig) : AbstractProvider(config), Disposa
 
   override fun ifSupported(): Boolean {
     return true
+  }
+
+  override fun run() {
+    if (Looper.myLooper() == Looper.getMainLooper()) {
+      if (config.isDebug) {
+        throw RuntimeException("Do not execute runnable on the main thread.")
+      } else {
+        Thread { super.run() }.start()
+      }
+    } else {
+      super.run()
+    }
   }
 
   override fun execute() {

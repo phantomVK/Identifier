@@ -190,7 +190,9 @@ object ManufacturerFactory {
       providers.add(provider)
     }
 
-    addExperimentalProviders(config, providers)
+    if (config.isExperimental) {
+      addExperimentalProviders(config, providers)
+    }
 
     return providers.toList()
   }
@@ -199,10 +201,6 @@ object ManufacturerFactory {
     config: ProviderConfig,
     providers: LinkedHashSet<AbstractProvider>
   ) {
-    if (!IdentifierManager.getInstance().isExperimental) {
-      return
-    }
-
     if (sysPropertyEquals("ro.build.uiversion", "360UI")) {
       val qikuServiceProvider = QikuServiceProvider(config)
       if (qikuServiceProvider.isSupported()) {

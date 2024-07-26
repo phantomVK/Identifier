@@ -19,6 +19,7 @@ import com.phantomvk.identifier.model.ProviderConfig
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.concurrent.CountDownLatch
+import java.util.concurrent.Executor
 
 class MainActivity : AppCompatActivity() {
 
@@ -41,9 +42,8 @@ class MainActivity : AppCompatActivity() {
     disposable?.dispose()
     disposable = IdentifierManager
       .getInstance()
-      .create(listener)
-      .setLimitAdTracking(false)
-      .start()
+      .setSubscriber(listener)
+      .subscribe()
   }
 
   private fun updateTextInfo(msg: String? = null, t: Throwable? = null) {
@@ -95,11 +95,17 @@ class MainActivity : AppCompatActivity() {
 
   private fun getResultList(): List<ResultModel> {
     val list = ArrayList<ResultModel>()
-    val listener = object : OnResultListener {
-      override fun onSuccess(id: String) {}
-      override fun onError(msg: String, t: Throwable?) {}
+    val config = ProviderConfig(applicationContext).apply {
+      isDebug = true
+      isExperimental = true
+      isLimitAdTracking = false
+      isMemCacheEnabled = false
+      executor = Executor { r -> Thread(r).start() }
+      callback = object : OnResultListener {
+        override fun onSuccess(id: String) {}
+        override fun onError(msg: String, t: Throwable?) {}
+      }
     }
-    val config = ProviderConfig(applicationContext, listener)
     val providers = ManufacturerFactory.getProviders(config)
 
     for (provider in providers) {
