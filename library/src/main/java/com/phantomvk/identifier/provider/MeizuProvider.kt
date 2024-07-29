@@ -16,7 +16,7 @@ class MeizuProvider(config: ProviderConfig) : AbstractProvider(config) {
     return isContentProviderExisted("com.meizu.flyme.openidsdk")
   }
 
-  override fun execute() {
+  override fun run() {
     val uri = Uri.parse("content://com.meizu.flyme.openidsdk/")
     val resolver = config.context.contentResolver
     val cursor = resolver.query(uri, null, null, arrayOf("oaid"), null)

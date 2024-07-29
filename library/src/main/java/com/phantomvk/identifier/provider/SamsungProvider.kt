@@ -21,7 +21,7 @@ class SamsungProvider(config: ProviderConfig) : AbstractProvider(config) {
     return isPackageInfoExisted(pkgName)
   }
 
-  override fun execute() {
+  override fun run() {
     val binderCallback = object : BinderCallback {
       override fun call(binder: IBinder): CallBinderResult {
         val asInterface = IDeviceIdService.Stub.asInterface(binder)

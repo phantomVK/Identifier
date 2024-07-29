@@ -15,7 +15,7 @@ class HuaweiSdkProvider(config: ProviderConfig) : AbstractProvider(config) {
     return AdvertisingIdClient.isAdvertisingIdAvailable(config.context)
   }
 
-  override fun execute() {
+  override fun run() {
     val info = AdvertisingIdClient.getAdvertisingIdInfo(config.context)
     if (info == null) {
       getCallback().onError(ID_INFO_IS_NULL, null)

@@ -22,7 +22,7 @@ class VivoProvider(config: ProviderConfig) : AbstractProvider(config) {
     return true
   }
 
-  override fun execute() {
+  override fun run() {
     val uri = Uri.parse("content://com.vivo.vms.IdProvider/IdentifierId/OAID")
     val resolver = config.context.contentResolver
     val cursor = resolver.query(uri, null, null, null, null)

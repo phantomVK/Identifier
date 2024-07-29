@@ -19,7 +19,7 @@ class FreemeProvider(config: ProviderConfig) : AbstractProvider(config) {
     return isPackageInfoExisted("com.android.creator")
   }
 
-  override fun execute() {
+  override fun run() {
     val binderCallback = object : BinderCallback {
       override fun call(binder: IBinder): CallBinderResult {
         val asInterface = IdsSupplier.Stub.asInterface(binder)

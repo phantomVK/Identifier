@@ -24,7 +24,7 @@ class QikuBinderProvider(config: ProviderConfig) : AbstractProvider(config) {
     return true
   }
 
-  override fun execute() {
+  override fun run() {
     val proxy = Proxy(iBinder)
 
     if (config.isLimitAdTracking) {

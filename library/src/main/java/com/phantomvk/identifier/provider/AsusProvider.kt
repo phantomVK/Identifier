@@ -20,7 +20,7 @@ class AsusProvider(config: ProviderConfig) : AbstractProvider(config) {
     return isPackageInfoExisted("com.asus.msa.SupplementaryDID")
   }
 
-  override fun execute() {
+  override fun run() {
     val binderCallback = object : BinderCallback {
       override fun call(binder: IBinder): CallBinderResult {
         val asInterface = IDidAidlInterface.Stub.asInterface(binder)

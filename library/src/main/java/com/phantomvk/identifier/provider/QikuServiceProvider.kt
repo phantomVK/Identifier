@@ -19,7 +19,7 @@ class QikuServiceProvider(config: ProviderConfig) : AbstractProvider(config) {
     return isPackageInfoExisted("com.qiku.id")
   }
 
-  override fun execute() {
+  override fun run() {
     val binderCallback = object : BinderCallback {
       override fun call(binder: IBinder): CallBinderResult {
         val asInterface = IOAIDInterface.Stub.asInterface(binder)

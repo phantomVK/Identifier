@@ -1,6 +1,7 @@
 package com.phantomvk.identifier.impl
 
 import android.os.Looper
+import com.phantomvk.identifier.impl.Constants.EXCEPTION_THROWN
 import com.phantomvk.identifier.impl.Constants.NO_IMPLEMENTATION_FOUND
 import com.phantomvk.identifier.interfaces.Disposable
 import com.phantomvk.identifier.interfaces.OnResultListener
@@ -30,14 +31,14 @@ class SerialRunnable(config: ProviderConfig) : AbstractProvider(config), Disposa
       if (config.isDebug) {
         throw RuntimeException("Do not execute runnable on the main thread.")
       } else {
-        Thread { super.run() }.start()
+        Thread { onExecute() }.start()
       }
     } else {
-      super.run()
+      onExecute()
     }
   }
 
-  override fun execute() {
+  private fun onExecute() {
     if (disposable.isDisposed()) {
       return
     }
@@ -64,8 +65,14 @@ class SerialRunnable(config: ProviderConfig) : AbstractProvider(config), Disposa
         return
       }
 
-      provider.setCallback(resultCallback)
-      provider.run()
+      // execute Runnable safely.
+      try {
+        provider.setCallback(resultCallback)
+        provider.run()
+      } catch (t: Throwable) {
+        getCallback().onError(EXCEPTION_THROWN, t)
+      }
+
       latch.await()
 
       if (isSuccess) {

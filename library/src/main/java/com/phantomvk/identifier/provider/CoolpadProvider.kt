@@ -20,7 +20,7 @@ class CoolpadProvider(config: ProviderConfig) : AbstractProvider(config) {
     return isPackageInfoExisted("com.coolpad.deviceidsupport")
   }
 
-  override fun execute() {
+  override fun run() {
     // Querying id from settings.
     try {
       val id = Settings.Global.getString(config.context.contentResolver, "coolos.oaid")

@@ -32,7 +32,7 @@ class HuaweiServiceProvider(config: ProviderConfig) : AbstractProvider(config) {
     return name != null
   }
 
-  override fun execute() {
+  override fun run() {
     val binderCallback = object : BinderCallback {
       override fun call(binder: IBinder): CallBinderResult {
         val asInterface = OpenDeviceIdentifierService.Stub.asInterface(binder)

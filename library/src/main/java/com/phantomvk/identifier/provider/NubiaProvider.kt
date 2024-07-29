@@ -18,7 +18,7 @@ class NubiaProvider(config: ProviderConfig) : AbstractProvider(config) {
     return true
   }
 
-  override fun execute() {
+  override fun run() {
     val uri = Uri.parse("content://cn.nubia.identity/identity")
     val client = config.context.contentResolver.acquireContentProviderClient(uri)
     if (client == null) {

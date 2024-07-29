@@ -25,7 +25,7 @@ class XiaomiProvider(config: ProviderConfig) : AbstractProvider(config) {
     return !id.isNullOrBlank()
   }
 
-  override fun execute() {
+  override fun run() {
     checkId(id, getCallback())
   }
 }

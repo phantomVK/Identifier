@@ -20,7 +20,7 @@ class MsaProvider(config: ProviderConfig) : AbstractProvider(config) {
     return isPackageInfoExisted("com.mdid.msa")
   }
 
-  override fun execute() {
+  override fun run() {
     startMsaKlService()
 
     val binderCallback = object : BinderCallback {

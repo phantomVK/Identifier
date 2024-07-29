@@ -19,7 +19,7 @@ class OppoHeyTapProvider(config: ProviderConfig) : AbstractProvider(config) {
     return isPackageInfoExisted("com.heytap.openid")
   }
 
-  override fun execute() {
+  override fun run() {
     val binderCallback = object : BinderCallback {
       override fun call(binder: IBinder): CallBinderResult {
         val asInterface = IOpenID.Stub.asInterface(binder)

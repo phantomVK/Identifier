@@ -17,7 +17,7 @@ class HuaweiSettingsProvider(config: ProviderConfig) : AbstractProvider(config) 
     return Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
   }
 
-  override fun execute() {
+  override fun run() {
     if (config.isLimitAdTracking) {
       try {
         val isLimited = Settings.Global.getString(config.context.contentResolver, "pps_track_limit")

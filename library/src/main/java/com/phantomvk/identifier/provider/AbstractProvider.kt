@@ -27,8 +27,6 @@ abstract class AbstractProvider(protected val config: ProviderConfig) : Runnable
 
   protected abstract fun ifSupported(): Boolean
 
-  protected abstract fun execute()
-
   fun isSupported(): Boolean {
     return try {
       ifSupported()
@@ -37,19 +35,11 @@ abstract class AbstractProvider(protected val config: ProviderConfig) : Runnable
     }
   }
 
-  override fun run() {
-    try {
-      execute()
-    } catch (t: Throwable) {
-      getCallback().onError(EXCEPTION_THROWN, t)
-    }
-  }
-
   fun setCallback(callback: OnResultListener) {
     resultCallback = callback
   }
 
-  protected fun getCallback(): OnResultListener {
+  fun getCallback(): OnResultListener {
     return resultCallback
   }
 

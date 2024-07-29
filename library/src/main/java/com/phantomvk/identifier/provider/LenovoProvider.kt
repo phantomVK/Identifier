@@ -19,7 +19,7 @@ class LenovoProvider(config: ProviderConfig) : AbstractProvider(config) {
     return isPackageInfoExisted("com.zui.deviceidservice")
   }
 
-  override fun execute() {
+  override fun run() {
     val binderCallback = object : BinderCallback {
       override fun call(binder: IBinder): CallBinderResult {
         val asInterface = IDeviceidInterface.Stub.asInterface(binder)

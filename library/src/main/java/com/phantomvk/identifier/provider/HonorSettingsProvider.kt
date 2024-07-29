@@ -14,7 +14,7 @@ class HonorSettingsProvider(config: ProviderConfig) : AbstractProvider(config) {
     return true
   }
 
-  override fun execute() {
+  override fun run() {
     val resolver = config.context.contentResolver
 
     if (config.isLimitAdTracking) {
