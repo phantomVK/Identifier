@@ -1,8 +1,6 @@
 package com.phantomvk.identifier.provider
 
 import com.hihonor.ads.identifier.AdvertisingIdClient
-import com.phantomvk.identifier.impl.Constants.ID_INFO_IS_NULL
-import com.phantomvk.identifier.impl.Constants.LIMIT_AD_TRACKING_IS_ENABLED
 import com.phantomvk.identifier.model.ProviderConfig
 
 class HonorProvider(config: ProviderConfig) : AbstractProvider(config) {

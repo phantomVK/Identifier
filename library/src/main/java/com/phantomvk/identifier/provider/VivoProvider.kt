@@ -1,8 +1,6 @@
 package com.phantomvk.identifier.provider
 
 import android.net.Uri
-import com.phantomvk.identifier.impl.Constants.NO_AVAILABLE_COLUMN_INDEX
-import com.phantomvk.identifier.impl.Constants.QUERY_CURSOR_IS_NULL
 import com.phantomvk.identifier.model.ProviderConfig
 
 class VivoProvider(config: ProviderConfig) : AbstractProvider(config) {

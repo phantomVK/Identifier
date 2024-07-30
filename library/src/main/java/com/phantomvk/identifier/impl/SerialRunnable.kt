@@ -1,8 +1,6 @@
 package com.phantomvk.identifier.impl
 
 import android.os.Looper
-import com.phantomvk.identifier.impl.Constants.EXCEPTION_THROWN
-import com.phantomvk.identifier.impl.Constants.NO_IMPLEMENTATION_FOUND
 import com.phantomvk.identifier.interfaces.Disposable
 import com.phantomvk.identifier.interfaces.OnResultListener
 import com.phantomvk.identifier.log.Log

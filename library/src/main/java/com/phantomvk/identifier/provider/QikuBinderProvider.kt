@@ -3,7 +3,6 @@ package com.phantomvk.identifier.provider
 import android.os.IBinder
 import android.os.Parcel
 import android.os.RemoteException
-import com.phantomvk.identifier.impl.Constants.EXCEPTION_THROWN
 import com.phantomvk.identifier.model.ProviderConfig
 import generated.com.qiku.id.IOAIDInterface
 

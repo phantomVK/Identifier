@@ -3,9 +3,6 @@ package com.phantomvk.identifier.provider
 import android.content.ContentProviderClient
 import android.net.Uri
 import android.os.Build
-import com.phantomvk.identifier.impl.Constants.BUNDLE_IS_NULL
-import com.phantomvk.identifier.impl.Constants.CONTENT_PROVIDER_CLIENT_IS_NULL
-import com.phantomvk.identifier.impl.Constants.LIMIT_AD_TRACKING_IS_ENABLED
 import com.phantomvk.identifier.model.ProviderConfig
 
 class NubiaProvider(config: ProviderConfig) : AbstractProvider(config) {

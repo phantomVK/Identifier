@@ -3,7 +3,6 @@ package com.phantomvk.identifier.provider
 import android.os.Build
 import android.provider.Settings
 import androidx.annotation.ChecksSdkIntAtLeast
-import com.phantomvk.identifier.impl.Constants.LIMIT_AD_TRACKING_IS_ENABLED
 import com.phantomvk.identifier.model.ProviderConfig
 
 class HuaweiSettingsProvider(config: ProviderConfig) : AbstractProvider(config) {

@@ -8,7 +8,6 @@ import androidx.annotation.Nullable;
 import com.phantomvk.identifier.interfaces.Disposable;
 import com.phantomvk.identifier.interfaces.OnResultListener;
 import com.phantomvk.identifier.model.ProviderConfig;
-import com.phantomvk.identifier.util.MainThreadKt;
 
 import java.lang.ref.WeakReference;
 
@@ -44,7 +43,7 @@ public class Subscription {
         if (!TextUtils.isEmpty(id)) {
             OnResultListener callback = config.getCallback().get();
             if (callback != null) {
-                MainThreadKt.runOnMainThread(0, () -> callback.onSuccess(id));
+                ThreadKt.runOnMainThread(0, () -> callback.onSuccess(id));
             }
 
             // In order to return a non-null object.

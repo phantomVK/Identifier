@@ -1,7 +1,6 @@
 package com.phantomvk.identifier.provider
 
 import android.content.Context
-import com.phantomvk.identifier.impl.Constants.LIMIT_AD_TRACKING_IS_ENABLED
 import com.phantomvk.identifier.model.ProviderConfig
 
 class ZteProvider(config: ProviderConfig) : AbstractProvider(config) {

@@ -2,7 +2,6 @@ package com.phantomvk.identifier.impl
 
 import com.phantomvk.identifier.interfaces.Disposable
 import com.phantomvk.identifier.interfaces.OnResultListener
-import com.phantomvk.identifier.util.runOnMainThread
 import java.lang.ref.WeakReference
 
 class DisposableResultListener(

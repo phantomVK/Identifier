@@ -8,11 +8,6 @@ import android.content.pm.PackageManager
 import android.content.pm.Signature
 import android.os.Build
 import android.os.IBinder
-import com.phantomvk.identifier.impl.Constants.EXCEPTION_THROWN
-import com.phantomvk.identifier.impl.Constants.ID_IS_INVALID
-import com.phantomvk.identifier.impl.Constants.ID_IS_NULL_OR_BLANK
-import com.phantomvk.identifier.impl.Constants.SIGNATURE_HASH_IS_NULL
-import com.phantomvk.identifier.impl.Constants.SIGNATURE_IS_NULL
 import com.phantomvk.identifier.interfaces.BinderCallback
 import com.phantomvk.identifier.interfaces.OnResultListener
 import com.phantomvk.identifier.model.CallBinderResult
@@ -39,7 +34,7 @@ abstract class AbstractProvider(protected val config: ProviderConfig) : Runnable
     resultCallback = callback
   }
 
-  fun getCallback(): OnResultListener {
+  protected fun getCallback(): OnResultListener {
     return resultCallback
   }
 
@@ -182,5 +177,24 @@ abstract class AbstractProvider(protected val config: ProviderConfig) : Runnable
       context.unbindService(conn)
     } catch (ignore: Throwable) {
     }
+  }
+
+  protected companion object {
+    //    public static final String BLANK_ID_FORMAT = "00000000-0000-0000-0000-000000000000";
+    //    public static final String BLANK_ID_FORMAT_VIVO = "0000000000000000000000000000000000000000000000000000000000000000";
+    //    public static final String BLANK_ID_FORMAT_MEIZU = "00000000000000000000000000000000";
+    const val AIDL_INTERFACE_IS_NULL: String = "Aidl interface is null."
+    const val CONTENT_PROVIDER_CLIENT_IS_NULL: String = "ContentProvider client is null."
+    const val BUNDLE_IS_NULL: String = "Bundle is null."
+    const val EXCEPTION_THROWN: String = "Exception thrown when querying id."
+    const val ID_INFO_IS_NULL: String = "Advertising identifier info is null."
+    const val ID_IS_NULL_OR_BLANK: String = "ID is null or blank."
+    const val ID_IS_INVALID: String = "ID is invalid."
+    const val LIMIT_AD_TRACKING_IS_ENABLED: String = "Limit ad tracking is enabled."
+    const val NO_AVAILABLE_COLUMN_INDEX: String = "No available column index."
+    const val NO_IMPLEMENTATION_FOUND: String = "No implementation found."
+    const val QUERY_CURSOR_IS_NULL: String = "Query cursor is null."
+    const val SIGNATURE_IS_NULL: String = "Signature is null."
+    const val SIGNATURE_HASH_IS_NULL: String = "Signature hash is null."
   }
 }

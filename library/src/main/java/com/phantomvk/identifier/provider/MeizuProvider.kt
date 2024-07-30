@@ -1,9 +1,6 @@
 package com.phantomvk.identifier.provider
 
 import android.net.Uri
-import com.phantomvk.identifier.impl.Constants.LIMIT_AD_TRACKING_IS_ENABLED
-import com.phantomvk.identifier.impl.Constants.NO_AVAILABLE_COLUMN_INDEX
-import com.phantomvk.identifier.impl.Constants.QUERY_CURSOR_IS_NULL
 import com.phantomvk.identifier.model.ProviderConfig
 
 class MeizuProvider(config: ProviderConfig) : AbstractProvider(config) {

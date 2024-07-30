@@ -1,4 +1,4 @@
-package com.phantomvk.identifier.util
+package com.phantomvk.identifier.impl
 
 import android.os.Handler
 import android.os.Looper
