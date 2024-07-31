@@ -59,7 +59,7 @@ object ManufacturerFactory {
   }
 
   fun getProviders(config: ProviderConfig): List<AbstractProvider> {
-    val providers = LinkedHashSet<AbstractProvider>()
+    val providers = ArrayList<AbstractProvider>()
     if (isBrand("ASUS")) {
       providers.add(AsusProvider(config))
     }
@@ -135,12 +135,12 @@ object ManufacturerFactory {
       addExperimentalProviders(config, providers)
     }
 
-    return providers.toList()
+    return providers
   }
 
   private fun addExperimentalProviders(
     config: ProviderConfig,
-    providers: LinkedHashSet<AbstractProvider>
+    providers: ArrayList<AbstractProvider>
   ) {
     if (sysPropertyEquals("ro.build.uiversion", "360UI")) {
       providers.add(QikuServiceProvider(config))
