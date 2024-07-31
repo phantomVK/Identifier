@@ -21,7 +21,7 @@ class XiaomiProvider(config: ProviderConfig) : AbstractProvider(config) {
     return "XiaomiProvider"
   }
 
-  override fun ifSupported(): Boolean {
+  override fun isSupported(): Boolean {
     return !id.isNullOrBlank()
   }
 

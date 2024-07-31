@@ -16,7 +16,7 @@ class SamsungProvider(config: ProviderConfig) : AbstractProvider(config) {
     return "SamsungProvider"
   }
 
-  override fun ifSupported(): Boolean {
+  override fun isSupported(): Boolean {
     return isPackageInfoExisted(pkgName)
   }
 

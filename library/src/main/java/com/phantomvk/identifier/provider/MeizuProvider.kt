@@ -9,7 +9,7 @@ class MeizuProvider(config: ProviderConfig) : AbstractProvider(config) {
     return "MeizuProvider"
   }
 
-  override fun ifSupported(): Boolean {
+  override fun isSupported(): Boolean {
     return isContentProviderExisted("com.meizu.flyme.openidsdk")
   }
 

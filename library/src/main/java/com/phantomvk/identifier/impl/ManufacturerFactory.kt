@@ -61,64 +61,33 @@ object ManufacturerFactory {
   fun getProviders(config: ProviderConfig): List<AbstractProvider> {
     val providers = LinkedHashSet<AbstractProvider>()
     if (isBrand("ASUS")) {
-      val provider = AsusProvider(config)
-      if (provider.isSupported()) {
-        providers.add(provider)
-      }
+      providers.add(AsusProvider(config))
     }
 
     if (isBrand("coolpad")) {
-      val coolpadProvider = CoolpadProvider(config)
-      if (coolpadProvider.isSupported()) {
-        providers.add(coolpadProvider)
-      }
+      providers.add(CoolpadProvider(config))
     }
 
     if (isBrand("HONOR")) {
-      val provider = HonorSdkProvider(config)
-      if (provider.isSupported()) {
-        providers.add(provider)
-      }
-
-      val settingsProvider = HonorSettingsProvider(config)
-      if (settingsProvider.isSupported()) {
-        providers.add(settingsProvider)
-      }
-
-      val honorServiceProvider = HonorServiceProvider(config)
-      if (honorServiceProvider.isSupported()) {
-        providers.add(honorServiceProvider)
-      }
+      providers.add(HonorSdkProvider(config))
+      providers.add(HonorSettingsProvider(config))
+      providers.add(HonorServiceProvider(config))
     }
 
     if (isBrand("HUAWEI")
       || isBrand("HUAWEI", "HONOR")
       || sysPropertyContains("ro.build.version.emui")
     ) {
-      val provider = HuaweiSdkProvider(config)
-      if (provider.isSupported()) {
-        providers.add(provider)
-      }
-
-      val settingsProvider = HuaweiSettingsProvider(config)
-      if (settingsProvider.isSupported()) {
-        providers.add(settingsProvider)
-      }
-
-      val serviceProvider = HuaweiServiceProvider(config)
-      if (serviceProvider.isSupported()) {
-        providers.add(serviceProvider)
-      }
+      providers.add(HuaweiSdkProvider(config))
+      providers.add(HuaweiSettingsProvider(config))
+      providers.add(HuaweiServiceProvider(config))
     }
 
     if (isBrand("LENOVO")
       || isBrand("LENOVO", "ZUK")
       || isBrand("MOTOROLA")
     ) {
-      val provider = LenovoProvider(config)
-      if (provider.isSupported()) {
-        providers.add(provider)
-      }
+      providers.add(LenovoProvider(config))
     }
 
     if (isBrand("XIAOMI")
@@ -126,17 +95,11 @@ object ManufacturerFactory {
       || isBrand("BLACKSHARK")
       || sysPropertyContains("ro.miui.ui.version.name")
     ) {
-      val provider = XiaomiProvider(config)
-      if (provider.isSupported()) {
-        providers.add(provider)
-      }
+      providers.add(XiaomiProvider(config))
     }
 
     if (isBrand("NUBIA")) {
-      val provider = NubiaProvider(config)
-      if (provider.isSupported()) {
-        providers.add(provider)
-      }
+      providers.add(NubiaProvider(config))
     }
 
     if (isBrand("OPPO")
@@ -144,50 +107,29 @@ object ManufacturerFactory {
       || isBrand("ONEPLUS")
       || sysPropertyContains("ro.build.version.opporom")
     ) {
-      val colorOsProvider = OppoColorOsProvider(config)
-      if (colorOsProvider.isSupported()) {
-        providers.add(colorOsProvider)
-      }
-
-      val heyTapProvider = OppoHeyTapProvider(config)
-      if (heyTapProvider.isSupported()) {
-        providers.add(heyTapProvider)
-      }
+      providers.add(OppoColorOsProvider(config))
+      providers.add(OppoHeyTapProvider(config))
     }
 
     if (isBrand("VIVO") || sysPropertyContains("ro.vivo.os.version")) {
-      val isSupported = sysProperty("persist.sys.identifierid.supported", "0") == "1"
-      if (isSupported) {
-        val provider = VivoProvider(config)
-        providers.add(provider)
+      if (sysProperty("persist.sys.identifierid.supported", "0") == "1") {
+        providers.add(VivoProvider(config))
       }
     }
 
     if (isBrand("SAMSUNG")) {
-      val provider = SamsungProvider(config)
-      if (provider.isSupported()) {
-        providers.add(provider)
-      }
+      providers.add(SamsungProvider(config))
     }
 
     if (isBrand("MEIZU") || Build.DISPLAY.contains("FLYME", true)) {
-      val provider = MeizuProvider(config)
-      if (provider.isSupported()) {
-        providers.add(provider)
-      }
+      providers.add(MeizuProvider(config))
     }
 
     if (isBrand("ZTE")) {
-      val provider = ZteProvider(config)
-      if (provider.isSupported()) {
-        providers.add(provider)
-      }
+      providers.add(ZteProvider(config))
     }
 
-    val provider = GmsProvider(config)
-    if (provider.isSupported()) {
-      providers.add(provider)
-    }
+    providers.add(GmsProvider(config))
 
     if (config.isExperimental) {
       addExperimentalProviders(config, providers)
@@ -201,39 +143,19 @@ object ManufacturerFactory {
     providers: LinkedHashSet<AbstractProvider>
   ) {
     if (sysPropertyEquals("ro.build.uiversion", "360UI")) {
-      val qikuServiceProvider = QikuServiceProvider(config)
-      if (qikuServiceProvider.isSupported()) {
-        providers.add(qikuServiceProvider)
-      }
-
-      val qikuBinderProvider = QikuBinderProvider(config)
-      if (qikuBinderProvider.isSupported()) {
-        providers.add(qikuBinderProvider)
-      }
+      providers.add(QikuServiceProvider(config))
+      providers.add(QikuBinderProvider(config))
     }
 
     if (sysPropertyContains("ro.build.freeme.label")) {
-      val freemeProvider = FreemeProvider(config)
-      if (freemeProvider.isSupported()) {
-        providers.add(freemeProvider)
-      }
+      providers.add(FreemeProvider(config))
     }
 
     if (sysPropertyEquals("ro.odm.manufacturer", "PRIZE")) {
-      val cooseaProvider = CooseaProvider(config)
-      if (cooseaProvider.isSupported()) {
-        providers.add(cooseaProvider)
-      }
+      providers.add(CooseaProvider(config))
     }
 
-    val xtcProvider = XtcProvider(config)
-    if (xtcProvider.isSupported()) {
-      providers.add(xtcProvider)
-    }
-
-    val msaProvider = MsaProvider(config)
-    if (msaProvider.isSupported()) {
-      providers.add(msaProvider)
-    }
+    providers.add(XtcProvider(config))
+    providers.add(MsaProvider(config))
   }
 }

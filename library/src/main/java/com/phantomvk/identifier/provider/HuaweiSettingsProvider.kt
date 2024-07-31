@@ -12,7 +12,7 @@ class HuaweiSettingsProvider(config: ProviderConfig) : AbstractProvider(config) 
   }
 
   @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.N)
-  override fun ifSupported(): Boolean {
+  override fun isSupported(): Boolean {
     return Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
   }
 

@@ -9,7 +9,7 @@ class VivoProvider(config: ProviderConfig) : AbstractProvider(config) {
     return "VivoProvider"
   }
 
-  override fun ifSupported(): Boolean {
+  override fun isSupported(): Boolean {
 //    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) {
 //      return false
 //    }

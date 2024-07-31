@@ -13,7 +13,7 @@ class LenovoProvider(config: ProviderConfig) : AbstractProvider(config) {
     return "LenovoProvider"
   }
 
-  override fun ifSupported(): Boolean {
+  override fun isSupported(): Boolean {
     return isPackageInfoExisted("com.zui.deviceidservice")
   }
 

@@ -112,9 +112,19 @@ class MainActivity : AppCompatActivity() {
     val decimalFormat = DecimalFormat("#,###")
     val providers = ManufacturerFactory.getProviders(config)
     for (provider in providers) {
+      val startNameTs = System.nanoTime()
+      val isSupported = try {
+        provider.isSupported()
+      } catch (t: Throwable) {
+        false
+      }
+
+      if (!isSupported) {
+        continue
+      }
+
       val latch = CountDownLatch(1)
       val resultCallback = object : OnResultListener {
-        val startNameTs = System.nanoTime()
         override fun onSuccess(id: String) {
           val consumed = (System.nanoTime() - startNameTs) / 1000L
           val formatTs = decimalFormat.format(consumed)

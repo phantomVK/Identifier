@@ -14,7 +14,7 @@ class MsaProvider(config: ProviderConfig) : AbstractProvider(config) {
     return "MsaProvider"
   }
 
-  override fun ifSupported(): Boolean {
+  override fun isSupported(): Boolean {
     return isPackageInfoExisted("com.mdid.msa")
   }
 

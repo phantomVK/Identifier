@@ -11,7 +11,7 @@ class NubiaProvider(config: ProviderConfig) : AbstractProvider(config) {
     return "NubiaProvider"
   }
 
-  override fun ifSupported(): Boolean {
+  override fun isSupported(): Boolean {
     return true
   }
 

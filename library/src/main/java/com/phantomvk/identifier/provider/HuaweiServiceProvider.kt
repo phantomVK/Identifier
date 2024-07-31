@@ -22,7 +22,7 @@ class HuaweiServiceProvider(config: ProviderConfig) : AbstractProvider(config) {
     return "HuaweiServiceProvider"
   }
 
-  override fun ifSupported(): Boolean {
+  override fun isSupported(): Boolean {
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
       return false
     }

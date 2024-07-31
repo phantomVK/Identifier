@@ -14,7 +14,7 @@ class OppoHeyTapProvider(config: ProviderConfig) : AbstractProvider(config) {
     return "OppoHeyTapProvider"
   }
 
-  override fun ifSupported(): Boolean {
+  override fun isSupported(): Boolean {
     return isPackageInfoExisted("com.heytap.openid")
   }
 

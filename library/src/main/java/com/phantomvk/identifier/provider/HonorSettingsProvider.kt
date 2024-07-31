@@ -9,7 +9,7 @@ class HonorSettingsProvider(config: ProviderConfig) : AbstractProvider(config) {
     return "HonorSettingsProvider"
   }
 
-  override fun ifSupported(): Boolean {
+  override fun isSupported(): Boolean {
     return true
   }
 

@@ -16,7 +16,7 @@ class HonorServiceProvider(config: ProviderConfig) : AbstractProvider(config) {
     return "HonorServiceProvider"
   }
 
-  override fun ifSupported(): Boolean {
+  override fun isSupported(): Boolean {
     return isPackageInfoExisted("com.hihonor.id")
   }
 

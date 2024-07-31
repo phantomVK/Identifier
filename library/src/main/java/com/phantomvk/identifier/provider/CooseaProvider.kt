@@ -12,7 +12,7 @@ class CooseaProvider(config: ProviderConfig) : AbstractProvider(config) {
     return "CooseaProvider"
   }
 
-  override fun ifSupported(): Boolean {
+  override fun isSupported(): Boolean {
     if (manager == null) return false
     val method = manager::class.java.getDeclaredMethod("isSupported")
     return (method.invoke(manager) as? Boolean) == true

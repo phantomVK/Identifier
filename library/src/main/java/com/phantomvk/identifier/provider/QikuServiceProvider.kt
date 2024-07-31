@@ -13,7 +13,7 @@ class QikuServiceProvider(config: ProviderConfig) : AbstractProvider(config) {
     return "QikuServiceProvider"
   }
 
-  override fun ifSupported(): Boolean {
+  override fun isSupported(): Boolean {
     return isPackageInfoExisted("com.qiku.id")
   }
 

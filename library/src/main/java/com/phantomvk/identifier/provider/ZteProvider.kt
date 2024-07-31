@@ -12,7 +12,7 @@ class ZteProvider(config: ProviderConfig) : AbstractProvider(config) {
     return "ZteProvider"
   }
 
-  override fun ifSupported(): Boolean {
+  override fun isSupported(): Boolean {
     try {
       clazz = Class.forName("android.app.ZteDeviceIdentifyManager")
       val constructor = clazz!!.getDeclaredConstructor(Context::class.java)

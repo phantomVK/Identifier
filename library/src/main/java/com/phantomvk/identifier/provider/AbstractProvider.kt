@@ -20,15 +20,7 @@ abstract class AbstractProvider(protected val config: ProviderConfig) : Runnable
 
   abstract fun getTag(): String
 
-  protected abstract fun ifSupported(): Boolean
-
-  fun isSupported(): Boolean {
-    return try {
-      ifSupported()
-    } catch (t: Throwable) {
-      false
-    }
-  }
+  abstract fun isSupported(): Boolean
 
   fun setCallback(callback: OnResultListener) {
     resultCallback = callback

@@ -9,7 +9,7 @@ class HonorSdkProvider(config: ProviderConfig) : AbstractProvider(config) {
     return "HonorSdkProvider"
   }
 
-  override fun ifSupported(): Boolean {
+  override fun isSupported(): Boolean {
     return AdvertisingIdClient.isAdvertisingIdAvailable(config.context)
   }
 

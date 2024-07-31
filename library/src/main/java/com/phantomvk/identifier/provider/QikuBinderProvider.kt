@@ -14,7 +14,7 @@ class QikuBinderProvider(config: ProviderConfig) : AbstractProvider(config) {
     return "QikuBinderProvider"
   }
 
-  override fun ifSupported(): Boolean {
+  override fun isSupported(): Boolean {
     val clazz = Class.forName("android.os.ServiceManager")
     val method = clazz.getDeclaredMethod("getService", String::class.java)
     val binder = method.invoke(null, "qikuid") as? IBinder ?: return false

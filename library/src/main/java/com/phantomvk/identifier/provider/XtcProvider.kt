@@ -10,7 +10,7 @@ class XtcProvider(config: ProviderConfig) : AbstractProvider(config) {
     return "XtcProvider"
   }
 
-  override fun ifSupported(): Boolean {
+  override fun isSupported(): Boolean {
     return isContentProviderExisted("com.xtc.provider")
   }
 

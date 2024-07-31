@@ -15,7 +15,7 @@ class CoolpadProvider(config: ProviderConfig) : AbstractProvider(config) {
     return "CoolpadProvider"
   }
 
-  override fun ifSupported(): Boolean {
+  override fun isSupported(): Boolean {
     return isPackageInfoExisted("com.coolpad.deviceidsupport")
   }
 

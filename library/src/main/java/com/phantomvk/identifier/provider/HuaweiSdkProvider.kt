@@ -9,7 +9,7 @@ class HuaweiSdkProvider(config: ProviderConfig) : AbstractProvider(config) {
     return "HuaweiSdkProvider"
   }
 
-  override fun ifSupported(): Boolean {
+  override fun isSupported(): Boolean {
     return AdvertisingIdClient.isAdvertisingIdAvailable(config.context)
   }
 

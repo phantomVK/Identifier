@@ -13,7 +13,7 @@ class FreemeProvider(config: ProviderConfig) : AbstractProvider(config) {
     return "FreemeProvider"
   }
 
-  override fun ifSupported(): Boolean {
+  override fun isSupported(): Boolean {
     return isPackageInfoExisted("com.android.creator")
   }
 

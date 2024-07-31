@@ -18,7 +18,7 @@ class GmsProvider(config: ProviderConfig) : AbstractProvider(config) {
     return "GmsProvider"
   }
 
-  override fun ifSupported(): Boolean {
+  override fun isSupported(): Boolean {
     return isPackageInfoExisted("com.android.vending")
   }
 

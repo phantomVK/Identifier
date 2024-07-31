@@ -14,7 +14,7 @@ class OppoColorOsProvider(config: ProviderConfig) : AbstractProvider(config) {
     return "OppoColorOsProvider"
   }
 
-  override fun ifSupported(): Boolean {
+  override fun isSupported(): Boolean {
     return isPackageInfoExisted("com.coloros.mcs")
   }
 

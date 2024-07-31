@@ -20,7 +20,7 @@ class SerialRunnable(config: ProviderConfig) : AbstractProvider(config), Disposa
     return "SerialRunnable"
   }
 
-  override fun ifSupported(): Boolean {
+  override fun isSupported(): Boolean {
     return true
   }
 
@@ -45,6 +45,16 @@ class SerialRunnable(config: ProviderConfig) : AbstractProvider(config), Disposa
     var isSuccess = false
     val providers = ManufacturerFactory.getProviders(config)
     for (provider in providers) {
+      val isSupported = try {
+        provider.isSupported()
+      } catch (t: Throwable) {
+        false
+      }
+
+      if (!isSupported) {
+        continue
+      }
+
       val latch = CountDownLatch(1)
       val resultCallback = object : OnResultListener {
         override fun onSuccess(id: String) {

@@ -14,7 +14,7 @@ class AsusProvider(config: ProviderConfig) : AbstractProvider(config) {
     return "AsusProvider"
   }
 
-  override fun ifSupported(): Boolean {
+  override fun isSupported(): Boolean {
     return isPackageInfoExisted("com.asus.msa.SupplementaryDID")
   }
 
