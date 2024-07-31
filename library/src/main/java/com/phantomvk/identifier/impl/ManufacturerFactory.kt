@@ -1,7 +1,6 @@
 package com.phantomvk.identifier.impl
 
 import android.os.Build
-import com.phantomvk.identifier.IdentifierManager
 import com.phantomvk.identifier.model.ProviderConfig
 import com.phantomvk.identifier.provider.AbstractProvider
 import com.phantomvk.identifier.provider.AsusProvider
@@ -9,7 +8,7 @@ import com.phantomvk.identifier.provider.CoolpadProvider
 import com.phantomvk.identifier.provider.CooseaProvider
 import com.phantomvk.identifier.provider.FreemeProvider
 import com.phantomvk.identifier.provider.GmsProvider
-import com.phantomvk.identifier.provider.HonorProvider
+import com.phantomvk.identifier.provider.HonorSdkProvider
 import com.phantomvk.identifier.provider.HonorServiceProvider
 import com.phantomvk.identifier.provider.HonorSettingsProvider
 import com.phantomvk.identifier.provider.HuaweiSdkProvider
@@ -76,19 +75,19 @@ object ManufacturerFactory {
     }
 
     if (isBrand("HONOR")) {
-      val provider = HonorProvider(config)
+      val provider = HonorSdkProvider(config)
       if (provider.isSupported()) {
         providers.add(provider)
-      }
-
-      val honorServiceProvider = HonorServiceProvider(config)
-      if (honorServiceProvider.isSupported()) {
-        providers.add(honorServiceProvider)
       }
 
       val settingsProvider = HonorSettingsProvider(config)
       if (settingsProvider.isSupported()) {
         providers.add(settingsProvider)
+      }
+
+      val honorServiceProvider = HonorServiceProvider(config)
+      if (honorServiceProvider.isSupported()) {
+        providers.add(honorServiceProvider)
       }
     }
 
@@ -145,14 +144,14 @@ object ManufacturerFactory {
       || isBrand("ONEPLUS")
       || sysPropertyContains("ro.build.version.opporom")
     ) {
-      val heyTapProvider = OppoHeyTapProvider(config)
-      if (heyTapProvider.isSupported()) {
-        providers.add(heyTapProvider)
-      }
-
       val colorOsProvider = OppoColorOsProvider(config)
       if (colorOsProvider.isSupported()) {
         providers.add(colorOsProvider)
+      }
+
+      val heyTapProvider = OppoHeyTapProvider(config)
+      if (heyTapProvider.isSupported()) {
+        providers.add(heyTapProvider)
       }
     }
 
