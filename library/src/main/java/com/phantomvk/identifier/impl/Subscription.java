@@ -47,16 +47,7 @@ public class Subscription {
             }
 
             // In order to return a non-null object.
-            return new Disposable() {
-                @Override
-                public void dispose() {
-                }
-
-                @Override
-                public boolean isDisposed() {
-                    return true;
-                }
-            };
+            return new DisposedDisposable();
         }
 
         // post the runnable to the executor even on the async thread.
