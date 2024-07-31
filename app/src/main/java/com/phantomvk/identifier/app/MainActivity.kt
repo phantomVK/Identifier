@@ -19,6 +19,7 @@ import com.phantomvk.identifier.model.ProviderConfig
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.lang.ref.WeakReference
+import java.text.DecimalFormat
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.Executor
 
@@ -50,7 +51,7 @@ class MainActivity : AppCompatActivity() {
   private fun updateTextInfo(msg: String? = null, t: Throwable? = null) {
     lifecycleScope.launch(Dispatchers.IO) {
       val deviceInfo = deviceInfo(if (t == null) msg ?: "" else "-")
-      val str = getResultList().joinToString("\n\n") { "# ${it.tag}: ${it.id}" }
+      val str = getResultList().joinToString("\n\n") { "# ${it.tag}: (${it.ts} μs)\n${it.id}" }
       val finalStr = deviceInfo + "\n\n" + str
       Log.i("IdentifierTAG", finalStr, t)
       if (msg?.isNotBlank() == true) {
@@ -92,7 +93,7 @@ class MainActivity : AppCompatActivity() {
     return if (id == null || id == "9774d56d682e549c") null else id
   }
 
-  private class ResultModel(val tag: String, val id: String)
+  private class ResultModel(val tag: String, val id: String, val ts: String? = null)
 
   private fun getResultList(): List<ResultModel> {
     val list = ArrayList<ResultModel>()
@@ -107,13 +108,17 @@ class MainActivity : AppCompatActivity() {
         override fun onError(msg: String, t: Throwable?) {}
       })
     }
-    val providers = ManufacturerFactory.getProviders(config)
 
+    val decimalFormat = DecimalFormat("#,###")
+    val providers = ManufacturerFactory.getProviders(config)
     for (provider in providers) {
       val latch = CountDownLatch(1)
       val resultCallback = object : OnResultListener {
+        val startNameTs = System.nanoTime()
         override fun onSuccess(id: String) {
-          list.add(ResultModel(provider.getTag(), id))
+          val consumed = (System.nanoTime() - startNameTs) / 1000L
+          val formatTs = decimalFormat.format(consumed)
+          list.add(ResultModel(provider.getTag(), id, formatTs))
           latch.countDown()
         }
 

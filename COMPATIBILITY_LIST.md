@@ -173,6 +173,7 @@
 |    Xiaomi    | Redmi  |    K50Pro     |  22021211RC  |   munch    |   31    |      Redmi/munch/munch:12/SKQ1.211006.001/V13.0.11.0.SLMCNXM:user/release-keys      |
 |    Xiaomi    | Redmi  |    K50Pro     |  22021211RC  |   munch    |   33    |      Redmi/munch/munch:13/TKQ1.220807.001/V14.0.9.0.TLMCNXM:user/release-keys       |
 |    Xiaomi    | xiaomi |    Note 4     | Redmi Note 4 |    mido    |   24    |           xiaomi/mido/mido:7.0/NRD90M/V11.0.2.0.NCFMIXM:user/release-keys           |
+|    Xiaomi    | Xiaomi |  Mi 10 Youth  |   M2002J9E   |  vangogh   |   29    |    Xiaomi/vangogh/vangogh:10/QKQ1.191222.002/V12.0.5.0.QJVCNXM:user/release-keys    |
 |    Xiaomi    | Xiaomi |    11 Lite    |   M2101K9C   |   renoir   |   30    |     Xiaomi/renoir/renoir:11/RKQ1.201112.002/V12.5.3.0.RKICNXM:user/release-keys     |
 |    Xiaomi    | Xiaomi |     12Pro     |   2201122C   |    zeus    |   31    |      Xiaomi/zeus/zeus:12/SKQ1.211006.001/V13.0.30.0.SLBCNXM:user/release-keys       |
 |    Xiaomi    | Xiaomi |      12S      |   2203121C   |    thor    |   31    |      Xiaomi/thor/thor:12/SKQ1.220303.001/V13.0.11.0.SLACNXM:user/release-keys       |
