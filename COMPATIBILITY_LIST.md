@@ -156,10 +156,11 @@
 |     vivo     | vivo  |   X21A    | vivo X21A | PD1728  |   28    |  vivo/PD1728/PD1728:9/PKQ1.180819.001/compiler07281740:user/release-keys  |
 |     vivo     | vivo  |    Y97    |  V1813A   | PD1813E |   28    |     vivo/PD1813E/PD1813E:9/P00610/compiler11141745:user/release-keys      |
 |     vivo     | vivo  |    S1     |  V1831A   | PD1831  |   29    | vivo/PD1831/PD1831:10/QP1A.190711.020/compiler07281042:user/release-keys  |
+|     vivo     | vivo  |  iQOO 9   |  V2171A   | PD2171  |   33    | vivo/PD2171/PD2171:13/TP1A.220624.014/compiler11011726:user/release-keys  |
 |     vivo     | vivo  | iQOO Neo6 |  V2196A   | PD2196  |   33    | vivo/PD2196/PD2196:13/TP1A.220624.014/compiler12121642:user/release-keys  |
 |     vivo     | vivo  | iQOO Neo7 |  V2231A   | PD2231  |   33    | vivo/PD2231/PD2231:13/TP1A.220624.014/compiler11171508:user/release-keys  |
 |     vivo     | vivo  | iQOO Neo7 |  V2231A   | PD2231  |   34    | vivo/PD2231/PD2231:14/UP1A.231005.007/compiler03072119:user/release-keys  |
-|     vivo     | vivo  | iQOO Neo9 |  V2171A   | PD2171  |   33    | vivo/PD2171/PD2171:13/TP1A.220624.014/compiler11011726:user/release-keys  |
+|     vivo     | vivo  | IQOO Neo9 |  V2338A   | PD2338  |   34    | vivo/PD2338/PD2338:14/UP1A.231005.007/compiler02221956:user/release-keys  |
 
 #### Xiaomi
 
