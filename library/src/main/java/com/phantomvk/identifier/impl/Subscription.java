@@ -17,23 +17,8 @@ public class Subscription {
 
     public Subscription(ProviderConfig config, OnResultListener callback) {
         this.config = config;
-        OnResultListener l = config.isMemCacheEnabled() ? getWrappedCallback(callback) : callback;
+        OnResultListener l = config.isMemCacheEnabled() ? new CacheResultListener(callback) : callback;
         config.callback = new WeakReference<>(l);
-    }
-
-    private OnResultListener getWrappedCallback(OnResultListener callback) {
-        return new OnResultListener() {
-            @Override
-            public void onSuccess(@NonNull String id) {
-                cachedId = id;
-                callback.onSuccess(id);
-            }
-
-            @Override
-            public void onError(@NonNull String msg, @Nullable Throwable t) {
-                callback.onError(msg, t);
-            }
-        };
     }
 
     @NonNull
@@ -54,5 +39,24 @@ public class Subscription {
         SerialRunnable runnable = new SerialRunnable(config);
         config.getExecutor().execute(runnable);
         return runnable;
+    }
+
+    private static final class CacheResultListener implements OnResultListener {
+        private final OnResultListener listener;
+
+        private CacheResultListener(OnResultListener listener) {
+            this.listener = listener;
+        }
+
+        @Override
+        public void onSuccess(@NonNull String id) {
+            cachedId = id;
+            listener.onSuccess(id);
+        }
+
+        @Override
+        public void onError(@NonNull String msg, @Nullable Throwable t) {
+            listener.onError(msg, t);
+        }
     }
 }
