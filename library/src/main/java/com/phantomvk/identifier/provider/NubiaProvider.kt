@@ -5,7 +5,7 @@ import android.net.Uri
 import android.os.Build
 import com.phantomvk.identifier.model.ProviderConfig
 
-class NubiaProvider(config: ProviderConfig) : AbstractProvider(config) {
+internal class NubiaProvider(config: ProviderConfig) : AbstractProvider(config) {
 
   override fun getTag(): String {
     return "NubiaProvider"

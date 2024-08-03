@@ -10,7 +10,7 @@ import generated.com.hihonor.cloudservice.oaid.IOAIDCallBack
 import generated.com.hihonor.cloudservice.oaid.IOAIDService
 import java.util.concurrent.CountDownLatch
 
-class HonorServiceProvider(config: ProviderConfig) : AbstractProvider(config) {
+internal class HonorServiceProvider(config: ProviderConfig) : AbstractProvider(config) {
 
   override fun getTag(): String {
     return "HonorServiceProvider"

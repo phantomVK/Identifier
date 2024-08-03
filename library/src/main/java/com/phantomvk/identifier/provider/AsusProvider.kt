@@ -8,7 +8,7 @@ import com.phantomvk.identifier.model.CallBinderResult
 import com.phantomvk.identifier.model.ProviderConfig
 import generated.com.asus.msa.SupplementaryDID.IDidAidlInterface
 
-class AsusProvider(config: ProviderConfig) : AbstractProvider(config) {
+internal class AsusProvider(config: ProviderConfig) : AbstractProvider(config) {
 
   override fun getTag(): String {
     return "AsusProvider"

@@ -6,7 +6,7 @@ import android.os.RemoteException
 import com.phantomvk.identifier.model.ProviderConfig
 import generated.com.qiku.id.IOAIDInterface
 
-class QikuBinderProvider(config: ProviderConfig) : AbstractProvider(config) {
+internal class QikuBinderProvider(config: ProviderConfig) : AbstractProvider(config) {
 
   private lateinit var iBinder: IBinder
 

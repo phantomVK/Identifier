@@ -3,7 +3,7 @@ package com.phantomvk.identifier.provider
 import android.net.Uri
 import com.phantomvk.identifier.model.ProviderConfig
 
-class VivoProvider(config: ProviderConfig) : AbstractProvider(config) {
+internal class VivoProvider(config: ProviderConfig) : AbstractProvider(config) {
 
   override fun getTag(): String {
     return "VivoProvider"

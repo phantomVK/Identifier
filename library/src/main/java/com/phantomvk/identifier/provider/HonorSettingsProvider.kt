@@ -3,7 +3,7 @@ package com.phantomvk.identifier.provider
 import android.provider.Settings
 import com.phantomvk.identifier.model.ProviderConfig
 
-class HonorSettingsProvider(config: ProviderConfig) : AbstractProvider(config) {
+internal class HonorSettingsProvider(config: ProviderConfig) : AbstractProvider(config) {
 
   override fun getTag(): String {
     return "HonorSettingsProvider"

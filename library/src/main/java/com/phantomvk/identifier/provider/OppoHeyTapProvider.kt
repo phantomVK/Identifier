@@ -8,7 +8,7 @@ import com.phantomvk.identifier.model.CallBinderResult
 import com.phantomvk.identifier.model.ProviderConfig
 import generated.com.heytap.openid.IOpenID
 
-class OppoHeyTapProvider(config: ProviderConfig) : AbstractProvider(config) {
+internal class OppoHeyTapProvider(config: ProviderConfig) : AbstractProvider(config) {
 
   override fun getTag(): String {
     return "OppoHeyTapProvider"

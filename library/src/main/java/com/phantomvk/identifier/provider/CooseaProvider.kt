@@ -4,7 +4,7 @@ import android.app.KeyguardManager
 import android.content.Context.KEYGUARD_SERVICE
 import com.phantomvk.identifier.model.ProviderConfig
 
-class CooseaProvider(config: ProviderConfig) : AbstractProvider(config) {
+internal class CooseaProvider(config: ProviderConfig) : AbstractProvider(config) {
 
   private val manager = config.context.getSystemService(KEYGUARD_SERVICE) as? KeyguardManager
 

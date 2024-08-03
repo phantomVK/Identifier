@@ -3,7 +3,7 @@ package com.phantomvk.identifier.provider
 import android.content.Context
 import com.phantomvk.identifier.model.ProviderConfig
 
-class ZteProvider(config: ProviderConfig) : AbstractProvider(config) {
+internal class ZteProvider(config: ProviderConfig) : AbstractProvider(config) {
 
   private var clazz: Class<*>? = null
   private var instance: Any? = null

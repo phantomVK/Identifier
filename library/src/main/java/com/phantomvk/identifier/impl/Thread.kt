@@ -5,7 +5,7 @@ import android.os.Looper
 
 private val mainHandler = Handler(Looper.getMainLooper())
 
-fun runOnMainThread(delayMillis: Long = 0, runnable: Runnable) {
+internal fun runOnMainThread(delayMillis: Long = 0, runnable: Runnable) {
   if (Looper.getMainLooper() == Looper.myLooper()) {
     runnable.run()
     return

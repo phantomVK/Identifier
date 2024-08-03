@@ -3,7 +3,7 @@ package com.phantomvk.identifier.provider
 import com.hihonor.ads.identifier.AdvertisingIdClient
 import com.phantomvk.identifier.model.ProviderConfig
 
-class HonorSdkProvider(config: ProviderConfig) : AbstractProvider(config) {
+internal class HonorSdkProvider(config: ProviderConfig) : AbstractProvider(config) {
 
   override fun getTag(): String {
     return "HonorSdkProvider"

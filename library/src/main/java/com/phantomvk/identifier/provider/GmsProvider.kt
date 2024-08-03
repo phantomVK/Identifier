@@ -12,7 +12,7 @@ import generated.com.google.android.gms.ads.identifier.internal.IAdvertisingIdSe
  *
  * https://developers.google.com/android/reference/com/google/android/gms/ads/identifier/AdvertisingIdClient.Info
  */
-class GmsProvider(config: ProviderConfig) : AbstractProvider(config) {
+internal class GmsProvider(config: ProviderConfig) : AbstractProvider(config) {
 
   override fun getTag(): String {
     return "GmsProvider"

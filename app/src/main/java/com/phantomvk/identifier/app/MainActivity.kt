@@ -12,10 +12,10 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.phantomvk.identifier.IdentifierManager
-import com.phantomvk.identifier.impl.ManufacturerFactory
 import com.phantomvk.identifier.interfaces.Disposable
 import com.phantomvk.identifier.interfaces.OnResultListener
 import com.phantomvk.identifier.model.ProviderConfig
+import com.phantomvk.identifier.provider.AbstractProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.lang.ref.WeakReference
@@ -109,8 +109,13 @@ class MainActivity : AppCompatActivity() {
       })
     }
 
+    val clazz = Class.forName("com.phantomvk.identifier.impl.ManufacturerFactory")
+    val instance = clazz.getField("INSTANCE").get(null)
+    val providers = clazz.getMethod("getProviders", ProviderConfig::class.java)
+      .apply { isAccessible = true }
+      .invoke(instance, config) as List<AbstractProvider>
+
     val decimalFormat = DecimalFormat("#,###")
-    val providers = ManufacturerFactory.getProviders(config)
     for (provider in providers) {
       val startNameTs = System.nanoTime()
       val isSupported = try {

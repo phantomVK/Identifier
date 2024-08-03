@@ -8,7 +8,7 @@ import com.phantomvk.identifier.model.CallBinderResult
 import com.phantomvk.identifier.model.ProviderConfig
 import generated.com.uodis.opendevice.aidl.OpenDeviceIdentifierService
 
-class HuaweiServiceProvider(config: ProviderConfig) : AbstractProvider(config) {
+internal class HuaweiServiceProvider(config: ProviderConfig) : AbstractProvider(config) {
 
   private val name by lazy(LazyThreadSafetyMode.NONE) {
     listOf(

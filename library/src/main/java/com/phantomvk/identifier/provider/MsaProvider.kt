@@ -8,7 +8,7 @@ import com.phantomvk.identifier.model.CallBinderResult
 import com.phantomvk.identifier.model.ProviderConfig
 import generated.com.bun.lib.MsaIdInterface
 
-class MsaProvider(config: ProviderConfig) : AbstractProvider(config) {
+internal class MsaProvider(config: ProviderConfig) : AbstractProvider(config) {
 
   override fun getTag(): String {
     return "MsaProvider"

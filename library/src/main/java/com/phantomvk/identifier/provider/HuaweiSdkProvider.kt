@@ -3,7 +3,7 @@ package com.phantomvk.identifier.provider
 import com.huawei.hms.ads.identifier.AdvertisingIdClient
 import com.phantomvk.identifier.model.ProviderConfig
 
-class HuaweiSdkProvider(config: ProviderConfig) : AbstractProvider(config) {
+internal class HuaweiSdkProvider(config: ProviderConfig) : AbstractProvider(config) {
 
   override fun getTag(): String {
     return "HuaweiSdkProvider"

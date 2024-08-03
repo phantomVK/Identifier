@@ -8,7 +8,7 @@ import com.phantomvk.identifier.model.ProviderConfig
 import com.phantomvk.identifier.provider.AbstractProvider
 import java.util.concurrent.CountDownLatch
 
-class SerialRunnable(config: ProviderConfig) : AbstractProvider(config), Disposable {
+internal class SerialRunnable(config: ProviderConfig) : AbstractProvider(config), Disposable {
 
   private val disposable = DisposableResultListener(config.callback)
 

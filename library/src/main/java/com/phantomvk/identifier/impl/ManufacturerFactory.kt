@@ -28,7 +28,7 @@ import com.phantomvk.identifier.provider.XiaomiProvider
 import com.phantomvk.identifier.provider.XtcProvider
 import com.phantomvk.identifier.provider.ZteProvider
 
-object ManufacturerFactory {
+internal object ManufacturerFactory {
 
   private fun isBrand(brand: String): Boolean {
     return Build.MANUFACTURER.equals(brand, true)

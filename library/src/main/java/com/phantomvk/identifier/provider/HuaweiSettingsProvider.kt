@@ -5,7 +5,7 @@ import android.provider.Settings
 import androidx.annotation.ChecksSdkIntAtLeast
 import com.phantomvk.identifier.model.ProviderConfig
 
-class HuaweiSettingsProvider(config: ProviderConfig) : AbstractProvider(config) {
+internal class HuaweiSettingsProvider(config: ProviderConfig) : AbstractProvider(config) {
 
   override fun getTag(): String {
     return "HuaweiSettingsProvider"

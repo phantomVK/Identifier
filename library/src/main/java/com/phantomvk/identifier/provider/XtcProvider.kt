@@ -4,7 +4,7 @@ import android.net.Uri
 import com.phantomvk.identifier.model.ProviderConfig
 
 // XTC, imoo
-class XtcProvider(config: ProviderConfig) : AbstractProvider(config) {
+internal class XtcProvider(config: ProviderConfig) : AbstractProvider(config) {
 
   override fun getTag(): String {
     return "XtcProvider"

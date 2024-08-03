@@ -3,7 +3,7 @@ package com.phantomvk.identifier.provider
 import android.net.Uri
 import com.phantomvk.identifier.model.ProviderConfig
 
-class MeizuProvider(config: ProviderConfig) : AbstractProvider(config) {
+internal class MeizuProvider(config: ProviderConfig) : AbstractProvider(config) {
 
   override fun getTag(): String {
     return "MeizuProvider"

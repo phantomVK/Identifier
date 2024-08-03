@@ -8,7 +8,7 @@ import com.phantomvk.identifier.model.CallBinderResult
 import com.phantomvk.identifier.model.ProviderConfig
 import generated.com.oplus.stdid.IStdID
 
-class OppoColorOsProvider(config: ProviderConfig) : AbstractProvider(config) {
+internal class OppoColorOsProvider(config: ProviderConfig) : AbstractProvider(config) {
 
   override fun getTag(): String {
     return "OppoColorOsProvider"

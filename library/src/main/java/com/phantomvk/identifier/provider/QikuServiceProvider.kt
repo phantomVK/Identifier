@@ -7,7 +7,7 @@ import com.phantomvk.identifier.model.CallBinderResult
 import com.phantomvk.identifier.model.ProviderConfig
 import generated.com.qiku.id.IOAIDInterface
 
-class QikuServiceProvider(config: ProviderConfig) : AbstractProvider(config) {
+internal class QikuServiceProvider(config: ProviderConfig) : AbstractProvider(config) {
 
   override fun getTag(): String {
     return "QikuServiceProvider"

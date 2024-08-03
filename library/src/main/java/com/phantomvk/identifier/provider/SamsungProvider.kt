@@ -7,7 +7,7 @@ import com.phantomvk.identifier.model.CallBinderResult
 import com.phantomvk.identifier.model.ProviderConfig
 import generated.com.samsung.android.deviceidservice.IDeviceIdService
 
-class SamsungProvider(config: ProviderConfig) : AbstractProvider(config) {
+internal class SamsungProvider(config: ProviderConfig) : AbstractProvider(config) {
 
   private val pkgName = "com.samsung.android.deviceidservice"
   private val className = "com.samsung.android.deviceidservice.DeviceIdService"

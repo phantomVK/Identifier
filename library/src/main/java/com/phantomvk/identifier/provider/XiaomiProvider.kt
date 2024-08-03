@@ -6,7 +6,7 @@ import com.phantomvk.identifier.model.ProviderConfig
 /**
  * https://dev.mi.com/console/doc/detail?pId=1821
  */
-class XiaomiProvider(config: ProviderConfig) : AbstractProvider(config) {
+internal class XiaomiProvider(config: ProviderConfig) : AbstractProvider(config) {
 
   private val id = try {
     val clazz = Class.forName("com.android.id.impl.IdProviderImpl")
