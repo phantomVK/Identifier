@@ -14,10 +14,11 @@ class ZteProvider(config: ProviderConfig) : AbstractProvider(config) {
 
   override fun isSupported(): Boolean {
     try {
-      clazz = Class.forName("android.app.ZteDeviceIdentifyManager")
-      val constructor = clazz!!.getDeclaredConstructor(Context::class.java)
+      val c = Class.forName("android.app.ZteDeviceIdentifyManager")
+      val constructor = c.getDeclaredConstructor(Context::class.java)
       constructor.isAccessible = true
       instance = constructor.newInstance(config.context)
+      clazz = c
     } catch (ignore: Exception) {
       clazz = null
       instance = null
@@ -29,8 +30,8 @@ class ZteProvider(config: ProviderConfig) : AbstractProvider(config) {
   override fun run() {
     if (config.isLimitAdTracking) {
       try {
-        val method = clazz?.getDeclaredMethod("isSupported", Context::class.java)!!
-        val isSupported = method.invoke(instance, config.context) as? Boolean
+        val method = clazz?.getDeclaredMethod("isSupported", Context::class.java)
+        val isSupported = method?.invoke(instance, config.context) as? Boolean
         if (isSupported == false) {
           getCallback().onError(LIMIT_AD_TRACKING_IS_ENABLED)
           return
@@ -39,8 +40,8 @@ class ZteProvider(config: ProviderConfig) : AbstractProvider(config) {
       }
     }
 
-    val method = clazz?.getDeclaredMethod("getOAID", Context::class.java)!!
-    val id = method.invoke(instance, config.context) as? String
+    val method = clazz?.getDeclaredMethod("getOAID", Context::class.java)
+    val id = method?.invoke(instance, config.context) as? String
     checkId(id, getCallback())
   }
 }
