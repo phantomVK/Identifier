@@ -4,7 +4,7 @@ import com.phantomvk.identifier.interfaces.Disposable
 import com.phantomvk.identifier.interfaces.OnResultListener
 import java.lang.ref.WeakReference
 
-class DisposableResultListener(
+internal class DisposableResultListener(
   private val reference: WeakReference<OnResultListener>
 ) : OnResultListener, Disposable {
 
