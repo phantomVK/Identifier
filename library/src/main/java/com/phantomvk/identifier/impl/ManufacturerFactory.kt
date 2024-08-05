@@ -7,7 +7,7 @@ import com.phantomvk.identifier.provider.AsusProvider
 import com.phantomvk.identifier.provider.CoolpadProvider
 import com.phantomvk.identifier.provider.CooseaProvider
 import com.phantomvk.identifier.provider.FreemeProvider
-import com.phantomvk.identifier.provider.GmsProvider
+import com.phantomvk.identifier.provider.GoogleAdvertisingIdProvider
 import com.phantomvk.identifier.provider.HonorSdkProvider
 import com.phantomvk.identifier.provider.HonorServiceProvider
 import com.phantomvk.identifier.provider.HonorSettingsProvider
@@ -129,7 +129,7 @@ internal object ManufacturerFactory {
       providers.add(ZteProvider(config))
     }
 
-    providers.add(GmsProvider(config))
+    providers.add(GoogleAdvertisingIdProvider(config))
 
     if (config.isExperimental) {
       addExperimentalProviders(config, providers)
