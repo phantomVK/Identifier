@@ -5,4 +5,6 @@
 
 # Honor MCS SDK
 -dontwarn com.hihonor.ads.identifier.**
--keep class com.hihonor.ads.** {*; }
+-keeppackagenames com.hihonor.ads.identifier
+-keeppackagenames com.hihonor.cloudservice.oaid
+-keep class com.hihonor.ads.identifier.AdvertisingIdClient*{*;}
