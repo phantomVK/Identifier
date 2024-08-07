@@ -37,14 +37,13 @@ internal class SerialRunnable(config: ProviderConfig) : AbstractProvider(config)
   }
 
   private fun onExecute() {
-    if (disposable.isDisposed()) {
-      return
-    }
-
-    // Start querying id.
     var isSuccess = false
     val providers = ManufacturerFactory.getProviders(config)
     for (provider in providers) {
+      if (disposable.isDisposed()) {
+        return
+      }
+
       val isSupported = try {
         provider.isSupported()
       } catch (t: Throwable) {
@@ -67,10 +66,6 @@ internal class SerialRunnable(config: ProviderConfig) : AbstractProvider(config)
           Log.e(getTag(), "${provider.getTag()} onError.", t)
           latch.countDown()
         }
-      }
-
-      if (disposable.isDisposed()) {
-        return
       }
 
       // execute Runnable safely.

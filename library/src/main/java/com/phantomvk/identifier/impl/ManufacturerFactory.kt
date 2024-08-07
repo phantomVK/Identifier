@@ -132,30 +132,23 @@ internal object ManufacturerFactory {
     providers.add(GoogleAdvertisingIdProvider(config))
 
     if (config.isExperimental) {
-      addExperimentalProviders(config, providers)
+      if (sysPropertyEquals("ro.build.uiversion", "360UI")) {
+        providers.add(QikuServiceProvider(config))
+        providers.add(QikuBinderProvider(config))
+      }
+
+      if (sysPropertyContains("ro.build.freeme.label")) {
+        providers.add(FreemeProvider(config))
+      }
+
+      if (sysPropertyEquals("ro.odm.manufacturer", "PRIZE")) {
+        providers.add(CooseaProvider(config))
+      }
+
+      providers.add(XtcProvider(config))
+      providers.add(MsaProvider(config))
     }
 
     return providers
-  }
-
-  private fun addExperimentalProviders(
-    config: ProviderConfig,
-    providers: ArrayList<AbstractProvider>
-  ) {
-    if (sysPropertyEquals("ro.build.uiversion", "360UI")) {
-      providers.add(QikuServiceProvider(config))
-      providers.add(QikuBinderProvider(config))
-    }
-
-    if (sysPropertyContains("ro.build.freeme.label")) {
-      providers.add(FreemeProvider(config))
-    }
-
-    if (sysPropertyEquals("ro.odm.manufacturer", "PRIZE")) {
-      providers.add(CooseaProvider(config))
-    }
-
-    providers.add(XtcProvider(config))
-    providers.add(MsaProvider(config))
   }
 }

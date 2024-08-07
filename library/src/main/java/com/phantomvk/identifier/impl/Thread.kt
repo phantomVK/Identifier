@@ -11,9 +11,9 @@ internal fun runOnMainThread(delayMillis: Long = 0, runnable: Runnable) {
     return
   }
 
-  if (delayMillis <= 0L) {
-    mainHandler.post(runnable)
-  } else {
+  if (delayMillis > 0L) {
     mainHandler.postDelayed(runnable, delayMillis)
+  } else {
+    mainHandler.post(runnable)
   }
 }
