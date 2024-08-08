@@ -1,6 +1,7 @@
 package com.phantomvk.identifier.provider
 
 import android.content.Context
+import com.phantomvk.identifier.model.CallBinderResult
 import com.phantomvk.identifier.model.ProviderConfig
 
 /**
@@ -8,11 +9,8 @@ import com.phantomvk.identifier.model.ProviderConfig
  */
 internal class XiaomiProvider(config: ProviderConfig) : AbstractProvider(config) {
 
-  private val id = try {
-    val clazz = Class.forName("com.android.id.impl.IdProviderImpl")
-    val method = clazz.getMethod("getOAID", Context::class.java)
-    val instance = clazz.getDeclaredConstructor().newInstance()
-    method.invoke(instance, config.context) as? String
+  private val clazz = try {
+    Class.forName("com.android.id.impl.IdProviderImpl")
   } catch (t: Throwable) {
     null
   }
@@ -22,10 +20,26 @@ internal class XiaomiProvider(config: ProviderConfig) : AbstractProvider(config)
   }
 
   override fun isSupported(): Boolean {
-    return !id.isNullOrBlank()
+    return clazz != null
   }
 
+  /**
+   * AAID is more stable because there is no way for user to reset, also querying faster than OAID.
+   */
   override fun run() {
+    val instance = clazz!!.getDeclaredConstructor().newInstance()
+
+    try {
+      val method = clazz.getMethod("getAAID", Context::class.java)
+      val id = method.invoke(instance, config.context) as? String
+      if (checkId(id, getCallback()) is CallBinderResult.Success) {
+        return
+      }
+    } catch (t: Throwable) {
+    }
+
+    val method = clazz.getMethod("getOAID", Context::class.java)
+    val id = method.invoke(instance, config.context) as? String
     checkId(id, getCallback())
   }
 }

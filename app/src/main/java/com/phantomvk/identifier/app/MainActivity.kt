@@ -131,15 +131,18 @@ class MainActivity : AppCompatActivity() {
       val latch = CountDownLatch(1)
       val resultCallback = object : OnResultListener {
         override fun onSuccess(id: String) {
-          val consumed = (System.nanoTime() - startNameTs) / 1000L
-          val formatTs = decimalFormat.format(consumed)
-          list.add(ResultModel(provider.getTag(), id, formatTs))
+          list.add(ResultModel(provider.getTag(), id, getNanoTimeStamp()))
           latch.countDown()
         }
 
         override fun onError(msg: String, t: Throwable?) {
-          list.add(ResultModel(provider.getTag(), msg))
+          list.add(ResultModel(provider.getTag(), msg, getNanoTimeStamp()))
           latch.countDown()
+        }
+
+        private fun getNanoTimeStamp(): String {
+          val consumed = (System.nanoTime() - startNameTs) / 1000L
+          return decimalFormat.format(consumed)
         }
       }
       provider.setCallback(resultCallback)
