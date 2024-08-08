@@ -18,10 +18,6 @@ internal class HuaweiServiceProvider(config: ProviderConfig) : AbstractProvider(
     ).firstOrNull { isPackageInfoExisted(it) }
   }
 
-  override fun getTag(): String {
-    return "HuaweiServiceProvider"
-  }
-
   override fun isSupported(): Boolean {
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
       return false

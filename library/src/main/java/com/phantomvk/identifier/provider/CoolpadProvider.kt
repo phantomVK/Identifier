@@ -11,10 +11,6 @@ import generated.com.coolpad.deviceidsupport.IDeviceIdManager
 
 internal class CoolpadProvider(config: ProviderConfig) : AbstractProvider(config) {
 
-  override fun getTag(): String {
-    return "CoolpadProvider"
-  }
-
   override fun isSupported(): Boolean {
     return isPackageInfoExisted("com.coolpad.deviceidsupport")
   }

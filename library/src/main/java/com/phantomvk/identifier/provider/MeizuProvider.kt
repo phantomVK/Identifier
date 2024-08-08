@@ -5,10 +5,6 @@ import com.phantomvk.identifier.model.ProviderConfig
 
 internal class MeizuProvider(config: ProviderConfig) : AbstractProvider(config) {
 
-  override fun getTag(): String {
-    return "MeizuProvider"
-  }
-
   override fun isSupported(): Boolean {
     return isContentProviderExisted("com.meizu.flyme.openidsdk")
   }

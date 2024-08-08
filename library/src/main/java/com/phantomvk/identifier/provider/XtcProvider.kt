@@ -6,10 +6,6 @@ import com.phantomvk.identifier.model.ProviderConfig
 // XTC, imoo
 internal class XtcProvider(config: ProviderConfig) : AbstractProvider(config) {
 
-  override fun getTag(): String {
-    return "XtcProvider"
-  }
-
   override fun isSupported(): Boolean {
     return isContentProviderExisted("com.xtc.provider")
   }

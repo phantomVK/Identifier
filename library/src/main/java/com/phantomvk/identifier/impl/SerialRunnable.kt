@@ -16,10 +16,6 @@ internal class SerialRunnable(config: ProviderConfig) : AbstractProvider(config)
     setCallback(disposable)
   }
 
-  override fun getTag(): String {
-    return "SerialRunnable"
-  }
-
   override fun isSupported(): Boolean {
     return true
   }
@@ -63,7 +59,7 @@ internal class SerialRunnable(config: ProviderConfig) : AbstractProvider(config)
         }
 
         override fun onError(msg: String, t: Throwable?) {
-          Log.e(getTag(), "${provider.getTag()} onError.", t)
+          Log.e("SerialRunnable", "${provider.javaClass.simpleName} onError.", t)
           latch.countDown()
         }
       }

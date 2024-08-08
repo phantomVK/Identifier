@@ -12,10 +12,6 @@ internal class SamsungProvider(config: ProviderConfig) : AbstractProvider(config
   private val pkgName = "com.samsung.android.deviceidservice"
   private val className = "com.samsung.android.deviceidservice.DeviceIdService"
 
-  override fun getTag(): String {
-    return "SamsungProvider"
-  }
-
   override fun isSupported(): Boolean {
     return isPackageInfoExisted(pkgName)
   }

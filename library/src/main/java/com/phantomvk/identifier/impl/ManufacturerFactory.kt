@@ -14,7 +14,7 @@ import com.phantomvk.identifier.provider.HonorSettingsProvider
 import com.phantomvk.identifier.provider.HuaweiSdkProvider
 import com.phantomvk.identifier.provider.HuaweiServiceProvider
 import com.phantomvk.identifier.provider.HuaweiSettingsProvider
-import com.phantomvk.identifier.provider.LenovoProvider
+import com.phantomvk.identifier.provider.ZuiProvider
 import com.phantomvk.identifier.provider.MeizuProvider
 import com.phantomvk.identifier.provider.MsaProvider
 import com.phantomvk.identifier.provider.NubiaProvider
@@ -87,7 +87,7 @@ internal object ManufacturerFactory {
       || isBrand("LENOVO", "ZUK")
       || isBrand("MOTOROLA")
     ) {
-      providers.add(LenovoProvider(config))
+      providers.add(ZuiProvider(config))
     }
 
     if (isBrand("XIAOMI")

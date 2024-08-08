@@ -5,10 +5,6 @@ import com.phantomvk.identifier.model.ProviderConfig
 
 internal class HonorSettingsProvider(config: ProviderConfig) : AbstractProvider(config) {
 
-  override fun getTag(): String {
-    return "HonorSettingsProvider"
-  }
-
   override fun isSupported(): Boolean {
     return true
   }

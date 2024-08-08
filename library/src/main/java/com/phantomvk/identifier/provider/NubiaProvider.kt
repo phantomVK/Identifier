@@ -7,10 +7,6 @@ import com.phantomvk.identifier.model.ProviderConfig
 
 internal class NubiaProvider(config: ProviderConfig) : AbstractProvider(config) {
 
-  override fun getTag(): String {
-    return "NubiaProvider"
-  }
-
   override fun isSupported(): Boolean {
     return true
   }

@@ -8,10 +8,6 @@ internal class CooseaProvider(config: ProviderConfig) : AbstractProvider(config)
 
   private val manager = config.context.getSystemService(KEYGUARD_SERVICE) as? KeyguardManager
 
-  override fun getTag(): String {
-    return "CooseaProvider"
-  }
-
   override fun isSupported(): Boolean {
     if (manager == null) return false
     val method = manager::class.java.getDeclaredMethod("isSupported")

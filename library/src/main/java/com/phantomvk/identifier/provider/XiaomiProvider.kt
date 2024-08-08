@@ -15,10 +15,6 @@ internal class XiaomiProvider(config: ProviderConfig) : AbstractProvider(config)
     null
   }
 
-  override fun getTag(): String {
-    return "XiaomiProvider"
-  }
-
   override fun isSupported(): Boolean {
     return clazz != null
   }

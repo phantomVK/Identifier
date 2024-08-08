@@ -131,12 +131,12 @@ class MainActivity : AppCompatActivity() {
       val latch = CountDownLatch(1)
       val resultCallback = object : OnResultListener {
         override fun onSuccess(id: String) {
-          list.add(ResultModel(provider.getTag(), id, getNanoTimeStamp()))
+          list.add(ResultModel(provider.javaClass.simpleName, id, getNanoTimeStamp()))
           latch.countDown()
         }
 
         override fun onError(msg: String, t: Throwable?) {
-          list.add(ResultModel(provider.getTag(), msg, getNanoTimeStamp()))
+          list.add(ResultModel(provider.javaClass.simpleName, msg, getNanoTimeStamp()))
           latch.countDown()
         }
 

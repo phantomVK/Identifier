@@ -18,8 +18,6 @@ abstract class AbstractProvider(protected val config: ProviderConfig) : Runnable
 
   private lateinit var resultCallback: OnResultListener
 
-  abstract fun getTag(): String
-
   abstract fun isSupported(): Boolean
 
   fun setCallback(callback: OnResultListener) {

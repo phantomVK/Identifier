@@ -7,11 +7,7 @@ import com.phantomvk.identifier.model.CallBinderResult
 import com.phantomvk.identifier.model.ProviderConfig
 import generated.com.zui.deviceidservice.IDeviceidInterface
 
-internal class LenovoProvider(config: ProviderConfig) : AbstractProvider(config) {
-
-  override fun getTag(): String {
-    return "LenovoProvider"
-  }
+internal class ZuiProvider(config: ProviderConfig) : AbstractProvider(config) {
 
   override fun isSupported(): Boolean {
     return isPackageInfoExisted("com.zui.deviceidservice")

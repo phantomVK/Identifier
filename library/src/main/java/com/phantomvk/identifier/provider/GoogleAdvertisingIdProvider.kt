@@ -14,10 +14,6 @@ import generated.com.google.android.gms.ads.identifier.internal.IAdvertisingIdSe
  */
 internal class GoogleAdvertisingIdProvider(config: ProviderConfig) : AbstractProvider(config) {
 
-  override fun getTag(): String {
-    return "GoogleAdvertisingIdProvider"
-  }
-
   override fun isSupported(): Boolean {
     return isPackageInfoExisted("com.android.vending")
   }

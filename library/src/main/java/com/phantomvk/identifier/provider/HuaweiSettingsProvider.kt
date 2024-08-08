@@ -7,10 +7,6 @@ import com.phantomvk.identifier.model.ProviderConfig
 
 internal class HuaweiSettingsProvider(config: ProviderConfig) : AbstractProvider(config) {
 
-  override fun getTag(): String {
-    return "HuaweiSettingsProvider"
-  }
-
   @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.N)
   override fun isSupported(): Boolean {
     return Build.VERSION.SDK_INT >= Build.VERSION_CODES.N

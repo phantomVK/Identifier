@@ -9,10 +9,6 @@ import generated.com.qiku.id.IOAIDInterface
 
 internal class QikuServiceProvider(config: ProviderConfig) : AbstractProvider(config) {
 
-  override fun getTag(): String {
-    return "QikuServiceProvider"
-  }
-
   override fun isSupported(): Boolean {
     return isPackageInfoExisted("com.qiku.id")
   }

@@ -9,10 +9,6 @@ import generated.com.android.creator.IdsSupplier
 
 internal class FreemeProvider(config: ProviderConfig) : AbstractProvider(config) {
 
-  override fun getTag(): String {
-    return "FreemeProvider"
-  }
-
   override fun isSupported(): Boolean {
     return isPackageInfoExisted("com.android.creator")
   }

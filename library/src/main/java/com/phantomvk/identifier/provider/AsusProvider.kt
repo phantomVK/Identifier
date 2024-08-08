@@ -10,10 +10,6 @@ import generated.com.asus.msa.SupplementaryDID.IDidAidlInterface
 
 internal class AsusProvider(config: ProviderConfig) : AbstractProvider(config) {
 
-  override fun getTag(): String {
-    return "AsusProvider"
-  }
-
   override fun isSupported(): Boolean {
     return isPackageInfoExisted("com.asus.msa.SupplementaryDID")
   }

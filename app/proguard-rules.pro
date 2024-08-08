@@ -24,3 +24,5 @@
     public static <fields>;
     public *** getProviders(...);
 }
+
+-keepnames class com.phantomvk.identifier.provider.*

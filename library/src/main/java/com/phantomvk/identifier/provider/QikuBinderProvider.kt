@@ -10,10 +10,6 @@ internal class QikuBinderProvider(config: ProviderConfig) : AbstractProvider(con
 
   private lateinit var iBinder: IBinder
 
-  override fun getTag(): String {
-    return "QikuBinderProvider"
-  }
-
   override fun isSupported(): Boolean {
     val clazz = Class.forName("android.os.ServiceManager")
     val method = clazz.getDeclaredMethod("getService", String::class.java)

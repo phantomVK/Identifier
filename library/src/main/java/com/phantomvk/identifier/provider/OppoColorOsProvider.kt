@@ -10,10 +10,6 @@ import generated.com.oplus.stdid.IStdID
 
 internal class OppoColorOsProvider(config: ProviderConfig) : AbstractProvider(config) {
 
-  override fun getTag(): String {
-    return "OppoColorOsProvider"
-  }
-
   override fun isSupported(): Boolean {
     return isPackageInfoExisted("com.coloros.mcs")
   }

@@ -10,10 +10,6 @@ import generated.com.heytap.openid.IOpenID
 
 internal class OppoHeyTapProvider(config: ProviderConfig) : AbstractProvider(config) {
 
-  override fun getTag(): String {
-    return "OppoHeyTapProvider"
-  }
-
   override fun isSupported(): Boolean {
     return isPackageInfoExisted("com.heytap.openid")
   }

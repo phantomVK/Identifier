@@ -5,10 +5,6 @@ import com.phantomvk.identifier.model.ProviderConfig
 
 internal class HuaweiSdkProvider(config: ProviderConfig) : AbstractProvider(config) {
 
-  override fun getTag(): String {
-    return "HuaweiSdkProvider"
-  }
-
   override fun isSupported(): Boolean {
     return AdvertisingIdClient.isAdvertisingIdAvailable(config.context)
   }

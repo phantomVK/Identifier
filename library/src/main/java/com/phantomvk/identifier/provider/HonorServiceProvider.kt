@@ -12,10 +12,6 @@ import java.util.concurrent.CountDownLatch
 
 internal class HonorServiceProvider(config: ProviderConfig) : AbstractProvider(config) {
 
-  override fun getTag(): String {
-    return "HonorServiceProvider"
-  }
-
   override fun isSupported(): Boolean {
     return isPackageInfoExisted("com.hihonor.id")
   }

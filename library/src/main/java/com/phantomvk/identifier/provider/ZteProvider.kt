@@ -8,10 +8,6 @@ internal class ZteProvider(config: ProviderConfig) : AbstractProvider(config) {
   private var clazz: Class<*>? = null
   private var instance: Any? = null
 
-  override fun getTag(): String {
-    return "ZteProvider"
-  }
-
   override fun isSupported(): Boolean {
     try {
       val c = Class.forName("android.app.ZteDeviceIdentifyManager")
