@@ -32,7 +32,8 @@ internal class XiaomiProvider(config: ProviderConfig) : AbstractProvider(config)
     try {
       val method = clazz.getMethod("getAAID", Context::class.java)
       val id = method.invoke(instance, config.context) as? String
-      if (checkId(id, getCallback()) is CallBinderResult.Success) {
+      if (id != null && checkId(id) is CallBinderResult.Success) {
+        getCallback().onSuccess(id)
         return
       }
     } catch (t: Throwable) {
