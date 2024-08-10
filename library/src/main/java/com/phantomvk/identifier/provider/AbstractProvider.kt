@@ -8,9 +8,7 @@ import android.content.pm.PackageManager
 import android.content.pm.Signature
 import android.os.Build
 import android.os.IBinder
-import com.phantomvk.identifier.interfaces.BinderCallback
 import com.phantomvk.identifier.interfaces.OnResultListener
-import com.phantomvk.identifier.model.CallBinderResult
 import com.phantomvk.identifier.model.ProviderConfig
 import java.security.MessageDigest
 
@@ -167,6 +165,15 @@ abstract class AbstractProvider(protected val config: ProviderConfig) : Runnable
       context.unbindService(conn)
     } catch (ignore: Throwable) {
     }
+  }
+
+  protected interface BinderCallback {
+    fun call(binder: IBinder): CallBinderResult
+  }
+
+  protected sealed class CallBinderResult {
+    class Success(val id: String) : CallBinderResult()
+    class Failed(val msg: String) : CallBinderResult()
   }
 
   protected companion object {

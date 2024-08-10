@@ -3,8 +3,6 @@ package com.phantomvk.identifier.provider
 import android.content.ComponentName
 import android.content.Intent
 import android.os.IBinder
-import com.phantomvk.identifier.interfaces.BinderCallback
-import com.phantomvk.identifier.model.CallBinderResult
 import com.phantomvk.identifier.model.ProviderConfig
 import generated.com.oplus.stdid.IStdID
 

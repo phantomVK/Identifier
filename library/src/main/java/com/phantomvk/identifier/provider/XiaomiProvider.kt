@@ -1,7 +1,6 @@
 package com.phantomvk.identifier.provider
 
 import android.content.Context
-import com.phantomvk.identifier.model.CallBinderResult
 import com.phantomvk.identifier.model.ProviderConfig
 
 /**
