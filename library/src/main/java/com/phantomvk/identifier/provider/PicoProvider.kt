@@ -25,10 +25,12 @@ class PicoProvider(config: ProviderConfig) : AbstractProvider(config) {
       return
     }
 
-    val forbidden = bundle.getBoolean("forbidden", false)
-    if (forbidden) {
-      getCallback().onError(LIMIT_AD_TRACKING_IS_ENABLED)
-      return
+    if (config.isLimitAdTracking) {
+      val forbidden = bundle.getBoolean("forbidden", false)
+      if (forbidden) {
+        getCallback().onError(LIMIT_AD_TRACKING_IS_ENABLED)
+        return
+      }
     }
 
     val id = bundle.getString("oaid", null)

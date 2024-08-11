@@ -112,10 +112,6 @@ internal object ManufacturerFactory {
       providers.add(OppoHeyTapProvider(config))
     }
 
-    if (isBrand("Pico")) {
-      providers.add(PicoProvider(config))
-    }
-
     if (isBrand("VIVO") || sysPropertyContains("ro.vivo.os.version")) {
       if (sysProperty("persist.sys.identifierid.supported", "0") == "1") {
         providers.add(VivoProvider(config))
@@ -144,6 +140,10 @@ internal object ManufacturerFactory {
 
       if (sysPropertyContains("ro.build.freeme.label")) {
         providers.add(FreemeProvider(config))
+      }
+
+      if (isBrand("Pico")) {
+        providers.add(PicoProvider(config))
       }
 
       if (sysPropertyEquals("ro.odm.manufacturer", "PRIZE")) {

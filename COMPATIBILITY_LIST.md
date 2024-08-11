@@ -18,6 +18,7 @@
 |   OnePlus    |    Y     |
 |     Qiku     |          |
 |     Oppo     |    Y     |
+|   Pico VR    |          |
 |    Realme    |    Y     |
 |   Samsung    |    Y     |
 |     Vivo     |    Y     |
