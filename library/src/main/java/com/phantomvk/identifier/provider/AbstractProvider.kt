@@ -1,6 +1,7 @@
 package com.phantomvk.identifier.provider
 
 import android.content.ComponentName
+import android.content.ContentProviderClient
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
@@ -115,6 +116,14 @@ abstract class AbstractProvider(protected val config: ProviderConfig) : Runnable
     }
 
     return CallBinderResult.Success(sign)
+  }
+
+  protected fun releaseContentProviderClient(client: ContentProviderClient) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+      client.close()
+    } else {
+      client.release()
+    }
   }
 
   protected fun bindService(

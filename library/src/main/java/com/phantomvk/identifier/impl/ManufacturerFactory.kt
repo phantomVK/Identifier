@@ -20,6 +20,7 @@ import com.phantomvk.identifier.provider.MsaProvider
 import com.phantomvk.identifier.provider.NubiaProvider
 import com.phantomvk.identifier.provider.OppoColorOsProvider
 import com.phantomvk.identifier.provider.OppoHeyTapProvider
+import com.phantomvk.identifier.provider.PicoProvider
 import com.phantomvk.identifier.provider.QikuBinderProvider
 import com.phantomvk.identifier.provider.QikuServiceProvider
 import com.phantomvk.identifier.provider.SamsungProvider
@@ -109,6 +110,10 @@ internal object ManufacturerFactory {
     ) {
       providers.add(OppoColorOsProvider(config))
       providers.add(OppoHeyTapProvider(config))
+    }
+
+    if (isBrand("Pico")) {
+      providers.add(PicoProvider(config))
     }
 
     if (isBrand("VIVO") || sysPropertyContains("ro.vivo.os.version")) {

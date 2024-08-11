@@ -24,17 +24,18 @@ internal class NubiaProvider(config: ProviderConfig) : AbstractProvider(config) 
       if (bundle?.getInt("code", -1) == 0) {
         val isSupported = bundle.getBoolean("issupport", false)
         if (!isSupported) {
+          releaseContentProviderClient(client)
           getCallback().onError(LIMIT_AD_TRACKING_IS_ENABLED)
-          releaseClient(client)
           return
         }
       }
     }
 
     val bundle = client.call("getOAID", null, null)
+    releaseContentProviderClient(client)
+
     if (bundle == null) {
       getCallback().onError(BUNDLE_IS_NULL)
-      releaseClient(client)
       return
     }
 
@@ -44,14 +45,5 @@ internal class NubiaProvider(config: ProviderConfig) : AbstractProvider(config) 
     }
 
     checkId(id, getCallback())
-    releaseClient(client)
-  }
-
-  private fun releaseClient(client: ContentProviderClient) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-      client.close()
-    } else {
-      client.release()
-    }
   }
 }
