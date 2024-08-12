@@ -69,12 +69,6 @@ internal object ManufacturerFactory {
       providers.add(CoolpadProvider(config))
     }
 
-    if (isBrand("HONOR")) {
-      providers.add(HonorSdkProvider(config))
-      providers.add(HonorSettingsProvider(config))
-      providers.add(HonorServiceProvider(config))
-    }
-
     if (isBrand("HUAWEI")
       || isBrand("HUAWEI", "HONOR")
       || sysPropertyContains("ro.build.version.emui")
@@ -82,6 +76,12 @@ internal object ManufacturerFactory {
       providers.add(HuaweiSdkProvider(config))
       providers.add(HuaweiSettingsProvider(config))
       providers.add(HuaweiServiceProvider(config))
+    }
+
+    if (isBrand("HONOR")) {
+      providers.add(HonorSdkProvider(config))
+      providers.add(HonorSettingsProvider(config))
+      providers.add(HonorServiceProvider(config))
     }
 
     if (isBrand("LENOVO")
