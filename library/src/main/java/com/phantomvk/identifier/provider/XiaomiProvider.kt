@@ -18,14 +18,11 @@ internal class XiaomiProvider(config: ProviderConfig) : AbstractProvider(config)
     return clazz != null
   }
 
-  /**
-   * AAID is more stable because there is no way for user to reset, also querying faster than OAID.
-   */
   override fun run() {
     val instance = clazz!!.getDeclaredConstructor().newInstance()
 
     try {
-      val method = clazz.getMethod("getAAID", Context::class.java)
+      val method = clazz.getMethod("getOAID", Context::class.java)
       val id = method.invoke(instance, config.context) as? String
       if (id != null && checkId(id) is CallBinderResult.Success) {
         getCallback().onSuccess(id)
@@ -34,7 +31,7 @@ internal class XiaomiProvider(config: ProviderConfig) : AbstractProvider(config)
     } catch (t: Throwable) {
     }
 
-    val method = clazz.getMethod("getOAID", Context::class.java)
+    val method = clazz.getMethod("getAAID", Context::class.java)
     val id = method.invoke(instance, config.context) as? String
     checkId(id, getCallback())
   }
