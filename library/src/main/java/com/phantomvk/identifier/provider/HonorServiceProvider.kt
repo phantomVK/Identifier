@@ -68,8 +68,7 @@ internal class HonorServiceProvider(config: ProviderConfig) : AbstractProvider(c
           return
         }
 
-        val id = bundle.getString("oa_id_flag")
-        result = checkId(id)
+        result = checkId(bundle.getString("oa_id_flag"))
         latch.countDown()
       }
     })

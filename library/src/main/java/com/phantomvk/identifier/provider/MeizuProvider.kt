@@ -41,8 +41,7 @@ internal class MeizuProvider(config: ProviderConfig) : AbstractProvider(config) 
         return
       }
 
-      val id = c.getString(index)
-      checkId(id, getCallback())
+      checkId(c.getString(index), getCallback())
     }
   }
 }

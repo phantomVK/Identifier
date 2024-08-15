@@ -25,15 +25,12 @@ internal class OppoHeyTapProvider(config: ProviderConfig) : AbstractProvider(con
           is CallBinderResult.Success -> result.id
         }
 
-        val pkgName = config.context.packageName
-        val id = asInterface.getSerID(pkgName, sign, "OUID")
+        val id = asInterface.getSerID(config.context.packageName, sign, "OUID")
         return checkId(id)
       }
     }
 
-    val pkg = "com.heytap.openid"
-    val cls = "com.heytap.openid.IdentifyService"
-    val component = ComponentName(pkg, cls)
+    val component = ComponentName("com.heytap.openid", "com.heytap.openid.IdentifyService")
     val intent = Intent("action.com.heytap.openid.OPEN_ID_SERVICE").setComponent(component)
     bindService(intent, binderCallback)
   }

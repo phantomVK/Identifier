@@ -20,20 +20,16 @@ internal class ZuiProvider(config: ProviderConfig) : AbstractProvider(config) {
         }
 
         if (config.isLimitAdTracking) {
-          val isSupport = asInterface.isSupport
-          if (!isSupport) {
+          if (!asInterface.isSupport) {
             return CallBinderResult.Failed(LIMIT_AD_TRACKING_IS_ENABLED)
           }
         }
 
-        val id = asInterface.oaid
-        return checkId(id)
+        return checkId(asInterface.oaid)
       }
     }
 
-    val pkg = "com.zui.deviceidservice"
-    val cls = "com.zui.deviceidservice.DeviceidService"
-    val intent = Intent().setClassName(pkg, cls)
+    val intent = Intent().setClassName("com.zui.deviceidservice", "com.zui.deviceidservice.DeviceidService")
     bindService(intent, binderCallback)
   }
 }

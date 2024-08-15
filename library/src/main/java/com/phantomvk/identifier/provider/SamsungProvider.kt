@@ -22,13 +22,11 @@ internal class SamsungProvider(config: ProviderConfig) : AbstractProvider(config
           return CallBinderResult.Failed(AIDL_INTERFACE_IS_NULL)
         }
 
-        val id = asInterface.oaid
-        return checkId(id)
+        return checkId(asInterface.oaid)
       }
     }
 
-    val intent = Intent()
-    intent.setClassName(pkgName, className)
+    val intent = Intent().setClassName(pkgName, className)
     bindService(intent, binderCallback)
   }
 }

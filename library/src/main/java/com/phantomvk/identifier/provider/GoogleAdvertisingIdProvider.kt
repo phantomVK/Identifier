@@ -31,8 +31,7 @@ internal class GoogleAdvertisingIdProvider(config: ProviderConfig) : AbstractPro
           }
         }
 
-        val id = asInterface.id
-        return checkId(id)
+        return checkId(asInterface.id)
       }
     }
 

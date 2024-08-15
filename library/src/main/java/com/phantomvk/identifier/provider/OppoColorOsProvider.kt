@@ -25,15 +25,12 @@ internal class OppoColorOsProvider(config: ProviderConfig) : AbstractProvider(co
           is CallBinderResult.Success -> result.id
         }
 
-        val pkgName = config.context.packageName
-        val id = asInterface.getSerID(pkgName, sign, "OUID")
+        val id = asInterface.getSerID(config.context.packageName, sign, "OUID")
         return checkId(id)
       }
     }
 
-    val pkg = "com.coloros.mcs"
-    val cls = "com.oplus.stdid.IdentifyService"
-    val component = ComponentName(pkg, cls)
+    val component = ComponentName("com.coloros.mcs", "com.oplus.stdid.IdentifyService")
     val intent = Intent("action.com.oplus.stdid.ID_SERVICE").setComponent(component)
     bindService(intent, binderCallback)
   }

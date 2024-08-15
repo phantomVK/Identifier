@@ -29,8 +29,7 @@ internal class MsaProvider(config: ProviderConfig) : AbstractProvider(config) {
           }
         }
 
-        val id = asInterface.oaid
-        return checkId(id)
+        return checkId(asInterface.oaid)
       }
     }
 

@@ -20,14 +20,12 @@ internal class QikuServiceProvider(config: ProviderConfig) : AbstractProvider(co
         }
 
         if (config.isLimitAdTracking) {
-          val isLimited = asInterface.isLimited
-          if (isLimited) {
+          if (asInterface.isLimited) {
             return CallBinderResult.Failed(LIMIT_AD_TRACKING_IS_ENABLED)
           }
         }
 
-        val id = asInterface.oaid
-        return checkId(id)
+        return checkId(asInterface.oaid)
       }
     }
 

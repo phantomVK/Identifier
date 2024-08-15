@@ -29,8 +29,7 @@ internal class QikuBinderProvider(config: ProviderConfig) : AbstractProvider(con
       }
     }
 
-    val id = proxy.oaid
-    checkId(id, getCallback())
+    checkId(proxy.oaid, getCallback())
   }
 }
 

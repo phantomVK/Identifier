@@ -23,7 +23,6 @@ internal class HonorSdkProvider(config: ProviderConfig) : AbstractProvider(confi
       }
     }
 
-    val id = info.id
-    checkId(id, getCallback())
+    checkId(info.id, getCallback())
   }
 }

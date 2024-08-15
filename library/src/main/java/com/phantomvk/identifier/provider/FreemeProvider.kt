@@ -26,8 +26,7 @@ internal class FreemeProvider(config: ProviderConfig) : AbstractProvider(config)
           }
         }
 
-        val id = asInterface.oaid
-        return checkId(id)
+        return checkId(asInterface.oaid)
       }
     }
 

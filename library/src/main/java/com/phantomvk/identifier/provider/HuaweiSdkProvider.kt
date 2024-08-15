@@ -23,7 +23,6 @@ internal class HuaweiSdkProvider(config: ProviderConfig) : AbstractProvider(conf
       }
     }
 
-    val id = info.id
-    checkId(id, getCallback())
+    checkId(info.id, getCallback())
   }
 }

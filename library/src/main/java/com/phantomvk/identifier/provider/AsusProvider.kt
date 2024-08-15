@@ -27,15 +27,12 @@ internal class AsusProvider(config: ProviderConfig) : AbstractProvider(config) {
           }
         }
 
-        val id = asInterface.oaid
-        return checkId(id)
+        return checkId(asInterface.oaid)
       }
     }
 
-    val pkg = "com.asus.msa.SupplementaryDID"
-    val cls = "com.asus.msa.SupplementaryDID.SupplementaryDIDService"
     val intent = Intent("com.asus.msa.action.ACCESS_DID")
-    val componentName = ComponentName(pkg, cls)
+    val componentName = ComponentName("com.asus.msa.SupplementaryDID", "com.asus.msa.SupplementaryDID.SupplementaryDIDService")
     intent.setComponent(componentName)
     bindService(intent, binderCallback)
   }

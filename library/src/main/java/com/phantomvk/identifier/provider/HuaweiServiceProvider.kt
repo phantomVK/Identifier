@@ -39,8 +39,7 @@ internal class HuaweiServiceProvider(config: ProviderConfig) : AbstractProvider(
           }
         }
 
-        val id = asInterface.oaid
-        return checkId(id)
+        return checkId(asInterface.oaid)
       }
     }
 

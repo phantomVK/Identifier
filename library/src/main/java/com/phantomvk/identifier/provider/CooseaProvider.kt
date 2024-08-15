@@ -16,7 +16,6 @@ internal class CooseaProvider(config: ProviderConfig) : AbstractProvider(config)
 
   override fun run() {
     val method = manager!!::class.java.getDeclaredMethod("obtainOaid")
-    val id = method.invoke(manager) as String?
-    checkId(id, getCallback())
+    checkId(method.invoke(manager) as? String, getCallback())
   }
 }
