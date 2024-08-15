@@ -77,6 +77,7 @@
 |    HUAWEI    | HUAWEI |   P40 Pro    | ELS-AN00  |  HWELS   |   31    |  HUAWEI/ELS-AN00/HWELS:12/HUAWEIELS-AN00/103.0.0.310C00:user/release-keys   |
 |    HUAWEI    | HUAWEI |     P50      | ABR-AL00  | HWABR-Q  |   30    | HUAWEI/ABR-AL00/HWABR-Q:11/HUAWEIABR-AL00/102.0.1.268C00:user/release-keys  |
 |    HUAWEI    | HUAWEI |   Mate 50E   | CET-AL60  | HWCET-QL |   31    | HUAWEI/CET-AL60/HWCET-QL:12/HUAWEICET-AL60/104.0.0.132C00:user/release-keys |
+|    HUAWEI    | HUAWEI | MatePad Pro  |  WGR-W09  |  HWWGR   |   31    |   HUAWEI/WGR-W09/HWWGR:12/HUAWEIWGR-W09/104.2.0.212C00:user/release-keys    |
 
 #### Meizu
 
@@ -124,6 +125,7 @@
 |     OPPO     | OPPO  |      R15      |  PACM00   |  PACM00  |   29    |      OPPO/PACM00/PACM00:10/QP1A.190711.020/2021050100:user/release-keys       |
 |     OPPO     | OPPO  | Reno 10x Zoom |  PCCM00   |  OP46C3  |   31    |    OPPO/PCCM00/OP46C3:12/SKQ1.211113.001/P.202210140345:user/release-keys     |
 |     OPPO     | OPPO  |     A92s      |  PDKT00   |  OP4ABB  |   31    |     OPPO/PDKT00/OP4ABB:12/SP1A.210812.016/Q.10149fc_722:user/release-keys     |
+|     OPPO     | OPPO  | Reno4 Pro 5G  |  PDNM00   |  OP4AF7  |   31    |   OPPO/PDNM00/OP4AF7:12/RKQ1.211103.002/Q.12f35d4_271_272:user/release-keys   |
 |     OPPO     | OPPO  |   Reno4 SE    |  PEAM00   |  OP4E6B  |   29    |      OPPO/PEAM00/OP4E6B:10/QP1A.190711.020/1618364652:user/release-keys       |
 |     OPPO     | OPPO  |    A53 5G     |  PECM30   |  OP4E49  |   29    |      OPPO/PECM30/OP4E49:10/QP1A.190711.020/1630410391:user/release-keys       |
 |     OPPO     | OPPO  |    Reno 5K    |  PEGM10   |  OP4E59  |   31    |    OPPO/PEGM10/OP4E59:12/RKQ1.211103.002/R.202210110611:user/release-keys     |
@@ -174,6 +176,7 @@
 |    Xiaomi    | Redmi  |      K40      |  M2012K11AC  |   alioth   |   33    |     Redmi/alioth/alioth:13/TKQ1.221114.001/V816.0.3.0.TKHCNXM:user/release-keys     |
 |    Xiaomi    | Redmi  |    K50Pro     |  22021211RC  |   munch    |   31    |      Redmi/munch/munch:12/SKQ1.211006.001/V13.0.11.0.SLMCNXM:user/release-keys      |
 |    Xiaomi    | Redmi  |    K50Pro     |  22021211RC  |   munch    |   33    |      Redmi/munch/munch:13/TKQ1.220807.001/V14.0.9.0.TLMCNXM:user/release-keys       |
+|    Xiaomi    | Redmi  |      K70      |  23113RKC6C  |  vermeer   |   34    |   Redmi/vermeer/vermeer:14/UKQ1.230804.001/V816.0.17.0.UNKCNXM:user/release-keys    |
 |    Xiaomi    | xiaomi |    Note 4     | Redmi Note 4 |    mido    |   24    |           xiaomi/mido/mido:7.0/NRD90M/V11.0.2.0.NCFMIXM:user/release-keys           |
 |    Xiaomi    | Xiaomi |  Mi 10 Youth  |   M2002J9E   |  vangogh   |   29    |    Xiaomi/vangogh/vangogh:10/QKQ1.191222.002/V12.0.5.0.QJVCNXM:user/release-keys    |
 |    Xiaomi    | Xiaomi |    11 Lite    |   M2101K9C   |   renoir   |   30    |     Xiaomi/renoir/renoir:11/RKQ1.201112.002/V12.5.3.0.RKICNXM:user/release-keys     |
