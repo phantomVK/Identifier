@@ -33,8 +33,7 @@ internal class HuaweiServiceProvider(config: ProviderConfig) : AbstractProvider(
         }
 
         if (config.isLimitAdTracking) {
-          val isLimited = asInterface.isOaidTrackLimited
-          if (isLimited) {
+          if (asInterface.isOaidTrackLimited) {
             return CallBinderResult.Failed(LIMIT_AD_TRACKING_IS_ENABLED)
           }
         }

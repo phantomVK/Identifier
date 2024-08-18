@@ -29,8 +29,7 @@ internal class HonorServiceProvider(config: ProviderConfig) : AbstractProvider(c
           }
         }
 
-        val result = getId(asInterface)
-        return result ?: CallBinderResult.Failed(ID_INFO_IS_NULL)
+        return getId(asInterface) ?: CallBinderResult.Failed(ID_INFO_IS_NULL)
       }
     }
 

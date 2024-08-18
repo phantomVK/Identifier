@@ -29,8 +29,7 @@ abstract class AbstractProvider(protected val config: ProviderConfig) : Runnable
 
   protected fun isPackageInfoExisted(packageName: String): Boolean {
     return try {
-      val manager = config.context.packageManager
-      manager.getPackageInfo(packageName, 0) != null
+      config.context.packageManager.getPackageInfo(packageName, 0) != null
     } catch (t: Throwable) {
       false
     }
@@ -38,8 +37,7 @@ abstract class AbstractProvider(protected val config: ProviderConfig) : Runnable
 
   protected fun isContentProviderExisted(packageName: String): Boolean {
     return try {
-      val manager = config.context.packageManager
-      manager.resolveContentProvider(packageName, 0) != null
+      config.context.packageManager.resolveContentProvider(packageName, 0) != null
     } catch (t: Throwable) {
       false
     }
@@ -62,9 +60,7 @@ abstract class AbstractProvider(protected val config: ProviderConfig) : Runnable
 
   private fun getSignatures(pm: PackageManager, packageName: String): Array<Signature>? {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-      val flag = PackageManager.GET_SIGNING_CERTIFICATES
-      val info = pm.getPackageInfo(packageName, flag)?.signingInfo ?: return null
-
+      val info = pm.getPackageInfo(packageName, PackageManager.GET_SIGNING_CERTIFICATES)?.signingInfo ?: return null
       return if (info.hasMultipleSigners()) {
         info.apkContentsSigners
       } else {
@@ -72,8 +68,7 @@ abstract class AbstractProvider(protected val config: ProviderConfig) : Runnable
       }
     }
 
-    val flag = PackageManager.GET_SIGNATURES
-    val signatures = pm.getPackageInfo(packageName, flag)?.signatures
+    val signatures = pm.getPackageInfo(packageName, PackageManager.GET_SIGNATURES)?.signatures
     if (signatures.isNullOrEmpty() || signatures[0] == null) {
       return null
     }
@@ -102,9 +97,7 @@ abstract class AbstractProvider(protected val config: ProviderConfig) : Runnable
   }
 
   protected fun getSignatureHash(): CallBinderResult {
-    val pkgManager = config.context.packageManager
-    val pkgName = config.context.packageName
-    val signature = getSignatures(pkgManager, pkgName)?.firstOrNull()
+    val signature = getSignatures(config.context.packageManager, config.context.packageName)?.firstOrNull()
     if (signature == null) {
       return CallBinderResult.Failed(SIGNATURE_IS_NULL)
     }
@@ -126,10 +119,7 @@ abstract class AbstractProvider(protected val config: ProviderConfig) : Runnable
     }
   }
 
-  protected fun bindService(
-    intent: Intent,
-    binderCallback: BinderCallback
-  ) {
+  protected fun bindService(intent: Intent, binderCallback: BinderCallback) {
     val conn = object : ServiceConnection {
       override fun onServiceConnected(name: ComponentName, service: IBinder) {
         try {
@@ -160,8 +150,7 @@ abstract class AbstractProvider(protected val config: ProviderConfig) : Runnable
     }
 
     try {
-      val success = config.context.bindService(intent, conn, Context.BIND_AUTO_CREATE)
-      if (!success) {
+      if (!config.context.bindService(intent, conn, Context.BIND_AUTO_CREATE)) {
         getCallback().onError("Bind service return false.", null)
       }
     } catch (t: Throwable) {
