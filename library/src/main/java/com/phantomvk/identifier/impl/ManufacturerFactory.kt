@@ -130,8 +130,6 @@ internal object ManufacturerFactory {
       providers.add(ZteProvider(config))
     }
 
-    providers.add(GoogleAdvertisingIdProvider(config))
-
     if (config.isExperimental) {
       if (sysPropertyEquals("ro.build.uiversion", "360UI")) {
         providers.add(QikuServiceProvider(config))
@@ -153,6 +151,8 @@ internal object ManufacturerFactory {
       providers.add(XtcProvider(config))
       providers.add(MsaProvider(config))
     }
+
+    providers.add(GoogleAdvertisingIdProvider(config))
 
     return providers
   }
