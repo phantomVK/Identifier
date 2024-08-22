@@ -38,8 +38,8 @@ internal class DisposableResultListener(
       }
 
       if (callback != null) {
-        runOnMainThread {
-          reference.get()?.let {
+        reference.get()?.let {
+          runOnMainThread {
             callback.invoke(it)
           }
         }
