@@ -61,27 +61,43 @@ internal object ManufacturerFactory {
 
   fun getProviders(config: ProviderConfig): List<AbstractProvider> {
     val providers = ArrayList<AbstractProvider>()
+    addProviders(config, providers)
+    addExperimentalProviders(config, providers)
+    addGoogleAdvertisingId(config, providers)
+    return providers
+  }
+
+  private fun addProviders(config: ProviderConfig, providers: ArrayList<AbstractProvider>) {
     if (isBrand("ASUS")) {
       providers.add(AsusProvider(config))
+      return
     }
 
     if (isBrand("coolpad")) {
       providers.add(CoolpadProvider(config))
+      return
     }
 
     if (isBrand("HUAWEI")
+      || isBrand("HONOR")
       || isBrand("HUAWEI", "HONOR")
       || sysPropertyContains("ro.build.version.emui")
     ) {
-      providers.add(HuaweiSdkProvider(config))
-      providers.add(HuaweiSettingsProvider(config))
-      providers.add(HuaweiServiceProvider(config))
-    }
+      if (isBrand("HUAWEI")
+        || isBrand("HUAWEI", "HONOR")
+        || sysPropertyContains("ro.build.version.emui")
+      ) {
+        providers.add(HuaweiSdkProvider(config))
+        providers.add(HuaweiSettingsProvider(config))
+        providers.add(HuaweiServiceProvider(config))
+      }
 
-    if (isBrand("HONOR")) {
-      providers.add(HonorSdkProvider(config))
-      providers.add(HonorSettingsProvider(config))
-      providers.add(HonorServiceProvider(config))
+      if (isBrand("HONOR")) {
+        providers.add(HonorSdkProvider(config))
+        providers.add(HonorSettingsProvider(config))
+        providers.add(HonorServiceProvider(config))
+      }
+      return
     }
 
     if (isBrand("LENOVO")
@@ -89,6 +105,7 @@ internal object ManufacturerFactory {
       || isBrand("MOTOROLA")
     ) {
       providers.add(ZuiProvider(config))
+      return
     }
 
     if (isBrand("XIAOMI")
@@ -97,10 +114,12 @@ internal object ManufacturerFactory {
       || sysPropertyContains("ro.miui.ui.version.name")
     ) {
       providers.add(XiaomiProvider(config))
+      return
     }
 
     if (isBrand("NUBIA")) {
       providers.add(NubiaProvider(config))
+      return
     }
 
     if (isBrand("OPPO")
@@ -110,50 +129,67 @@ internal object ManufacturerFactory {
     ) {
       providers.add(OppoColorOsProvider(config))
       providers.add(OppoHeyTapProvider(config))
+      return
     }
 
     if (isBrand("VIVO") || sysPropertyContains("ro.vivo.os.version")) {
       if (sysProperty("persist.sys.identifierid.supported", "0") == "1") {
         providers.add(VivoProvider(config))
       }
+      return
     }
 
     if (isBrand("SAMSUNG")) {
       providers.add(SamsungProvider(config))
+      return
     }
 
     if (isBrand("MEIZU") || Build.DISPLAY.contains("FLYME", true)) {
       providers.add(MeizuProvider(config))
+      return
     }
 
     if (isBrand("ZTE")) {
       providers.add(ZteProvider(config))
+      return
     }
+  }
 
+  private fun addExperimentalProviders(
+    config: ProviderConfig,
+    providers: ArrayList<AbstractProvider>
+  ) {
     if (config.isExperimental) {
       if (sysPropertyEquals("ro.build.uiversion", "360UI")) {
         providers.add(QikuServiceProvider(config))
         providers.add(QikuBinderProvider(config))
+        return
       }
 
       if (sysPropertyContains("ro.build.freeme.label")) {
         providers.add(FreemeProvider(config))
+        return
       }
 
       if (isBrand("Pico")) {
         providers.add(PicoProvider(config))
+        return
       }
 
       if (sysPropertyEquals("ro.odm.manufacturer", "PRIZE")) {
         providers.add(CooseaProvider(config))
+        return
       }
 
       providers.add(XtcProvider(config))
       providers.add(MsaProvider(config))
     }
+  }
 
+  private fun addGoogleAdvertisingId(
+    config: ProviderConfig,
+    providers: ArrayList<AbstractProvider>
+  ) {
     providers.add(GoogleAdvertisingIdProvider(config))
-
-    return providers
   }
 }
