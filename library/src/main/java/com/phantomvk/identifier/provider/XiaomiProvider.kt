@@ -20,18 +20,7 @@ internal class XiaomiProvider(config: ProviderConfig) : AbstractProvider(config)
 
   override fun run() {
     val instance = clazz!!.getDeclaredConstructor().newInstance()
-
-    try {
-      val method = clazz.getMethod("getOAID", Context::class.java)
-      val id = method.invoke(instance, config.context) as? String
-      if (id != null && checkId(id) is CallBinderResult.Success) {
-        getCallback().onSuccess(id)
-        return
-      }
-    } catch (t: Throwable) {
-    }
-
-    val method = clazz.getMethod("getAAID", Context::class.java)
+    val method = clazz.getMethod("getOAID", Context::class.java)
     val id = method.invoke(instance, config.context) as? String
     checkId(id, getCallback())
   }
