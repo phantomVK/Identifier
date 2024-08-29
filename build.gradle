@@ -16,8 +16,8 @@ buildscript {
         compileSdk = 34
         minSdk = 21
         targetSdk = 34
-        versionCode = 405
-        versionName = "0.4.5"
+        versionCode = 406
+        versionName = "0.4.6"
 
         appcompat = '1.7.0'
 

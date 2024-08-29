@@ -3,22 +3,33 @@ package com.phantomvk.identifier.provider
 import android.content.ComponentName
 import android.content.Intent
 import android.os.IBinder
+import android.os.IInterface
+import android.os.Parcel
+import android.os.RemoteException
 import com.phantomvk.identifier.model.ProviderConfig
-import generated.com.heytap.openid.IOpenID
 
-internal class OppoHeyTapProvider(config: ProviderConfig) : AbstractProvider(config) {
+internal open class OppoHeyTapProvider(config: ProviderConfig) : AbstractProvider(config) {
 
   override fun isSupported(): Boolean {
     return isPackageInfoExisted("com.heytap.openid")
   }
 
   override fun run() {
+    getId(
+      "com.heytap.openid.IOpenID",
+      "com.heytap.openid",
+      "com.heytap.openid.IdentifyService",
+      "action.com.heytap.openid.OPEN_ID_SERVICE"
+    )
+  }
+
+  protected fun getId(descriptor: String, pkg: String, cla: String, action: String) {
     val binderCallback = object : BinderCallback {
       override fun call(binder: IBinder): CallBinderResult {
-        val asInterface = IOpenID.Stub.asInterface(binder)
-        if (asInterface == null) {
-          return CallBinderResult.Failed(AIDL_INTERFACE_IS_NULL)
-        }
+        val asInterface = OppoOpenId(binder, descriptor)
+//        if (asInterface == null) {
+//          return CallBinderResult.Failed(AIDL_INTERFACE_IS_NULL)
+//        }
 
         val sign = when (val result = getSignatureHash()) {
           is CallBinderResult.Failed -> return result
@@ -30,9 +41,36 @@ internal class OppoHeyTapProvider(config: ProviderConfig) : AbstractProvider(con
       }
     }
 
-    val component = ComponentName("com.heytap.openid", "com.heytap.openid.IdentifyService")
-    val intent = Intent("action.com.heytap.openid.OPEN_ID_SERVICE").setComponent(component)
+    val component = ComponentName(pkg, cla)
+    val intent = Intent(action).setComponent(component)
     bindService(intent, binderCallback)
+  }
+
+  private class OppoOpenId(
+    private val remote: IBinder,
+    private val descriptor: String
+  ) : IInterface {
+    override fun asBinder(): IBinder { return remote }
+
+    @Throws(RemoteException::class)
+    fun getSerID(pkgName: String, sign: String, type: String): String {
+      val data = Parcel.obtain()
+      val reply = Parcel.obtain()
+      val result: String
+      try {
+        data.writeInterfaceToken(descriptor)
+        data.writeString(pkgName)
+        data.writeString(sign)
+        data.writeString(type)
+        remote.transact(1, data, reply, 0)
+        reply.readException()
+        result = reply.readString()!!
+      } finally {
+        reply.recycle()
+        data.recycle()
+      }
+      return result
+    }
   }
 
 //  private fun getIdName(name: String): String {
