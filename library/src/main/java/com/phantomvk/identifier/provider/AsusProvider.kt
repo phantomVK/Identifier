@@ -3,8 +3,8 @@ package com.phantomvk.identifier.provider
 import android.content.ComponentName
 import android.content.Intent
 import android.os.IBinder
+import android.os.Parcel
 import com.phantomvk.identifier.model.ProviderConfig
-import generated.com.asus.msa.SupplementaryDID.IDidAidlInterface
 
 internal class AsusProvider(config: ProviderConfig) : AbstractProvider(config) {
 
@@ -15,19 +15,13 @@ internal class AsusProvider(config: ProviderConfig) : AbstractProvider(config) {
   override fun run() {
     val binderCallback = object : BinderCallback {
       override fun call(binder: IBinder): CallBinderResult {
-        val asInterface = IDidAidlInterface.Stub.asInterface(binder)
-        if (asInterface == null) {
-          return CallBinderResult.Failed(AIDL_INTERFACE_IS_NULL)
-        }
-
         if (config.isLimitAdTracking) {
-          val isSupport = asInterface.isSupport
-          if (!isSupport) {
+          if (!isSupport(binder)) {
             return CallBinderResult.Failed(LIMIT_AD_TRACKING_IS_ENABLED)
           }
         }
 
-        return checkId(asInterface.oaid)
+        return checkId(getOAID(binder))
       }
     }
 
@@ -35,5 +29,37 @@ internal class AsusProvider(config: ProviderConfig) : AbstractProvider(config) {
     val componentName = ComponentName("com.asus.msa.SupplementaryDID", "com.asus.msa.SupplementaryDID.SupplementaryDIDService")
     intent.setComponent(componentName)
     bindService(intent, binderCallback)
+  }
+
+  private fun isSupport(remote: IBinder): Boolean {
+    val data = Parcel.obtain()
+    val reply = Parcel.obtain()
+    val result: Boolean
+    try {
+      data.writeInterfaceToken("com.asus.msa.SupplementaryDID.IDidAidlInterface")
+      remote.transact(1, data, reply, 0)
+      reply.readException()
+      result = (0 != reply.readInt())
+    } finally {
+      reply.recycle()
+      data.recycle()
+    }
+    return result
+  }
+
+  private fun getOAID(remote: IBinder): String? {
+    val data = Parcel.obtain()
+    val reply = Parcel.obtain()
+    val result: String?
+    try {
+      data.writeInterfaceToken("com.asus.msa.SupplementaryDID.IDidAidlInterface")
+      remote.transact(3, data, reply, 0)
+      reply.readException()
+      result = reply.readString()
+    } finally {
+      reply.recycle()
+      data.recycle()
+    }
+    return result
   }
 }
