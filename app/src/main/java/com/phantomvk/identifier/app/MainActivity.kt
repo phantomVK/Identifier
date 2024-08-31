@@ -25,6 +25,21 @@ import java.util.concurrent.Executor
 
 class MainActivity : AppCompatActivity() {
 
+  private val isDebugVal = true
+  private val isExperimentalVal = true
+  private val isLimitAdTrackingVal = true
+  private val isMemCacheEnableVal = false
+  private val instance by lazy {
+    IdentifierManager.Builder(applicationContext)
+      .setDebug(isDebugVal)
+      .setExperimental(isExperimentalVal)
+      .setLimitAdTracking(isLimitAdTrackingVal)
+      .setMemCacheEnable(isMemCacheEnableVal)
+      .setExecutor { Thread(it).start() } // optional: setup custom ThreadPoolExecutor
+      .setLogger(LoggerImpl())
+      .init()
+  }
+
   private var disposable: Disposable? = null
 
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,6 +56,7 @@ class MainActivity : AppCompatActivity() {
       override fun onError(msg: String, t: Throwable?) { updateTextInfo(msg, t) }
     }
 
+    Log.i("IdentifierTAG", "IdentifierManager: $instance")
     disposable?.dispose()
     disposable = IdentifierManager
       .getInstance()
@@ -54,9 +70,9 @@ class MainActivity : AppCompatActivity() {
       val str = getResultList().joinToString("\n\n") { "# ${it.tag}: (${it.ts} μs)\n${it.id}" }
       val finalStr = deviceInfo + "\n\n" + str
       Log.i("IdentifierTAG", finalStr, t)
-      if (msg?.isNotBlank() == true) {
-        copyToClipboard(finalStr)
-      }
+//      if (msg?.isNotBlank() == true) {
+//        copyToClipboard(finalStr)
+//      }
 
       val textView = findViewById<TextView>(R.id.system_textview)
       launch(Dispatchers.Main) { textView.text = finalStr }
@@ -98,10 +114,10 @@ class MainActivity : AppCompatActivity() {
   private fun getResultList(): List<ResultModel> {
     val list = ArrayList<ResultModel>()
     val config = ProviderConfig(applicationContext).apply {
-      isDebug = true
-      isExperimental = true
-      isLimitAdTracking = false
-      isMemCacheEnabled = false
+      isDebug = isDebugVal
+      isExperimental = isExperimentalVal
+      isLimitAdTracking = isLimitAdTrackingVal
+      isMemCacheEnabled = isMemCacheEnableVal
       executor = Executor { r -> Thread(r).start() }
       callback = WeakReference(object : OnResultListener {
         override fun onSuccess(id: String) {}
