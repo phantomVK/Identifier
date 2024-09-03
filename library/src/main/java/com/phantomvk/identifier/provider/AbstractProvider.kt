@@ -79,12 +79,12 @@ abstract class AbstractProvider(protected val config: ProviderConfig) : Runnable
   /**
    * Calculate hash value using specified algorithm.
    */
-  private fun hash(algorithm: String, bytes: ByteArray): String? {
+  private fun sha1(bytes: ByteArray): String? {
     if (bytes.isEmpty()) return null
 
     return try {
       val sb = StringBuilder()
-      val byteArray = MessageDigest.getInstance(algorithm).digest(bytes)
+      val byteArray = MessageDigest.getInstance("SHA1").digest(bytes)
 
       for (byte in byteArray) {
         sb.append(String.format("%02x", byte))
@@ -103,7 +103,7 @@ abstract class AbstractProvider(protected val config: ProviderConfig) : Runnable
     }
 
     val byteArray = signature.toByteArray()
-    val sign = hash("SHA1", byteArray)
+    val sign = sha1(byteArray)
     if (sign.isNullOrBlank()) {
       return CallBinderResult.Failed(SIGNATURE_HASH_IS_NULL)
     }
@@ -192,4 +192,28 @@ abstract class AbstractProvider(protected val config: ProviderConfig) : Runnable
     const val SIGNATURE_IS_NULL: String = "Signature is null."
     const val SIGNATURE_HASH_IS_NULL: String = "Signature hash is null."
   }
+
+//  protected inline fun <reified T> getResult(clazz: String, method: String, context: Context): T? {
+//    return try {
+//      Class.forName(clazz).getMethod(method, Context::class.java).invoke(null, context) as? T
+//    } catch (t: Throwable) {
+//      null
+//    }
+//  }
+//
+//  protected inline fun <reified T> getMethodResult(obj: Any, name: String): T? {
+//    return try {
+//      obj::class.java.getMethod(name).invoke(obj) as? T
+//    } catch (t: Throwable) {
+//      null
+//    }
+//  }
+//
+//  protected inline fun <reified T> getFieldResult(obj: Any, name: String): T? {
+//    return try {
+//      obj::class.java.getField(name).get(obj) as? T
+//    } catch (t: Throwable) {
+//      null
+//    }
+//  }
 }
