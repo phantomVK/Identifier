@@ -7,11 +7,8 @@ import com.phantomvk.identifier.model.ProviderConfig
 
 internal class SamsungProvider(config: ProviderConfig) : AbstractProvider(config) {
 
-  private val pkgName = "com.samsung.android.deviceidservice"
-  private val className = "com.samsung.android.deviceidservice.DeviceIdService"
-
   override fun isSupported(): Boolean {
-    return isPackageInfoExisted(pkgName)
+    return isPackageInfoExisted("com.samsung.android.deviceidservice")
   }
 
   override fun run() {
@@ -33,7 +30,7 @@ internal class SamsungProvider(config: ProviderConfig) : AbstractProvider(config
       }
     }
 
-    val intent = Intent().setClassName(pkgName, className)
+    val intent = Intent().setClassName("com.samsung.android.deviceidservice", "com.samsung.android.deviceidservice.DeviceIdService")
     bindService(intent, binderCallback)
   }
 }

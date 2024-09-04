@@ -1,8 +1,6 @@
 package com.phantomvk.identifier.provider
 
-import android.content.ContentProviderClient
 import android.net.Uri
-import android.os.Build
 import com.phantomvk.identifier.model.ProviderConfig
 
 internal class NubiaProvider(config: ProviderConfig) : AbstractProvider(config) {
