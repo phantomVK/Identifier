@@ -25,7 +25,12 @@ public class Subscription {
     public Disposable subscribe() {
         // cachedId is always null when cache is disabled.
         String id = cachedId;
-        if (!TextUtils.isEmpty(id)) {
+        if (TextUtils.isEmpty(id)) {
+            // post the runnable to the executor even on the async thread.
+            SerialRunnable runnable = new SerialRunnable(config);
+            config.getExecutor().execute(runnable);
+            return runnable;
+        } else {
             OnResultListener callback = config.getCallback().get();
             if (callback != null) {
                 ThreadKt.runOnMainThread(0, () -> callback.onSuccess(id));
@@ -34,11 +39,6 @@ public class Subscription {
             // In order to return a non-null object.
             return new DisposedDisposable();
         }
-
-        // post the runnable to the executor even on the async thread.
-        SerialRunnable runnable = new SerialRunnable(config);
-        config.getExecutor().execute(runnable);
-        return runnable;
     }
 
     private static final class CacheResultListener implements OnResultListener {
