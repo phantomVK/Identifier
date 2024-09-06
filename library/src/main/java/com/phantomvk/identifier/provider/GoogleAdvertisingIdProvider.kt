@@ -57,7 +57,7 @@ internal class GoogleAdvertisingIdProvider(config: ProviderConfig) : AbstractPro
     val result: Boolean
     try {
       data.writeInterfaceToken("com.google.android.gms.ads.identifier.internal.IAdvertisingIdService")
-      data.writeInt((1))
+      data.writeInt(1)
       remote.transact(2, data, reply, 0)
       reply.readException()
       result = (0 != reply.readInt())
