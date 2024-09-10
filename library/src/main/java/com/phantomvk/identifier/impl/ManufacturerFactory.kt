@@ -63,7 +63,11 @@ internal object ManufacturerFactory {
     val providers = ArrayList<AbstractProvider>()
     addProviders(config, providers)
     addExperimentalProviders(config, providers)
-    addGoogleAdvertisingId(config, providers)
+
+    if (config.isGoogleAdsIdEnabled) {
+      providers.add(GoogleAdvertisingIdProvider(config))
+    }
+
     return providers
   }
 
@@ -184,12 +188,5 @@ internal object ManufacturerFactory {
       providers.add(XtcProvider(config))
       providers.add(MsaProvider(config))
     }
-  }
-
-  private fun addGoogleAdvertisingId(
-    config: ProviderConfig,
-    providers: ArrayList<AbstractProvider>
-  ) {
-    providers.add(GoogleAdvertisingIdProvider(config))
   }
 }

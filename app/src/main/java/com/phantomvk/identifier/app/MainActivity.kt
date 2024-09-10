@@ -27,12 +27,14 @@ class MainActivity : AppCompatActivity() {
 
   private val isDebugVal = true
   private val isExperimentalVal = true
+  private val isGoogleAdsIdEnableVal = true
   private val isLimitAdTrackingVal = true
   private val isMemCacheEnableVal = false
   private val instance by lazy {
     IdentifierManager.Builder(applicationContext)
       .setDebug(isDebugVal)
       .setExperimental(isExperimentalVal)
+      .setGoogleAdsIdEnable(isGoogleAdsIdEnableVal)
       .setLimitAdTracking(isLimitAdTrackingVal)
       .setMemCacheEnable(isMemCacheEnableVal)
       .setExecutor { Thread(it).start() } // optional: setup custom ThreadPoolExecutor
@@ -116,6 +118,7 @@ class MainActivity : AppCompatActivity() {
     val config = ProviderConfig(applicationContext).apply {
       isDebug = isDebugVal
       isExperimental = isExperimentalVal
+      isGoogleAdsIdEnabled = isGoogleAdsIdEnableVal
       isLimitAdTracking = isLimitAdTrackingVal
       isMemCacheEnabled = isMemCacheEnableVal
       executor = Executor { r -> Thread(r).start() }

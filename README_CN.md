@@ -44,6 +44,7 @@ class Application : android.app.Application() {
     IdentifierManager.Builder(applicationContext)
       .setDebug(false)
       .setExperimental(false)
+      .setGoogleAdsIdEnable(true)         // 可选: 使用GoogleAdsId作为备选，默认关闭
       .setLimitAdTracking(false)
       .setMemCacheEnable(true)
       .setExecutor { Thread(it).start() } // 可选: 设置自定义ThreadPoolExecutor

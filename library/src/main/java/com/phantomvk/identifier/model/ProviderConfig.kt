@@ -8,8 +8,9 @@ import java.util.concurrent.Executor
 class ProviderConfig(val context: Context) {
   var isDebug = false
   var isExperimental = false
-  var isMemCacheEnabled = false
+  var isGoogleAdsIdEnabled = false
   var isLimitAdTracking: Boolean = false
+  var isMemCacheEnabled = false
 
   lateinit var callback: WeakReference<OnResultListener>
   lateinit var executor: Executor

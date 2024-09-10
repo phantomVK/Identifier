@@ -19,6 +19,7 @@ public final class IdentifierManager {
     private Executor executor = null;
     private boolean isDebug = false;
     private boolean isExperimental = false;
+    private boolean isGoogleAdsIdEnabled = false;
     private boolean isLimitAdTracking = false;
     private boolean isMemCacheEnabled = false;
 
@@ -39,6 +40,7 @@ public final class IdentifierManager {
         config.setDebug(isDebug);
         config.setExecutor(executor);
         config.setExperimental(isExperimental);
+        config.setGoogleAdsIdEnabled(isGoogleAdsIdEnabled);
         config.setLimitAdTracking(isLimitAdTracking);
         config.setMemCacheEnabled(isMemCacheEnabled);
         return new Subscription(config, callback);
@@ -50,6 +52,7 @@ public final class IdentifierManager {
         private Executor executor = null;
         private boolean isDebug = false;
         private boolean isExperimental = false;
+        private boolean isGoogleAdsIdEnabled = false;
         private boolean isLimitAdTracking = false;
         private boolean isMemCacheEnabled = false;
 
@@ -70,6 +73,12 @@ public final class IdentifierManager {
         @NonNull
         public Builder setExperimental(boolean enable) {
             isExperimental = enable;
+            return this;
+        }
+
+        @NonNull
+        public Builder setGoogleAdsIdEnable(boolean enable){
+            isGoogleAdsIdEnabled = enable;
             return this;
         }
 
@@ -109,6 +118,7 @@ public final class IdentifierManager {
                     manager.executor = executor == null ? c -> new Thread(c).start() : executor;
                     manager.isDebug = isDebug;
                     manager.isExperimental = isExperimental;
+                    manager.isGoogleAdsIdEnabled = isGoogleAdsIdEnabled;
                     manager.isLimitAdTracking = isLimitAdTracking;
                     manager.isMemCacheEnabled = isMemCacheEnabled;
                     sInstance = manager;
