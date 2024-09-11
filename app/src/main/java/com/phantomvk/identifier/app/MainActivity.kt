@@ -9,6 +9,7 @@ import android.provider.Settings
 import android.util.Log
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.phantomvk.identifier.IdentifierManager
@@ -72,12 +73,16 @@ class MainActivity : AppCompatActivity() {
       val str = getResultList().joinToString("\n\n") { "# ${it.tag}: (${it.ts} μs)\n${it.id}" }
       val finalStr = deviceInfo + "\n\n" + str
       Log.i("IdentifierTAG", finalStr, t)
-//      if (msg?.isNotBlank() == true) {
-//        copyToClipboard(finalStr)
-//      }
 
       val textView = findViewById<TextView>(R.id.system_textview)
-      launch(Dispatchers.Main) { textView.text = finalStr }
+      launch(Dispatchers.Main) {
+        textView.text = finalStr
+        textView.setOnLongClickListener {
+          copyToClipboard(finalStr)
+          Toast.makeText(baseContext, "Message copied.", Toast.LENGTH_SHORT).show()
+          return@setOnLongClickListener true
+        }
+      }
     }
   }
 
@@ -92,7 +97,6 @@ class MainActivity : AppCompatActivity() {
         * Incremental: ${Build.VERSION.INCREMENTAL}
         * Fingerprint: ${Build.FINGERPRINT}
         * | ${Build.MANUFACTURER} | ${Build.BRAND} | === | ${Build.MODEL} | ${Build.DEVICE} | ${Build.VERSION.SDK_INT} | ${Build.FINGERPRINT} |
-        * AndroidId: ${getAndroidID(this)}
         * oaid: $id
       """.trimIndent()
   }

@@ -10,7 +10,7 @@ import com.phantomvk.identifier.model.ProviderConfig
  *
  * https://developers.google.com/android/reference/com/google/android/gms/ads/identifier/AdvertisingIdClient.Info
  */
-internal class GoogleAdvertisingIdProvider(config: ProviderConfig) : AbstractProvider(config) {
+internal class GoogleAdsIdProvider(config: ProviderConfig) : AbstractProvider(config) {
 
   override fun isSupported(): Boolean {
     return isPackageInfoExisted("com.android.vending")

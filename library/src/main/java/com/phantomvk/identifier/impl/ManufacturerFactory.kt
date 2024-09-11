@@ -7,7 +7,7 @@ import com.phantomvk.identifier.provider.AsusProvider
 import com.phantomvk.identifier.provider.CoolpadProvider
 import com.phantomvk.identifier.provider.CooseaProvider
 import com.phantomvk.identifier.provider.FreemeProvider
-import com.phantomvk.identifier.provider.GoogleAdvertisingIdProvider
+import com.phantomvk.identifier.provider.GoogleAdsIdProvider
 import com.phantomvk.identifier.provider.HonorSdkProvider
 import com.phantomvk.identifier.provider.HonorServiceProvider
 import com.phantomvk.identifier.provider.HonorSettingsProvider
@@ -65,7 +65,7 @@ internal object ManufacturerFactory {
     addExperimentalProviders(config, providers)
 
     if (config.isGoogleAdsIdEnabled) {
-      providers.add(GoogleAdvertisingIdProvider(config))
+      providers.add(GoogleAdsIdProvider(config))
     }
 
     return providers
