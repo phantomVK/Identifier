@@ -130,7 +130,7 @@ abstract class AbstractProvider(protected val config: ProviderConfig) : Runnable
         } catch (t: Throwable) {
           getCallback().onError(EXCEPTION_THROWN, t)
         } finally {
-          unbindService(config.context, this)
+          unbindService(this)
         }
       }
 
@@ -140,29 +140,29 @@ abstract class AbstractProvider(protected val config: ProviderConfig) : Runnable
 
       override fun onBindingDied(name: ComponentName) {
         getCallback().onError("Service is on binding died.")
-        unbindService(config.context, this)
+        unbindService(this)
       }
 
       override fun onNullBinding(name: ComponentName) {
         getCallback().onError("Service is on null binding.")
-        unbindService(config.context, this)
+        unbindService(this)
       }
     }
 
     try {
       if (!config.context.bindService(intent, conn, Context.BIND_AUTO_CREATE)) {
         getCallback().onError("Bind service return false.", null)
-        unbindService(config.context, conn)
+        unbindService(conn)
       }
     } catch (t: Throwable) {
       getCallback().onError("Bind service error.", t)
-      unbindService(config.context, conn)
+      unbindService(conn)
     }
   }
 
-  private fun unbindService(context: Context, conn: ServiceConnection) {
+  private fun unbindService(conn: ServiceConnection) {
     try {
-      context.unbindService(conn)
+      config.context.unbindService(conn)
     } catch (ignore: Throwable) {
     }
   }
