@@ -13,5 +13,5 @@ class ProviderConfig(val context: Context) {
   var isMemCacheEnabled = false
 
   lateinit var callback: WeakReference<OnResultListener>
-  lateinit var executor: Executor
+  var executor: Executor = Executor { c: Runnable -> Thread(c).start() }
 }
