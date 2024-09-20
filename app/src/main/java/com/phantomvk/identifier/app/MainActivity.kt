@@ -132,13 +132,11 @@ class MainActivity : AppCompatActivity() {
       })
     }
 
-    val clazz = Class.forName("com.phantomvk.identifier.impl.ManufacturerFactory")
-    val instance = clazz.getField("INSTANCE").get(null)
-    val providers = clazz.getMethod("getProviders", ProviderConfig::class.java)
-      .apply { isAccessible = true }
-      .invoke(instance, config) as List<AbstractProvider>
-
     val decimalFormat = DecimalFormat("#,###")
+    val clazz = Class.forName("com.phantomvk.identifier.impl.SerialRunnable")
+    val instance = clazz.getConstructor(ProviderConfig::class.java).newInstance(config)
+    val providers = clazz.getDeclaredMethod("getProviders").apply { isAccessible = true }.invoke(instance) as List<AbstractProvider>
+
     for (provider in providers) {
       val startNameTs = System.nanoTime()
       val isSupported = try {

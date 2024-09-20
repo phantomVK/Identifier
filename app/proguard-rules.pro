@@ -20,9 +20,8 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
--keepclassmembers class com.phantomvk.identifier.impl.ManufacturerFactory {
-    public static <fields>;
-    public *** getProviders(...);
+-keepclassmembers class com.phantomvk.identifier.impl.SerialRunnable {
+    private *** getProviders(...);
 }
 
 -keepnames class com.phantomvk.identifier.provider.*

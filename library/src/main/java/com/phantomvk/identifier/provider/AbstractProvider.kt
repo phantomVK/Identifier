@@ -27,6 +27,14 @@ abstract class AbstractProvider(protected val config: ProviderConfig) : Runnable
     return resultCallback
   }
 
+  protected fun isBrand(brand: String): Boolean {
+    return Build.MANUFACTURER.equals(brand, true) && Build.BRAND.equals(brand, true)
+  }
+
+  protected fun isBrand(manufacturer: String, brand: String): Boolean {
+    return Build.MANUFACTURER.equals(manufacturer, true) && Build.BRAND.equals(brand, true)
+  }
+
   protected fun isPackageInfoExisted(packageName: String): Boolean {
     return try {
       config.context.packageManager.getPackageInfo(packageName, 0) != null
@@ -41,6 +49,24 @@ abstract class AbstractProvider(protected val config: ProviderConfig) : Runnable
     } catch (t: Throwable) {
       false
     }
+  }
+
+  protected fun sysProperty(key: String, defValue: String): String? {
+    return try {
+      val clazz = Class.forName("android.os.SystemProperties")
+      val method = clazz.getMethod("get", String::class.java, String::class.java)
+      method.invoke(clazz, key, defValue) as String
+    } catch (t: Throwable) {
+      null
+    }
+  }
+
+  protected fun sysPropertyContains(key: String): Boolean {
+    return !sysProperty(key, "").isNullOrBlank()
+  }
+
+  protected fun sysPropertyEquals(key: String, value: String): Boolean {
+    return sysProperty(key, "").equals(value, true)
   }
 
   protected fun checkId(id: String?, callback: OnResultListener? = null): CallBinderResult {
