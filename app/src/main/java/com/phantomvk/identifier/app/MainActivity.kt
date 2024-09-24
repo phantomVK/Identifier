@@ -26,21 +26,33 @@ import java.util.concurrent.Executor
 
 class MainActivity : AppCompatActivity() {
 
-  private val isDebugVal = true
-  private val isExperimentalVal = true
-  private val isGoogleAdsIdEnableVal = true
-  private val isLimitAdTrackingVal = true
-  private val isMemCacheEnableVal = false
-  private val instance by lazy {
-    IdentifierManager.Builder(applicationContext)
-      .setDebug(isDebugVal)
-      .setExperimental(isExperimentalVal)
-      .setGoogleAdsIdEnable(isGoogleAdsIdEnableVal)
-      .setLimitAdTracking(isLimitAdTrackingVal)
-      .setMemCacheEnable(isMemCacheEnableVal)
-      .setExecutor { Thread(it).start() } // optional: setup custom ThreadPoolExecutor
-      .setLogger(LoggerImpl())
-      .init()
+  private companion object {
+    private const val IS_DEBUG = true
+    private const val IS_EXPERIMENTAL = true
+    private const val IS_GOOGLE_ADS_ID_ENABLE = true
+    private const val IS_LIMIT_AD_TRACKING = true
+    private const val IS_MEM_CACHE_ENABLE = false
+
+    private val instance by lazy {
+      IdentifierManager.Builder(getApplication())
+        .setDebug(IS_DEBUG)
+        .setExperimental(IS_EXPERIMENTAL)
+        .setGoogleAdsIdEnable(IS_GOOGLE_ADS_ID_ENABLE)
+        .setLimitAdTracking(IS_LIMIT_AD_TRACKING)
+        .setMemCacheEnable(IS_MEM_CACHE_ENABLE)
+        .setExecutor { Thread(it).start() } // optional: setup custom ThreadPoolExecutor
+        .setLogger(LoggerImpl())
+        .init()
+    }
+
+    private fun getApplication(): Context? {
+      try {
+        val clazz = Class.forName("android.app.ActivityThread")
+        return clazz.getMethod("currentApplication").invoke(null) as Context
+      } catch (e: Exception) {
+        return null
+      }
+    }
   }
 
   private var disposable: Disposable? = null
@@ -120,11 +132,11 @@ class MainActivity : AppCompatActivity() {
   private fun getResultList(): List<ResultModel> {
     val list = ArrayList<ResultModel>()
     val config = ProviderConfig(applicationContext).apply {
-      isDebug = isDebugVal
-      isExperimental = isExperimentalVal
-      isGoogleAdsIdEnabled = isGoogleAdsIdEnableVal
-      isLimitAdTracking = isLimitAdTrackingVal
-      isMemCacheEnabled = isMemCacheEnableVal
+      isDebug = IS_DEBUG
+      isExperimental = IS_EXPERIMENTAL
+      isGoogleAdsIdEnabled = IS_GOOGLE_ADS_ID_ENABLE
+      isLimitAdTracking = IS_LIMIT_AD_TRACKING
+      isMemCacheEnabled = IS_MEM_CACHE_ENABLE
       executor = Executor { r -> Thread(r).start() }
       callback = WeakReference(object : OnResultListener {
         override fun onSuccess(id: String) {}
