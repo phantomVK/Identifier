@@ -16,15 +16,15 @@ buildscript {
         compileSdk = 34
         minSdk = 21
         targetSdk = 34
-        versionCode = 504
-        versionName = "0.5.4"
+        versionCode = 505
+        versionName = "0.5.5"
 
         hms = '3.4.62.300'
         mcs = '1.0.3.300'
 
         junit = '4.13.2'
-        android_junit = '1.2.1'
-        espresso_core = '3.6.1'
+        android_junit = '1.0.0'
+        espresso_core = '3.0.0'
     }
 }
 

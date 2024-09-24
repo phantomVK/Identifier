@@ -40,7 +40,7 @@ android {
 
 dependencies {
 
-    implementation "androidx.annotation:annotation:1.4.0"
+    implementation "androidx.annotation:annotation:1.3.0"
 
     compileOnly("com.huawei.hms:ads-identifier:$hms")
     compileOnly("com.hihonor.mcs:ads-identifier:$mcs")
