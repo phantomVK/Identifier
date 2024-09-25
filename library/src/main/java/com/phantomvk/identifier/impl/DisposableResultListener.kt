@@ -1,5 +1,6 @@
 package com.phantomvk.identifier.impl
 
+import com.phantomvk.identifier.impl.Thread.runOnMainThread
 import com.phantomvk.identifier.interfaces.Disposable
 import com.phantomvk.identifier.interfaces.OnResultListener
 import java.lang.ref.WeakReference

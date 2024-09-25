@@ -33,7 +33,7 @@ public class Subscription {
         } else {
             OnResultListener callback = config.getCallback().get();
             if (callback != null) {
-                ThreadKt.runOnMainThread(0, () -> callback.onSuccess(id));
+                Thread.runOnMainThread(0, () -> callback.onSuccess(id));
             }
 
             // In order to return a non-null object.

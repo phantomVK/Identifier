@@ -43,7 +43,7 @@ private class Proxy(private val mRemote: IBinder) : IOAIDInterface {
     val _data = Parcel.obtain()
     val _reply = Parcel.obtain()
     val _result: Int = try {
-      mRemote.transact(TRANSACTION_isSupported, _data, _reply, 0)
+      mRemote.transact(2, _data, _reply, 0)
       _reply.readException()
       _reply.readInt()
     } finally {
@@ -58,7 +58,7 @@ private class Proxy(private val mRemote: IBinder) : IOAIDInterface {
     val _data = Parcel.obtain()
     val _reply = Parcel.obtain()
     val _result: String? = try {
-      mRemote.transact(TRANSACTION_getUDID, _data, _reply, 0)
+      mRemote.transact(3, _data, _reply, 0)
       _reply.readException()
       _reply.readString()
     } finally {
@@ -73,7 +73,7 @@ private class Proxy(private val mRemote: IBinder) : IOAIDInterface {
     val _data = Parcel.obtain()
     val _reply = Parcel.obtain()
     val _result: String? = try {
-      mRemote.transact(TRANSACTION_getOAID, _data, _reply, 0)
+      mRemote.transact(4, _data, _reply, 0)
       _reply.readException()
       _reply.readString()
     } finally {
@@ -88,7 +88,7 @@ private class Proxy(private val mRemote: IBinder) : IOAIDInterface {
     val _data = Parcel.obtain()
     val _reply = Parcel.obtain()
     val _result: String? = try {
-      mRemote.transact(TRANSACTION_getVAID, _data, _reply, 0)
+      mRemote.transact(5, _data, _reply, 0)
       _reply.readException()
       _reply.readString()
     } finally {
@@ -103,7 +103,7 @@ private class Proxy(private val mRemote: IBinder) : IOAIDInterface {
     val _data = Parcel.obtain()
     val _reply = Parcel.obtain()
     val _result: String? = try {
-      mRemote.transact(TRANSACTION_getAAID, _data, _reply, 0)
+      mRemote.transact(6, _data, _reply, 0)
       _reply.readException()
       _reply.readString()
     } finally {
@@ -118,7 +118,7 @@ private class Proxy(private val mRemote: IBinder) : IOAIDInterface {
     val _data = Parcel.obtain()
     val _reply = Parcel.obtain()
     try {
-      mRemote.transact(TRANSACTION_shutdown, _data, _reply, 0)
+      mRemote.transact(7, _data, _reply, 0)
       _reply.readException()
     } finally {
       _reply.recycle()
@@ -131,7 +131,7 @@ private class Proxy(private val mRemote: IBinder) : IOAIDInterface {
     val _data = Parcel.obtain()
     val _reply = Parcel.obtain()
     try {
-      mRemote.transact(TRANSACTION_resetOAID, _data, _reply, 0)
+      mRemote.transact(8, _data, _reply, 0)
       _reply.readException()
     } finally {
       _reply.recycle()
@@ -144,7 +144,7 @@ private class Proxy(private val mRemote: IBinder) : IOAIDInterface {
     val _data = Parcel.obtain()
     val _reply = Parcel.obtain()
     val _result: Boolean = try {
-      mRemote.transact(TRANSACTION_isLimited, _data, _reply, 0)
+      mRemote.transact(9, _data, _reply, 0)
       _reply.readException()
       0 != _reply.readInt()
     } finally {
@@ -154,12 +154,3 @@ private class Proxy(private val mRemote: IBinder) : IOAIDInterface {
     return _result
   }
 }
-
-private const val TRANSACTION_isSupported = IBinder.FIRST_CALL_TRANSACTION + 1
-private const val TRANSACTION_getUDID = IBinder.FIRST_CALL_TRANSACTION + 2
-private const val TRANSACTION_getOAID = IBinder.FIRST_CALL_TRANSACTION + 3
-private const val TRANSACTION_getVAID = IBinder.FIRST_CALL_TRANSACTION + 4
-private const val TRANSACTION_getAAID = IBinder.FIRST_CALL_TRANSACTION + 5
-private const val TRANSACTION_shutdown = IBinder.FIRST_CALL_TRANSACTION + 6
-private const val TRANSACTION_resetOAID = IBinder.FIRST_CALL_TRANSACTION + 7
-private const val TRANSACTION_isLimited = IBinder.FIRST_CALL_TRANSACTION + 8
