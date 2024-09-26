@@ -40,7 +40,7 @@ internal class DisposableResultListener(
 
       if (callback != null) {
         reference.get()?.let {
-          runOnMainThread {
+          runOnMainThread(0) {
             callback.invoke(it)
           }
         }

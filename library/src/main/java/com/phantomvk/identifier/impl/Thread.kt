@@ -7,7 +7,7 @@ internal object Thread {
   private val mainHandler = Handler(Looper.getMainLooper())
 
   @JvmStatic
-  fun runOnMainThread(delayMillis: Long = 0, runnable: Runnable) {
+  fun runOnMainThread(delayMillis: Long, runnable: Runnable) {
     if (Looper.getMainLooper() == Looper.myLooper()) {
       runnable.run()
       return
