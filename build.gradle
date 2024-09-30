@@ -24,7 +24,7 @@ buildscript {
 
         junit = '4.13.2'
         android_junit = '1.0.0'
-        espresso_core = '3.0.0'
+        espresso_core = '3.1.0'
     }
 }
 
