@@ -79,6 +79,12 @@ class MainActivity : AppCompatActivity() {
       .subscribe()
   }
 
+  private fun getIdFromMdid() {
+    com.bun.miitmdid.core.MdidSdkHelper.InitSdk(this, true, false, false, false) {
+      updateTextInfo(it.oaid)
+    }
+  }
+
   private fun updateTextInfo(msg: String? = null, t: Throwable? = null) {
     lifecycleScope.launch(Dispatchers.IO) {
       val deviceInfo = deviceInfo(if (t == null) msg ?: "" else "-")
@@ -120,11 +126,6 @@ class MainActivity : AppCompatActivity() {
       manager.setPrimaryClip(clipData)
     } catch (ignore: Exception) {
     }
-  }
-
-  private fun getAndroidID(context: Context): String? {
-    val id = Settings.Secure.getString(context.contentResolver, Settings.Secure.ANDROID_ID)
-    return if (id == null || id == "9774d56d682e549c") null else id
   }
 
   private class ResultModel(val tag: String, val id: String, val ts: String? = null)

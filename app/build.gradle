@@ -52,12 +52,13 @@ android {
 
 dependencies {
     implementation project(":library")
+    implementation project(":adapter")
 //    implementation "com.github.phantomVK:Identifier:latest.release"
 
 //    implementation("com.huawei.hms:ads-identifier:$hms")
 //    implementation("com.hihonor.mcs:ads-identifier:$mcs")
 
-    implementation "androidx.appcompat:appcompat:1.4.2"
+    implementation "androidx.appcompat:appcompat:$appcompact"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.4.0"
 
     testImplementation "junit:junit:$junit"

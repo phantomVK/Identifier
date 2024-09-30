@@ -1,11 +1,10 @@
 plugins {
     id 'com.android.library'
-    id 'kotlin-android'
     id 'maven-publish'
 }
 
 android {
-    namespace "com.phantomvk.identifier"
+    namespace 'com.phantomvk.identifier.adapter'
     compileSdk rootProject.ext.compileSdk
 
     defaultConfig {
@@ -18,6 +17,7 @@ android {
         consumerProguardFiles "consumer-rules.pro"
     }
 
+
     buildTypes {
         release {
             minifyEnabled false
@@ -28,18 +28,10 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-    kotlinOptions {
-        jvmTarget = '1.8'
-        languageVersion = '1.5'
-        apiVersion = '1.5'
-    }
 }
 
 dependencies {
-    implementation "androidx.annotation:annotation:$annotation"
-
-    compileOnly("com.huawei.hms:ads-identifier:$hms")
-    compileOnly("com.hihonor.mcs:ads-identifier:$mcs")
+    implementation "androidx.appcompat:appcompat:$appcompact"
 
     testImplementation "junit:junit:$junit"
     androidTestImplementation "androidx.test.ext:junit:$android_junit"
@@ -52,7 +44,7 @@ afterEvaluate {
             release(MavenPublication) {
                 from components.release
                 groupId = "com.phantomvk.identifier"
-                artifactId = 'identifier'
+                artifactId = 'identifier-adapter'
                 version = rootProject.ext.versionName
             }
         }

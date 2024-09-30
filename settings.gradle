@@ -12,4 +12,5 @@ dependencyResolutionManagement {
 rootProject.name = "Identifier"
 include ':app'
 include ':library'
+include ':adapter'
 //include ':aidl'
