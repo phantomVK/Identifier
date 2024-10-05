@@ -4,34 +4,6 @@
 package generated.com.android.creator;
 public interface IdsSupplier extends android.os.IInterface
 {
-  /** Default implementation for IdsSupplier. */
-  public static class Default implements generated.com.android.creator.IdsSupplier
-  {
-    @Override public boolean isSupported() throws android.os.RemoteException
-    {
-      return false;
-    }
-    @Override public java.lang.String getUDID(java.lang.String str) throws android.os.RemoteException
-    {
-      return null;
-    }
-    @Override public java.lang.String getOAID() throws android.os.RemoteException
-    {
-      return null;
-    }
-    @Override public java.lang.String getVAID() throws android.os.RemoteException
-    {
-      return null;
-    }
-    @Override public java.lang.String getAAID(java.lang.String str) throws android.os.RemoteException
-    {
-      return null;
-    }
-    @Override
-    public android.os.IBinder asBinder() {
-      return null;
-    }
-  }
   /** Local-side IPC implementation stub class. */
   public static abstract class Stub extends android.os.Binder implements generated.com.android.creator.IdsSupplier
   {

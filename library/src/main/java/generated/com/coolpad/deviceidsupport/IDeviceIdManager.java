@@ -4,42 +4,6 @@
 package generated.com.coolpad.deviceidsupport;
 public interface IDeviceIdManager extends android.os.IInterface
 {
-  /** Default implementation for IDeviceIdManager. */
-  public static class Default implements generated.com.coolpad.deviceidsupport.IDeviceIdManager
-  {
-    @Override public java.lang.String getUDID(java.lang.String str) throws android.os.RemoteException
-    {
-      return null;
-    }
-    @Override public java.lang.String getOAID(java.lang.String str) throws android.os.RemoteException
-    {
-      return null;
-    }
-    @Override public java.lang.String getVAID(java.lang.String str) throws android.os.RemoteException
-    {
-      return null;
-    }
-    @Override public java.lang.String getAAID(java.lang.String str) throws android.os.RemoteException
-    {
-      return null;
-    }
-    @Override public java.lang.String getIMEI(java.lang.String str) throws android.os.RemoteException
-    {
-      return null;
-    }
-    @Override public boolean isCoolOs() throws android.os.RemoteException
-    {
-      return false;
-    }
-    @Override public java.lang.String getCoolOsVersion() throws android.os.RemoteException
-    {
-      return null;
-    }
-    @Override
-    public android.os.IBinder asBinder() {
-      return null;
-    }
-  }
   /** Local-side IPC implementation stub class. */
   public static abstract class Stub extends android.os.Binder implements generated.com.coolpad.deviceidsupport.IDeviceIdManager
   {

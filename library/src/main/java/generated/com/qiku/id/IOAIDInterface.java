@@ -5,44 +5,6 @@ package generated.com.qiku.id;
 // Qiku: bindService
 public interface IOAIDInterface extends android.os.IInterface
 {
-  /** Default implementation for IOAIDInterface. */
-  public static class Default implements IOAIDInterface
-  {
-    @Override public int isSupported() throws android.os.RemoteException
-    {
-      return 0;
-    }
-    @Override public String getUDID() throws android.os.RemoteException
-    {
-      return null;
-    }
-    @Override public String getOAID() throws android.os.RemoteException
-    {
-      return null;
-    }
-    @Override public String getVAID() throws android.os.RemoteException
-    {
-      return null;
-    }
-    @Override public String getAAID() throws android.os.RemoteException
-    {
-      return null;
-    }
-    @Override public void shutdown() throws android.os.RemoteException
-    {
-    }
-    @Override public void resetOAID() throws android.os.RemoteException
-    {
-    }
-    @Override public boolean isLimited() throws android.os.RemoteException
-    {
-      return false;
-    }
-    @Override
-    public android.os.IBinder asBinder() {
-      return null;
-    }
-  }
   /** Local-side IPC implementation stub class. */
   public static abstract class Stub extends android.os.Binder implements IOAIDInterface
   {

@@ -4,37 +4,6 @@
 package generated.com.bun.lib;
 public interface MsaIdInterface extends android.os.IInterface
 {
-  /** Default implementation for MsaIdInterface. */
-  public static class Default implements generated.com.bun.lib.MsaIdInterface
-  {
-    @Override public java.lang.String getOAID() throws android.os.RemoteException
-    {
-      return null;
-    }
-    @Override public java.lang.String getAAID() throws android.os.RemoteException
-    {
-      return null;
-    }
-    @Override public java.lang.String getVAID() throws android.os.RemoteException
-    {
-      return null;
-    }
-    @Override public boolean isDataArrived() throws android.os.RemoteException
-    {
-      return false;
-    }
-    @Override public boolean isSupported() throws android.os.RemoteException
-    {
-      return false;
-    }
-    @Override public void shutDown() throws android.os.RemoteException
-    {
-    }
-    @Override
-    public android.os.IBinder asBinder() {
-      return null;
-    }
-  }
   /** Local-side IPC implementation stub class. */
   public static abstract class Stub extends android.os.Binder implements generated.com.bun.lib.MsaIdInterface
   {

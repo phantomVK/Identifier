@@ -4,20 +4,6 @@
 package generated.com.hihonor.cloudservice.oaid;
 public interface IOAIDCallBack extends android.os.IInterface
 {
-  /** Default implementation for IOAIDCallBack. */
-  public static class Default implements generated.com.hihonor.cloudservice.oaid.IOAIDCallBack
-  {
-    @Override public void a(int i, long j, boolean z, float f, double d, java.lang.String str) throws android.os.RemoteException
-    {
-    }
-    @Override public void onResult(int i, android.os.Bundle bundle) throws android.os.RemoteException
-    {
-    }
-    @Override
-    public android.os.IBinder asBinder() {
-      return null;
-    }
-  }
   /** Local-side IPC implementation stub class. */
   public static abstract class Stub extends android.os.Binder implements generated.com.hihonor.cloudservice.oaid.IOAIDCallBack
   {
