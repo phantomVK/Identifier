@@ -5,7 +5,6 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
-import android.provider.Settings
 import android.util.Log
 import android.widget.Button
 import android.widget.TextView
@@ -77,12 +76,6 @@ class MainActivity : AppCompatActivity() {
       .getInstance()
       .setSubscriber(listener)
       .subscribe()
-  }
-
-  private fun getIdFromMdid() {
-    com.bun.miitmdid.core.MdidSdkHelper.InitSdk(this, true, false, false, false) {
-      updateTextInfo(it.oaid)
-    }
   }
 
   private fun updateTextInfo(msg: String? = null, t: Throwable? = null) {

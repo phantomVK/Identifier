@@ -61,7 +61,7 @@ internal class SerialRunnable(config: ProviderConfig) : AbstractProvider(config)
   private fun onExecute() {
     var isSuccess = false
     for (provider in getProviders()) {
-      if (disposable.isDisposed()) {
+      if (disposable.isDisposed) {
         return
       }
 
@@ -112,7 +112,7 @@ internal class SerialRunnable(config: ProviderConfig) : AbstractProvider(config)
   }
 
   override fun isDisposed(): Boolean {
-    return disposable.isDisposed()
+    return disposable.isDisposed
   }
 
   private fun getProviders(): List<AbstractProvider> {
