@@ -4,7 +4,7 @@
 |:------------:|:--------:|
 |     ASUS     |    Y     |
 |  BlackShark  |    Y     |
-|   Coolpad    |          |
+|   Coolpad    |    Y     |
 |    Coosea    |          |
 |    Freeme    |          |
 |    Google    |    Y     |
@@ -14,11 +14,12 @@
 |    Meizu     |    Y     |
 |   Motorola   |    Y     |
 |     Msa      |          |
+|    Nokia     |    Y     |
 |    Nubia     |    Y     |
 |   OnePlus    |    Y     |
-|     Qiku     |          |
 |     Oppo     |    Y     |
 |   Pico VR    |          |
+|     Qiku     |          |
 |    Realme    |    Y     |
 |   Samsung    |    Y     |
 |     Vivo     |    Y     |
@@ -40,6 +41,12 @@
 | Manufacturer |   Brand    |     Name     |    Model     | Device  | SDK_INT |                                     FingerPrint                                     |
 |:------------:|:----------:|:------------:|:------------:|:-------:|:-------:|:-----------------------------------------------------------------------------------:|
 |  blackshark  | blackshark | Blackshark 4 | SHARK PRS-A0 | penrose |   30    | blackshark/PRS-A0/penrose:11/PROS2103280CN00MP1/V12.0.1.0.RBICNBS:user/release-keys |
+
+### Coolpad
+
+| Manufacturer |  Brand  |  Name   | Model |  Device  | SDK_INT |                                   FingerPrint                                   |
+|:------------:|:-------:|:-------:|:-----:|:--------:|:-------:|:-------------------------------------------------------------------------------:|
+|   Coolpad    | Coolpad | cool 20 | CP03  | k69v1_64 |   30    | Coolpad/full_k69v1_64/k69v1_64:11/CP03.211101.2S.AL.C/mp1V846:user/release-keys |
 
 ### Google
 
@@ -85,6 +92,12 @@
 |    HUAWEI    | HUAWEI |   Mate 50E   | CET-AL60  | HWCET-QL |   31    | HUAWEI/CET-AL60/HWCET-QL:12/HUAWEICET-AL60/104.0.0.132C00:user/release-keys |
 |    HUAWEI    | HUAWEI | MatePad Pro  |  WGR-W09  |  HWWGR   |   31    |   HUAWEI/WGR-W09/HWWGR:12/HUAWEIWGR-W09/104.2.0.212C00:user/release-keys    |
 
+#### Lenovo
+
+| Manufacturer | Brand  |   Name    |      Model      | Device | SDK_INT |                             FingerPrint                             |
+|:------------:|:------:|:---------:|:---------------:|:------:|:-------:|:-------------------------------------------------------------------:|
+|    lenovo    | Lenovo | Lemon K12 | Lenovo XT2081-4 |  guam  |   29    | Lenovo/guam_retcn/guam:10/QCZ30.30-Q3-45-17/f29d1:user/release-keys |
+
 #### Meizu
 
 | Manufacturer | Brand | Name |   Model   |  Device  | SDK_INT |                                 FingerPrint                                 |
@@ -101,6 +114,12 @@
 |   motorola   | motorola | One 5G Ace  | motorola one 5G ace |  kiev  |   30    |     motorola/kiev_retailu/kiev:11/RZKS31.Q3-45-16-8-7/8aa22:user/release-keys      |
 |   motorola   | motorola | G Stylus 5G |  moto g stylus 5G   | denver |   31    | motorola/denver_global/denver:12/S2RES32.29-16-1-2/b50654-d6017a:user/release-keys |
 |   motorola   | motorola |  Edge X30   |      XT2201-2       | hiphic |   31    |     motorola/hiphic_cn/hiphic:12/S3SC32.7-42-20/02af5-df139:user/release-keys      |
+
+### Nokia
+
+| Manufacturer | Brand | Name |   Model   | Device | SDK_INT |                              FingerPrint                              |
+|:------------:|:-----:|:----:|:---------:|:------:|:-------:|:---------------------------------------------------------------------:|
+|  HMD Global  | Nokia | X71  | Nokia X71 |  TAS   |   28    | Nokia/Taishan_00CN/TAS:9/PPR1.180610.011/00CN_1_18F:user/release-keys |
 
 ### Nubia
 

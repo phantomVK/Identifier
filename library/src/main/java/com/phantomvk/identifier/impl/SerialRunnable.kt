@@ -136,7 +136,7 @@ internal class SerialRunnable(config: ProviderConfig) : AbstractProvider(config)
       return
     }
 
-    if (isBrand("coolpad")) {
+    if (isBrand("Coolpad")) {
       providers.add(CoolpadProvider(config))
       return
     }
