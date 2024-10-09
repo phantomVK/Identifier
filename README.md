@@ -59,7 +59,7 @@ How to query the latest oaid:
 IdentifierManager
   .getInstance()
   .setSubscriber(object : OnResultListener {
-    override fun onSuccess(id: String) {}
+    override fun onSuccess(result: IdentifierResult) {}
     override fun onError(msg: String, t: Throwable?) {}
   })
   .subscribe()

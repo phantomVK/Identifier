@@ -60,7 +60,7 @@ class Application : android.app.Application() {
 IdentifierManager
   .getInstance()
   .setSubscriber(object : OnResultListener {
-    override fun onSuccess(id: String) {}
+    override fun onSuccess(result: IdentifierResult) {}
     override fun onError(msg: String, t: Throwable?) {}
   })
   .subscribe()
