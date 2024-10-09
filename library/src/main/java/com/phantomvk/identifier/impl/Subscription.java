@@ -1,18 +1,17 @@
 package com.phantomvk.identifier.impl;
 
-import android.text.TextUtils;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.phantomvk.identifier.interfaces.Disposable;
 import com.phantomvk.identifier.interfaces.OnResultListener;
+import com.phantomvk.identifier.model.IdentifierResult;
 import com.phantomvk.identifier.model.ProviderConfig;
 
 import java.lang.ref.WeakReference;
 
 public class Subscription {
-    private volatile static String cachedId = null;
+    private volatile static IdentifierResult cachedResult = null;
     private final ProviderConfig config;
 
     public Subscription(ProviderConfig config, OnResultListener callback) {
@@ -24,8 +23,8 @@ public class Subscription {
     @NonNull
     public Disposable subscribe() {
         // cachedId is always null when cache is disabled.
-        String id = cachedId;
-        if (TextUtils.isEmpty(id)) {
+        IdentifierResult result = cachedResult;
+        if (result == null) {
             // post the runnable to the executor even on the async thread.
             SerialRunnable runnable = new SerialRunnable(config);
             config.getExecutor().execute(runnable);
@@ -33,7 +32,7 @@ public class Subscription {
         } else {
             OnResultListener callback = config.getCallback().get();
             if (callback != null) {
-                Thread.runOnMainThread(0, () -> callback.onSuccess(id));
+                Thread.runOnMainThread(0, () -> callback.onSuccess(result));
             }
 
             // In order to return a non-null object.
@@ -49,9 +48,9 @@ public class Subscription {
         }
 
         @Override
-        public void onSuccess(@NonNull String id) {
-            cachedId = id;
-            listener.onSuccess(id);
+        public void onSuccess(@NonNull IdentifierResult result) {
+            cachedResult = result;
+            listener.onSuccess(result);
         }
 
         @Override

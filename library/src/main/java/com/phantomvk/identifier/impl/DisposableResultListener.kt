@@ -3,6 +3,7 @@ package com.phantomvk.identifier.impl
 import com.phantomvk.identifier.impl.Thread.runOnMainThread
 import com.phantomvk.identifier.interfaces.Disposable
 import com.phantomvk.identifier.interfaces.OnResultListener
+import com.phantomvk.identifier.model.IdentifierResult
 import java.lang.ref.WeakReference
 
 internal class DisposableResultListener(
@@ -16,8 +17,8 @@ internal class DisposableResultListener(
     invokeCallback { it.onError(msg, t) }
   }
 
-  override fun onSuccess(id: String) {
-    invokeCallback { it.onSuccess(id) }
+  override fun onSuccess(result: IdentifierResult) {
+    invokeCallback { it.onSuccess(result) }
   }
 
   override fun dispose() {

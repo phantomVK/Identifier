@@ -14,6 +14,7 @@ import androidx.lifecycle.lifecycleScope
 import com.phantomvk.identifier.IdentifierManager
 import com.phantomvk.identifier.interfaces.Disposable
 import com.phantomvk.identifier.interfaces.OnResultListener
+import com.phantomvk.identifier.model.IdentifierResult
 import com.phantomvk.identifier.model.ProviderConfig
 import com.phantomvk.identifier.provider.AbstractProvider
 import kotlinx.coroutines.Dispatchers
@@ -66,7 +67,7 @@ class MainActivity : AppCompatActivity() {
 
   private fun getId() {
     val listener = object : OnResultListener {
-      override fun onSuccess(id: String) { updateTextInfo(id) }
+      override fun onSuccess(result: IdentifierResult) { updateTextInfo(result.oaid) }
       override fun onError(msg: String, t: Throwable?) { updateTextInfo(msg, t) }
     }
 
@@ -133,7 +134,7 @@ class MainActivity : AppCompatActivity() {
       isMemCacheEnabled = IS_MEM_CACHE_ENABLE
       executor = Executor { r -> Thread(r).start() }
       callback = WeakReference(object : OnResultListener {
-        override fun onSuccess(id: String) {}
+        override fun onSuccess(result: IdentifierResult) {}
         override fun onError(msg: String, t: Throwable?) {}
       })
     }
@@ -157,8 +158,8 @@ class MainActivity : AppCompatActivity() {
 
       val latch = CountDownLatch(1)
       val resultCallback = object : OnResultListener {
-        override fun onSuccess(id: String) {
-          list.add(ResultModel(provider.javaClass.simpleName, id, getNanoTimeStamp()))
+        override fun onSuccess(result: IdentifierResult) {
+          list.add(ResultModel(provider.javaClass.simpleName, result.oaid, getNanoTimeStamp()))
           latch.countDown()
         }
 

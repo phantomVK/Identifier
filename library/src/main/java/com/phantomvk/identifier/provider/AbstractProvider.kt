@@ -10,6 +10,7 @@ import android.content.pm.Signature
 import android.os.Build
 import android.os.IBinder
 import com.phantomvk.identifier.interfaces.OnResultListener
+import com.phantomvk.identifier.model.IdentifierResult
 import com.phantomvk.identifier.model.ProviderConfig
 import java.security.MessageDigest
 
@@ -80,7 +81,7 @@ abstract class AbstractProvider(protected val config: ProviderConfig) : Runnable
       return CallBinderResult.Failed(ID_IS_INVALID)
     }
 
-    callback?.onSuccess(id)
+    callback?.onSuccess(IdentifierResult(id))
     return CallBinderResult.Success(id)
   }
 
@@ -150,7 +151,7 @@ abstract class AbstractProvider(protected val config: ProviderConfig) : Runnable
       override fun onServiceConnected(name: ComponentName, service: IBinder) {
         try {
           when (val result = binderCallback.call(service)) {
-            is CallBinderResult.Success -> getCallback().onSuccess(result.id)
+            is CallBinderResult.Success -> getCallback().onSuccess(IdentifierResult(result.id))
             is CallBinderResult.Failed -> getCallback().onError(result.msg)
           }
         } catch (t: Throwable) {

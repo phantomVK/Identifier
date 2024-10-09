@@ -5,10 +5,12 @@ import android.os.Looper
 import com.phantomvk.identifier.interfaces.Disposable
 import com.phantomvk.identifier.interfaces.OnResultListener
 import com.phantomvk.identifier.log.Log
+import com.phantomvk.identifier.model.IdentifierResult
 import com.phantomvk.identifier.model.ProviderConfig
 import com.phantomvk.identifier.provider.AbstractProvider
 import com.phantomvk.identifier.provider.AsusProvider
-import com.phantomvk.identifier.provider.CoolpadProvider
+import com.phantomvk.identifier.provider.CoolpadServiceProvider
+import com.phantomvk.identifier.provider.CoolpadSettingsProvider
 import com.phantomvk.identifier.provider.CooseaProvider
 import com.phantomvk.identifier.provider.FreemeProvider
 import com.phantomvk.identifier.provider.GoogleAdsIdProvider
@@ -77,8 +79,8 @@ internal class SerialRunnable(config: ProviderConfig) : AbstractProvider(config)
 
       val latch = CountDownLatch(1)
       val resultCallback = object : OnResultListener {
-        override fun onSuccess(id: String) {
-          getCallback().onSuccess(id)
+        override fun onSuccess(result: IdentifierResult) {
+          getCallback().onSuccess(result)
           isSuccess = true
           latch.countDown()
         }
@@ -137,7 +139,8 @@ internal class SerialRunnable(config: ProviderConfig) : AbstractProvider(config)
     }
 
     if (isBrand("Coolpad")) {
-      providers.add(CoolpadProvider(config))
+      providers.add(CoolpadSettingsProvider(config))
+      providers.add(CoolpadServiceProvider(config))
       return
     }
 
