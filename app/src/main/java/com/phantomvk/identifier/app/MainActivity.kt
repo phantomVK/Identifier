@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
       try {
         val clazz = Class.forName("android.app.ActivityThread")
         return clazz.getMethod("currentApplication").invoke(null) as Context
-      } catch (e: Exception) {
+      } catch (e: Throwable) {
         return null
       }
     }
@@ -118,7 +118,7 @@ class MainActivity : AppCompatActivity() {
       val manager = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
       val clipData = ClipData.newPlainText("IdentifierDemo", text)
       manager.setPrimaryClip(clipData)
-    } catch (ignore: Exception) {
+    } catch (ignore: Throwable) {
     }
   }
 

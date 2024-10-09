@@ -15,7 +15,7 @@ internal class ZteProvider(config: ProviderConfig) : AbstractProvider(config) {
       constructor.isAccessible = true
       instance = constructor.newInstance(config.context)
       clazz = c
-    } catch (ignore: Exception) {
+    } catch (ignore: Throwable) {
       clazz = null
       instance = null
     }
@@ -32,7 +32,7 @@ internal class ZteProvider(config: ProviderConfig) : AbstractProvider(config) {
           getCallback().onError(LIMIT_AD_TRACKING_IS_ENABLED)
           return
         }
-      } catch (ignore: Exception) {
+      } catch (ignore: Throwable) {
       }
     }
 
