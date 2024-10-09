@@ -27,7 +27,7 @@ allprojects {
 
 // build.gradle(:app)
 dependencies {
-    implementation "com.github.phantomVK:Identifier:latest.release"
+    implementation "com.github.phantomVK:Identifier:latest.release@aar"
 }
 ```
 
