@@ -71,18 +71,25 @@ abstract class AbstractProvider(protected val config: ProviderConfig) : Runnable
   }
 
   protected fun checkId(id: String?, callback: OnResultListener? = null): CallBinderResult {
-    if (id.isNullOrBlank()) {
-      callback?.onError(ID_IS_NULL_OR_BLANK)
-      return CallBinderResult.Failed(ID_IS_NULL_OR_BLANK)
+    val result = if (id.isNullOrBlank()) {
+      CallBinderResult.Failed(ID_IS_NULL_OR_BLANK)
+    } else if (id.all { it == '0' || it == '-' }) {
+      CallBinderResult.Failed(ID_IS_INVALID)
+    } else {
+      CallBinderResult.Success(id)
     }
 
-    if (id.all { it == '0' || it == '-' }) {
-      callback?.onError(ID_IS_INVALID)
-      return CallBinderResult.Failed(ID_IS_INVALID)
+    if (callback == null) {
+      return result
     }
 
-    callback?.onSuccess(IdentifierResult(id))
-    return CallBinderResult.Success(id)
+    if (result is CallBinderResult.Success) {
+      callback.onSuccess(IdentifierResult(id!!))
+    } else {
+      callback.onError((result as CallBinderResult.Failed).msg)
+    }
+
+    return result
   }
 
   private fun getSignatures(pm: PackageManager, packageName: String): Array<Signature>? {
