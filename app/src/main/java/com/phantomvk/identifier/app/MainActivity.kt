@@ -27,6 +27,8 @@ import java.util.concurrent.Executor
 class MainActivity : AppCompatActivity() {
 
   private companion object {
+    private const val TAG = "IdentifierTAG"
+
     private const val IS_DEBUG = true
     private const val IS_EXPERIMENTAL = true
     private const val IS_GOOGLE_ADS_ID_ENABLE = true
@@ -37,6 +39,7 @@ class MainActivity : AppCompatActivity() {
       IdentifierManager.Builder(getApplication())
         .setDebug(IS_DEBUG)
         .setExperimental(IS_EXPERIMENTAL)
+        .setExtraIdsEnable(true, true)
         .setGoogleAdsIdEnable(IS_GOOGLE_ADS_ID_ENABLE)
         .setLimitAdTracking(IS_LIMIT_AD_TRACKING)
         .setMemCacheEnable(IS_MEM_CACHE_ENABLE)
@@ -67,8 +70,11 @@ class MainActivity : AppCompatActivity() {
 
   private fun getId() {
     val listener = object : OnResultListener {
-      override fun onSuccess(result: IdentifierResult) { updateTextInfo(result.oaid) }
       override fun onError(msg: String, t: Throwable?) { updateTextInfo(msg, t) }
+      override fun onSuccess(result: IdentifierResult) {
+        Log.i(TAG, "onSuccessIds-> oaid:${result.oaid}, aaid:${result.aaid}, vaid:${result.vaid}")
+        updateTextInfo(result.oaid)
+      }
     }
 
     Log.i("IdentifierTAG", "IdentifierManager: $instance")

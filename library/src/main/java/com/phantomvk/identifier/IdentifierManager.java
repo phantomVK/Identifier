@@ -58,6 +58,13 @@ public final class IdentifierManager {
         }
 
         @NonNull
+        public Builder setExtraIdsEnable(boolean enableAaid, boolean enableVaid) {
+            config.setQueryAaid(enableAaid);
+            config.setQueryVaid(enableVaid);
+            return this;
+        }
+
+        @NonNull
         public Builder setGoogleAdsIdEnable(boolean enable) {
             config.setGoogleAdsIdEnabled(enable);
             return this;
