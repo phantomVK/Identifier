@@ -1,6 +1,7 @@
 package com.phantomvk.identifier.provider
 
 import android.content.Context
+import com.phantomvk.identifier.model.IdentifierResult
 import com.phantomvk.identifier.model.ProviderConfig
 
 /**
@@ -25,7 +26,15 @@ internal class XiaomiProvider(config: ProviderConfig) : AbstractProvider(config)
   }
 
   override fun run() {
-    checkId(getId("getOAID"), getCallback())
+    val oaid = getId("getOAID")
+    if (checkId(oaid) is CallBinderResult.Failed) {
+      checkId(oaid, getCallback())
+      return
+    }
+
+    val aaid = if (config.queryAaid) getId("getAAID") else null
+    val vaid = if (config.queryVaid) getId("getVAID") else null
+    getCallback().onSuccess(IdentifierResult(oaid!!, aaid, vaid))
   }
 
   private fun getId(name: String): String? {

@@ -11,6 +11,8 @@ class ProviderConfig(val context: Context) {
   var isGoogleAdsIdEnabled = false
   var isLimitAdTracking: Boolean = false
   var isMemCacheEnabled = false
+  var queryAaid: Boolean = false
+  var queryVaid: Boolean = false
 
   lateinit var callback: WeakReference<OnResultListener>
   var executor: Executor = Executor { c: Runnable -> Thread(c).start() }
