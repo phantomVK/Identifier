@@ -227,7 +227,10 @@ internal class SerialRunnable(config: ProviderConfig) : AbstractProvider(config)
   ) {
     if (isBrand("360")) {
       providers.add(QikuServiceProvider(config))
-      providers.add(QikuBinderProvider(config))
+
+      if (sysPropertyEquals("ro.build.uiversion", "360UI")) {
+        providers.add(QikuBinderProvider(config))
+      }
       return
     }
 
