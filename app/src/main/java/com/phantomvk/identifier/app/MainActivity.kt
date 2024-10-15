@@ -63,6 +63,7 @@ class MainActivity : AppCompatActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_main)
+    Log.i(TAG, "IdentifierManager: $instance")
 
     findViewById<Button>(R.id.button).setOnClickListener { getId() }
     getId()
@@ -70,14 +71,10 @@ class MainActivity : AppCompatActivity() {
 
   private fun getId() {
     val listener = object : OnResultListener {
-      override fun onError(msg: String, t: Throwable?) { updateTextInfo(msg, t) }
-      override fun onSuccess(result: IdentifierResult) {
-        Log.i(TAG, "onSuccessIds-> oaid:${result.oaid}, aaid:${result.aaid}, vaid:${result.vaid}")
-        updateTextInfo(result.oaid)
-      }
+      override fun onSuccess(result: IdentifierResult) { updateSuccessInfo(result) }
+      override fun onError(msg: String, t: Throwable?) { updateErrorInfo(msg, t) }
     }
 
-    Log.i("IdentifierTAG", "IdentifierManager: $instance")
     disposable?.dispose()
     disposable = IdentifierManager
       .getInstance()
@@ -85,37 +82,47 @@ class MainActivity : AppCompatActivity() {
       .subscribe()
   }
 
-  private fun updateTextInfo(msg: String? = null, t: Throwable? = null) {
+  private fun updateSuccessInfo(msg: IdentifierResult) {
     lifecycleScope.launch(Dispatchers.IO) {
-      val deviceInfo = deviceInfo(if (t == null) msg ?: "" else "-")
-      val str = getResultList().joinToString("\n\n") { "# ${it.tag}: (${it.ts} μs)\n${it.id}" }
-      val finalStr = deviceInfo + "\n\n" + str
-      Log.i("IdentifierTAG", finalStr, t)
+      var deviceStr = deviceInfo()
+      deviceStr += "\n* oaid: ${msg.oaid}"
+      msg.aaid?.let { deviceStr += "\n* aaid: $it" }
+      msg.vaid?.let { deviceStr += "\n* vaid: $it" }
+      deviceStr += "\n\n"
+      deviceStr += getResultList().joinToString("\n\n") { "# ${it.tag}: (${it.ts} μs)\n${it.id}" }
 
+      showInfo(deviceStr)
+    }
+  }
+
+  private fun updateErrorInfo(msg: String? = null, t: Throwable? = null) {
+    val deviceStr = deviceInfo() + "\n* ErrMsg: $msg"
+    showInfo(deviceStr, t)
+  }
+
+  private fun showInfo(deviceStr: String, t: Throwable? = null) {
+    Log.i(TAG, deviceStr, t)
+
+    lifecycleScope.launch(Dispatchers.Main) {
       val textView = findViewById<TextView>(R.id.system_textview)
-      launch(Dispatchers.Main) {
-        textView.text = finalStr
-        textView.setOnLongClickListener {
-          copyToClipboard(finalStr)
-          Toast.makeText(baseContext, "Message copied.", Toast.LENGTH_SHORT).show()
-          return@setOnLongClickListener true
-        }
+      textView.text = deviceStr
+      textView.setOnLongClickListener {
+        copyToClipboard(deviceStr)
+        Toast.makeText(baseContext, "Message copied.", Toast.LENGTH_SHORT).show()
+        return@setOnLongClickListener true
       }
     }
   }
 
-  private fun deviceInfo(id: String): String {
+  private fun deviceInfo(): String {
     return """
-        * Manufacturer: ${Build.MANUFACTURER}
-        * Brand: ${Build.BRAND}
+        * Manufacturer: ${Build.MANUFACTURER}, Brand: ${Build.BRAND}
         * Model: ${Build.MODEL}
         * Device: ${Build.DEVICE}
         * Release: Android ${Build.VERSION.RELEASE} (SDK_INT: ${Build.VERSION.SDK_INT})
         * Display: ${Build.DISPLAY}
         * Incremental: ${Build.VERSION.INCREMENTAL}
-        * Fingerprint: ${Build.FINGERPRINT}
         * | ${Build.MANUFACTURER} | ${Build.BRAND} | === | ${Build.MODEL} | ${Build.DEVICE} | ${Build.VERSION.SDK_INT} | ${Build.FINGERPRINT} |
-        * oaid: $id
       """.trimIndent()
   }
 
