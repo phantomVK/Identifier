@@ -1,6 +1,7 @@
 package com.phantomvk.identifier.provider
 
 import android.net.Uri
+import com.phantomvk.identifier.model.IdentifierResult
 import com.phantomvk.identifier.model.ProviderConfig
 
 internal class NubiaProvider(config: ProviderConfig) : AbstractProvider(config) {
@@ -29,7 +30,10 @@ internal class NubiaProvider(config: ProviderConfig) : AbstractProvider(config) 
       }
     }
 
+    val pkgeName = config.context.packageName
     val bundle = client.call("getOAID", null, null)
+    val aaid = if (config.queryAaid) client.call("getAAID", pkgeName, null)?.getString("id") else null
+    val vaid = if (config.queryVaid) client.call("getVAID", pkgeName, null)?.getString("id") else null
     releaseContentProviderClient(client)
 
     if (bundle == null) {
@@ -42,6 +46,14 @@ internal class NubiaProvider(config: ProviderConfig) : AbstractProvider(config) 
       id = bundle.getString("id")
     }
 
-    checkId(id, getCallback())
+    when (val r = checkId(id)) {
+      is CallBinderResult.Failed -> {
+        getCallback().onError(r.msg)
+      }
+
+      is CallBinderResult.Success -> {
+        getCallback().onSuccess(IdentifierResult(r.id, aaid, vaid))
+      }
+    }
   }
 }

@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
       IdentifierManager.Builder(getApplication())
         .setDebug(IS_DEBUG)
         .setExperimental(IS_EXPERIMENTAL)
-        .setExtraIdsEnable(true, true)
+        .setExtraIdsEnable(false, false)
         .setGoogleAdsIdEnable(IS_GOOGLE_ADS_ID_ENABLE)
         .setLimitAdTracking(IS_LIMIT_AD_TRACKING)
         .setMemCacheEnable(IS_MEM_CACHE_ENABLE)
@@ -63,6 +63,7 @@ class MainActivity : AppCompatActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_main)
+    Log.i(TAG, "IdentifierManager: $instance")
 
     findViewById<Button>(R.id.button).setOnClickListener { getId() }
     getId()
@@ -70,14 +71,10 @@ class MainActivity : AppCompatActivity() {
 
   private fun getId() {
     val listener = object : OnResultListener {
-      override fun onError(msg: String, t: Throwable?) { updateTextInfo(msg, t) }
-      override fun onSuccess(result: IdentifierResult) {
-        Log.i(TAG, "onSuccessIds-> oaid:${result.oaid}, aaid:${result.aaid}, vaid:${result.vaid}")
-        updateTextInfo(result.oaid)
-      }
+      override fun onSuccess(result: IdentifierResult) { updateSuccessInfo(result) }
+      override fun onError(msg: String, t: Throwable?) { updateErrorInfo(msg, t) }
     }
 
-    Log.i("IdentifierTAG", "IdentifierManager: $instance")
     disposable?.dispose()
     disposable = IdentifierManager
       .getInstance()
@@ -85,38 +82,53 @@ class MainActivity : AppCompatActivity() {
       .subscribe()
   }
 
-  private fun updateTextInfo(msg: String? = null, t: Throwable? = null) {
+  private fun updateSuccessInfo(msg: IdentifierResult) {
     lifecycleScope.launch(Dispatchers.IO) {
-      val deviceInfo = deviceInfo(if (t == null) msg ?: "" else "-")
-      val str = getResultList().joinToString("\n\n") { "# ${it.tag}: (${it.ts} μs)\n${it.id}" }
-      val finalStr = deviceInfo + "\n\n" + str
-      Log.i("IdentifierTAG", finalStr, t)
+      val deviceStr = deviceInfo()
+        .append("\n* oaid: ${msg.oaid}\n\n")
+        .append(
+          getResultList().joinToString("\n\n") { model ->
+            val builder = StringBuilder("# ${model.tag}: (${model.ts} μs)\n")
+            if (model.result == null) {
+              builder.append("-msg: ${model.msg}")
+            } else {
+              builder.append("-oaid: ${model.result.oaid}\n")
+              model.result.aaid?.let { builder.append("-aaid: $it\n") }
+              model.result.vaid?.let { builder.append("-vaid: $it") }
+            }
+            builder.toString()
+          })
 
+      showInfo(deviceStr.toString())
+    }
+  }
+
+  private fun updateErrorInfo(msg: String? = null, t: Throwable? = null) {
+    val deviceStr = deviceInfo().append("\n* ErrMsg: $msg").toString()
+    showInfo(deviceStr, t)
+  }
+
+  private fun showInfo(deviceStr: String, t: Throwable? = null) {
+    Log.i(TAG, deviceStr, t)
+
+    lifecycleScope.launch(Dispatchers.Main) {
       val textView = findViewById<TextView>(R.id.system_textview)
-      launch(Dispatchers.Main) {
-        textView.text = finalStr
-        textView.setOnLongClickListener {
-          copyToClipboard(finalStr)
-          Toast.makeText(baseContext, "Message copied.", Toast.LENGTH_SHORT).show()
-          return@setOnLongClickListener true
-        }
+      textView.text = deviceStr
+      textView.setOnLongClickListener {
+        copyToClipboard(deviceStr)
+        Toast.makeText(baseContext, "Message copied.", Toast.LENGTH_SHORT).show()
+        return@setOnLongClickListener true
       }
     }
   }
 
-  private fun deviceInfo(id: String): String {
-    return """
-        * Manufacturer: ${Build.MANUFACTURER}
-        * Brand: ${Build.BRAND}
-        * Model: ${Build.MODEL}
-        * Device: ${Build.DEVICE}
-        * Release: Android ${Build.VERSION.RELEASE} (SDK_INT: ${Build.VERSION.SDK_INT})
-        * Display: ${Build.DISPLAY}
-        * Incremental: ${Build.VERSION.INCREMENTAL}
-        * Fingerprint: ${Build.FINGERPRINT}
-        * | ${Build.MANUFACTURER} | ${Build.BRAND} | === | ${Build.MODEL} | ${Build.DEVICE} | ${Build.VERSION.SDK_INT} | ${Build.FINGERPRINT} |
-        * oaid: $id
-      """.trimIndent()
+  private fun deviceInfo(): StringBuilder {
+    return StringBuilder("* Manufacturer: ${Build.MANUFACTURER}, Brand: ${Build.BRAND}\n")
+      .append("* Model: ${Build.MODEL}, Device: ${Build.DEVICE}\n")
+      .append("* Release: Android ${Build.VERSION.RELEASE} (SDK_INT: ${Build.VERSION.SDK_INT})\n")
+      .append("* Display: ${Build.DISPLAY}\n")
+      .append("* Incremental: ${Build.VERSION.INCREMENTAL}\n")
+      .append("* | ${Build.MANUFACTURER} | ${Build.BRAND} | === | ${Build.MODEL} | ${Build.DEVICE} | ${Build.VERSION.SDK_INT} | ${Build.FINGERPRINT} |")
   }
 
   private fun copyToClipboard(text: String) {
@@ -128,7 +140,12 @@ class MainActivity : AppCompatActivity() {
     }
   }
 
-  private class ResultModel(val tag: String, val id: String, val ts: String? = null)
+  private class ResultModel(
+    val tag: String,
+    val result: IdentifierResult?,
+    val ts: String? = null,
+    val msg: String? = null
+  )
 
   private fun getResultList(): List<ResultModel> {
     val list = ArrayList<ResultModel>()
@@ -138,6 +155,8 @@ class MainActivity : AppCompatActivity() {
       isGoogleAdsIdEnabled = IS_GOOGLE_ADS_ID_ENABLE
       isLimitAdTracking = IS_LIMIT_AD_TRACKING
       isMemCacheEnabled = IS_MEM_CACHE_ENABLE
+      queryAaid = true
+      queryVaid = true
       executor = Executor { r -> Thread(r).start() }
       callback = WeakReference(object : OnResultListener {
         override fun onSuccess(result: IdentifierResult) {}
@@ -163,14 +182,15 @@ class MainActivity : AppCompatActivity() {
       }
 
       val latch = CountDownLatch(1)
+      val simpleName = provider.javaClass.simpleName
       val resultCallback = object : OnResultListener {
         override fun onSuccess(result: IdentifierResult) {
-          list.add(ResultModel(provider.javaClass.simpleName, result.oaid, getNanoTimeStamp()))
+          list.add(ResultModel(simpleName, result, getNanoTimeStamp()))
           latch.countDown()
         }
 
         override fun onError(msg: String, t: Throwable?) {
-          list.add(ResultModel(provider.javaClass.simpleName, msg, getNanoTimeStamp()))
+          list.add(ResultModel(simpleName, null, getNanoTimeStamp(), msg))
           latch.countDown()
         }
 

@@ -2,155 +2,82 @@ package com.phantomvk.identifier.provider
 
 import android.os.IBinder
 import android.os.Parcel
-import android.os.RemoteException
+import com.phantomvk.identifier.log.Log
+import com.phantomvk.identifier.model.IdentifierResult
 import com.phantomvk.identifier.model.ProviderConfig
-import generated.com.qiku.id.IOAIDInterface
 
 internal class QikuBinderProvider(config: ProviderConfig) : AbstractProvider(config) {
 
-  private lateinit var iBinder: IBinder
+  private lateinit var binder: IBinder
 
   override fun isSupported(): Boolean {
     val clazz = Class.forName("android.os.ServiceManager")
     val method = clazz.getDeclaredMethod("getService", String::class.java)
-    val binder = method.invoke(null, "qikuid") as? IBinder ?: return false
-
-    iBinder = binder
+    binder = method.invoke(null, "qikuid") as? IBinder ?: return false
     return true
   }
 
   override fun run() {
-    val proxy = Proxy(iBinder)
-
+    Log.d("QikuBinderProvider", "isSupported:${isSupported(binder)}, isLimited:${isLimited()}")
     if (config.isLimitAdTracking) {
-      if (proxy.isLimited) {
+      if (isSupported(binder)) {
         getCallback().onError(EXCEPTION_THROWN)
         return
       }
     }
 
-    checkId(proxy.oaid, getCallback())
-  }
-}
+    when (val result = checkId(getId(4))) {
+      is CallBinderResult.Failed -> {
+        getCallback().onError(result.msg)
+      }
 
-private class Proxy(private val mRemote: IBinder) : IOAIDInterface {
-  override fun asBinder(): IBinder {
-    return mRemote
-  }
-
-  @Throws(RemoteException::class)
-  override fun isSupported(): Int {
-    val _data = Parcel.obtain()
-    val _reply = Parcel.obtain()
-    val _result: Int = try {
-      mRemote.transact(2, _data, _reply, 0)
-      _reply.readException()
-      _reply.readInt()
-    } finally {
-      _reply.recycle()
-      _data.recycle()
-    }
-    return _result
-  }
-
-  @Throws(RemoteException::class)
-  override fun getUDID(): String? {
-    val _data = Parcel.obtain()
-    val _reply = Parcel.obtain()
-    val _result: String? = try {
-      mRemote.transact(3, _data, _reply, 0)
-      _reply.readException()
-      _reply.readString()
-    } finally {
-      _reply.recycle()
-      _data.recycle()
-    }
-    return _result
-  }
-
-  @Throws(RemoteException::class)
-  override fun getOAID(): String? {
-    val _data = Parcel.obtain()
-    val _reply = Parcel.obtain()
-    val _result: String? = try {
-      mRemote.transact(4, _data, _reply, 0)
-      _reply.readException()
-      _reply.readString()
-    } finally {
-      _reply.recycle()
-      _data.recycle()
-    }
-    return _result
-  }
-
-  @Throws(RemoteException::class)
-  override fun getVAID(): String? {
-    val _data = Parcel.obtain()
-    val _reply = Parcel.obtain()
-    val _result: String? = try {
-      mRemote.transact(5, _data, _reply, 0)
-      _reply.readException()
-      _reply.readString()
-    } finally {
-      _reply.recycle()
-      _data.recycle()
-    }
-    return _result
-  }
-
-  @Throws(RemoteException::class)
-  override fun getAAID(): String? {
-    val _data = Parcel.obtain()
-    val _reply = Parcel.obtain()
-    val _result: String? = try {
-      mRemote.transact(6, _data, _reply, 0)
-      _reply.readException()
-      _reply.readString()
-    } finally {
-      _reply.recycle()
-      _data.recycle()
-    }
-    return _result
-  }
-
-  @Throws(RemoteException::class)
-  override fun shutdown() {
-    val _data = Parcel.obtain()
-    val _reply = Parcel.obtain()
-    try {
-      mRemote.transact(7, _data, _reply, 0)
-      _reply.readException()
-    } finally {
-      _reply.recycle()
-      _data.recycle()
+      is CallBinderResult.Success -> {
+        val vaid = if (config.queryVaid) getId(5) else null
+        val aaid = if (config.queryAaid) getId(6) else null
+        getCallback().onSuccess(IdentifierResult(result.id, aaid, vaid))
+      }
     }
   }
 
-  @Throws(RemoteException::class)
-  override fun resetOAID() {
-    val _data = Parcel.obtain()
-    val _reply = Parcel.obtain()
-    try {
-      mRemote.transact(8, _data, _reply, 0)
-      _reply.readException()
+  private fun isSupported(binder: IBinder): Boolean {
+    val data = Parcel.obtain()
+    val reply = Parcel.obtain()
+    return try {
+      binder.transact(2, data, reply, 0)
+      reply.readInt() == 1
+    } catch (t: Throwable) {
+      false
     } finally {
-      _reply.recycle()
-      _data.recycle()
+      reply.recycle()
+      data.recycle()
     }
   }
 
-  @Throws(RemoteException::class)
-  override fun isLimited(): Boolean {
-    val _data = Parcel.obtain()
-    val _reply = Parcel.obtain()
-    val _result: Boolean = try {
-      mRemote.transact(9, _data, _reply, 0)
-      _reply.readException()
-      0 != _reply.readInt()
+  private fun getId(code: Int): String? {
+    val data = Parcel.obtain()
+    val reply = Parcel.obtain()
+    return try {
+      binder.transact(code, data, reply, 0)
+      reply.readString()
+    } catch (t: Throwable) {
+      null
     } finally {
-      _reply.recycle()
-      _data.recycle()
+      reply.recycle()
+      data.recycle()
     }
-    return _result
+  }
+
+  private fun isLimited(): Boolean {
+    val data = Parcel.obtain()
+    val reply = Parcel.obtain()
+    return try {
+      binder.transact(9, data, reply, 0)
+      reply.readBoolean()
+    } catch (t: Throwable) {
+      false
+    } finally {
+      reply.recycle()
+      data.recycle()
+    }
   }
 }

@@ -21,7 +21,14 @@ internal class AsusProvider(config: ProviderConfig) : AbstractProvider(config) {
           }
         }
 
-        return checkId(getOAID(binder))
+        when (val result = checkId(getId(binder, 3))) {
+          is CallBinderResult.Failed -> return result
+          is CallBinderResult.Success -> {
+            val vaid = if (config.queryVaid) getId(binder, 4) else null
+            val aaid = if (config.queryAaid) getId(binder, 5) else null
+            return CallBinderResult.Success(result.id, vaid, aaid)
+          }
+        }
       }
     }
 
@@ -47,13 +54,13 @@ internal class AsusProvider(config: ProviderConfig) : AbstractProvider(config) {
     return result
   }
 
-  private fun getOAID(remote: IBinder): String? {
+  private fun getId(remote: IBinder, code: Int): String? {
     val data = Parcel.obtain()
     val reply = Parcel.obtain()
     val result: String?
     try {
       data.writeInterfaceToken("com.asus.msa.SupplementaryDID.IDidAidlInterface")
-      remote.transact(3, data, reply, 0)
+      remote.transact(code, data, reply, 0)
       reply.readException()
       result = reply.readString()
     } finally {

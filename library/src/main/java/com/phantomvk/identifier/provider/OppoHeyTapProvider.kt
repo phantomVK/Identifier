@@ -26,41 +26,52 @@ internal open class OppoHeyTapProvider(config: ProviderConfig) : AbstractProvide
     val intent = Intent(action).setComponent(component)
     val binderCallback = object : BinderCallback {
       override fun call(binder: IBinder): CallBinderResult {
-        val id: String
-        val data = Parcel.obtain()
-        val reply = Parcel.obtain()
         val sign = when (val result = getSignatureHash()) {
           is CallBinderResult.Failed -> return result
           is CallBinderResult.Success -> result.id
         }
 
-        try {
-          data.writeInterfaceToken(descriptor)
-          data.writeString(config.context.packageName)
-          data.writeString(sign)
-          data.writeString("OUID")
-          binder.transact(1, data, reply, 0)
-          reply.readException()
-          id = reply.readString()!!
-        } finally {
-          reply.recycle()
-          data.recycle()
+        when (val result = checkId((getId(binder, descriptor, sign, "OAID")))) {
+          is CallBinderResult.Failed -> return result
+          is CallBinderResult.Success -> {
+            val vaid = if (config.queryVaid) getId(binder, descriptor, sign, "VAID") else null
+            val aaid = if (config.queryAaid) getId(binder, descriptor, sign, "AAID") else null
+            return CallBinderResult.Success(result.id, vaid, aaid)
+          }
         }
-
-        return checkId(id)
       }
     }
 
     bindService(intent, binderCallback)
   }
 
-//  private fun getIdName(name: String): String {
-//    return when (name) {
-//      "UDID" -> "GUID"
-//      "OAID" -> "OUID"
-//      "VAID" -> "DUID"
-//      "AAID" -> "AUID"
-//      else -> "OUID"
-//    }
-//  }
+  private fun getId(binder: IBinder, descriptor: String, sign: String, code: String): String? {
+    val data = Parcel.obtain()
+    val reply = Parcel.obtain()
+    return try {
+      data.writeInterfaceToken(descriptor)
+      data.writeString(config.context.packageName)
+      data.writeString(sign)
+      data.writeString(getIdName(code))
+      binder.transact(1, data, reply, 0)
+      reply.readException()
+      val id = reply.readString()
+      if (id.isNullOrBlank()) null else id
+    } catch (t: Throwable) {
+      null
+    } finally {
+      reply.recycle()
+      data.recycle()
+    }
+  }
+
+  private fun getIdName(name: String): String {
+    return when (name) {
+      "UDID" -> "GUID"
+      "OAID" -> "OUID"
+      "VAID" -> "DUID"
+      "AAID" -> "AUID"
+      else -> throw IllegalArgumentException("Unknown id name: $name")
+    }
+  }
 }
