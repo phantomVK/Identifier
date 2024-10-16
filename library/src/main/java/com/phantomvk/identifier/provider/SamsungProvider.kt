@@ -19,7 +19,7 @@ internal class SamsungProvider(config: ProviderConfig) : AbstractProvider(config
           is CallBinderResult.Success -> {
             val vaid = if (config.queryVaid) getId(binder, 2) else null
             val aaid = if (config.queryAaid) getId(binder, 3) else null
-            CallBinderResult.Success(r.id, aaid, vaid)
+            CallBinderResult.Success(r.id, vaid, aaid)
           }
         }
       }

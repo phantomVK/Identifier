@@ -17,8 +17,8 @@
 |      MeizuProvider.kt      |      Meizu       |  Y   |  Y   |      |
 |       MsaProvider.kt       |                  |      |      |      |
 |      NubiaProvider.kt      |      Nubia       |  Y   |  Y   |  Y   |
-|   OppoColorOsProvider.kt   |       Oppo       |  Y   |      |      |
-|   OppoHeyTapProvider.kt    |       Oppo       |  Y   |      |      |
+|   OppoColorOsProvider.kt   |       Oppo       |  Y   |  Y   |      |
+|   OppoHeyTapProvider.kt    |       Oppo       |  Y   |  Y   |      |
 |      PicoProvider.kt       |       Pico       |      |      |      |
 |   QikuBinderProvider.kt    |       Qiku       |      |      |      |
 |   QikuServiceProvider.kt   |       Qiku       |      |      |      |

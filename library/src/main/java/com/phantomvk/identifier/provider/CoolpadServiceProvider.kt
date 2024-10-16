@@ -18,9 +18,9 @@ internal class CoolpadServiceProvider(config: ProviderConfig) : AbstractProvider
         when (val result = checkId(getId(binder, 2))) {
           is CallBinderResult.Failed -> return result
           is CallBinderResult.Success -> {
-            val aaid = if (config.queryAaid) getId(binder, 4) else null
             val vaid = if (config.queryVaid) getId(binder, 3) else null
-            return CallBinderResult.Success(result.id, aaid, vaid)
+            val aaid = if (config.queryAaid) getId(binder, 4) else null
+            return CallBinderResult.Success(result.id, vaid, aaid)
           }
         }
       }
