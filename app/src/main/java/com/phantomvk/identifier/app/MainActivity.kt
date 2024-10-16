@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
       IdentifierManager.Builder(getApplication())
         .setDebug(IS_DEBUG)
         .setExperimental(IS_EXPERIMENTAL)
-        .setExtraIdsEnable(true, true)
+        .setExtraIdsEnable(false, false)
         .setGoogleAdsIdEnable(IS_GOOGLE_ADS_ID_ENABLE)
         .setLimitAdTracking(IS_LIMIT_AD_TRACKING)
         .setMemCacheEnable(IS_MEM_CACHE_ENABLE)
@@ -84,19 +84,27 @@ class MainActivity : AppCompatActivity() {
 
   private fun updateSuccessInfo(msg: IdentifierResult) {
     lifecycleScope.launch(Dispatchers.IO) {
-      var deviceStr = deviceInfo()
-      deviceStr += "\n* oaid: ${msg.oaid}"
-      msg.aaid?.let { deviceStr += "\n* aaid: $it" }
-      msg.vaid?.let { deviceStr += "\n* vaid: $it" }
-      deviceStr += "\n\n"
-      deviceStr += getResultList().joinToString("\n\n") { "# ${it.tag}: (${it.ts} μs)\n${it.id}" }
+      val deviceStr = deviceInfo()
+        .append("\n* oaid: ${msg.oaid}\n\n")
+        .append(
+          getResultList().joinToString("\n\n") { model ->
+            val builder = StringBuilder("# ${model.tag}: (${model.ts} μs)\n")
+            if (model.result == null) {
+              builder.append("-msg: ${model.msg}")
+            } else {
+              builder.append("-oaid: ${model.result.oaid}\n")
+              model.result.aaid?.let { builder.append("-aaid: $it\n") }
+              model.result.vaid?.let { builder.append("-vaid: $it") }
+            }
+            builder.toString()
+          })
 
-      showInfo(deviceStr)
+      showInfo(deviceStr.toString())
     }
   }
 
   private fun updateErrorInfo(msg: String? = null, t: Throwable? = null) {
-    val deviceStr = deviceInfo() + "\n* ErrMsg: $msg"
+    val deviceStr = deviceInfo().append("\n* ErrMsg: $msg").toString()
     showInfo(deviceStr, t)
   }
 
@@ -114,16 +122,13 @@ class MainActivity : AppCompatActivity() {
     }
   }
 
-  private fun deviceInfo(): String {
-    return """
-        * Manufacturer: ${Build.MANUFACTURER}, Brand: ${Build.BRAND}
-        * Model: ${Build.MODEL}
-        * Device: ${Build.DEVICE}
-        * Release: Android ${Build.VERSION.RELEASE} (SDK_INT: ${Build.VERSION.SDK_INT})
-        * Display: ${Build.DISPLAY}
-        * Incremental: ${Build.VERSION.INCREMENTAL}
-        * | ${Build.MANUFACTURER} | ${Build.BRAND} | === | ${Build.MODEL} | ${Build.DEVICE} | ${Build.VERSION.SDK_INT} | ${Build.FINGERPRINT} |
-      """.trimIndent()
+  private fun deviceInfo(): StringBuilder {
+    return StringBuilder("* Manufacturer: ${Build.MANUFACTURER}, Brand: ${Build.BRAND}\n")
+      .append("* Model: ${Build.MODEL}, Device: ${Build.DEVICE}\n")
+      .append("* Release: Android ${Build.VERSION.RELEASE} (SDK_INT: ${Build.VERSION.SDK_INT})\n")
+      .append("* Display: ${Build.DISPLAY}\n")
+      .append("* Incremental: ${Build.VERSION.INCREMENTAL}\n")
+      .append("* | ${Build.MANUFACTURER} | ${Build.BRAND} | === | ${Build.MODEL} | ${Build.DEVICE} | ${Build.VERSION.SDK_INT} | ${Build.FINGERPRINT} |")
   }
 
   private fun copyToClipboard(text: String) {
@@ -135,7 +140,12 @@ class MainActivity : AppCompatActivity() {
     }
   }
 
-  private class ResultModel(val tag: String, val id: String, val ts: String? = null)
+  private class ResultModel(
+    val tag: String,
+    val result: IdentifierResult?,
+    val ts: String? = null,
+    val msg: String? = null
+  )
 
   private fun getResultList(): List<ResultModel> {
     val list = ArrayList<ResultModel>()
@@ -145,6 +155,8 @@ class MainActivity : AppCompatActivity() {
       isGoogleAdsIdEnabled = IS_GOOGLE_ADS_ID_ENABLE
       isLimitAdTracking = IS_LIMIT_AD_TRACKING
       isMemCacheEnabled = IS_MEM_CACHE_ENABLE
+      queryAaid = true
+      queryVaid = true
       executor = Executor { r -> Thread(r).start() }
       callback = WeakReference(object : OnResultListener {
         override fun onSuccess(result: IdentifierResult) {}
@@ -170,14 +182,15 @@ class MainActivity : AppCompatActivity() {
       }
 
       val latch = CountDownLatch(1)
+      val simpleName = provider.javaClass.simpleName
       val resultCallback = object : OnResultListener {
         override fun onSuccess(result: IdentifierResult) {
-          list.add(ResultModel(provider.javaClass.simpleName, result.oaid, getNanoTimeStamp()))
+          list.add(ResultModel(simpleName, result, getNanoTimeStamp()))
           latch.countDown()
         }
 
         override fun onError(msg: String, t: Throwable?) {
-          list.add(ResultModel(provider.javaClass.simpleName, msg, getNanoTimeStamp()))
+          list.add(ResultModel(simpleName, null, getNanoTimeStamp(), msg))
           latch.countDown()
         }
 

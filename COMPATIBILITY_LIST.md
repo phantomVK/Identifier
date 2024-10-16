@@ -1,41 +1,33 @@
-## Verified manufacturer list
-
-| Manufacturer | verified |
-|:------------:|:--------:|
-|     ASUS     |    Y     |
-|  BlackShark  |    Y     |
-|   Coolpad    |    Y     |
-|    Coosea    |          |
-|    Freeme    |          |
-|    Google    |    Y     |
-|    Honor     |    Y     |
-|    Huawei    |    Y     |
-|    Lenovo    |    Y     |
-|    Meizu     |    Y     |
-|   Motorola   |    Y     |
-|     Msa      |          |
-|    Nokia     |    Y     |
-|    Nubia     |    Y     |
-|   OnePlus    |    Y     |
-|     Oppo     |    Y     |
-|   Pico VR    |          |
-|     Qiku     |          |
-|    Realme    |    Y     |
-|   Samsung    |    Y     |
-|     Vivo     |    Y     |
-|    Xiaomi    |    Y     |
-|     Xtc      |          |
-|     Zte      |    Y     |
-
 ## Verified provider list
 
-|        Provider         | oaid | aaid | vaid |
-|:-----------------------:|:----:|:----:|:----:|
-| CoolpadServiceProvider  |  Y   |  Y   |  Y   |
-| CoolpadSettingsProvider |  Y   |      |      |      
-|      MeizuProvider      |  Y   |  Y   |      |
-|     SamsungProvider     |  Y   |  Y   |  Y   |
-|     XiaomiProvider      |  Y   |  Y   |  Y   |
+|          Provider          |   Manufacturer   | oaid | aaid | vaid |
+|:--------------------------:|:----------------:|:----:|:----:|:----:|
+|      AsusProvider.kt       |       ASUS       |  Y   |      |      |
+| CoolpadServiceProvider.kt  |     Coolpad      |  Y   |  Y   |  Y   |
+| CoolpadSettingsProvider.kt |     Coolpad      |  Y   |      |      |
+|     CooseaProvider.kt      |                  |      |      |      |
+|     FreemeProvider.kt      |                  |      |      |      |
+|   GoogleAdsIdProvider.kt   |                  |  Y   |      |      |
+|    HonorSdkProvider.kt     |      Honor       |  Y   |      |      |
+|  HonorServiceProvider.kt   |      Honor       |  Y   |      |      |
+|  HonorSettingsProvider.kt  |      Honor       |  Y   |      |      |
+|    HuaweiSdkProvider.kt    |      Huawei      |  Y   |      |      |
+|  HuaweiServiceProvider.kt  |      Huawei      |  Y   |      |      |
+| HuaweiSettingsProvider.kt  |      Huawei      |  Y   |      |      |
+|      MeizuProvider.kt      |      Meizu       |  Y   |  Y   |      |
+|       MsaProvider.kt       |                  |      |      |      |
+|      NubiaProvider.kt      |      Nubia       |  Y   |  Y   |  Y   |
+|   OppoColorOsProvider.kt   |       Oppo       |  Y   |      |      |
+|   OppoHeyTapProvider.kt    |       Oppo       |  Y   |      |      |
+|      PicoProvider.kt       |       Pico       |      |      |      |
+|   QikuBinderProvider.kt    |       Qiku       |      |      |      |
+|   QikuServiceProvider.kt   |       Qiku       |      |      |      |
+|     SamsungProvider.kt     |     Samsung      |  Y   |  Y   |  Y   |
+|      VivoProvider.kt       |       Vivo       |  Y   |      |      |
+|     XiaomiProvider.kt      |      Xiaomi      |  Y   |  Y   |  Y   |
+|       XtcProvider.kt       |                  |      |      |      |
+|       ZteProvider.kt       |       ZTE        |  Y   |      |      |
+|       ZuiProvider.kt       | Lenovo, Motorola |  Y   |      |      |
 
 ## Compatible Android device list.
 
@@ -133,9 +125,10 @@
 
 ### Nubia
 
-| Manufacturer | Brand |    Name     | Model  | Device | SDK_INT |                                  FingerPrint                                   |
-|:------------:|:-----:|:-----------:|:------:|:------:|:-------:|:------------------------------------------------------------------------------:|
-|    nubia     | nubia | Red Magic 6 | NX669J | NX669J |   30    | nubia/NX669J/NX669J:11/RKQ1.201105.002/nubia.20210205.023207:user/release-keys |
+| Manufacturer | Brand |    Name     | Model  | Device  | SDK_INT |                                  FingerPrint                                   |
+|:------------:|:-----:|:-----------:|:------:|:-------:|:-------:|:------------------------------------------------------------------------------:|
+|    nubia     | nubia | Red Magic 6 | NX669J | NX669J  |   30    | nubia/NX669J/NX669J:11/RKQ1.201105.002/nubia.20210205.023207:user/release-keys |
+|    nubia     | nubia |   Z30 Pro   | NX667J | P875N02 |   30    | nubia/CN_P875N02/P875N02:11/RKQ1.210503.001/20220216.180439:user/release-keys  |
 
 #### OnePlus
 
