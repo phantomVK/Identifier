@@ -31,21 +31,21 @@ internal class CoolpadServiceProvider(config: ProviderConfig) : AbstractProvider
     bindService(intent, binderCallback)
   }
 
-  // oaid:2, aaid:4, vaid:3
+  // oaid:2, vaid:3, aaid:4
   private fun getId(binder: IBinder, code: Int): String? {
     val data = Parcel.obtain()
     val reply = Parcel.obtain()
-    val result: String?
     try {
       data.writeInterfaceToken("com.coolpad.deviceidsupport.IDeviceIdManager")
       data.writeString(config.context.packageName)
       binder.transact(code, data, reply, 0)
       reply.readException()
-      result = reply.readString()
+      return reply.readString()
+    } catch (t: Throwable) {
+      return null
     } finally {
       reply.recycle()
       data.recycle()
     }
-    return result
   }
 }

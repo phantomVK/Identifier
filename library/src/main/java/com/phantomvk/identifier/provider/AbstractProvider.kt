@@ -83,10 +83,9 @@ abstract class AbstractProvider(protected val config: ProviderConfig) : Runnable
       return result
     }
 
-    if (result is CallBinderResult.Success) {
-      callback.onSuccess(IdentifierResult(id!!))
-    } else {
-      callback.onError((result as CallBinderResult.Failed).msg)
+    when (result) {
+      is CallBinderResult.Failed -> callback.onError(result.msg)
+      is CallBinderResult.Success -> callback.onSuccess(IdentifierResult(result.id))
     }
 
     return result

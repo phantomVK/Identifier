@@ -18,29 +18,28 @@ internal class QikuBinderProvider(config: ProviderConfig) : AbstractProvider(con
   }
 
   override fun run() {
-    Log.d("QikuBinderProvider", "isSupported:${isIdSupported()}, isLimited:${isLimited()}")
-
+    Log.d("QikuBinderProvider", "isSupported:${isSupported(binder)}, isLimited:${isLimited()}")
     if (config.isLimitAdTracking) {
-      if (isIdSupported()) {
+      if (isSupported(binder)) {
         getCallback().onError(EXCEPTION_THROWN)
         return
       }
     }
 
-    when (val result = checkId(getOAID())) {
+    when (val result = checkId(getId(4))) {
       is CallBinderResult.Failed -> {
         getCallback().onError(result.msg)
       }
 
       is CallBinderResult.Success -> {
-        val aaid = if (config.queryAaid) getAAID() else null
-        val vaid = if (config.queryVaid) getVAID() else null
+        val vaid = if (config.queryVaid) getId(5) else null
+        val aaid = if (config.queryAaid) getId(6) else null
         getCallback().onSuccess(IdentifierResult(result.id, aaid, vaid))
       }
     }
   }
 
-  private fun isIdSupported(): Boolean {
+  private fun isSupported(binder: IBinder): Boolean {
     val data = Parcel.obtain()
     val reply = Parcel.obtain()
     return try {
@@ -54,39 +53,11 @@ internal class QikuBinderProvider(config: ProviderConfig) : AbstractProvider(con
     }
   }
 
-  private fun getOAID(): String? {
+  private fun getId(code: Int): String? {
     val data = Parcel.obtain()
     val reply = Parcel.obtain()
     return try {
-      binder.transact(4, data, reply, 0)
-      reply.readString()
-    } catch (t: Throwable) {
-      null
-    } finally {
-      reply.recycle()
-      data.recycle()
-    }
-  }
-
-  private fun getVAID(): String? {
-    val data = Parcel.obtain()
-    val reply = Parcel.obtain()
-    return try {
-      binder.transact(5, data, reply, 0)
-      reply.readString()
-    } catch (t: Throwable) {
-      null
-    } finally {
-      reply.recycle()
-      data.recycle()
-    }
-  }
-
-  private fun getAAID(): String? {
-    val data = Parcel.obtain()
-    val reply = Parcel.obtain()
-    return try {
-      binder.transact(6, data, reply, 0)
+      binder.transact(code, data, reply, 0)
       reply.readString()
     } catch (t: Throwable) {
       null
