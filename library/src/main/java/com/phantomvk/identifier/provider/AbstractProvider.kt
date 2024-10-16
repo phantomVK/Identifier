@@ -206,7 +206,7 @@ abstract class AbstractProvider(protected val config: ProviderConfig) : Runnable
   }
 
   protected sealed class CallBinderResult {
-    class Success(val id: String, val aaid: String? = null, val vaid: String? = null) : CallBinderResult()
+    class Success(val id: String, val vaid: String? = null, val aaid: String? = null) : CallBinderResult()
     class Failed(val msg: String) : CallBinderResult()
   }
 

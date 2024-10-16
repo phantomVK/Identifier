@@ -2,7 +2,7 @@
 
 |          Provider          |   Manufacturer   | oaid | aaid | vaid |
 |:--------------------------:|:----------------:|:----:|:----:|:----:|
-|      AsusProvider.kt       |       ASUS       |  Y   |      |      |
+|      AsusProvider.kt       |       ASUS       |  Y   |  Y   |  Y   |
 | CoolpadServiceProvider.kt  |     Coolpad      |  Y   |  Y   |  Y   |
 | CoolpadSettingsProvider.kt |     Coolpad      |  Y   |      |      |
 |     CooseaProvider.kt      |                  |      |      |      |
