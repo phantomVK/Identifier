@@ -34,6 +34,8 @@
 | CoolpadServiceProvider  |  Y   |  Y   |  Y   |
 | CoolpadSettingsProvider |  Y   |      |      |      
 |      MeizuProvider      |  Y   |  Y   |      |
+|     SamsungProvider     |  Y   |  Y   |  Y   |
+|     XiaomiProvider      |  Y   |  Y   |  Y   |
 
 ## Compatible Android device list.
 
