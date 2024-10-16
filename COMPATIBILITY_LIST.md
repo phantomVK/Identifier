@@ -27,6 +27,14 @@
 |     Xtc      |          |
 |     Zte      |    Y     |
 
+## Verified provider list
+
+|        Provider         | oaid | aaid | vaid |
+|:-----------------------:|:----:|:----:|:----:|
+| CoolpadServiceProvider  |  Y   |  Y   |  Y   |
+| CoolpadSettingsProvider |  Y   |      |      |      
+|      MeizuProvider      |  Y   |  Y   |      |
+
 ## Compatible Android device list.
 
 ### ASUS

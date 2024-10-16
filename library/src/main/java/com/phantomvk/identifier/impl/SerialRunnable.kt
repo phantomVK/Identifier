@@ -139,8 +139,13 @@ internal class SerialRunnable(config: ProviderConfig) : AbstractProvider(config)
     }
 
     if (isBrand("Coolpad")) {
-      providers.add(CoolpadSettingsProvider(config))
-      providers.add(CoolpadServiceProvider(config))
+      if (config.queryAaid || config.queryVaid) {
+        providers.add(CoolpadServiceProvider(config))
+        providers.add(CoolpadSettingsProvider(config))
+      } else {
+        providers.add(CoolpadSettingsProvider(config))
+        providers.add(CoolpadServiceProvider(config))
+      }
       return
     }
 
