@@ -17,6 +17,7 @@ import com.phantomvk.identifier.provider.GoogleAdsIdProvider
 import com.phantomvk.identifier.provider.HonorSdkProvider
 import com.phantomvk.identifier.provider.HonorServiceProvider
 import com.phantomvk.identifier.provider.HonorSettingsProvider
+import com.phantomvk.identifier.provider.HuaweiContentProvider
 import com.phantomvk.identifier.provider.HuaweiSdkProvider
 import com.phantomvk.identifier.provider.HuaweiServiceProvider
 import com.phantomvk.identifier.provider.HuaweiSettingsProvider
@@ -160,6 +161,7 @@ internal class SerialRunnable(config: ProviderConfig) : AbstractProvider(config)
       ) {
         providers.add(HuaweiSdkProvider(config))
         providers.add(HuaweiSettingsProvider(config))
+        providers.add(HuaweiContentProvider(config))
         providers.add(HuaweiServiceProvider(config))
       }
 
