@@ -11,6 +11,7 @@
 |    HonorSdkProvider.kt     |      Honor       |  Y   |      |      |
 |  HonorServiceProvider.kt   |      Honor       |  Y   |      |      |
 |  HonorSettingsProvider.kt  |      Honor       |  Y   |      |      |
+|  HuaweiContentProvider.kt  |      Huawei      |  Y   |      |      |
 |    HuaweiSdkProvider.kt    |      Huawei      |  Y   |      |      |
 |  HuaweiServiceProvider.kt  |      Huawei      |  Y   |      |      |
 | HuaweiSettingsProvider.kt  |      Huawei      |  Y   |      |      |

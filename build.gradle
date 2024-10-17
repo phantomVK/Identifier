@@ -33,3 +33,7 @@ buildscript {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+task uninstall(type: Exec) {
+    commandLine("adb", "uninstall", "com.phantomvk.identifier.app")
+}
