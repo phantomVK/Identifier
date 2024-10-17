@@ -1,6 +1,7 @@
 package com.phantomvk.identifier.provider
 
 import android.net.Uri
+import com.phantomvk.identifier.model.IdentifierResult
 import com.phantomvk.identifier.model.ProviderConfig
 
 internal class VivoProvider(config: ProviderConfig) : AbstractProvider(config) {
@@ -13,28 +14,37 @@ internal class VivoProvider(config: ProviderConfig) : AbstractProvider(config) {
 //    val value = sysProperty("persist.sys.identifierid.supported", "0")
 //    return value == "1"
 
-    return true
+    return isContentProviderExisted("com.vivo.vms.IdProvider")
   }
 
   override fun run() {
-    val uri = Uri.parse("content://com.vivo.vms.IdProvider/IdentifierId/OAID")
+    when (val r = getId("OAID")) {
+      is CallBinderResult.Failed -> return getCallback().onError(r.msg)
+      is CallBinderResult.Success -> {
+        val aaid = if (config.queryAaid) (getId("AAID") as? CallBinderResult.Success)?.id else null
+        getCallback().onSuccess(IdentifierResult(r.id, aaid))
+      }
+    }
+  }
+
+  private fun getId(code: String): CallBinderResult {
+    val prefix = "content://com.vivo.vms.IdProvider/IdentifierId/${code}_"
+    val uri = Uri.parse(prefix + config.context.packageName)
     val resolver = config.context.contentResolver
     val cursor = resolver.query(uri, null, null, null, null)
     if (cursor == null) {
-      getCallback().onError(QUERY_CURSOR_IS_NULL, null)
-      return
+      return CallBinderResult.Failed(QUERY_CURSOR_IS_NULL)
     }
 
-    cursor.use { c ->
+    return cursor.use { c ->
       c.moveToFirst()
 
       val index = c.getColumnIndex("value")
       if (index == -1) {
-        getCallback().onError(NO_AVAILABLE_COLUMN_INDEX, null)
-        return
+        return CallBinderResult.Failed(NO_AVAILABLE_COLUMN_INDEX)
       }
 
-      checkId(c.getString(index), getCallback())
+      checkId(c.getString(index))
     }
   }
 }

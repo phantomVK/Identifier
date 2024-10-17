@@ -249,10 +249,11 @@ internal class SerialRunnable(config: ProviderConfig) : AbstractProvider(config)
       return
     }
 
-    if (sysPropertyEquals("ro.odm.manufacturer", "PRIZE")) {
-      providers.add(CooseaProvider(config))
-      return
-    }
+//    // Access denied finding property "ro.odm.manufacturer"
+//    if (sysPropertyEquals("ro.odm.manufacturer", "PRIZE")) {
+//      providers.add(CooseaProvider(config))
+//      return
+//    }
 
     providers.add(XtcProvider(config))
     providers.add(MsaProvider(config))

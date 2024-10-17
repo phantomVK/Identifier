@@ -23,7 +23,7 @@
 |   QikuBinderProvider.kt    |       Qiku       |      |      |      |
 |   QikuServiceProvider.kt   |       Qiku       |      |      |      |
 |     SamsungProvider.kt     |     Samsung      |  Y   |  Y   |  Y   |
-|      VivoProvider.kt       |       Vivo       |  Y   |      |      |
+|      VivoProvider.kt       |       Vivo       |  Y   |  Y   |      |
 |     XiaomiProvider.kt      |      Xiaomi      |  Y   |  Y   |  Y   |
 |       XtcProvider.kt       |                  |      |      |      |
 |       ZteProvider.kt       |       ZTE        |  Y   |      |      |
