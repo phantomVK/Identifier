@@ -152,11 +152,11 @@ internal class SerialRunnable(config: ProviderConfig) : AbstractProvider(config)
     if (isBrand("HUAWEI")
       || isBrand("HONOR")
       || isBrand("HUAWEI", "HONOR")
-      || sysPropertyContains("ro.build.version.emui")
+      || sysPropertyContainsKey("ro.build.version.emui")
     ) {
       if (isBrand("HUAWEI")
         || isBrand("HUAWEI", "HONOR")
-        || sysPropertyContains("ro.build.version.emui")
+        || sysPropertyContainsKey("ro.build.version.emui")
       ) {
         providers.add(HuaweiSdkProvider(config))
         providers.add(HuaweiSettingsProvider(config))
@@ -182,7 +182,7 @@ internal class SerialRunnable(config: ProviderConfig) : AbstractProvider(config)
     if (isBrand("XIAOMI")
       || isBrand("XIAOMI", "REDMI")
       || isBrand("BLACKSHARK")
-      || sysPropertyContains("ro.miui.ui.version.name")
+      || sysPropertyContainsKey("ro.miui.ui.version.name")
     ) {
       providers.add(XiaomiProvider(config))
       return
@@ -196,15 +196,15 @@ internal class SerialRunnable(config: ProviderConfig) : AbstractProvider(config)
     if (isBrand("OPPO")
       || isBrand("realme")
       || isBrand("ONEPLUS")
-      || sysPropertyContains("ro.build.version.opporom")
+      || sysPropertyContainsKey("ro.build.version.opporom")
     ) {
       providers.add(OppoColorOsProvider(config))
       providers.add(OppoHeyTapProvider(config))
       return
     }
 
-    if (isBrand("VIVO") || sysPropertyContains("ro.vivo.os.version")) {
-      if (sysProperty("persist.sys.identifierid.supported", "0") == "1") {
+    if (isBrand("VIVO") || sysPropertyContainsKey("ro.vivo.os.version")) {
+      if (getSysProperty("persist.sys.identifierid.supported", "0") == "1") {
         providers.add(VivoProvider(config))
       }
       return
@@ -239,7 +239,7 @@ internal class SerialRunnable(config: ProviderConfig) : AbstractProvider(config)
       return
     }
 
-    if (sysPropertyContains("ro.build.freeme.label")) {
+    if (sysPropertyContainsKey("ro.build.freeme.label")) {
       providers.add(FreemeProvider(config))
       return
     }

@@ -2,7 +2,6 @@ package com.phantomvk.identifier.app
 
 import android.content.ClipData
 import android.content.ClipboardManager
-import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -12,6 +11,11 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.phantomvk.identifier.IdentifierManager
+import com.phantomvk.identifier.app.Application.Companion.IS_DEBUG
+import com.phantomvk.identifier.app.Application.Companion.IS_EXPERIMENTAL
+import com.phantomvk.identifier.app.Application.Companion.IS_GOOGLE_ADS_ID_ENABLE
+import com.phantomvk.identifier.app.Application.Companion.IS_LIMIT_AD_TRACKING
+import com.phantomvk.identifier.app.Application.Companion.IS_MEM_CACHE_ENABLE
 import com.phantomvk.identifier.interfaces.Disposable
 import com.phantomvk.identifier.interfaces.OnResultListener
 import com.phantomvk.identifier.model.IdentifierResult
@@ -26,45 +30,11 @@ import java.util.concurrent.Executor
 
 class MainActivity : AppCompatActivity() {
 
-  private companion object {
-    private const val TAG = "IdentifierTAG"
-
-    private const val IS_DEBUG = true
-    private const val IS_EXPERIMENTAL = true
-    private const val IS_GOOGLE_ADS_ID_ENABLE = true
-    private const val IS_LIMIT_AD_TRACKING = true
-    private const val IS_MEM_CACHE_ENABLE = false
-
-    private val instance by lazy {
-      IdentifierManager.Builder(getApplication())
-        .setDebug(IS_DEBUG)
-        .setExperimental(IS_EXPERIMENTAL)
-        .setExtraIdsEnable(false, false)
-        .setGoogleAdsIdEnable(IS_GOOGLE_ADS_ID_ENABLE)
-        .setLimitAdTracking(IS_LIMIT_AD_TRACKING)
-        .setMemCacheEnable(IS_MEM_CACHE_ENABLE)
-        .setExecutor { Thread(it).start() } // optional: setup custom ThreadPoolExecutor
-        .setLogger(LoggerImpl())
-        .init()
-    }
-
-    private fun getApplication(): Context? {
-      try {
-        val clazz = Class.forName("android.app.ActivityThread")
-        return clazz.getMethod("currentApplication").invoke(null) as Context
-      } catch (e: Throwable) {
-        return null
-      }
-    }
-  }
-
   private var disposable: Disposable? = null
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_main)
-    Log.i(TAG, "IdentifierManager: $instance")
-
     findViewById<Button>(R.id.button).setOnClickListener { getId() }
     getId()
   }
@@ -92,9 +62,10 @@ class MainActivity : AppCompatActivity() {
             if (model.result == null) {
               builder.append("-msg: ${model.msg}")
             } else {
-              builder.append("-oaid: ${model.result.oaid}\n")
-              model.result.aaid?.let { builder.append("-aaid: $it\n") }
-              model.result.vaid?.let { builder.append("-vaid: $it") }
+              val list = arrayListOf("-oaid: ${model.result.oaid}")
+              model.result.aaid?.let { list.add("-aaid: $it") }
+              model.result.vaid?.let { list.add("-vaid: $it") }
+              builder.append(list.joinToString("\n"))
             }
             builder.toString()
           })
@@ -109,7 +80,8 @@ class MainActivity : AppCompatActivity() {
   }
 
   private fun showInfo(deviceStr: String, t: Throwable? = null) {
-    Log.i(TAG, deviceStr, t)
+    Log.i("IdentifierTAG", deviceStr, t)
+    Log.i("IdentifierTAG", "* | ${Build.MANUFACTURER} | ${Build.BRAND} | === | ${Build.MODEL} | ${Build.DEVICE} | ${Build.VERSION.SDK_INT} | ${Build.FINGERPRINT} |")
 
     lifecycleScope.launch(Dispatchers.Main) {
       val textView = findViewById<TextView>(R.id.system_textview)
@@ -127,14 +99,13 @@ class MainActivity : AppCompatActivity() {
       .append("* Model: ${Build.MODEL}, Device: ${Build.DEVICE}\n")
       .append("* Release: Android ${Build.VERSION.RELEASE} (SDK_INT: ${Build.VERSION.SDK_INT})\n")
       .append("* Display: ${Build.DISPLAY}\n")
-      .append("* Incremental: ${Build.VERSION.INCREMENTAL}\n")
-      .append("* | ${Build.MANUFACTURER} | ${Build.BRAND} | === | ${Build.MODEL} | ${Build.DEVICE} | ${Build.VERSION.SDK_INT} | ${Build.FINGERPRINT} |")
+      .append("* Incremental: ${Build.VERSION.INCREMENTAL}")
   }
 
   private fun copyToClipboard(text: String) {
     try {
       val manager = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
-      val clipData = ClipData.newPlainText("IdentifierDemo", text)
+      val clipData = ClipData.newPlainText("IdentifierTAG", text)
       manager.setPrimaryClip(clipData)
     } catch (ignore: Throwable) {
     }

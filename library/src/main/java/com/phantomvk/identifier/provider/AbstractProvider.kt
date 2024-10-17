@@ -52,7 +52,7 @@ abstract class AbstractProvider(protected val config: ProviderConfig) : Runnable
     }
   }
 
-  protected fun sysProperty(key: String, defValue: String): String? {
+  protected fun getSysProperty(key: String, defValue: String?): String? {
     return try {
       val clazz = Class.forName("android.os.SystemProperties")
       val method = clazz.getMethod("get", String::class.java, String::class.java)
@@ -62,12 +62,12 @@ abstract class AbstractProvider(protected val config: ProviderConfig) : Runnable
     }
   }
 
-  protected fun sysPropertyContains(key: String): Boolean {
-    return !sysProperty(key, "").isNullOrBlank()
+  protected fun sysPropertyContainsKey(key: String): Boolean {
+    return getSysProperty(key, null)?.isNotBlank() == true
   }
 
   protected fun sysPropertyEquals(key: String, value: String): Boolean {
-    return sysProperty(key, "").equals(value, true)
+    return value.equals(getSysProperty(key, null), true)
   }
 
   protected fun checkId(id: String?, callback: OnResultListener? = null): CallBinderResult {
