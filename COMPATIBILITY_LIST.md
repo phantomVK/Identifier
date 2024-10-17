@@ -27,7 +27,7 @@
 |     XiaomiProvider.kt      |      Xiaomi      |  Y   |  Y   |  Y   |
 |       XtcProvider.kt       |                  |      |      |      |
 |       ZteProvider.kt       |       ZTE        |  Y   |      |      |
-|       ZuiProvider.kt       | Lenovo, Motorola |  Y   |      |      |
+|       ZuiProvider.kt       | Lenovo, Motorola |  Y   |  Y   |  Y   |
 
 ## Compatible Android device list.
 
