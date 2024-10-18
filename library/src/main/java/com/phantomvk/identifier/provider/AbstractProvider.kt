@@ -70,13 +70,13 @@ abstract class AbstractProvider(protected val config: ProviderConfig) : Runnable
     return value.equals(getSysProperty(key, null), true)
   }
 
-  protected fun checkId(id: String?, callback: OnResultListener? = null): CallBinderResult {
+  protected fun checkId(id: String?, callback: OnResultListener? = null): BinderResult {
     val result = if (id.isNullOrBlank()) {
-      CallBinderResult.Failed(ID_IS_NULL_OR_BLANK)
+      BinderResult.Failed(ID_IS_NULL_OR_BLANK)
     } else if (id.all { it == '0' || it == '-' }) {
-      CallBinderResult.Failed(ID_IS_INVALID)
+      BinderResult.Failed(ID_IS_INVALID)
     } else {
-      CallBinderResult.Success(id)
+      BinderResult.Success(id)
     }
 
     if (callback == null) {
@@ -84,8 +84,8 @@ abstract class AbstractProvider(protected val config: ProviderConfig) : Runnable
     }
 
     when (result) {
-      is CallBinderResult.Failed -> callback.onError(result.msg)
-      is CallBinderResult.Success -> callback.onSuccess(IdentifierResult(result.id))
+      is BinderResult.Failed -> callback.onError(result.msg)
+      is BinderResult.Success -> callback.onSuccess(IdentifierResult(result.id))
     }
 
     return result
@@ -129,19 +129,19 @@ abstract class AbstractProvider(protected val config: ProviderConfig) : Runnable
     }
   }
 
-  protected fun getSignatureHash(): CallBinderResult {
+  protected fun getSignatureHash(): BinderResult {
     val signature = getSignatures(config.context.packageManager, config.context.packageName)?.firstOrNull()
     if (signature == null) {
-      return CallBinderResult.Failed(SIGNATURE_IS_NULL)
+      return BinderResult.Failed(SIGNATURE_IS_NULL)
     }
 
     val byteArray = signature.toByteArray()
     val sign = sha1(byteArray)
     if (sign.isNullOrBlank()) {
-      return CallBinderResult.Failed(SIGNATURE_HASH_IS_NULL)
+      return BinderResult.Failed(SIGNATURE_HASH_IS_NULL)
     }
 
-    return CallBinderResult.Success(sign)
+    return BinderResult.Success(sign)
   }
 
   protected fun releaseContentProviderClient(client: ContentProviderClient) {
@@ -157,8 +157,8 @@ abstract class AbstractProvider(protected val config: ProviderConfig) : Runnable
       override fun onServiceConnected(name: ComponentName, service: IBinder) {
         try {
           when (val r = binderCallback.call(service)) {
-            is CallBinderResult.Success -> getCallback().onSuccess(IdentifierResult(r.id, r.aaid, r.vaid))
-            is CallBinderResult.Failed -> getCallback().onError(r.msg)
+            is BinderResult.Success -> getCallback().onSuccess(IdentifierResult(r.id, r.aaid, r.vaid))
+            is BinderResult.Failed -> getCallback().onError(r.msg)
           }
         } catch (t: Throwable) {
           getCallback().onError(EXCEPTION_THROWN, t)
@@ -201,12 +201,12 @@ abstract class AbstractProvider(protected val config: ProviderConfig) : Runnable
   }
 
   protected interface BinderCallback {
-    fun call(binder: IBinder): CallBinderResult
+    fun call(binder: IBinder): BinderResult
   }
 
-  protected sealed class CallBinderResult {
-    class Success(val id: String, val vaid: String? = null, val aaid: String? = null) : CallBinderResult()
-    class Failed(val msg: String) : CallBinderResult()
+  protected sealed class BinderResult {
+    class Success(val id: String, val vaid: String? = null, val aaid: String? = null) : BinderResult()
+    class Failed(val msg: String) : BinderResult()
   }
 
   protected companion object {

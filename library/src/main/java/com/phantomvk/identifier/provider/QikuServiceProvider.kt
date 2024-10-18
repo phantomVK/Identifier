@@ -14,20 +14,20 @@ internal class QikuServiceProvider(config: ProviderConfig) : AbstractProvider(co
 
   override fun run() {
     val binderCallback = object : BinderCallback {
-      override fun call(binder: IBinder): CallBinderResult {
+      override fun call(binder: IBinder): BinderResult {
         Log.d("QikuServiceProvider", "isSupported:${isSupported(binder)}, isLimited:${isLimited(binder)}")
         if (config.isLimitAdTracking) {
           if (isSupported(binder) == 0) {
-            return CallBinderResult.Failed(LIMIT_AD_TRACKING_IS_ENABLED)
+            return BinderResult.Failed(LIMIT_AD_TRACKING_IS_ENABLED)
           }
         }
 
         when (val r = checkId(getId(binder, 3))) {
-          is CallBinderResult.Failed -> return r
-          is CallBinderResult.Success -> {
+          is BinderResult.Failed -> return r
+          is BinderResult.Success -> {
             val vaid = if (config.queryVaid) getId(binder, 4) else null
             val aaid = if (config.queryAaid) getId(binder, 5) else null
-            return CallBinderResult.Success(r.id, vaid, aaid)
+            return BinderResult.Success(r.id, vaid, aaid)
           }
         }
       }
