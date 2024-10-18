@@ -13,16 +13,16 @@ internal class FreemeProvider(config: ProviderConfig) : AbstractProvider(config)
 
   override fun run() {
     val binderCallback = object : BinderCallback {
-      override fun call(binder: IBinder): CallBinderResult {
+      override fun call(binder: IBinder): BinderResult {
         val asInterface = IdsSupplier.Stub.asInterface(binder)
         if (asInterface == null) {
-          return CallBinderResult.Failed(AIDL_INTERFACE_IS_NULL)
+          return BinderResult.Failed(AIDL_INTERFACE_IS_NULL)
         }
 
         if (config.isLimitAdTracking) {
           val isSupported = asInterface.isSupported
           if (!isSupported) {
-            return CallBinderResult.Failed(LIMIT_AD_TRACKING_IS_ENABLED)
+            return BinderResult.Failed(LIMIT_AD_TRACKING_IS_ENABLED)
           }
         }
 
