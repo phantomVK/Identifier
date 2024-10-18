@@ -16,7 +16,7 @@ internal class HonorServiceProvider(config: ProviderConfig) : AbstractProvider(c
 
   override fun run() {
     val binderCallback = object : BinderCallback {
-      override fun call(binder: IBinder): CallBinderResult {
+      override fun call(binder: IBinder): BinderResult {
         if (config.isLimitAdTracking) {
           val result = isLimited(binder)
           if (result != null) {
@@ -24,7 +24,7 @@ internal class HonorServiceProvider(config: ProviderConfig) : AbstractProvider(c
           }
         }
 
-        return getId(binder) ?: CallBinderResult.Failed(ID_INFO_IS_NULL)
+        return getId(binder) ?: BinderResult.Failed(ID_INFO_IS_NULL)
       }
     }
 
@@ -33,8 +33,8 @@ internal class HonorServiceProvider(config: ProviderConfig) : AbstractProvider(c
     bindService(intent, binderCallback)
   }
 
-  private fun getId(iBinder: IBinder): CallBinderResult? {
-    var result: CallBinderResult? = null
+  private fun getId(iBinder: IBinder): BinderResult? {
+    var result: BinderResult? = null
     val latch = CountDownLatch(1)
     val data = Parcel.obtain()
     val reply = Parcel.obtain()
@@ -42,7 +42,7 @@ internal class HonorServiceProvider(config: ProviderConfig) : AbstractProvider(c
       override fun a(i: Int, j: Long, z: Boolean, f: Float, d: Double, str: String?) {}
       override fun onResult(i: Int, bundle: Bundle?) {
         if (i != 0 || bundle == null) {
-          result = CallBinderResult.Failed(BUNDLE_IS_NULL)
+          result = BinderResult.Failed(BUNDLE_IS_NULL)
           latch.countDown()
           return
         }
@@ -66,8 +66,8 @@ internal class HonorServiceProvider(config: ProviderConfig) : AbstractProvider(c
     return result
   }
 
-  private fun isLimited(iBinder: IBinder): CallBinderResult? {
-    var result: CallBinderResult? = null
+  private fun isLimited(iBinder: IBinder): BinderResult? {
+    var result: BinderResult? = null
     val latch = CountDownLatch(1)
     val data = Parcel.obtain()
     val reply = Parcel.obtain()
@@ -75,7 +75,7 @@ internal class HonorServiceProvider(config: ProviderConfig) : AbstractProvider(c
       override fun a(i: Int, j: Long, z: Boolean, f: Float, d: Double, str: String?) {}
       override fun onResult(i: Int, bundle: Bundle?) {
         if (i == 0 && bundle?.getBoolean("oa_id_limit_state") == true) {
-          result = CallBinderResult.Failed(LIMIT_AD_TRACKING_IS_ENABLED)
+          result = BinderResult.Failed(LIMIT_AD_TRACKING_IS_ENABLED)
         }
         latch.countDown()
       }

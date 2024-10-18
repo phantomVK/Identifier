@@ -13,13 +13,13 @@ internal class SamsungProvider(config: ProviderConfig) : AbstractProvider(config
 
   override fun run() {
     val binderCallback = object : BinderCallback {
-      override fun call(binder: IBinder): CallBinderResult {
+      override fun call(binder: IBinder): BinderResult {
         return when (val r = checkId(getId(binder, 1))) {
-          is CallBinderResult.Failed -> return r
-          is CallBinderResult.Success -> {
+          is BinderResult.Failed -> return r
+          is BinderResult.Success -> {
             val vaid = if (config.queryVaid) getId(binder, 2) else null
             val aaid = if (config.queryAaid) getId(binder, 3) else null
-            CallBinderResult.Success(r.id, vaid, aaid)
+            BinderResult.Success(r.id, vaid, aaid)
           }
         }
       }

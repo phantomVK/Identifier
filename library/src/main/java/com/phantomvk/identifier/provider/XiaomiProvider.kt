@@ -27,7 +27,7 @@ internal class XiaomiProvider(config: ProviderConfig) : AbstractProvider(config)
 
   override fun run() {
     val oaid = getId("getOAID")
-    if (checkId(oaid) is CallBinderResult.Failed) {
+    if (checkId(oaid) is BinderResult.Failed) {
       checkId(oaid, getCallback())
       return
     }
@@ -41,7 +41,7 @@ internal class XiaomiProvider(config: ProviderConfig) : AbstractProvider(config)
     try {
       val method = clazz!!.getMethod(name, Context::class.java)
       val id = method.invoke(instance, config.context) as? String
-      if (checkId(id) is CallBinderResult.Success) return id
+      if (checkId(id) is BinderResult.Success) return id
     } catch (t: Throwable) {
     }
     return null

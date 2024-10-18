@@ -19,21 +19,21 @@ internal class VivoProvider(config: ProviderConfig) : AbstractProvider(config) {
 
   override fun run() {
     when (val r = getId("OAID")) {
-      is CallBinderResult.Failed -> return getCallback().onError(r.msg)
-      is CallBinderResult.Success -> {
-        val aaid = if (config.queryAaid) (getId("AAID") as? CallBinderResult.Success)?.id else null
+      is BinderResult.Failed -> return getCallback().onError(r.msg)
+      is BinderResult.Success -> {
+        val aaid = if (config.queryAaid) (getId("AAID") as? BinderResult.Success)?.id else null
         getCallback().onSuccess(IdentifierResult(r.id, aaid))
       }
     }
   }
 
-  private fun getId(code: String): CallBinderResult {
+  private fun getId(code: String): BinderResult {
     val prefix = "content://com.vivo.vms.IdProvider/IdentifierId/${code}_"
     val uri = Uri.parse(prefix + config.context.packageName)
     val resolver = config.context.contentResolver
     val cursor = resolver.query(uri, null, null, null, null)
     if (cursor == null) {
-      return CallBinderResult.Failed(QUERY_CURSOR_IS_NULL)
+      return BinderResult.Failed(QUERY_CURSOR_IS_NULL)
     }
 
     return cursor.use { c ->
@@ -41,7 +41,7 @@ internal class VivoProvider(config: ProviderConfig) : AbstractProvider(config) {
 
       val index = c.getColumnIndex("value")
       if (index == -1) {
-        return CallBinderResult.Failed(NO_AVAILABLE_COLUMN_INDEX)
+        return BinderResult.Failed(NO_AVAILABLE_COLUMN_INDEX)
       }
 
       checkId(c.getString(index))

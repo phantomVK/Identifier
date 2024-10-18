@@ -26,10 +26,10 @@ internal class HuaweiServiceProvider(config: ProviderConfig) : AbstractProvider(
 
   override fun run() {
     val binderCallback = object : BinderCallback {
-      override fun call(binder: IBinder): CallBinderResult {
+      override fun call(binder: IBinder): BinderResult {
         if (config.isLimitAdTracking) {
           if (isOaidTrackLimited(binder)) {
-            return CallBinderResult.Failed(LIMIT_AD_TRACKING_IS_ENABLED)
+            return BinderResult.Failed(LIMIT_AD_TRACKING_IS_ENABLED)
           }
         }
 
