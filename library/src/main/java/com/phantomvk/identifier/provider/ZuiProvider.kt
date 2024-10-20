@@ -12,7 +12,8 @@ internal class ZuiProvider(config: ProviderConfig) : AbstractProvider(config) {
   }
 
   override fun run() {
-    val binderCallback = object : BinderCallback {
+    val intent = Intent().setClassName("com.zui.deviceidservice", "com.zui.deviceidservice.DeviceidService")
+    bindService(intent, object : BinderCallback {
       override fun call(binder: IBinder): BinderResult {
         if (config.isLimitAdTracking) {
           if (!isSupport(binder)) {
@@ -29,10 +30,7 @@ internal class ZuiProvider(config: ProviderConfig) : AbstractProvider(config) {
           }
         }
       }
-    }
-
-    val intent = Intent().setClassName("com.zui.deviceidservice", "com.zui.deviceidservice.DeviceidService")
-    bindService(intent, binderCallback)
+    })
   }
 
   private fun getId(remote: IBinder, code: Int): String? {

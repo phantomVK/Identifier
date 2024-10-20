@@ -13,7 +13,10 @@ internal class AsusProvider(config: ProviderConfig) : AbstractProvider(config) {
   }
 
   override fun run() {
-    val binderCallback = object : BinderCallback {
+    val intent = Intent("com.asus.msa.action.ACCESS_DID")
+    val componentName = ComponentName("com.asus.msa.SupplementaryDID", "com.asus.msa.SupplementaryDID.SupplementaryDIDService")
+    intent.setComponent(componentName)
+    bindService(intent, object : BinderCallback {
       override fun call(binder: IBinder): BinderResult {
         if (config.isLimitAdTracking) {
           if (!isSupport(binder)) {
@@ -30,12 +33,7 @@ internal class AsusProvider(config: ProviderConfig) : AbstractProvider(config) {
           }
         }
       }
-    }
-
-    val intent = Intent("com.asus.msa.action.ACCESS_DID")
-    val componentName = ComponentName("com.asus.msa.SupplementaryDID", "com.asus.msa.SupplementaryDID.SupplementaryDIDService")
-    intent.setComponent(componentName)
-    bindService(intent, binderCallback)
+    })
   }
 
   private fun isSupport(remote: IBinder): Boolean {

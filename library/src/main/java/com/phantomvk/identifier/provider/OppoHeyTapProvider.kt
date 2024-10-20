@@ -24,7 +24,7 @@ internal open class OppoHeyTapProvider(config: ProviderConfig) : AbstractProvide
   protected fun getId(descriptor: String, pkg: String, cla: String, action: String) {
     val component = ComponentName(pkg, cla)
     val intent = Intent(action).setComponent(component)
-    val binderCallback = object : BinderCallback {
+    bindService(intent, object : BinderCallback {
       override fun call(binder: IBinder): BinderResult {
         val sign = when (val result = getSignatureHash()) {
           is BinderResult.Failed -> return result
@@ -40,9 +40,7 @@ internal open class OppoHeyTapProvider(config: ProviderConfig) : AbstractProvide
           }
         }
       }
-    }
-
-    bindService(intent, binderCallback)
+    })
   }
 
   private fun getId(binder: IBinder, descriptor: String, sign: String, code: String): String? {

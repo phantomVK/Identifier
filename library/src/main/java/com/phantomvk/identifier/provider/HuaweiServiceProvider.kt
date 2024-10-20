@@ -25,7 +25,9 @@ internal class HuaweiServiceProvider(config: ProviderConfig) : AbstractProvider(
   }
 
   override fun run() {
-    val binderCallback = object : BinderCallback {
+    val intent = Intent("com.uodis.opendevice.OPENIDS_SERVICE")
+    intent.setPackage(name)
+    bindService(intent, object : BinderCallback {
       override fun call(binder: IBinder): BinderResult {
         if (config.isLimitAdTracking) {
           if (isOaidTrackLimited(binder)) {
@@ -35,11 +37,7 @@ internal class HuaweiServiceProvider(config: ProviderConfig) : AbstractProvider(
 
         return checkId(getOaid(binder))
       }
-    }
-
-    val intent = Intent("com.uodis.opendevice.OPENIDS_SERVICE")
-    intent.setPackage(name)
-    bindService(intent, binderCallback)
+    })
   }
 
   private fun getOaid(remote: IBinder): String? {

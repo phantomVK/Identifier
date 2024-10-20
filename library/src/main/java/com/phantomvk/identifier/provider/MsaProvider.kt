@@ -15,7 +15,10 @@ internal class MsaProvider(config: ProviderConfig) : AbstractProvider(config) {
   override fun run() {
     startMsaKlService()
 
-    val binderCallback = object : BinderCallback {
+    val intent = Intent("com.bun.msa.action.bindto.service")
+    intent.setClassName("com.mdid.msa", "com.mdid.msa.service.MsaIdService")
+    intent.putExtra("com.bun.msa.param.pkgname", config.context.packageName)
+    bindService(intent, object : BinderCallback {
       override fun call(binder: IBinder): BinderResult {
         val asInterface = MsaIdInterface.Stub.asInterface(binder)
         if (asInterface == null) {
@@ -31,12 +34,7 @@ internal class MsaProvider(config: ProviderConfig) : AbstractProvider(config) {
 
         return checkId(asInterface.oaid)
       }
-    }
-
-    val intent = Intent("com.bun.msa.action.bindto.service")
-    intent.setClassName("com.mdid.msa", "com.mdid.msa.service.MsaIdService")
-    intent.putExtra("com.bun.msa.param.pkgname", config.context.packageName)
-    bindService(intent, binderCallback)
+    })
   }
 
   private fun startMsaKlService(): Boolean {
