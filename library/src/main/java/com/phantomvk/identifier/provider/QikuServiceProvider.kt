@@ -13,7 +13,9 @@ internal class QikuServiceProvider(config: ProviderConfig) : AbstractProvider(co
   }
 
   override fun run() {
-    val binderCallback = object : BinderCallback {
+    val intent = Intent("qiku.service.action.id")
+    intent.setPackage("com.qiku.id")
+    bindService(intent, object : BinderCallback {
       override fun call(binder: IBinder): BinderResult {
         Log.d("QikuServiceProvider", "isSupported:${isSupported(binder)}, isLimited:${isLimited(binder)}")
         if (config.isLimitAdTracking) {
@@ -31,11 +33,7 @@ internal class QikuServiceProvider(config: ProviderConfig) : AbstractProvider(co
           }
         }
       }
-    }
-
-    val intent = Intent("qiku.service.action.id")
-    intent.setPackage("com.qiku.id")
-    bindService(intent, binderCallback)
+    })
   }
 
   private fun isSupported(binder: IBinder): Int {

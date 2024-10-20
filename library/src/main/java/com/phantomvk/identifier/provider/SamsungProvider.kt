@@ -12,7 +12,8 @@ internal class SamsungProvider(config: ProviderConfig) : AbstractProvider(config
   }
 
   override fun run() {
-    val binderCallback = object : BinderCallback {
+    val intent = Intent().setClassName("com.samsung.android.deviceidservice", "com.samsung.android.deviceidservice.DeviceIdService")
+    bindService(intent, object : BinderCallback {
       override fun call(binder: IBinder): BinderResult {
         return when (val r = checkId(getId(binder, 1))) {
           is BinderResult.Failed -> return r
@@ -23,10 +24,7 @@ internal class SamsungProvider(config: ProviderConfig) : AbstractProvider(config
           }
         }
       }
-    }
-
-    val intent = Intent().setClassName("com.samsung.android.deviceidservice", "com.samsung.android.deviceidservice.DeviceIdService")
-    bindService(intent, binderCallback)
+    })
   }
 
   private fun getId(binder: IBinder, code: Int, pkgName:String? = null): String? {
