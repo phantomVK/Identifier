@@ -27,7 +27,7 @@
 |      VivoProvider.kt       |       Vivo       |  Y   |  Y   |      |
 |     XiaomiProvider.kt      |      Xiaomi      |  Y   |  Y   |  Y   |
 |       XtcProvider.kt       |                  |      |      |      |
-|       ZteProvider.kt       |       ZTE        |  Y   |      |      |
+|       ZteProvider.kt       |       ZTE        |  Y   |  Y   |  Y   |
 |       ZuiProvider.kt       | Lenovo, Motorola |  Y   |  Y   |  Y   |
 
 ## Compatible Android device list.
@@ -215,6 +215,7 @@
 
 #### Zte
 
-| Manufacturer | Brand |  Name   |   Model    | Device  | SDK_INT |                                 FingerPrint                                 |
-|:------------:|:-----:|:-------:|:----------:|:-------:|:-------:|:---------------------------------------------------------------------------:|
-|     ZTE      |  ZTE  | S30 Pro | ZTE A2122H | P768A02 |   30    | ZTE/CN_P768S01/P768A02:11/RKQ1.201221.002/20220531.233000:user/release-keys |
+| Manufacturer | Brand |    Name     |   Model    | Device  | SDK_INT |                                 FingerPrint                                 |
+|:------------:|:-----:|:-----------:|:----------:|:-------:|:-------:|:---------------------------------------------------------------------------:|
+|     ZTE      |  ZTE  |   S30 Pro   | ZTE A2122H | P768A02 |   30    | ZTE/CN_P768S01/P768A02:11/RKQ1.201221.002/20220531.233000:user/release-keys |
+|     ZTE      |  ZTE  | AXON 30 Pro | ZTE A2022  | P875A02 |   30    | ZTE/CN_P875A02/P875A02:11/RKQ1.201221.002/20210618.013142:user/release-keys |

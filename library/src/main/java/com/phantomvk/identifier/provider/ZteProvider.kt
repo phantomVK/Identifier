@@ -1,6 +1,7 @@
 package com.phantomvk.identifier.provider
 
 import android.content.Context
+import com.phantomvk.identifier.model.IdentifierResult
 import com.phantomvk.identifier.model.ProviderConfig
 
 internal class ZteProvider(config: ProviderConfig) : AbstractProvider(config) {
@@ -36,8 +37,22 @@ internal class ZteProvider(config: ProviderConfig) : AbstractProvider(config) {
       }
     }
 
-    val method = clazz?.getDeclaredMethod("getOAID", Context::class.java)
-    val id = method?.invoke(instance, config.context) as? String
-    checkId(id, getCallback())
+    when (val r = checkId(getId("getOAID"))) {
+      is BinderResult.Failed -> getCallback().onError(r.msg)
+      is BinderResult.Success -> {
+        val aaid = if (config.queryAaid) getId("getAAID") else null
+        val vaid = if (config.queryVaid) getId("getVAID") else null
+        getCallback().onSuccess(IdentifierResult(r.id, aaid, vaid))
+      }
+    }
+  }
+
+  private fun getId(code: String): String? {
+    try {
+      val method = clazz?.getDeclaredMethod(code, Context::class.java)
+      return method?.invoke(instance, config.context) as? String
+    } catch (t: Throwable) {
+      return null
+    }
   }
 }
