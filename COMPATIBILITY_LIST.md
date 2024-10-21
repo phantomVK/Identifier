@@ -21,7 +21,7 @@
 |   OppoColorOsProvider.kt   |       Oppo       |  Y   |  Y   |      |
 |   OppoHeyTapProvider.kt    |       Oppo       |  Y   |  Y   |      |
 |      PicoProvider.kt       |       Pico       |      |      |      |
-|   QikuBinderProvider.kt    |       Qiku       |      |      |      |
+|   QikuBinderProvider.kt    |       Qiku       |  Y   |      |      |
 |   QikuServiceProvider.kt   |       Qiku       |      |      |      |
 |     SamsungProvider.kt     |     Samsung      |  Y   |  Y   |  Y   |
 |      VivoProvider.kt       |       Vivo       |  Y   |  Y   |      |
@@ -164,6 +164,12 @@
 |     OPPO     | OPPO  |  Find X3 Pro  |  PEEM00   |  OP4E3F  |   33    | OPPO/PEEM00/OP4E3F:13/TP1A.220905.001/R.ed8712-374db-16478e:user/release-keys |
 |     OPPO     | OPPO  |    Find N     |  PEUM00   | OP4E75L1 |   34    |   OPPO/PEUM00/OP4E75L1:14/UKQ1.230924.001/R.179f45b_207-1:user/release-keys   |
 |     OPPO     | OPPO  |    Find X5    |  PFFM10   | OP520DL1 |   34    | OPPO/PFFM10/OP520DL1:14/UKQ1.230924.001/S.14bf5a6-5841-5842:user/release-keys |
+
+### Qiku
+
+| Manufacturer | Brand |  Name  |  Model   | Device | SDK_INT |                                     FingerPrint                                     |
+|:------------:|:-----:|:------:|:--------:|:------:|:-------:|:-----------------------------------------------------------------------------------:|
+|     360      |  360  | N7 Pro | 1809-A01 | QK1809 |   27    | 360/QK1809/QK1809:8.1.0/OPM1/8.1.115.PX.230317.360_360_1809A01_CN:user/release-keys |
 
 #### realme
 

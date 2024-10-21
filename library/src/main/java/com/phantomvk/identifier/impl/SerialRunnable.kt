@@ -134,6 +134,11 @@ internal class SerialRunnable(config: ProviderConfig) : AbstractProvider(config)
   }
 
   private fun addProviders(config: ProviderConfig, providers: ArrayList<AbstractProvider>) {
+    if (isBrand("360")) {
+      providers.add(QikuBinderProvider(config))
+      return
+    }
+
     if (isBrand("ASUS")) {
       providers.add(AsusProvider(config))
       return
@@ -234,10 +239,6 @@ internal class SerialRunnable(config: ProviderConfig) : AbstractProvider(config)
   ) {
     if (isBrand("360")) {
       providers.add(QikuServiceProvider(config))
-
-      if (sysPropertyEquals("ro.build.uiversion", "360UI")) {
-        providers.add(QikuBinderProvider(config))
-      }
       return
     }
 

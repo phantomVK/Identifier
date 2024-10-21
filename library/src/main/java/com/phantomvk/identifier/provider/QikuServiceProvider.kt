@@ -3,7 +3,6 @@ package com.phantomvk.identifier.provider
 import android.content.Intent
 import android.os.IBinder
 import android.os.Parcel
-import com.phantomvk.identifier.log.Log
 import com.phantomvk.identifier.model.ProviderConfig
 
 internal class QikuServiceProvider(config: ProviderConfig) : AbstractProvider(config) {
@@ -17,9 +16,8 @@ internal class QikuServiceProvider(config: ProviderConfig) : AbstractProvider(co
     intent.setPackage("com.qiku.id")
     bindService(intent, object : BinderCallback {
       override fun call(binder: IBinder): BinderResult {
-        Log.d("QikuServiceProvider", "isSupported:${isSupported(binder)}, isLimited:${isLimited(binder)}")
         if (config.isLimitAdTracking) {
-          if (isSupported(binder) == 0) {
+          if (isLimited(binder)) {
             return BinderResult.Failed(LIMIT_AD_TRACKING_IS_ENABLED)
           }
         }
@@ -36,27 +34,28 @@ internal class QikuServiceProvider(config: ProviderConfig) : AbstractProvider(co
     })
   }
 
-  private fun isSupported(binder: IBinder): Int {
-    val data = Parcel.obtain()
-    val reply = Parcel.obtain()
-    try {
-      data.writeInterfaceToken("com.qiku.id.IOAIDInterface")
-      binder.transact(1, data, reply, 0)
-      reply.readException()
-      return reply.readInt()
-    } catch (t: Throwable) {
-      return 0
-    } finally {
-      reply.recycle()
-      data.recycle()
-    }
-  }
+//  private fun isSupported(binder: IBinder): Int {
+//    val data = Parcel.obtain()
+//    val reply = Parcel.obtain()
+//    try {
+//      data.writeInterfaceToken("com.qiku.id.IOAIDInterface")
+//      binder.transact(1, data, reply, 0)
+//      reply.readException()
+//      return reply.readInt()
+//    } catch (t: Throwable) {
+//      return 0
+//    } finally {
+//      reply.recycle()
+//      data.recycle()
+//    }
+//  }
 
   private fun getId(binder: IBinder, code: Int): String? {
     val data = Parcel.obtain()
     val reply = Parcel.obtain()
     try {
       data.writeInterfaceToken("com.qiku.id.IOAIDInterface")
+      data.writeString(config.context.packageName)
       binder.transact(code, data, reply, 0)
       reply.readException()
       return reply.readString()
