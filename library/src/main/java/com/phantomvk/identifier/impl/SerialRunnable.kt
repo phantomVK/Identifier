@@ -257,7 +257,12 @@ internal class SerialRunnable(config: ProviderConfig) : AbstractProvider(config)
 //      return
 //    }
 
-    providers.add(XtcProvider(config))
-    providers.add(MsaProvider(config))
+    if (Build.MODEL.startsWith("xtc", true) || Build.MODEL.startsWith("imoo", true)) {
+      providers.add(XtcProvider(config))
+    }
+
+    if (isPackageInfoExisted("com.mdid.msa")) {
+      providers.add(MsaProvider(config))
+    }
   }
 }
