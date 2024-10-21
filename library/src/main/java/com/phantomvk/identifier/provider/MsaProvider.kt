@@ -9,7 +9,7 @@ import generated.com.bun.lib.MsaIdInterface
 internal class MsaProvider(config: ProviderConfig) : AbstractProvider(config) {
 
   override fun isSupported(): Boolean {
-    return isPackageInfoExisted("com.mdid.msa")
+    return true // return isPackageInfoExisted("com.mdid.msa")
   }
 
   override fun run() {
