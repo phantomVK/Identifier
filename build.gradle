@@ -16,8 +16,8 @@ buildscript {
         compileSdk = 34
         minSdk = 21
         targetSdk = 34
-        versionCode = 509
-        versionName = "0.5.9"
+        versionCode = 510
+        versionName = "0.5.10"
 
         hms = '3.4.62.300'
         mcs = '1.0.3.300'
