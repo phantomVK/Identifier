@@ -11,8 +11,7 @@ internal class HuaweiContentProvider(config: ProviderConfig) : AbstractProvider(
 
   override fun run() {
     val uri = Uri.parse("content://com.huawei.hwid.pps.apiprovider/oaid/query")
-    val contentResolver = config.context.contentResolver
-    val cursor = contentResolver.query(uri, null, null, null, null)
+    val cursor = config.context.contentResolver.query(uri, null, null, null, null)
     if (cursor == null) {
       getCallback().onError(QUERY_CURSOR_IS_NULL, null)
       return

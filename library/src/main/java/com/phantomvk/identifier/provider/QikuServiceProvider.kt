@@ -12,8 +12,7 @@ internal class QikuServiceProvider(config: ProviderConfig) : AbstractProvider(co
   }
 
   override fun run() {
-    val intent = Intent("qiku.service.action.id")
-    intent.setPackage("com.qiku.id")
+    val intent = Intent("qiku.service.action.id").setPackage("com.qiku.id")
     bindService(intent, object : BinderCallback {
       override fun call(binder: IBinder): BinderResult {
         if (config.isLimitAdTracking) {

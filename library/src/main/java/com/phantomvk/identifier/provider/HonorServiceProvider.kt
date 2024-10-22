@@ -15,8 +15,7 @@ internal class HonorServiceProvider(config: ProviderConfig) : AbstractProvider(c
   }
 
   override fun run() {
-    val intent = Intent("com.hihonor.id.HnOaIdService")
-    intent.setPackage("com.hihonor.id")
+    val intent = Intent("com.hihonor.id.HnOaIdService").setPackage("com.hihonor.id")
     bindService(intent, object : BinderCallback {
       override fun call(binder: IBinder): BinderResult {
         if (config.isLimitAdTracking) {

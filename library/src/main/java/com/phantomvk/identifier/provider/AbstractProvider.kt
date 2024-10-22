@@ -16,6 +16,7 @@ import java.security.MessageDigest
 
 abstract class AbstractProvider(protected val config: ProviderConfig) : Runnable {
 
+  private val sysPropClass = try { Class.forName("android.os.SystemProperties") } catch (t: Throwable) { null }
   private lateinit var resultCallback: OnResultListener
 
   abstract fun isSupported(): Boolean
@@ -54,9 +55,7 @@ abstract class AbstractProvider(protected val config: ProviderConfig) : Runnable
 
   protected fun getSysProperty(key: String, defValue: String?): String? {
     return try {
-      val clazz = Class.forName("android.os.SystemProperties")
-      val method = clazz.getMethod("get", String::class.java, String::class.java)
-      method.invoke(clazz, key, defValue) as String
+      sysPropClass!!.getMethod("get", String::class.java, String::class.java).invoke(sysPropClass, key, defValue) as String
     } catch (t: Throwable) {
       null
     }
@@ -64,10 +63,6 @@ abstract class AbstractProvider(protected val config: ProviderConfig) : Runnable
 
   protected fun sysPropertyContainsKey(key: String): Boolean {
     return getSysProperty(key, null)?.isNotBlank() == true
-  }
-
-  protected fun sysPropertyEquals(key: String, value: String): Boolean {
-    return value.equals(getSysProperty(key, null), true)
   }
 
   protected fun checkId(id: String?, callback: OnResultListener? = null): BinderResult {

@@ -17,8 +17,7 @@ internal class GoogleAdsIdProvider(config: ProviderConfig) : AbstractProvider(co
   }
 
   override fun run() {
-    val intent = Intent("com.google.android.gms.ads.identifier.service.START")
-    intent.setPackage("com.google.android.gms")
+    val intent = Intent("com.google.android.gms.ads.identifier.service.START").setPackage("com.google.android.gms")
     bindService(intent, object : BinderCallback {
       override fun call(binder: IBinder): BinderResult {
         if (config.isLimitAdTracking) {

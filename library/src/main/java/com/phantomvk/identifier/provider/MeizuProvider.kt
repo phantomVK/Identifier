@@ -12,10 +12,7 @@ internal class MeizuProvider(config: ProviderConfig) : AbstractProvider(config) 
 
   override fun run() {
     when (val result = getId("oaid")) {
-      is BinderResult.Failed -> {
-        getCallback().onError(result.msg)
-      }
-
+      is BinderResult.Failed -> getCallback().onError(result.msg)
       is BinderResult.Success -> {
         val aaid = if (config.queryAaid) (getId("aaid") as? BinderResult.Success)?.id else null
         getCallback().onSuccess(IdentifierResult(result.id, aaid))
@@ -25,8 +22,7 @@ internal class MeizuProvider(config: ProviderConfig) : AbstractProvider(config) 
 
   private fun getId(name: String): BinderResult {
     val uri = Uri.parse("content://com.meizu.flyme.openidsdk/")
-    val resolver = config.context.contentResolver
-    val cursor = resolver.query(uri, null, null, arrayOf(name), null)
+    val cursor = config.context.contentResolver.query(uri, null, null, arrayOf(name), null)
     if (cursor == null) {
       return BinderResult.Failed(QUERY_CURSOR_IS_NULL)
     }

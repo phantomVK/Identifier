@@ -25,8 +25,7 @@ internal class HuaweiServiceProvider(config: ProviderConfig) : AbstractProvider(
   }
 
   override fun run() {
-    val intent = Intent("com.uodis.opendevice.OPENIDS_SERVICE")
-    intent.setPackage(name)
+    val intent = Intent("com.uodis.opendevice.OPENIDS_SERVICE").setPackage(name)
     bindService(intent, object : BinderCallback {
       override fun call(binder: IBinder): BinderResult {
         if (config.isLimitAdTracking) {

@@ -30,8 +30,7 @@ internal class VivoProvider(config: ProviderConfig) : AbstractProvider(config) {
   private fun getId(code: String): BinderResult {
     val prefix = "content://com.vivo.vms.IdProvider/IdentifierId/${code}_"
     val uri = Uri.parse(prefix + config.context.packageName)
-    val resolver = config.context.contentResolver
-    val cursor = resolver.query(uri, null, null, null, null)
+    val cursor = config.context.contentResolver.query(uri, null, null, null, null)
     if (cursor == null) {
       return BinderResult.Failed(QUERY_CURSOR_IS_NULL)
     }

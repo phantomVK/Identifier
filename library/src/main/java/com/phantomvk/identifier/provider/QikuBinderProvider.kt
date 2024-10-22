@@ -25,10 +25,7 @@ internal class QikuBinderProvider(config: ProviderConfig) : AbstractProvider(con
     }
 
     when (val result = checkId(getId(4))) {
-      is BinderResult.Failed -> {
-        getCallback().onError(result.msg)
-      }
-
+      is BinderResult.Failed -> getCallback().onError(result.msg)
       is BinderResult.Success -> {
         val vaid = if (config.queryVaid) getId(5) else null
         val aaid = if (config.queryAaid) getId(6) else null
