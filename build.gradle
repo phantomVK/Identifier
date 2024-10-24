@@ -14,7 +14,7 @@ buildscript {
     }
     ext {
         compileSdk = 34
-        minSdk = 21
+        minSdk = 16
         targetSdk = 34
         versionCode = 511
         versionName = "0.5.11"
