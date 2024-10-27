@@ -33,7 +33,6 @@ public class Log {
 
     public static void i(String tag, String text, Throwable tr) {
         log(TraceLevel.INFO, tag, text, tr);
-
     }
 
     public static void w(String tag, String text) {

@@ -11,11 +11,11 @@ internal class MeizuProvider(config: ProviderConfig) : AbstractProvider(config) 
   }
 
   override fun run() {
-    when (val result = getId("oaid")) {
-      is BinderResult.Failed -> getCallback().onError(result.msg)
+    when (val r = getId("oaid")) {
+      is BinderResult.Failed -> getCallback().onError(r.msg)
       is BinderResult.Success -> {
         val aaid = if (config.queryAaid) (getId("aaid") as? BinderResult.Success)?.id else null
-        getCallback().onSuccess(IdentifierResult(result.id, aaid))
+        getCallback().onSuccess(IdentifierResult(r.id, aaid))
       }
     }
   }

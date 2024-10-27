@@ -11,7 +11,6 @@ internal class HonorSettingsProvider(config: ProviderConfig) : AbstractProvider(
 
   override fun run() {
     val resolver = config.context.contentResolver
-
     if (config.isLimitAdTracking) {
       if (Settings.Global.getString(resolver, "oaid_limit_state") != "false") {
         getCallback().onError(LIMIT_AD_TRACKING_IS_ENABLED)

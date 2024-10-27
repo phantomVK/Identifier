@@ -27,8 +27,7 @@ internal class MsaProvider(config: ProviderConfig) : AbstractProvider(config) {
         }
 
         if (config.isLimitAdTracking) {
-          val isSupport = asInterface.isSupported
-          if (!isSupport) {
+          if (!asInterface.isSupported) {
             return BinderResult.Failed(LIMIT_AD_TRACKING_IS_ENABLED)
           }
         }

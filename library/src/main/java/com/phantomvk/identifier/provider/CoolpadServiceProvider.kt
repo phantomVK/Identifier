@@ -17,12 +17,12 @@ internal class CoolpadServiceProvider(config: ProviderConfig) : AbstractProvider
     val intent = Intent().setComponent(componentName)
     bindService(intent, object : BinderCallback {
       override fun call(binder: IBinder): BinderResult {
-        when (val result = checkId(getId(binder, 2))) {
-          is BinderResult.Failed -> return result
+        when (val r = checkId(getId(binder, 2))) {
+          is BinderResult.Failed -> return r
           is BinderResult.Success -> {
             val vaid = if (config.queryVaid) getId(binder, 3) else null
             val aaid = if (config.queryAaid) getId(binder, 4) else null
-            return BinderResult.Success(result.id, vaid, aaid)
+            return BinderResult.Success(r.id, vaid, aaid)
           }
         }
       }

@@ -31,12 +31,12 @@ internal open class OppoHeyTapProvider(config: ProviderConfig) : AbstractProvide
           is BinderResult.Success -> result.id
         }
 
-        when (val result = checkId((getId(binder, descriptor, sign, "OAID")))) {
-          is BinderResult.Failed -> return result
+        when (val r = checkId((getId(binder, descriptor, sign, "OAID")))) {
+          is BinderResult.Failed -> return r
           is BinderResult.Success -> {
             val vaid = if (config.queryVaid) getId(binder, descriptor, sign, "VAID") else null
             val aaid = if (config.queryAaid) getId(binder, descriptor, sign, "AAID") else null
-            return BinderResult.Success(result.id, vaid, aaid)
+            return BinderResult.Success(r.id, vaid, aaid)
           }
         }
       }
