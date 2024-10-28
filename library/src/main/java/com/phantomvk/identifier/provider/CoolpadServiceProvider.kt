@@ -17,11 +17,11 @@ internal class CoolpadServiceProvider(config: ProviderConfig) : AbstractProvider
     val intent = Intent().setComponent(componentName)
     bindService(intent, object : BinderCallback {
       override fun call(binder: IBinder): BinderResult {
-        when (val r = checkId(getId(binder, 2))) {
+        when (val r = getId(binder, 2)) {
           is BinderResult.Failed -> return r
           is BinderResult.Success -> {
-            val vaid = if (config.queryVaid) getId(binder, 3) else null
-            val aaid = if (config.queryAaid) getId(binder, 4) else null
+            val vaid = if (config.queryVaid) (getId(binder, 3) as? BinderResult.Success)?.id else null
+            val aaid = if (config.queryAaid) (getId(binder, 4) as? BinderResult.Success)?.id else null
             return BinderResult.Success(r.id, vaid, aaid)
           }
         }
@@ -30,7 +30,7 @@ internal class CoolpadServiceProvider(config: ProviderConfig) : AbstractProvider
   }
 
   // oaid:2, vaid:3, aaid:4
-  private fun getId(binder: IBinder, code: Int): String? {
+  private fun getId(binder: IBinder, code: Int): BinderResult {
     val data = Parcel.obtain()
     val reply = Parcel.obtain()
     try {
@@ -38,9 +38,9 @@ internal class CoolpadServiceProvider(config: ProviderConfig) : AbstractProvider
       data.writeString(config.context.packageName)
       binder.transact(code, data, reply, 0)
       reply.readException()
-      return reply.readString()
+      return checkId(reply.readString())
     } catch (t: Throwable) {
-      return null
+      return BinderResult.Failed(EXCEPTION_THROWN, t)
     } finally {
       reply.recycle()
       data.recycle()

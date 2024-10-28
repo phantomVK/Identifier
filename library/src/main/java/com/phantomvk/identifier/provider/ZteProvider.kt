@@ -37,22 +37,22 @@ internal class ZteProvider(config: ProviderConfig) : AbstractProvider(config) {
       }
     }
 
-    when (val r = checkId(getId("getOAID"))) {
+    when (val r = getId("getOAID")) {
       is BinderResult.Failed -> getCallback().onError(r.msg)
       is BinderResult.Success -> {
-        val aaid = if (config.queryAaid) getId("getAAID") else null
-        val vaid = if (config.queryVaid) getId("getVAID") else null
+        val aaid = if (config.queryAaid) (getId("getAAID") as? BinderResult.Success)?.id else null
+        val vaid = if (config.queryVaid) (getId("getVAID") as? BinderResult.Success)?.id else null
         getCallback().onSuccess(IdentifierResult(r.id, aaid, vaid))
       }
     }
   }
 
-  private fun getId(code: String): String? {
+  private fun getId(code: String): BinderResult {
     try {
       val method = clazz?.getDeclaredMethod(code, Context::class.java)
-      return method?.invoke(instance, config.context) as? String
+      return checkId(method?.invoke(instance, config.context) as? String)
     } catch (t: Throwable) {
-      return null
+      return BinderResult.Failed(EXCEPTION_THROWN, t)
     }
   }
 }

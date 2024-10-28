@@ -31,11 +31,11 @@ internal open class OppoHeyTapProvider(config: ProviderConfig) : AbstractProvide
           is BinderResult.Success -> result.id
         }
 
-        when (val r = checkId((getId(binder, descriptor, sign, "OAID")))) {
+        when (val r = (getId(binder, descriptor, sign, "OAID"))) {
           is BinderResult.Failed -> return r
           is BinderResult.Success -> {
-            val vaid = if (config.queryVaid) getId(binder, descriptor, sign, "VAID") else null
-            val aaid = if (config.queryAaid) getId(binder, descriptor, sign, "AAID") else null
+            val vaid = if (config.queryVaid) (getId(binder, descriptor, sign, "VAID") as? BinderResult.Success)?.id else null
+            val aaid = if (config.queryAaid) (getId(binder, descriptor, sign, "AAID") as? BinderResult.Success)?.id else null
             return BinderResult.Success(r.id, vaid, aaid)
           }
         }
@@ -43,20 +43,19 @@ internal open class OppoHeyTapProvider(config: ProviderConfig) : AbstractProvide
     })
   }
 
-  private fun getId(binder: IBinder, descriptor: String, sign: String, code: String): String? {
+  private fun getId(binder: IBinder, descriptor: String, sign: String, code: String): BinderResult {
     val data = Parcel.obtain()
     val reply = Parcel.obtain()
-    return try {
+    try {
       data.writeInterfaceToken(descriptor)
       data.writeString(config.context.packageName)
       data.writeString(sign)
       data.writeString(getIdName(code))
       binder.transact(1, data, reply, 0)
       reply.readException()
-      val id = reply.readString()
-      if (id.isNullOrBlank()) null else id
+      return checkId(reply.readString())
     } catch (t: Throwable) {
-      null
+      return BinderResult.Failed(EXCEPTION_THROWN, t)
     } finally {
       reply.recycle()
       data.recycle()

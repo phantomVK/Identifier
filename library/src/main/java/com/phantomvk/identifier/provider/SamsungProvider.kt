@@ -15,11 +15,11 @@ internal class SamsungProvider(config: ProviderConfig) : AbstractProvider(config
     val intent = Intent().setClassName("com.samsung.android.deviceidservice", "com.samsung.android.deviceidservice.DeviceIdService")
     bindService(intent, object : BinderCallback {
       override fun call(binder: IBinder): BinderResult {
-        return when (val r = checkId(getId(binder, 1))) {
+        return when (val r = getId(binder, 1)) {
           is BinderResult.Failed -> return r
           is BinderResult.Success -> {
-            val vaid = if (config.queryVaid) getId(binder, 2) else null
-            val aaid = if (config.queryAaid) getId(binder, 3) else null
+            val vaid = if (config.queryVaid) (getId(binder, 2) as? BinderResult.Success)?.id else null
+            val aaid = if (config.queryAaid) (getId(binder, 3) as? BinderResult.Success)?.id else null
             BinderResult.Success(r.id, vaid, aaid)
           }
         }
@@ -27,7 +27,7 @@ internal class SamsungProvider(config: ProviderConfig) : AbstractProvider(config
     })
   }
 
-  private fun getId(binder: IBinder, code: Int, pkgName:String? = null): String? {
+  private fun getId(binder: IBinder, code: Int): BinderResult {
     val data = Parcel.obtain()
     val reply = Parcel.obtain()
     try {
@@ -35,9 +35,9 @@ internal class SamsungProvider(config: ProviderConfig) : AbstractProvider(config
       data.writeString(config.context.packageName)
       binder.transact(code, data, reply, 0)
       reply.readException()
-      return reply.readString()
+      return checkId(reply.readString())
     } catch (t: Throwable) {
-      return null
+      return BinderResult.Failed(EXCEPTION_THROWN, t)
     } finally {
       reply.recycle()
       data.recycle()

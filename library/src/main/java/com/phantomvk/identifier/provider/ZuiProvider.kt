@@ -21,11 +21,11 @@ internal class ZuiProvider(config: ProviderConfig) : AbstractProvider(config) {
           }
         }
 
-        return when (val r = checkId(getId(binder, 1))) {
+        return when (val r = getId(binder, 1)) {
           is BinderResult.Failed -> r
           is BinderResult.Success -> {
-            val vaid = if (config.queryVaid) getId(binder, 4) else null
-            val aaid = if (config.queryAaid) getId(binder, 5) else null
+            val vaid = if (config.queryVaid) (getId(binder, 4) as? BinderResult.Success)?.id else null
+            val aaid = if (config.queryAaid) (getId(binder, 5) as? BinderResult.Success)?.id else null
             BinderResult.Success(r.id, vaid, aaid)
           }
         }
@@ -33,21 +33,21 @@ internal class ZuiProvider(config: ProviderConfig) : AbstractProvider(config) {
     })
   }
 
-  private fun getId(remote: IBinder, code: Int): String? {
+  private fun getId(remote: IBinder, code: Int): BinderResult {
     val data = Parcel.obtain()
     val reply = Parcel.obtain()
-    val result: String?
     try {
       data.writeInterfaceToken("com.zui.deviceidservice.IDeviceidInterface")
       data.writeString(config.context.packageName)
       remote.transact(code, data, reply, 0)
       reply.readException()
-      result = reply.readString()
+      return checkId(reply.readString())
+    } catch (t: Throwable) {
+      return BinderResult.Failed(EXCEPTION_THROWN, t)
     } finally {
       reply.recycle()
       data.recycle()
     }
-    return result
   }
 
   private fun isSupport(remote: IBinder): Boolean {

@@ -21,11 +21,11 @@ internal class QikuServiceProvider(config: ProviderConfig) : AbstractProvider(co
           }
         }
 
-        when (val r = checkId(getId(binder, 3))) {
+        when (val r = getId(binder, 3)) {
           is BinderResult.Failed -> return r
           is BinderResult.Success -> {
-            val vaid = if (config.queryVaid) getId(binder, 4) else null
-            val aaid = if (config.queryAaid) getId(binder, 5) else null
+            val vaid = if (config.queryVaid) (getId(binder, 4) as? BinderResult.Success)?.id else null
+            val aaid = if (config.queryAaid) (getId(binder, 5) as? BinderResult.Success)?.id else null
             return BinderResult.Success(r.id, vaid, aaid)
           }
         }
@@ -49,7 +49,7 @@ internal class QikuServiceProvider(config: ProviderConfig) : AbstractProvider(co
 //    }
 //  }
 
-  private fun getId(binder: IBinder, code: Int): String? {
+  private fun getId(binder: IBinder, code: Int): BinderResult {
     val data = Parcel.obtain()
     val reply = Parcel.obtain()
     try {
@@ -57,9 +57,9 @@ internal class QikuServiceProvider(config: ProviderConfig) : AbstractProvider(co
       data.writeString(config.context.packageName)
       binder.transact(code, data, reply, 0)
       reply.readException()
-      return reply.readString()
+      return checkId(reply.readString())
     } catch (t: Throwable) {
-      return null
+      return BinderResult.Failed(EXCEPTION_THROWN, t)
     } finally {
       reply.recycle()
       data.recycle()
