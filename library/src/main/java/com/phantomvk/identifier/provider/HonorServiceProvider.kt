@@ -30,7 +30,7 @@ internal class HonorServiceProvider(config: ProviderConfig) : AbstractProvider(c
     })
   }
 
-  private fun getId(iBinder: IBinder): BinderResult? {
+  private fun getId(remote: IBinder): BinderResult? {
     var result: BinderResult? = null
     val latch = CountDownLatch(1)
     val data = Parcel.obtain()
@@ -52,7 +52,7 @@ internal class HonorServiceProvider(config: ProviderConfig) : AbstractProvider(c
     try {
       data.writeInterfaceToken("com.hihonor.cloudservice.oaid.IOAIDService")
       data.writeStrongInterface(callback)
-      iBinder.transact(2, data, reply, 0)
+      remote.transact(2, data, reply, 0)
       reply.readException()
     } finally {
       reply.recycle()
@@ -63,7 +63,7 @@ internal class HonorServiceProvider(config: ProviderConfig) : AbstractProvider(c
     return result
   }
 
-  private fun isLimited(iBinder: IBinder): BinderResult? {
+  private fun isLimited(remote: IBinder): BinderResult? {
     var result: BinderResult? = null
     val latch = CountDownLatch(1)
     val data = Parcel.obtain()
@@ -81,7 +81,7 @@ internal class HonorServiceProvider(config: ProviderConfig) : AbstractProvider(c
     try {
       data.writeInterfaceToken("com.hihonor.cloudservice.oaid.IOAIDService")
       data.writeStrongInterface(callback)
-      iBinder.transact(3, data, reply, 0)
+      remote.transact(3, data, reply, 0)
       reply.readException()
     } finally {
       reply.recycle()

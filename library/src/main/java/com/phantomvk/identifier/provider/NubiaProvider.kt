@@ -1,5 +1,6 @@
 package com.phantomvk.identifier.provider
 
+import android.content.ContentProviderClient
 import android.net.Uri
 import com.phantomvk.identifier.model.IdentifierResult
 import com.phantomvk.identifier.model.ProviderConfig
@@ -30,10 +31,9 @@ internal class NubiaProvider(config: ProviderConfig) : AbstractProvider(config) 
       }
     }
 
-    val pkgeName = config.context.packageName
     val bundle = client.call("getOAID", null, null)
-    val aaid = if (config.queryAaid) client.call("getAAID", pkgeName, null)?.getString("id") else null
-    val vaid = if (config.queryVaid) client.call("getVAID", pkgeName, null)?.getString("id") else null
+    val aaid = if (config.queryAaid) getId(client, "getAAID") else null
+    val vaid = if (config.queryVaid) getId(client, "getVAID") else null
     releaseContentProviderClient(client)
 
     if (bundle == null) {
@@ -48,11 +48,12 @@ internal class NubiaProvider(config: ProviderConfig) : AbstractProvider(config) 
 
     when (val r = checkId(id)) {
       is BinderResult.Failed -> getCallback().onError(r.msg, r.throwable)
-      is BinderResult.Success -> {
-        val aaidResult = (checkId(aaid) as? BinderResult.Success)?.id
-        val vaidResult = (checkId(vaid) as? BinderResult.Success)?.id
-        getCallback().onSuccess(IdentifierResult(r.id, aaidResult, vaidResult))
-      }
+      is BinderResult.Success -> getCallback().onSuccess(IdentifierResult(r.id, aaid, vaid))
     }
+  }
+
+  private fun getId(client: ContentProviderClient, name: String): String? {
+    val id = client.call(name, config.context.packageName, null)?.getString("id")
+    return (checkId(id) as? BinderResult.Success)?.id
   }
 }

@@ -11,7 +11,6 @@ import com.phantomvk.identifier.provider.AbstractProvider
 import com.phantomvk.identifier.provider.AsusProvider
 import com.phantomvk.identifier.provider.CoolpadServiceProvider
 import com.phantomvk.identifier.provider.CoolpadSettingsProvider
-import com.phantomvk.identifier.provider.CooseaProvider
 import com.phantomvk.identifier.provider.FreemeProvider
 import com.phantomvk.identifier.provider.GoogleAdsIdProvider
 import com.phantomvk.identifier.provider.HonorSdkProvider
@@ -39,7 +38,7 @@ import java.util.concurrent.CountDownLatch
 
 internal class SerialRunnable(config: ProviderConfig) : AbstractProvider(config), Disposable {
 
-  private val disposable = DisposableResultListener(config.callback)
+  private val disposable = DisposableListener(config.callback)
 
   init {
     setCallback(disposable)

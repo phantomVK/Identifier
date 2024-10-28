@@ -12,7 +12,8 @@ internal class FreemeProvider(config: ProviderConfig) : AbstractProvider(config)
   }
 
   override fun run() {
-    val binderCallback = object : BinderCallback {
+    val intent = Intent("android.service.action.msa").setPackage("com.android.creator")
+    bindService(intent, object : BinderCallback {
       override fun call(binder: IBinder): BinderResult {
         val asInterface = IdsSupplier.Stub.asInterface(binder)
         if (asInterface == null) {
@@ -20,18 +21,13 @@ internal class FreemeProvider(config: ProviderConfig) : AbstractProvider(config)
         }
 
         if (config.isLimitAdTracking) {
-          val isSupported = asInterface.isSupported
-          if (!isSupported) {
+          if (!asInterface.isSupported) {
             return BinderResult.Failed(LIMIT_AD_TRACKING_IS_ENABLED)
           }
         }
 
         return checkId(asInterface.oaid)
       }
-    }
-
-    val intent = Intent("android.service.action.msa")
-    intent.setPackage("com.android.creator")
-    bindService(intent, binderCallback)
+    })
   }
 }
