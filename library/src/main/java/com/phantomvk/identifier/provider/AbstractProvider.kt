@@ -153,7 +153,7 @@ abstract class AbstractProvider(protected val config: ProviderConfig) : Runnable
         try {
           when (val r = binderCallback.call(service)) {
             is BinderResult.Success -> getCallback().onSuccess(IdentifierResult(r.id, r.aaid, r.vaid))
-            is BinderResult.Failed -> getCallback().onError(r.msg)
+            is BinderResult.Failed -> getCallback().onError(r.msg, r.throwable)
           }
         } catch (t: Throwable) {
           getCallback().onError(EXCEPTION_THROWN, t)
@@ -201,7 +201,7 @@ abstract class AbstractProvider(protected val config: ProviderConfig) : Runnable
 
   protected sealed class BinderResult {
     class Success(val id: String, val vaid: String? = null, val aaid: String? = null) : BinderResult()
-    class Failed(val msg: String) : BinderResult()
+    class Failed(val msg: String, val throwable: Throwable? = null) : BinderResult()
   }
 
   protected companion object {

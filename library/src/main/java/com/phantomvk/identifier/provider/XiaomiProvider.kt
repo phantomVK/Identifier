@@ -26,25 +26,23 @@ internal class XiaomiProvider(config: ProviderConfig) : AbstractProvider(config)
   }
 
   override fun run() {
-    val oaid = getId("getOAID")
-    if (checkId(oaid) is BinderResult.Failed) {
-      checkId(oaid, getCallback())
-      return
+    when (val r = getId("getOAID")) {
+      is BinderResult.Failed -> getCallback().onError(r.msg, r.throwable)
+      is BinderResult.Success -> {
+        val aaid = if (config.queryAaid) (getId("getAAID") as? BinderResult.Success)?.id else null
+        val vaid = if (config.queryVaid) (getId("getVAID") as? BinderResult.Success)?.id else null
+        getCallback().onSuccess(IdentifierResult(r.id, aaid, vaid))
+      }
     }
-
-    val aaid = if (config.queryAaid) getId("getAAID") else null
-    val vaid = if (config.queryVaid) getId("getVAID") else null
-    getCallback().onSuccess(IdentifierResult(oaid!!, aaid, vaid))
   }
 
-  private fun getId(name: String): String? {
-    try {
+  private fun getId(name: String): BinderResult {
+    return try {
       val method = clazz!!.getMethod(name, Context::class.java)
-      val id = method.invoke(instance, config.context) as? String
-      if (checkId(id) is BinderResult.Success) return id
+      checkId(method.invoke(instance, config.context) as? String)
     } catch (t: Throwable) {
+      BinderResult.Failed(EXCEPTION_THROWN, t)
     }
-    return null
   }
 }
 
