@@ -15,9 +15,21 @@ public class Subscription {
     private final ProviderConfig config;
 
     public Subscription(ProviderConfig config, OnResultListener callback) {
-        this.config = config;
-        OnResultListener l = config.isMemCacheEnabled() ? new CacheResultListener(callback) : callback;
-        config.callback = new WeakReference<>(l);
+        this.config = config.clone();
+        OnResultListener l = this.config.isMemCacheEnabled() ? new CacheResultListener(callback) : callback;
+        this.config.callback = new WeakReference<>(l);
+    }
+
+    @NonNull
+    public Subscription enableAaid(boolean enable) {
+        config.setQueryAaid(enable);
+        return this;
+    }
+
+    @NonNull
+    public Subscription enableVaid(boolean enable) {
+        config.setQueryVaid(enable);
+        return this;
     }
 
     @NonNull

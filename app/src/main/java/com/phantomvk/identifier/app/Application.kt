@@ -31,7 +31,6 @@ class Application : Application() {
     IdentifierManager.Builder(this)
       .setDebug(IS_DEBUG)
       .setExperimental(IS_EXPERIMENTAL)
-      .setExtraIdsEnable(false, false)
       .setGoogleAdsIdEnable(IS_GOOGLE_ADS_ID_ENABLE)
       .setLimitAdTracking(IS_LIMIT_AD_TRACKING)
       .setMemCacheEnable(IS_MEM_CACHE_ENABLE)
