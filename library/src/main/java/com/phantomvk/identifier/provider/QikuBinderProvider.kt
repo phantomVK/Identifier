@@ -27,9 +27,9 @@ internal class QikuBinderProvider(config: ProviderConfig) : AbstractProvider(con
     when (val r = getId(4)) {
       is BinderResult.Failed -> getCallback().onError(r.msg, r.throwable)
       is BinderResult.Success -> {
-        val vaid = if (config.queryVaid) (getId(5) as? BinderResult.Success)?.id else null
-        val aaid = if (config.queryAaid) (getId(6) as? BinderResult.Success)?.id else null
-        getCallback().onSuccess(IdentifierResult(r.id, aaid, vaid))
+//        val vaid = if (config.queryVaid) (getId(5) as? BinderResult.Success)?.id else null
+//        val aaid = if (config.queryAaid) (getId(6) as? BinderResult.Success)?.id else null
+        getCallback().onSuccess(IdentifierResult(r.id))
       }
     }
   }
@@ -66,11 +66,11 @@ internal class QikuBinderProvider(config: ProviderConfig) : AbstractProvider(con
   private fun isLimited(): Boolean {
     val data = Parcel.obtain()
     val reply = Parcel.obtain()
-    return try {
+    try {
       binder.transact(9, data, reply, 0)
-      reply.readBoolean()
+      return reply.readBoolean()
     } catch (t: Throwable) {
-      false
+      return false
     } finally {
       reply.recycle()
       data.recycle()

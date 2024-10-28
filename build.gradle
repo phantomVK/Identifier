@@ -14,10 +14,10 @@ buildscript {
     }
     ext {
         compileSdk = 34
-        minSdk = 16
+        minSdk = 17
         targetSdk = 34
-        versionCode = 512
-        versionName = "0.5.12"
+        versionCode = 513
+        versionName = "0.5.13"
 
         hms = '3.4.62.300'
         mcs = '1.0.3.300'
