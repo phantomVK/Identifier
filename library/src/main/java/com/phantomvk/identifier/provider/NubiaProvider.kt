@@ -47,7 +47,7 @@ internal class NubiaProvider(config: ProviderConfig) : AbstractProvider(config) 
     }
 
     when (val r = checkId(id)) {
-      is BinderResult.Failed -> getCallback().onError(r.msg)
+      is BinderResult.Failed -> getCallback().onError(r.msg, r.throwable)
       is BinderResult.Success -> {
         val aaidResult = (checkId(aaid) as? BinderResult.Success)?.id
         val vaidResult = (checkId(vaid) as? BinderResult.Success)?.id

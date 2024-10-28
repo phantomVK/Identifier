@@ -38,7 +38,7 @@ internal class ZteProvider(config: ProviderConfig) : AbstractProvider(config) {
     }
 
     when (val r = getId("getOAID")) {
-      is BinderResult.Failed -> getCallback().onError(r.msg)
+      is BinderResult.Failed -> getCallback().onError(r.msg, r.throwable)
       is BinderResult.Success -> {
         val aaid = if (config.queryAaid) (getId("getAAID") as? BinderResult.Success)?.id else null
         val vaid = if (config.queryVaid) (getId("getVAID") as? BinderResult.Success)?.id else null

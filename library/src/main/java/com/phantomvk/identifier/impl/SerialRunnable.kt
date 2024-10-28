@@ -107,7 +107,7 @@ internal class SerialRunnable(config: ProviderConfig) : AbstractProvider(config)
       }
     }
 
-    getCallback().onError(NO_IMPLEMENTATION_FOUND, null)
+    getCallback().onError(NO_IMPLEMENTATION_FOUND)
   }
 
   override fun dispose() {

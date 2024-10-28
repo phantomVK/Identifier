@@ -13,7 +13,7 @@ internal class HuaweiContentProvider(config: ProviderConfig) : AbstractProvider(
     val uri = Uri.parse("content://com.huawei.hwid.pps.apiprovider/oaid/query")
     val cursor = config.context.contentResolver.query(uri, null, null, null, null)
     if (cursor == null) {
-      getCallback().onError(QUERY_CURSOR_IS_NULL, null)
+      getCallback().onError(QUERY_CURSOR_IS_NULL)
       return
     }
 
@@ -23,7 +23,7 @@ internal class HuaweiContentProvider(config: ProviderConfig) : AbstractProvider(
       if (config.isLimitAdTracking) {
         val code = c.getColumnIndex("limit_track")
         if (code >= 0 && c.getString(code).toBoolean()) {
-          return getCallback().onError((LIMIT_AD_TRACKING_IS_ENABLED))
+          return getCallback().onError(LIMIT_AD_TRACKING_IS_ENABLED)
         }
       }
 
