@@ -53,16 +53,16 @@ internal class ZuiProvider(config: ProviderConfig) : AbstractProvider(config) {
   private fun isSupport(remote: IBinder): Boolean {
     val data = Parcel.obtain()
     val reply = Parcel.obtain()
-    val result: Boolean
     try {
       data.writeInterfaceToken("com.zui.deviceidservice.IDeviceidInterface")
       remote.transact(3, data, reply, 0)
       reply.readException()
-      result = (0 != reply.readInt())
+      return 0 != reply.readInt()
+    } catch (t: Throwable) {
+      return true
     } finally {
       reply.recycle()
       data.recycle()
     }
-    return result
   }
 }

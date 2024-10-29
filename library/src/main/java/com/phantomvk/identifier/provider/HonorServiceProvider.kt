@@ -54,6 +54,7 @@ internal class HonorServiceProvider(config: ProviderConfig) : AbstractProvider(c
       data.writeStrongInterface(callback)
       remote.transact(2, data, reply, 0)
       reply.readException()
+    } catch (t: Throwable) {
     } finally {
       reply.recycle()
       data.recycle()
@@ -83,6 +84,7 @@ internal class HonorServiceProvider(config: ProviderConfig) : AbstractProvider(c
       data.writeStrongInterface(callback)
       remote.transact(3, data, reply, 0)
       reply.readException()
+    } catch (t: Throwable) {
     } finally {
       reply.recycle()
       data.recycle()

@@ -34,33 +34,33 @@ internal class GoogleAdsIdProvider(config: ProviderConfig) : AbstractProvider(co
   private fun getId(remote: IBinder): String? {
     val data = Parcel.obtain()
     val reply = Parcel.obtain()
-    val result: String?
     try {
       data.writeInterfaceToken("com.google.android.gms.ads.identifier.internal.IAdvertisingIdService")
       remote.transact(1, data, reply, 0)
       reply.readException()
-      result = reply.readString()
+      return reply.readString()
+    } catch (t: Throwable) {
+      return null
     } finally {
       reply.recycle()
       data.recycle()
     }
-    return result
   }
 
   private fun isLimitAdTrackingEnabled(remote: IBinder): Boolean {
     val data = Parcel.obtain()
     val reply = Parcel.obtain()
-    val result: Boolean
     try {
       data.writeInterfaceToken("com.google.android.gms.ads.identifier.internal.IAdvertisingIdService")
       data.writeInt(1)
       remote.transact(2, data, reply, 0)
       reply.readException()
-      result = (0 != reply.readInt())
+      return 0 != reply.readInt()
+    } catch (t: Throwable) {
+      return false
     } finally {
       reply.recycle()
       data.recycle()
     }
-    return result
   }
 }

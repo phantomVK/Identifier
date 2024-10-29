@@ -42,32 +42,32 @@ internal class HuaweiServiceProvider(config: ProviderConfig) : AbstractProvider(
   private fun getOaid(remote: IBinder): String? {
     val data = Parcel.obtain()
     val reply = Parcel.obtain()
-    val result: String?
     try {
       data.writeInterfaceToken("com.uodis.opendevice.aidl.OpenDeviceIdentifierService")
       remote.transact(1, data, reply, 0)
       reply.readException()
-      result = reply.readString()
+      return reply.readString()
+    } catch (t: Throwable) {
+      return null
     } finally {
       reply.recycle()
       data.recycle()
     }
-    return result
   }
 
   private fun isOaidTrackLimited(remote: IBinder): Boolean {
     val data = Parcel.obtain()
     val reply = Parcel.obtain()
-    val result: Boolean
     try {
       data.writeInterfaceToken("com.uodis.opendevice.aidl.OpenDeviceIdentifierService")
       remote.transact(2, data, reply, 0)
       reply.readException()
-      result = (0 != reply.readInt())
+      return 0 != reply.readInt()
+    } catch (t: Throwable) {
+      return false
     } finally {
       reply.recycle()
       data.recycle()
     }
-    return result
   }
 }

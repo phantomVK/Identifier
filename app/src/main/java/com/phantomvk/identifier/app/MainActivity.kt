@@ -58,7 +58,7 @@ class MainActivity : AppCompatActivity() {
         .append("\n* oaid: ${msg.oaid}\n\n")
         .append(
           getResultList().joinToString("\n\n") { model ->
-            val builder = StringBuilder("# ${model.tag}: (${model.ts} μs)\n")
+            val builder = StringBuilder("# ${model.tag} (${model.ts}μs)\n")
             if (model.result == null) {
               builder.append("-msg: ${model.msg}")
             } else {
