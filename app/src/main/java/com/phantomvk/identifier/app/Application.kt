@@ -1,6 +1,7 @@
 package com.phantomvk.identifier.app
 
 import android.app.Application
+import android.os.StrictMode
 import com.phantomvk.identifier.IdentifierManager
 
 
@@ -16,17 +17,19 @@ class Application : Application() {
   override fun onCreate() {
     super.onCreate()
 
-//    ThreadPolicy.Builder()
-//      .detectAll()
-//      .penaltyLog()
-//      .build()
-//      .let { StrictMode.setThreadPolicy(it) }
-//
-//    VmPolicy.Builder()
-//      .detectAll()
-//      .penaltyLog()
-//      .build()
-//      .let { StrictMode.setVmPolicy(it) }
+    if (BuildConfig.DEBUG) {
+      StrictMode.ThreadPolicy.Builder()
+        .detectAll()
+        .penaltyLog()
+        .build()
+        .let { StrictMode.setThreadPolicy(it) }
+
+      StrictMode.VmPolicy.Builder()
+        .detectAll()
+        .penaltyLog()
+        .build()
+        .let { StrictMode.setVmPolicy(it) }
+    }
 
     IdentifierManager.Builder(this)
       .setDebug(IS_DEBUG)

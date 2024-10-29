@@ -150,15 +150,17 @@ abstract class AbstractProvider(protected val config: ProviderConfig) : Runnable
   protected fun bindService(intent: Intent, binderCallback: BinderCallback) {
     val conn = object : ServiceConnection {
       override fun onServiceConnected(name: ComponentName, service: IBinder) {
-        try {
-          when (val r = binderCallback.call(service)) {
-            is BinderResult.Success -> getCallback().onSuccess(IdentifierResult(r.id, r.aaid, r.vaid))
-            is BinderResult.Failed -> getCallback().onError(r.msg, r.throwable)
+        config.executor.execute {
+          try {
+            when (val r = binderCallback.call(service)) {
+              is BinderResult.Success -> getCallback().onSuccess(IdentifierResult(r.id, r.aaid, r.vaid))
+              is BinderResult.Failed -> getCallback().onError(r.msg, r.throwable)
+            }
+          } catch (t: Throwable) {
+            getCallback().onError(EXCEPTION_THROWN, t)
+          } finally {
+            unbindService(this)
           }
-        } catch (t: Throwable) {
-          getCallback().onError(EXCEPTION_THROWN, t)
-        } finally {
-          unbindService(this)
         }
       }
 

@@ -6,14 +6,14 @@ import java.lang.ref.WeakReference
 import java.util.concurrent.Executor
 
 class ProviderConfig(val context: Context) {
-  var executor: Executor = Executor { c: Runnable -> Thread(c).start() }
+  var executor = Executor { c: Runnable -> Thread(c).start() }
   var isDebug = false
   var isExperimental = false
   var isGoogleAdsIdEnabled = false
-  var isLimitAdTracking: Boolean = false
+  var isLimitAdTracking = false
   var isMemCacheEnabled = false
-  var queryAaid: Boolean = false
-  var queryVaid: Boolean = false
+  var queryAaid = false
+  var queryVaid = false
   lateinit var callback: WeakReference<OnResultListener>
 
   fun clone(): ProviderConfig {
