@@ -157,11 +157,11 @@ internal class SerialRunnable(config: ProviderConfig) : AbstractProvider(config)
     if (isBrand("HUAWEI")
       || isBrand("HONOR")
       || isBrand("HUAWEI", "HONOR")
-      || sysPropertyContainsKey("ro.build.version.emui")
+      || isSysPropertyContainsKey("ro.build.version.emui")
     ) {
       if (isBrand("HUAWEI")
         || isBrand("HUAWEI", "HONOR")
-        || sysPropertyContainsKey("ro.build.version.emui")
+        || isSysPropertyContainsKey("ro.build.version.emui")
       ) {
         providers.add(HuaweiSdkProvider(config))
         providers.add(HuaweiSettingsProvider(config))
@@ -188,7 +188,7 @@ internal class SerialRunnable(config: ProviderConfig) : AbstractProvider(config)
     if (isBrand("XIAOMI")
       || isBrand("XIAOMI", "REDMI")
       || isBrand("BLACKSHARK")
-      || sysPropertyContainsKey("ro.miui.ui.version.name")
+      || isSysPropertyContainsKey("ro.miui.ui.version.name")
     ) {
       providers.add(XiaomiProvider(config))
       return
@@ -202,14 +202,14 @@ internal class SerialRunnable(config: ProviderConfig) : AbstractProvider(config)
     if (isBrand("OPPO")
       || isBrand("realme")
       || isBrand("ONEPLUS")
-      || sysPropertyContainsKey("ro.build.version.opporom")
+      || isSysPropertyContainsKey("ro.build.version.opporom")
     ) {
       providers.add(OppoColorOsProvider(config))
       providers.add(OppoHeyTapProvider(config))
       return
     }
 
-    if (isBrand("VIVO") || sysPropertyContainsKey("ro.vivo.os.version")) {
+    if (isBrand("VIVO") || isSysPropertyContainsKey("ro.vivo.os.version")) {
       if (getSysProperty("persist.sys.identifierid.supported", "0") == "1") {
         providers.add(VivoProvider(config))
       }
@@ -241,7 +241,7 @@ internal class SerialRunnable(config: ProviderConfig) : AbstractProvider(config)
       return
     }
 
-    if (sysPropertyContainsKey("ro.build.freeme.label")) {
+    if (isSysPropertyContainsKey("ro.build.freeme.label")) {
       providers.add(FreemeProvider(config))
       return
     }
