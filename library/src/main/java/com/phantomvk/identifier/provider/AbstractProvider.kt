@@ -63,7 +63,7 @@ abstract class AbstractProvider(protected val config: ProviderConfig) : Runnable
     }
   }
 
-  protected fun sysPropertyContainsKey(key: String): Boolean {
+  protected fun isSysPropertyContainsKey(key: String): Boolean {
     return getSysProperty(key, null)?.isNotBlank() == true
   }
 
