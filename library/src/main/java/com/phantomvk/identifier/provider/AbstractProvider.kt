@@ -13,7 +13,12 @@ import com.phantomvk.identifier.model.ProviderConfig
 
 abstract class AbstractProvider(protected val config: ProviderConfig) : Runnable {
 
-  private val sysPropClass = try { Class.forName("android.os.SystemProperties") } catch (t: Throwable) { null }
+  private val sysPropMethod = try {
+    Class.forName("android.os.SystemProperties").getMethod("get", String::class.java, String::class.java)
+  } catch (t: Throwable) {
+    null
+  }
+
   private lateinit var resultCallback: OnResultListener
 
   abstract fun isSupported(): Boolean
@@ -52,9 +57,9 @@ abstract class AbstractProvider(protected val config: ProviderConfig) : Runnable
 
   protected fun getSysProperty(key: String, defValue: String?): String? {
     return try {
-      sysPropClass!!.getMethod("get", String::class.java, String::class.java).invoke(sysPropClass, key, defValue) as String
+      sysPropMethod?.invoke(null, key, defValue) as? String ?: defValue
     } catch (t: Throwable) {
-      null
+      defValue
     }
   }
 
