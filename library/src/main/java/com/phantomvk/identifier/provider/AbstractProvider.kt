@@ -5,14 +5,11 @@ import android.content.ContentProviderClient
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
-import android.content.pm.PackageManager
-import android.content.pm.Signature
 import android.os.Build
 import android.os.IBinder
 import com.phantomvk.identifier.interfaces.OnResultListener
 import com.phantomvk.identifier.model.IdentifierResult
 import com.phantomvk.identifier.model.ProviderConfig
-import java.security.MessageDigest
 
 abstract class AbstractProvider(protected val config: ProviderConfig) : Runnable {
 
@@ -84,59 +81,6 @@ abstract class AbstractProvider(protected val config: ProviderConfig) : Runnable
     }
 
     return result
-  }
-
-  private fun getSignatures(pm: PackageManager, packageName: String): Array<Signature>? {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-      val info = pm.getPackageInfo(packageName, PackageManager.GET_SIGNING_CERTIFICATES)?.signingInfo ?: return null
-      return if (info.hasMultipleSigners()) {
-        info.apkContentsSigners
-      } else {
-        info.signingCertificateHistory
-      }
-    }
-
-    val signatures = pm.getPackageInfo(packageName, PackageManager.GET_SIGNATURES)?.signatures
-    if (signatures.isNullOrEmpty() || signatures[0] == null) {
-      return null
-    }
-
-    return signatures
-  }
-
-  /**
-   * Calculate hash value using specified algorithm.
-   */
-  private fun sha1(bytes: ByteArray): String? {
-    if (bytes.isEmpty()) return null
-
-    return try {
-      val sb = StringBuilder()
-      val byteArray = MessageDigest.getInstance("SHA1").digest(bytes)
-
-      for (byte in byteArray) {
-        sb.append(String.format("%02x", byte))
-      }
-
-      sb.toString()
-    } catch (t: Throwable) {
-      null
-    }
-  }
-
-  protected fun getSignatureHash(): BinderResult {
-    val signature = getSignatures(config.context.packageManager, config.context.packageName)?.firstOrNull()
-    if (signature == null) {
-      return BinderResult.Failed(SIGNATURE_IS_NULL)
-    }
-
-    val byteArray = signature.toByteArray()
-    val sign = sha1(byteArray)
-    if (sign.isNullOrBlank()) {
-      return BinderResult.Failed(SIGNATURE_HASH_IS_NULL)
-    }
-
-    return BinderResult.Success(sign)
   }
 
   protected fun releaseContentProviderClient(client: ContentProviderClient) {
