@@ -81,7 +81,7 @@ class MainActivity : AppCompatActivity() {
 
   private fun showInfo(deviceStr: String, t: Throwable? = null) {
     Log.i("IdentifierTAG", deviceStr, t)
-    Log.i("IdentifierTAG", "* | ${Build.MANUFACTURER} | ${Build.BRAND} | === | ${Build.MODEL} | ${Build.DEVICE} | ${Build.VERSION.SDK_INT} | ${Build.FINGERPRINT} |")
+    Log.i("IdentifierTAG", "| ${Build.MANUFACTURER} | ${Build.BRAND} | === | ${Build.MODEL} | ${Build.DEVICE} | ${Build.VERSION.SDK_INT} | ${Build.FINGERPRINT} |")
 
     lifecycleScope.launch(Dispatchers.Main) {
       val textView = findViewById<TextView>(R.id.system_textview)

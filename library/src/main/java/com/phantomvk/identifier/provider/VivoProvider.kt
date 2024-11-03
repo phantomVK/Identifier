@@ -7,13 +7,6 @@ import com.phantomvk.identifier.model.ProviderConfig
 internal class VivoProvider(config: ProviderConfig) : AbstractProvider(config) {
 
   override fun isSupported(): Boolean {
-//    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) {
-//      return false
-//    }
-//
-//    val value = sysProperty("persist.sys.identifierid.supported", "0")
-//    return value == "1"
-
     return isContentProviderExisted("com.vivo.vms.IdProvider")
   }
 
