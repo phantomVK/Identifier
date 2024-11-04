@@ -74,27 +74,29 @@
 
 ### Huawei
 
-| Manufacturer | Brand  |     Name      |   Model   |  Device   | SDK_INT |                                 FingerPrint                                 |
-|:------------:|:------:|:-------------:|:---------:|:---------:|:-------:|:---------------------------------------------------------------------------:|
-|    HUAWEI    | HUAWEI |     nova      | CAZ-AL10  |   HWCAZ   |   24    |     HUAWEI/CAZ-AL10/HWCAZ:7.0/HUAWEICAZ-AL10/C00B387:user/release-keys      |
-|    HUAWEI    | honor  |       8       | FRD-AL10  |   HWFRD   |   24    |      honor/FRD-AL10/HWFRD:7.0/HUAWEIFRD-AL10/C00B387:user/release-keys      |
-|    HUAWEI    | HONOR  |    P8 Lite    | PRA-AL00X |  HWPRA-H  |   24    |    HONOR/PRA-AL00X/HWPRA-H:7.0/HONORPRA-AL00X/C00B223:user/release-keys     |
-|    HUAWEI    | honor  |       8       | FRD-AL00  |   HWFRD   |   26    |    honor/FRD-AL00/HWFRD:8.0.0/HUAWEIFRD-AL00/556(C00):user/release-keys     |
-|    HUAWEI    | HUAWEI | Enjoy 9 Plus  | JKM-AL00  |  HWJKM-H  |   27    |   HUAWEI/JKM-AL00/HWJKM-H:8.1.0/HUAWEIJKM-AL00/166(C00):user/release-keys   |
-|    HUAWEI    | HONOR  |      8X       | JSN-AL00  |  HWJSN-H  |   27    |   HONOR/JSN-AL00/HWJSN-H:8.1.0/HONORJSN-AL00/175(C00)R2:user/release-keys   |
-|    HUAWEI    | HONOR  |      9X       | HLK-AL00  |  HWHLK-H  |   29    |  HONOR/HLK-AL00/HWHLK-H:10/HONORHLK-AL00/102.0.0.263C00:user/release-keys   |
-|    HUAWEI    | HONOR  |    Play 3     | ASK-AL00x |  HWASK-H  |   29    | HONOR/ASK-AL00x/HWASK-H:10/HONORASK-AL00x/102.0.0.273C00:user/release-keys  |
-|    HUAWEI    | HUAWEI |  Nova 5 Pro   | SEA-AL10  |  HWSEA-A  |   29    |  HUAWEI/SEA-AL10/HWSEA-A:10/HUAWEISEA-AL10/11.0.0.139C00:user/release-keys  |
-|    HUAWEI    | HUAWEI |    Nova 6     | ANA-AN00  |   HWANA   |   29    |  HUAWEI/ANA-AN00/HWANA:10/HUAWEIANA-AN00/102.0.0.280C00:user/release-keys   |
-|    HUAWEI    | HUAWEI |    Nova 7     | JEF-AN00  |   HWJEF   |   29    |  HUAWEI/JEF-AN00/HWJEF:10/HUAWEIJEF-AN00/102.0.0.275C00:user/release-keys   |
-|    HUAWEI    | HUAWEI |      P30      | ELE-AL00  |   HWELE   |   29    |   HUAWEI/ELE-AL00/HWELE:10/HUAWEIELE-AL00/10.1.0.162C00:user/release-keys   |
-|    HUAWEI    | HUAWEI |    Mate 30    | TAS-AN00  |   HWTAS   |   29    |  HUAWEI/TAS-AN00/HWTAS:10/HUAWEITAS-AN00/102.0.0.280C00:user/release-keys   |
-|    HUAWEI    | HUAWEI |      P40      | ANA-AN00  |   HWANA   |   29    |  HUAWEI/ANA-AN00/HWANA:10/HUAWEIANA-AN00/102.0.0.280C00:user/release-keys   |
-|    HUAWEI    | HUAWEI |    P40 Pro    | ELS-AN00  |   HWELS   |   31    |  HUAWEI/ELS-AN00/HWELS:12/HUAWEIELS-AN00/103.0.0.310C00:user/release-keys   |
-|    HUAWEI    | HUAWEI |      P50      | ABR-AL00  |  HWABR-Q  |   30    | HUAWEI/ABR-AL00/HWABR-Q:11/HUAWEIABR-AL00/102.0.1.268C00:user/release-keys  |
-|    HUAWEI    | HUAWEI |   Mate 50E    | CET-AL60  | HWCET-QL  |   31    | HUAWEI/CET-AL60/HWCET-QL:12/HUAWEICET-AL60/104.0.0.132C00:user/release-keys |
-|    HUAWEI    | HUAWEI |  MatePad Pro  |  WGR-W09  |   HWWGR   |   31    |   HUAWEI/WGR-W09/HWWGR:12/HUAWEIWGR-W09/104.2.0.212C00:user/release-keys    |
-|    Tianyi    | Tianyi | Maimang 10 SE |  TYH611M  | TYH611M-Q |   30    | Tianyi/PKP-AN60/TYH611M-Q:11/TianyiTYH611M/102.0.1.123C05:user/release-keys |
+| Manufacturer | Brand  |     Name      |      Model      |  Device   | SDK_INT |                                 FingerPrint                                 |
+|:------------:|:------:|:-------------:|:---------------:|:---------:|:-------:|:---------------------------------------------------------------------------:|
+|    HUAWEI    | HUAWEI |     nova      | HUAWEI CAZ-AL10 |   HWCAZ   |   23    |     HUAWEI/CAZ-AL10/HWCAZ:6.0/HUAWEICAZ-AL10/C00B143:user/release-keys      |
+|    HUAWEI    | HUAWEI |     nova      |    CAZ-AL10     |   HWCAZ   |   24    |     HUAWEI/CAZ-AL10/HWCAZ:7.0/HUAWEICAZ-AL10/C00B387:user/release-keys      |
+|    HUAWEI    | honor  |       8       |    FRD-AL10     |   HWFRD   |   24    |      honor/FRD-AL10/HWFRD:7.0/HUAWEIFRD-AL10/C00B387:user/release-keys      |
+|    HUAWEI    | HUAWEI |     nova2     |    PIC-AL00     |   HWPIC   |   24    |     HUAWEI/PIC-AL00/HWPIC:7.0/HUAWEIPIC-AL00/C00B173:user/release-keys      |
+|    HUAWEI    | HONOR  |    P8 Lite    |    PRA-AL00X    |  HWPRA-H  |   24    |    HONOR/PRA-AL00X/HWPRA-H:7.0/HONORPRA-AL00X/C00B223:user/release-keys     |
+|    HUAWEI    | honor  |       8       |    FRD-AL00     |   HWFRD   |   26    |    honor/FRD-AL00/HWFRD:8.0.0/HUAWEIFRD-AL00/556(C00):user/release-keys     |
+|    HUAWEI    | HUAWEI | Enjoy 9 Plus  |    JKM-AL00     |  HWJKM-H  |   27    |   HUAWEI/JKM-AL00/HWJKM-H:8.1.0/HUAWEIJKM-AL00/166(C00):user/release-keys   |
+|    HUAWEI    | HONOR  |      8X       |    JSN-AL00     |  HWJSN-H  |   27    |   HONOR/JSN-AL00/HWJSN-H:8.1.0/HONORJSN-AL00/175(C00)R2:user/release-keys   |
+|    HUAWEI    | HONOR  |      9X       |    HLK-AL00     |  HWHLK-H  |   29    |  HONOR/HLK-AL00/HWHLK-H:10/HONORHLK-AL00/102.0.0.263C00:user/release-keys   |
+|    HUAWEI    | HONOR  |    Play 3     |    ASK-AL00x    |  HWASK-H  |   29    | HONOR/ASK-AL00x/HWASK-H:10/HONORASK-AL00x/102.0.0.273C00:user/release-keys  |
+|    HUAWEI    | HUAWEI |  Nova 5 Pro   |    SEA-AL10     |  HWSEA-A  |   29    |  HUAWEI/SEA-AL10/HWSEA-A:10/HUAWEISEA-AL10/11.0.0.139C00:user/release-keys  |
+|    HUAWEI    | HUAWEI |    Nova 6     |    ANA-AN00     |   HWANA   |   29    |  HUAWEI/ANA-AN00/HWANA:10/HUAWEIANA-AN00/102.0.0.280C00:user/release-keys   |
+|    HUAWEI    | HUAWEI |    Nova 7     |    JEF-AN00     |   HWJEF   |   29    |  HUAWEI/JEF-AN00/HWJEF:10/HUAWEIJEF-AN00/102.0.0.275C00:user/release-keys   |
+|    HUAWEI    | HUAWEI |      P30      |    ELE-AL00     |   HWELE   |   29    |   HUAWEI/ELE-AL00/HWELE:10/HUAWEIELE-AL00/10.1.0.162C00:user/release-keys   |
+|    HUAWEI    | HUAWEI |    Mate 30    |    TAS-AN00     |   HWTAS   |   29    |  HUAWEI/TAS-AN00/HWTAS:10/HUAWEITAS-AN00/102.0.0.280C00:user/release-keys   |
+|    HUAWEI    | HUAWEI |      P40      |    ANA-AN00     |   HWANA   |   29    |  HUAWEI/ANA-AN00/HWANA:10/HUAWEIANA-AN00/102.0.0.280C00:user/release-keys   |
+|    HUAWEI    | HUAWEI |    P40 Pro    |    ELS-AN00     |   HWELS   |   31    |  HUAWEI/ELS-AN00/HWELS:12/HUAWEIELS-AN00/103.0.0.310C00:user/release-keys   |
+|    HUAWEI    | HUAWEI |      P50      |    ABR-AL00     |  HWABR-Q  |   30    | HUAWEI/ABR-AL00/HWABR-Q:11/HUAWEIABR-AL00/102.0.1.268C00:user/release-keys  |
+|    HUAWEI    | HUAWEI |   Mate 50E    |    CET-AL60     | HWCET-QL  |   31    | HUAWEI/CET-AL60/HWCET-QL:12/HUAWEICET-AL60/104.0.0.132C00:user/release-keys |
+|    HUAWEI    | HUAWEI |  MatePad Pro  |     WGR-W09     |   HWWGR   |   31    |   HUAWEI/WGR-W09/HWWGR:12/HUAWEIWGR-W09/104.2.0.212C00:user/release-keys    |
+|    Tianyi    | Tianyi | Maimang 10 SE |     TYH611M     | TYH611M-Q |   30    | Tianyi/PKP-AN60/TYH611M-Q:11/TianyiTYH611M/102.0.1.123C05:user/release-keys |
 
 #### Lenovo
 
