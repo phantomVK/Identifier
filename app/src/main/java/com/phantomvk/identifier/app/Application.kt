@@ -9,7 +9,6 @@ class Application : Application() {
   companion object {
     const val IS_DEBUG = true
     const val IS_EXPERIMENTAL = true
-    const val IS_GOOGLE_ADS_ID_ENABLE = true
     const val IS_LIMIT_AD_TRACKING = true
     const val IS_MEM_CACHE_ENABLE = false
   }
@@ -34,7 +33,6 @@ class Application : Application() {
     IdentifierManager.Builder(this)
       .setDebug(IS_DEBUG)
       .setExperimental(IS_EXPERIMENTAL)
-      .setGoogleAdsIdEnable(IS_GOOGLE_ADS_ID_ENABLE)
       .setLimitAdTracking(IS_LIMIT_AD_TRACKING)
       .setMemCacheEnable(IS_MEM_CACHE_ENABLE)
       .setExecutor { Thread(it).start() } // optional: setup custom ThreadPoolExecutor

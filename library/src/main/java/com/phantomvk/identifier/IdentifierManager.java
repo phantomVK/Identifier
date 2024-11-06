@@ -58,12 +58,6 @@ public final class IdentifierManager {
         }
 
         @NonNull
-        public Builder setGoogleAdsIdEnable(boolean enable) {
-            config.setGoogleAdsIdEnabled(enable);
-            return this;
-        }
-
-        @NonNull
         public Builder setLimitAdTracking(boolean enable) {
             config.setLimitAdTracking(enable);
             return this;
