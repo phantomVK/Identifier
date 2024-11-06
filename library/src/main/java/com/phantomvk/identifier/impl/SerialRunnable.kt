@@ -210,9 +210,7 @@ internal class SerialRunnable(config: ProviderConfig) : AbstractProvider(config)
     }
 
     if (isBrand("VIVO") || isSysPropertyContainsKey("ro.vivo.os.version")) {
-      if (getSysProperty("persist.sys.identifierid.supported", "0") == "1") {
-        providers.add(VivoProvider(config))
-      }
+      providers.add(VivoProvider(config))
       return
     }
 
