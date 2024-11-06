@@ -125,7 +125,7 @@ internal class SerialRunnable(config: ProviderConfig) : AbstractProvider(config)
       addExperimentalProviders(config, providers)
     }
 
-    if (config.isGoogleAdsIdEnabled) {
+    if (config.queryGoogleAdsId) {
       providers.add(GoogleAdsIdProvider(config))
     }
 

@@ -43,7 +43,6 @@ class Application : android.app.Application() {
     IdentifierManager.Builder(applicationContext)
       .setDebug(false)
       .setExperimental(false)
-      .setGoogleAdsIdEnable(true) // optional: use GoogleAdsId as backup, default is false
       .setLimitAdTracking(false)
       .setMemCacheEnable(true)
       .setExecutor { Thread(it).start() } // optional: setup custom ThreadPoolExecutor
@@ -66,6 +65,7 @@ IdentifierManager
   .setSubscriber(listener)
   .enableAaid(false)
   .enableVaid(false)
+  .enableGoogleAdsId(false) // optional: use GoogleAdsId as backup, default is false
   .subscribe()
 ```
 

@@ -13,7 +13,6 @@ import androidx.lifecycle.lifecycleScope
 import com.phantomvk.identifier.IdentifierManager
 import com.phantomvk.identifier.app.Application.Companion.IS_DEBUG
 import com.phantomvk.identifier.app.Application.Companion.IS_EXPERIMENTAL
-import com.phantomvk.identifier.app.Application.Companion.IS_GOOGLE_ADS_ID_ENABLE
 import com.phantomvk.identifier.app.Application.Companion.IS_LIMIT_AD_TRACKING
 import com.phantomvk.identifier.app.Application.Companion.IS_MEM_CACHE_ENABLE
 import com.phantomvk.identifier.interfaces.Disposable
@@ -123,11 +122,11 @@ class MainActivity : AppCompatActivity() {
     val config = ProviderConfig(applicationContext).apply {
       isDebug = IS_DEBUG
       isExperimental = IS_EXPERIMENTAL
-      isGoogleAdsIdEnabled = IS_GOOGLE_ADS_ID_ENABLE
       isLimitAdTracking = IS_LIMIT_AD_TRACKING
       isMemCacheEnabled = IS_MEM_CACHE_ENABLE
       queryAaid = true
       queryVaid = true
+      queryGoogleAdsId = true
       executor = Executor { r -> Thread(r).start() }
       callback = WeakReference(object : OnResultListener {
         override fun onSuccess(result: IdentifierResult) {}
