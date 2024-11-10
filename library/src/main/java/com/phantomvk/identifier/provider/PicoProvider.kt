@@ -3,7 +3,7 @@ package com.phantomvk.identifier.provider
 import android.net.Uri
 import com.phantomvk.identifier.model.ProviderConfig
 
-class PicoProvider(config: ProviderConfig) : AbstractProvider(config) {
+internal class PicoProvider(config: ProviderConfig) : AbstractProvider(config) {
 
   override fun isSupported(): Boolean {
     return true // isBrand("Pico")
