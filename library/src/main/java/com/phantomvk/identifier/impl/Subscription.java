@@ -3,8 +3,9 @@ package com.phantomvk.identifier.impl;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.phantomvk.identifier.interfaces.Disposable;
-import com.phantomvk.identifier.interfaces.OnResultListener;
+import com.phantomvk.identifier.disposable.Disposable;
+import com.phantomvk.identifier.disposable.DisposedDisposable;
+import com.phantomvk.identifier.listener.OnResultListener;
 import com.phantomvk.identifier.model.IdentifierResult;
 import com.phantomvk.identifier.model.ProviderConfig;
 

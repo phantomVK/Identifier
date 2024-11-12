@@ -11,6 +11,9 @@ class Application : Application() {
     const val IS_EXPERIMENTAL = true
     const val IS_LIMIT_AD_TRACKING = true
     const val IS_MEM_CACHE_ENABLE = false
+    const val IS_AAID_ENABLE = true
+    const val IS_VAID_ENABLE = true
+    const val IS_GOOGLE_ADS_ID_ENABLE = true
   }
 
   override fun onCreate() {

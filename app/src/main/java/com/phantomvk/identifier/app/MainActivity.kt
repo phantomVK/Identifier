@@ -1,7 +1,9 @@
 package com.phantomvk.identifier.app
 
+import android.app.Application
 import android.content.ClipData
 import android.content.ClipboardManager
+import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -11,15 +13,16 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.phantomvk.identifier.IdentifierManager
+import com.phantomvk.identifier.app.Application.Companion.IS_AAID_ENABLE
 import com.phantomvk.identifier.app.Application.Companion.IS_DEBUG
 import com.phantomvk.identifier.app.Application.Companion.IS_EXPERIMENTAL
+import com.phantomvk.identifier.app.Application.Companion.IS_GOOGLE_ADS_ID_ENABLE
 import com.phantomvk.identifier.app.Application.Companion.IS_LIMIT_AD_TRACKING
 import com.phantomvk.identifier.app.Application.Companion.IS_MEM_CACHE_ENABLE
-import com.phantomvk.identifier.interfaces.Disposable
-import com.phantomvk.identifier.interfaces.OnResultListener
+import com.phantomvk.identifier.app.Application.Companion.IS_VAID_ENABLE
+import com.phantomvk.identifier.disposable.Disposable
+import com.phantomvk.identifier.listener.OnResultListener
 import com.phantomvk.identifier.model.IdentifierResult
-import com.phantomvk.identifier.model.ProviderConfig
-import com.phantomvk.identifier.provider.AbstractProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.lang.ref.WeakReference
@@ -29,6 +32,7 @@ import java.util.concurrent.Executor
 
 class MainActivity : AppCompatActivity() {
 
+  private val decimalFormat = DecimalFormat("#,###")
   private var disposable: Disposable? = null
 
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,28 +52,29 @@ class MainActivity : AppCompatActivity() {
     disposable = IdentifierManager
       .getInstance()
       .setSubscriber(listener)
+      .enableAaid(IS_AAID_ENABLE)
+      .enableVaid(IS_VAID_ENABLE)
+      .enableGoogleAdsId(IS_GOOGLE_ADS_ID_ENABLE)
       .subscribe()
   }
 
   private fun updateSuccessInfo(msg: IdentifierResult) {
     lifecycleScope.launch(Dispatchers.IO) {
-      val deviceStr = deviceInfo()
-        .append("\n* oaid: ${msg.oaid}\n\n")
-        .append(
-          getResultList().joinToString("\n\n") { model ->
-            val builder = StringBuilder("# ${model.tag} (${model.ts}μs)\n")
-            if (model.result == null) {
-              builder.append("-msg: ${model.msg}")
-            } else {
-              val list = arrayListOf("-oaid: ${model.result.oaid}")
-              model.result.aaid?.let { list.add("-aaid: $it") }
-              model.result.vaid?.let { list.add("-vaid: $it") }
-              builder.append(list.joinToString("\n"))
-            }
-            builder.toString()
-          })
+      val str = getResultList().joinToString("\n\n") { model ->
+        val builder = StringBuilder("# ${model.tag} (${model.ts}μs)\n")
+        if (model.result == null) {
+          builder.append("-msg: ${model.msg}")
+        } else {
+          val list = arrayListOf("-oaid: ${model.result.oaid}")
+          model.result.aaid?.let { list.add("-aaid: $it") }
+          model.result.vaid?.let { list.add("-vaid: $it") }
+          builder.append(list.joinToString("\n"))
+        }
+        builder.toString()
+      }
 
-      showInfo(deviceStr.toString())
+      val deviceStr = deviceInfo().append("\n* oaid: ${msg.oaid}\n\n").append(str).toString()
+      showInfo(deviceStr)
     }
   }
 
@@ -118,31 +123,17 @@ class MainActivity : AppCompatActivity() {
   )
 
   private fun getResultList(): List<ResultModel> {
+    val absProviderClass = Class.forName("com.phantomvk.identifier.provider.AbstractProvider")
+    val isSupportedMethod = absProviderClass.getMethod("isSupported")
+    val onResultListenerClass = Class.forName("com.phantomvk.identifier.listener.OnResultListener")
+    val setCallbackMethod = absProviderClass.getDeclaredMethod("setCallback", onResultListenerClass)
+    val runMethod = absProviderClass.getMethod("run")
+
     val list = ArrayList<ResultModel>()
-    val config = ProviderConfig(applicationContext).apply {
-      isDebug = IS_DEBUG
-      isExperimental = IS_EXPERIMENTAL
-      isLimitAdTracking = IS_LIMIT_AD_TRACKING
-      isMemCacheEnabled = IS_MEM_CACHE_ENABLE
-      queryAaid = true
-      queryVaid = true
-      queryGoogleAdsId = true
-      executor = Executor { r -> Thread(r).start() }
-      callback = WeakReference(object : OnResultListener {
-        override fun onSuccess(result: IdentifierResult) {}
-        override fun onError(msg: String, t: Throwable?) {}
-      })
-    }
-
-    val decimalFormat = DecimalFormat("#,###")
-    val clazz = Class.forName("com.phantomvk.identifier.impl.SerialRunnable")
-    val instance = clazz.getConstructor(ProviderConfig::class.java).newInstance(config)
-    val providers = clazz.getDeclaredMethod("getProviders").apply { isAccessible = true }.invoke(instance) as List<AbstractProvider>
-
-    for (provider in providers) {
+    for (provider in getProviderList()) {
       val startNameTs = System.nanoTime()
       val isSupported = try {
-        provider.isSupported()
+        isSupportedMethod.invoke(provider) as Boolean
       } catch (t: Throwable) {
         false
       }
@@ -152,7 +143,7 @@ class MainActivity : AppCompatActivity() {
       }
 
       val latch = CountDownLatch(1)
-      val simpleName = provider.javaClass.simpleName
+      val simpleName = (provider as Any).javaClass.simpleName
       val resultCallback = object : OnResultListener {
         override fun onSuccess(result: IdentifierResult) {
           list.add(ResultModel(simpleName, result, getNanoTimeStamp()))
@@ -169,8 +160,8 @@ class MainActivity : AppCompatActivity() {
           return decimalFormat.format(consumed)
         }
       }
-      provider.setCallback(resultCallback)
-      provider.run()
+      setCallbackMethod.invoke(provider, resultCallback)
+      runMethod.invoke(provider)
       latch.await()
     }
 
@@ -180,5 +171,30 @@ class MainActivity : AppCompatActivity() {
   override fun onDestroy() {
     super.onDestroy()
     disposable?.dispose()
+  }
+
+  private fun getProviderList(): List<*> {
+    val application = Class.forName("android.app.ActivityThread")
+      .getMethod("currentApplication")
+      .invoke(null) as Application
+
+    val c = Class.forName("com.phantomvk.identifier.model.ProviderConfig")
+    val config = c.getConstructor(Context::class.java).newInstance(application)
+    c.getMethod("setDebug", Boolean::class.java).invoke(config, IS_DEBUG)
+    c.getMethod("setExperimental", Boolean::class.java).invoke(config, IS_EXPERIMENTAL)
+    c.getMethod("setLimitAdTracking", Boolean::class.java).invoke(config, IS_LIMIT_AD_TRACKING)
+    c.getMethod("setMemCacheEnabled", Boolean::class.java).invoke(config, IS_MEM_CACHE_ENABLE)
+    c.getMethod("setQueryAaid", Boolean::class.java).invoke(config, IS_AAID_ENABLE)
+    c.getMethod("setQueryVaid", Boolean::class.java).invoke(config, IS_VAID_ENABLE)
+    c.getMethod("setQueryGoogleAdsId", Boolean::class.java).invoke(config, IS_GOOGLE_ADS_ID_ENABLE)
+    c.getMethod("setExecutor", Executor::class.java).invoke(config, Executor { r -> Thread(r).start() })
+    c.getMethod("setCallback", WeakReference::class.java).invoke(config, WeakReference(object : OnResultListener {
+      override fun onSuccess(result: IdentifierResult) {}
+      override fun onError(msg: String, t: Throwable?) {}
+    }))
+
+    val clz = Class.forName("com.phantomvk.identifier.impl.SerialRunnable")
+    return clz.getDeclaredMethod("getProviders").apply { isAccessible = true }
+      .invoke(clz.getConstructor(c).newInstance(config)) as List<*>
   }
 }

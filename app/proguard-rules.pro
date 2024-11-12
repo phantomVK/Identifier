@@ -21,7 +21,15 @@
 #-renamesourcefileattribute SourceFile
 
 -keepclassmembers class com.phantomvk.identifier.impl.SerialRunnable {
-    private *** getProviders(...);
+    private java.util.List getProviders();
 }
 
 -keepnames class com.phantomvk.identifier.provider.*
+
+-keep class com.phantomvk.identifier.model.ProviderConfig
+
+-keepnames class com.phantomvk.identifier.listener.OnResultListener
+
+-keepclassmembernames class com.phantomvk.identifier.provider.AbstractProvider {
+    public void setCallback(com.phantomvk.identifier.listener.OnResultListener);
+}

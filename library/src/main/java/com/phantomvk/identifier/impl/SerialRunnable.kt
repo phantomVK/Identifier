@@ -2,8 +2,8 @@ package com.phantomvk.identifier.impl
 
 import android.os.Build
 import android.os.Looper
-import com.phantomvk.identifier.interfaces.Disposable
-import com.phantomvk.identifier.interfaces.OnResultListener
+import com.phantomvk.identifier.disposable.Disposable
+import com.phantomvk.identifier.listener.OnResultListener
 import com.phantomvk.identifier.log.Log
 import com.phantomvk.identifier.model.IdentifierResult
 import com.phantomvk.identifier.model.ProviderConfig

@@ -5,7 +5,7 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 
 import com.phantomvk.identifier.impl.Subscription;
-import com.phantomvk.identifier.interfaces.OnResultListener;
+import com.phantomvk.identifier.listener.OnResultListener;
 import com.phantomvk.identifier.log.Log;
 import com.phantomvk.identifier.log.Logger;
 import com.phantomvk.identifier.model.ProviderConfig;
