@@ -7,11 +7,11 @@ import android.content.Intent
 import android.content.ServiceConnection
 import android.os.Build
 import android.os.IBinder
-import com.phantomvk.identifier.interfaces.OnResultListener
+import com.phantomvk.identifier.listener.OnResultListener
 import com.phantomvk.identifier.model.IdentifierResult
 import com.phantomvk.identifier.model.ProviderConfig
 
-abstract class AbstractProvider(protected val config: ProviderConfig) : Runnable {
+internal abstract class AbstractProvider(protected val config: ProviderConfig) : Runnable {
 
   private val sysPropMethod = try {
     Class.forName("android.os.SystemProperties").getMethod("get", String::class.java, String::class.java)

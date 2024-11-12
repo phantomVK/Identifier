@@ -1,6 +1,4 @@
-package com.phantomvk.identifier.impl;
-
-import com.phantomvk.identifier.interfaces.Disposable;
+package com.phantomvk.identifier.disposable;
 
 public class DisposedDisposable implements Disposable {
   @Override

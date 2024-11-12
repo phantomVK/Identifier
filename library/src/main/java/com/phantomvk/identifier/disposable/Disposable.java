@@ -1,4 +1,4 @@
-package com.phantomvk.identifier.interfaces;
+package com.phantomvk.identifier.disposable;
 
 /**
  * Represents a disposable resource.

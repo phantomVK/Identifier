@@ -1,4 +1,4 @@
-package com.phantomvk.identifier.interfaces
+package com.phantomvk.identifier.listener
 
 import com.phantomvk.identifier.model.IdentifierResult
 
