@@ -14,43 +14,43 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class Subscription {
     private final static ConcurrentHashMap<String, IdentifierResult> cache = new ConcurrentHashMap<>();
-    private final ProviderConfig config;
+    private final ProviderConfig conf;
 
     public Subscription(ProviderConfig config, OnResultListener callback) {
-        this.config = config.clone();
-        OnResultListener l = this.config.isMemCacheEnabled() ? new CacheResultListener(config.getCacheKey(), callback) : callback;
-        this.config.callback = new WeakReference<>(l);
+        conf = config.clone();
+        OnResultListener l = conf.isMemCacheEnabled() ? new CacheResultListener(conf.getCacheKey(), callback) : callback;
+        conf.callback = new WeakReference<>(l);
     }
 
     @NonNull
     public Subscription enableAaid(boolean enable) {
-        config.setQueryAaid(enable);
+        conf.setQueryAaid(enable);
         return this;
     }
 
     @NonNull
     public Subscription enableVaid(boolean enable) {
-        config.setQueryVaid(enable);
+        conf.setQueryVaid(enable);
         return this;
     }
 
     @NonNull
     public Subscription enableGoogleAdsId(boolean enable) {
-        config.setQueryGoogleAdsId(enable);
+        conf.setQueryGoogleAdsId(enable);
         return this;
     }
 
     @NonNull
     public Disposable subscribe() {
         // cachedId is always null when cache is disabled.
-        IdentifierResult result = cache.get(config.getCacheKey());
+        IdentifierResult result = cache.get(conf.getCacheKey());
         if (result == null) {
             // post the runnable to the executor even on the async thread.
-            SerialRunnable runnable = new SerialRunnable(config);
-            config.getExecutor().execute(runnable);
+            SerialRunnable runnable = new SerialRunnable(conf);
+            conf.getExecutor().execute(runnable);
             return runnable;
         } else {
-            OnResultListener callback = config.getCallback().get();
+            OnResultListener callback = conf.getCallback().get();
             if (callback != null) {
                 Thread.runOnMainThread(0, () -> callback.onSuccess(result));
             }
