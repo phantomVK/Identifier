@@ -61,6 +61,12 @@ internal class SerialRunnable(config: ProviderConfig) : AbstractProvider(config)
   }
 
   private fun onExecute() {
+    val cached = CacheCenter.get(config)
+    if (cached != null) {
+      getCallback().onSuccess(cached)
+      return
+    }
+
     var isSuccess = false
     for (provider in getProviders()) {
       if (disposable.isDisposed) {
@@ -80,6 +86,7 @@ internal class SerialRunnable(config: ProviderConfig) : AbstractProvider(config)
       val latch = CountDownLatch(1)
       val resultCallback = object : OnResultListener {
         override fun onSuccess(result: IdentifierResult) {
+          CacheCenter.putIfAbsent(config, result)
           getCallback().onSuccess(result)
           isSuccess = true
           latch.countDown()
