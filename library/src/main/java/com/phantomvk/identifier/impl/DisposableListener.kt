@@ -1,6 +1,5 @@
 package com.phantomvk.identifier.impl
 
-import com.phantomvk.identifier.impl.Thread.runOnMainThread
 import com.phantomvk.identifier.disposable.Disposable
 import com.phantomvk.identifier.listener.OnResultListener
 import com.phantomvk.identifier.model.IdentifierResult
