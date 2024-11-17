@@ -4,14 +4,11 @@ import androidx.annotation.NonNull;
 
 import com.phantomvk.identifier.disposable.Disposable;
 import com.phantomvk.identifier.listener.OnResultListener;
-import com.phantomvk.identifier.model.IdentifierResult;
 import com.phantomvk.identifier.model.ProviderConfig;
 
 import java.lang.ref.WeakReference;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class Subscription {
-    private final static ConcurrentHashMap<String, IdentifierResult> cache = new ConcurrentHashMap<>();
     private final ProviderConfig conf;
 
     public Subscription(ProviderConfig config, OnResultListener callback) {

@@ -30,10 +30,9 @@ internal class ProviderConfig(val context: Context) {
   }
 
   fun getCacheKey(): String {
-    val builder = StringBuilder()
-    builder.append(queryAaid.compareTo(false))
-    builder.append(queryVaid.compareTo(false))
-    builder.append(queryGoogleAdsId.compareTo(false))
-    return builder.toString()
+    var flag = if (queryAaid) 1 else 0
+    if (queryVaid) flag += 2
+    if (queryGoogleAdsId) flag += 4
+    return flag.toString()
   }
 }
