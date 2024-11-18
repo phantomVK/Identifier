@@ -11,6 +11,7 @@ import com.phantomvk.identifier.provider.AbstractProvider
 import com.phantomvk.identifier.provider.AsusProvider
 import com.phantomvk.identifier.provider.CoolpadServiceProvider
 import com.phantomvk.identifier.provider.CoolpadSettingsProvider
+import com.phantomvk.identifier.provider.CooseaProvider
 import com.phantomvk.identifier.provider.FreemeProvider
 import com.phantomvk.identifier.provider.GoogleAdsIdProvider
 import com.phantomvk.identifier.provider.HonorSdkProvider
@@ -256,11 +257,11 @@ internal class SerialRunnable(config: ProviderConfig) : AbstractProvider(config)
       return
     }
 
-//    // Access denied finding property "ro.odm.manufacturer"
-//    if (sysPropertyEquals("ro.odm.manufacturer", "PRIZE")) {
-//      providers.add(CooseaProvider(config))
-//      return
-//    }
+    // Access denied finding property "ro.odm.manufacturer"
+    if (getSysProperty("ro.odm.manufacturer", "") == "PRIZE") {
+      providers.add(CooseaProvider(config))
+      return
+    }
 
     if (Build.MODEL.startsWith("xtc", true) || Build.MODEL.startsWith("imoo", true)) {
       providers.add(XtcProvider(config))
