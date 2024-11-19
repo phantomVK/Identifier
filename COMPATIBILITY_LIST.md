@@ -152,6 +152,7 @@
 | Manufacturer | Brand |     Name      |   Model   |  Device  | SDK_INT |                                  FingerPrint                                  |
 |:------------:|:-----:|:-------------:|:---------:|:--------:|:-------:|:-----------------------------------------------------------------------------:|
 |     OPPO     | OPPO  |     A79k      | OPPO A79k |   A79k   |   25    |           OPPO/A79k/A79k:7.1.1/N6F26Q/1573311976:user/release-keys            |
+|     OPPO     | OPPO  |     A83t      | OPPO A83t |   A83t   |   25    |           OPPO/A83t/A83t:7.1.1/N6F26Q/1573312196:user/release-keys            |
 |     OPPO     | OPPO  |      A5       |  PBAM00   |  PBAM00  |   27    |     OPPO/PBAM00/PBAM00:8.1.0/OPM1.171019.026/1594640100:user/release-keys     |
 |     OPPO     | OPPO  |      A5       |  PBBM30   |  PBBM30  |   27    |     OPPO/PBBM30/PBBM30:8.1.0/OPM1.171019.026/1595231200:user/release-keys     |
 |     OPPO     | OPPO  |      A7x      |  PBBM00   |  PBBM00  |   28    |       OPPO/PBBM00/PBBM00:9/PPR1.180610.011/1596430101:user/release-keys       |
@@ -185,10 +186,11 @@
 
 #### Samsung
 
-| Manufacturer |  Brand  |    Name    |  Model   | Device | SDK_INT |                              FingerPrint                               |   
-|:------------:|:-------:|:----------:|:--------:|:------:|:-------:|:----------------------------------------------------------------------:|
-|   samsung    | samsung | Galaxy a53 | SM-A5360 |  a53x  |   33    | samsung/a53xzc/a53x:13/TP1A.220624.014/A5360ZCS5CWC1:user/release-keys |
-|   samsung    | samsung | Galaxy S22 | SM-S9080 |  b0q   |   33    | samsung/b0qzcx/b0q:13/TP1A.220624.014/S9080ZCS4CWJ1:user/release-keys  |
+| Manufacturer |  Brand  |      Name      |  Model   |    Device    | SDK_INT |                                 FingerPrint                                  |   
+|:------------:|:-------:|:--------------:|:--------:|:------------:|:-------:|:----------------------------------------------------------------------------:|
+|   samsung    | samsung | Galaxy S7 edge | SM-G9350 | hero2qltechn |   26    | samsung/hero2qltezc/hero2qltechn:8.0.0/R16NW/G9350ZCS5CTA1:user/release-keys |
+|   samsung    | samsung |   Galaxy a53   | SM-A5360 |     a53x     |   33    |    samsung/a53xzc/a53x:13/TP1A.220624.014/A5360ZCS5CWC1:user/release-keys    |
+|   samsung    | samsung |   Galaxy S22   | SM-S9080 |     b0q      |   33    |    samsung/b0qzcx/b0q:13/TP1A.220624.014/S9080ZCS4CWJ1:user/release-keys     |
 
 #### Vivo
 
