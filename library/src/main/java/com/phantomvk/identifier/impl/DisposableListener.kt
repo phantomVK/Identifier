@@ -1,5 +1,7 @@
 package com.phantomvk.identifier.impl
 
+import android.os.Handler
+import android.os.Looper
 import com.phantomvk.identifier.disposable.Disposable
 import com.phantomvk.identifier.listener.OnResultListener
 import com.phantomvk.identifier.model.IdentifierResult
@@ -40,7 +42,7 @@ internal class DisposableListener(
 
       if (callback != null) {
         reference.get()?.let {
-          runOnMainThread(0) {
+          Handler(Looper.getMainLooper()).post {
             callback.invoke(it)
           }
         }
