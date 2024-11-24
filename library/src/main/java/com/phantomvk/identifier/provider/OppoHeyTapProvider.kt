@@ -10,24 +10,20 @@ import android.os.Parcel
 import com.phantomvk.identifier.model.ProviderConfig
 import java.security.MessageDigest
 
-internal open class OppoHeyTapProvider(config: ProviderConfig) : AbstractProvider(config) {
+internal open class OppoHeyTapProvider(
+  config: ProviderConfig,
+  private val descriptor: String = "com.heytap.openid.IOpenID",
+  private val pkg: String = "com.heytap.openid",
+  private val cls: String = "com.heytap.openid.IdentifyService",
+  private val action: String = "action.com.heytap.openid.OPEN_ID_SERVICE"
+) : AbstractProvider(config) {
 
   override fun isSupported(): Boolean {
-    return isPackageInfoExisted("com.heytap.openid")
+    return isPackageInfoExisted(pkg)
   }
 
   override fun run() {
-    getId(
-      "com.heytap.openid.IOpenID",
-      "com.heytap.openid",
-      "com.heytap.openid.IdentifyService",
-      "action.com.heytap.openid.OPEN_ID_SERVICE"
-    )
-  }
-
-  protected fun getId(descriptor: String, pkg: String, cla: String, action: String) {
-    val component = ComponentName(pkg, cla)
-    val intent = Intent(action).setComponent(component)
+    val intent = Intent(action).setComponent(ComponentName(pkg, cls))
     bindService(intent, object : BinderCallback {
       override fun call(binder: IBinder): BinderResult {
         val sign = when (val result = getSignatureHash()) {
@@ -103,11 +99,19 @@ internal open class OppoHeyTapProvider(config: ProviderConfig) : AbstractProvide
   private fun getId(binder: IBinder, descriptor: String, sign: String, code: String): BinderResult {
     val data = Parcel.obtain()
     val reply = Parcel.obtain()
+    val idName = when (code) {
+      "UDID" -> "GUID"
+      "OAID" -> "OUID"
+      "VAID" -> "DUID"
+      "AAID" -> "AUID"
+      else -> throw IllegalArgumentException("Unknown code: $code")
+    }
+
     try {
       data.writeInterfaceToken(descriptor)
       data.writeString(config.context.packageName)
       data.writeString(sign)
-      data.writeString(getIdName(code))
+      data.writeString(idName)
       binder.transact(1, data, reply, 0)
       reply.readException()
       return checkId(reply.readString())
@@ -116,16 +120,6 @@ internal open class OppoHeyTapProvider(config: ProviderConfig) : AbstractProvide
     } finally {
       reply.recycle()
       data.recycle()
-    }
-  }
-
-  private fun getIdName(name: String): String {
-    return when (name) {
-      "UDID" -> "GUID"
-      "OAID" -> "OUID"
-      "VAID" -> "DUID"
-      "AAID" -> "AUID"
-      else -> throw IllegalArgumentException("Unknown id name: $name")
     }
   }
 }
