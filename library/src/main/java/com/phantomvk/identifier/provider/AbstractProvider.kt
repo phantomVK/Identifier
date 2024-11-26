@@ -67,6 +67,15 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) :
     return getSysProperty(key, null)?.isNotBlank() == true
   }
 
+  protected fun queryId(type: IdEnum, callback: () -> BinderResult): String? {
+    val isEnabled = when (type) {
+      IdEnum.AAID -> config.queryAaid
+      IdEnum.VAID -> config.queryVaid
+    }
+
+    return if (isEnabled) (callback.invoke() as? BinderResult.Success)?.id else null
+  }
+
   protected fun checkId(id: String?, callback: OnResultListener? = null): BinderResult {
     val result = if (id.isNullOrBlank()) {
       BinderResult.Failed(ID_IS_NULL_OR_BLANK)
@@ -147,6 +156,8 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) :
     class Success(val id: String, val vaid: String? = null, val aaid: String? = null) : BinderResult()
     class Failed(val msg: String, val throwable: Throwable? = null) : BinderResult()
   }
+
+  protected enum class IdEnum { AAID, VAID }
 
   protected companion object {
     //    public static final String BLANK_ID_FORMAT = "00000000-0000-0000-0000-000000000000";
