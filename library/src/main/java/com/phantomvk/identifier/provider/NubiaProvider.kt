@@ -31,29 +31,32 @@ internal class NubiaProvider(config: ProviderConfig) : AbstractProvider(config) 
       }
     }
 
-    val bundle = client.call("getOAID", null, null)
-    val aaid = if (config.queryAaid) getId(client, "getAAID") else null
-    val vaid = if (config.queryVaid) getId(client, "getVAID") else null
-    releaseContentProviderClient(client)
-
-    if (bundle == null) {
-      getCallback().onError(BUNDLE_IS_NULL)
-      return
-    }
-
-    var id: String? = null
-    if (bundle.getInt("code", -1) == 0) {
-      id = bundle.getString("id")
-    }
-
-    when (val r = checkId(id)) {
-      is BinderResult.Failed -> getCallback().onError(r.msg, r.throwable)
-      is BinderResult.Success -> getCallback().onSuccess(IdentifierResult(r.id, aaid, vaid))
+    try {
+      when (val r = getId(client, "getOAID")) {
+        is BinderResult.Failed -> getCallback().onError(r.msg, r.throwable)
+        is BinderResult.Success -> {
+          val aaid = queryId(IdEnum.AAID) { getId(client, "getAAID") }
+          val vaid = queryId(IdEnum.VAID) { getId(client, "getVAID") }
+          getCallback().onSuccess(IdentifierResult(r.id, aaid, vaid))
+        }
+      }
+    } catch (t: Throwable) {
+      getCallback().onError(EXCEPTION_THROWN, t)
+    } finally {
+      releaseContentProviderClient(client)
     }
   }
 
-  private fun getId(client: ContentProviderClient, name: String): String? {
-    val id = client.call(name, config.context.packageName, null)?.getString("id")
-    return (checkId(id) as? BinderResult.Success)?.id
+  private fun getId(client: ContentProviderClient, name: String): BinderResult {
+    val bundle = client.call(name, config.context.packageName, null)
+    if (bundle == null) {
+      return BinderResult.Failed(BUNDLE_IS_NULL)
+    }
+
+    return if (bundle.getInt("code", -1) == 0) {
+      checkId(bundle.getString("id"))
+    } else {
+      BinderResult.Failed(ID_IS_INVALID)
+    }
   }
 }
