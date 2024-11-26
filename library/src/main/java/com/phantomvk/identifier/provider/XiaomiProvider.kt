@@ -29,8 +29,8 @@ internal class XiaomiProvider(config: ProviderConfig) : AbstractProvider(config)
     when (val r = getId("getOAID")) {
       is BinderResult.Failed -> getCallback().onError(r.msg, r.throwable)
       is BinderResult.Success -> {
-        val aaid = if (config.queryAaid) (getId("getAAID") as? BinderResult.Success)?.id else null
-        val vaid = if (config.queryVaid) (getId("getVAID") as? BinderResult.Success)?.id else null
+        val aaid = queryId(IdEnum.AAID) { getId("getAAID") }
+        val vaid = queryId(IdEnum.VAID) { getId("getVAID") }
         getCallback().onSuccess(IdentifierResult(r.id, aaid, vaid))
       }
     }
