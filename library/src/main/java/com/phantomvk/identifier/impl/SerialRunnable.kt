@@ -212,8 +212,8 @@ internal class SerialRunnable(config: ProviderConfig) : AbstractProvider(config)
       || isBrand("ONEPLUS")
       || isSysPropertyContainsKey("ro.build.version.opporom")
     ) {
-      providers.add(OppoColorOsProvider(config))
       providers.add(OppoHeyTapProvider(config))
+      providers.add(OppoColorOsProvider(config))
       return
     }
 
