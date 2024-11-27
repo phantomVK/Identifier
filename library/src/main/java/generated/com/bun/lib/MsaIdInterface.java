@@ -106,10 +106,6 @@ public interface MsaIdInterface extends android.os.IInterface
       {
         return mRemote;
       }
-      public java.lang.String getInterfaceDescriptor()
-      {
-        return DESCRIPTOR;
-      }
       @Override public java.lang.String getOAID() throws android.os.RemoteException
       {
         android.os.Parcel _data = android.os.Parcel.obtain();
@@ -117,7 +113,7 @@ public interface MsaIdInterface extends android.os.IInterface
         java.lang.String _result;
         try {
           _data.writeInterfaceToken(DESCRIPTOR);
-          boolean _status = mRemote.transact(Stub.TRANSACTION_getOAID, _data, _reply, 0);
+          mRemote.transact(Stub.TRANSACTION_getOAID, _data, _reply, 0);
           _reply.readException();
           _result = _reply.readString();
         }
@@ -134,7 +130,7 @@ public interface MsaIdInterface extends android.os.IInterface
         java.lang.String _result;
         try {
           _data.writeInterfaceToken(DESCRIPTOR);
-          boolean _status = mRemote.transact(Stub.TRANSACTION_getAAID, _data, _reply, 0);
+          mRemote.transact(Stub.TRANSACTION_getAAID, _data, _reply, 0);
           _reply.readException();
           _result = _reply.readString();
         }
@@ -151,7 +147,7 @@ public interface MsaIdInterface extends android.os.IInterface
         java.lang.String _result;
         try {
           _data.writeInterfaceToken(DESCRIPTOR);
-          boolean _status = mRemote.transact(Stub.TRANSACTION_getVAID, _data, _reply, 0);
+          mRemote.transact(Stub.TRANSACTION_getVAID, _data, _reply, 0);
           _reply.readException();
           _result = _reply.readString();
         }
@@ -168,7 +164,7 @@ public interface MsaIdInterface extends android.os.IInterface
         boolean _result;
         try {
           _data.writeInterfaceToken(DESCRIPTOR);
-          boolean _status = mRemote.transact(Stub.TRANSACTION_isDataArrived, _data, _reply, 0);
+          mRemote.transact(Stub.TRANSACTION_isDataArrived, _data, _reply, 0);
           _reply.readException();
           _result = (0!=_reply.readInt());
         }
@@ -185,7 +181,7 @@ public interface MsaIdInterface extends android.os.IInterface
         boolean _result;
         try {
           _data.writeInterfaceToken(DESCRIPTOR);
-          boolean _status = mRemote.transact(Stub.TRANSACTION_isSupported, _data, _reply, 0);
+          mRemote.transact(Stub.TRANSACTION_isSupported, _data, _reply, 0);
           _reply.readException();
           _result = (0!=_reply.readInt());
         }
@@ -201,7 +197,7 @@ public interface MsaIdInterface extends android.os.IInterface
         android.os.Parcel _reply = android.os.Parcel.obtain();
         try {
           _data.writeInterfaceToken(DESCRIPTOR);
-          boolean _status = mRemote.transact(Stub.TRANSACTION_shutDown, _data, _reply, 0);
+          mRemote.transact(Stub.TRANSACTION_shutDown, _data, _reply, 0);
           _reply.readException();
         }
         finally {
