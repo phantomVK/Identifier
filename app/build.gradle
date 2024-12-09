@@ -60,6 +60,9 @@ dependencies {
     implementation "androidx.appcompat:appcompat:$appcompact"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.4.0"
 
+    implementation "com.tencent:mmkv:1.2.14"
+    implementation 'androidx.cardview:cardview:1.0.0'
+
     testImplementation "junit:junit:$junit"
     androidTestImplementation "androidx.test.ext:junit:$android_junit"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_core"
