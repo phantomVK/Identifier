@@ -26,7 +26,7 @@
 
 -keepnames class com.phantomvk.identifier.provider.*
 
--keep class com.phantomvk.identifier.model.ProviderConfig
+-keep class com.phantomvk.identifier.model.ProviderConfig {*;}
 
 -keepnames class com.phantomvk.identifier.listener.OnResultListener
 

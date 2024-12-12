@@ -29,7 +29,7 @@ class SettingsActivity : AppCompatActivity() {
     toolbar.setNavigationOnClickListener { finish() }
 
     val switches = listOf(
-      ViewModel(R.id.switch_debug, "is_debug"),
+      ViewModel(R.id.switch_debug, "is_debug", BuildConfig.DEBUG),
       ViewModel(R.id.switch_experimental, "is_experimental"),
       ViewModel(R.id.switch_limit_ad_tracking, "is_limit_ad_tracking"),
       ViewModel(R.id.switch_mem_cache_enable, "is_mem_cache_enable", false),
