@@ -3,23 +3,40 @@ package com.phantomvk.identifier.app
 import android.app.Application
 import android.os.StrictMode
 import com.phantomvk.identifier.IdentifierManager
+import com.tencent.mmkv.MMKV
 
 
 class Application : Application() {
   companion object {
-    const val IS_DEBUG = true
-    const val IS_EXPERIMENTAL = true
-    const val IS_LIMIT_AD_TRACKING = true
-    const val IS_MEM_CACHE_ENABLE = false
-    const val IS_AAID_ENABLE = true
-    const val IS_VAID_ENABLE = true
-    const val IS_GOOGLE_ADS_ID_ENABLE = true
+    private val mmkv by lazy { MMKV.mmkvWithID("identifier_config") }
+
+    val IS_DEBUG: Boolean
+      get() = mmkv.getBoolean("is_debug", true)
+
+    val IS_EXPERIMENTAL: Boolean
+      get() = mmkv.getBoolean("is_experimental", true)
+
+    val IS_LIMIT_AD_TRACKING: Boolean
+      get() = mmkv.getBoolean("is_limit_ad_tracking", true)
+
+    val IS_MEM_CACHE_ENABLE: Boolean
+      get() = mmkv.getBoolean("is_mem_cache_enable", false)
+
+    val IS_AAID_ENABLE: Boolean
+      get() = mmkv.getBoolean("is_aaid_enable", true)
+
+    val IS_VAID_ENABLE: Boolean
+      get() = mmkv.getBoolean("is_vaid_enable", true)
+
+    val IS_GOOGLE_ADS_ID_ENABLE: Boolean
+      get() = mmkv.getBoolean("is_google_ads_id_enable", true)
   }
 
   override fun onCreate() {
     super.onCreate()
+    MMKV.initialize(this)
 
-    if (BuildConfig.DEBUG) {
+    if (mmkv.getBoolean("is_strict_mode_enable", false)) {
       StrictMode.ThreadPolicy.Builder()
         .detectAll()
         .penaltyLog()
