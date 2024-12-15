@@ -156,6 +156,8 @@
 |     OPPO     | OPPO  |      A5       |  PBAM00   |  PBAM00  |   27    |     OPPO/PBAM00/PBAM00:8.1.0/OPM1.171019.026/1594640100:user/release-keys     |
 |     OPPO     | OPPO  |      A5       |  PBBM30   |  PBBM30  |   27    |     OPPO/PBBM30/PBBM30:8.1.0/OPM1.171019.026/1595231200:user/release-keys     |
 |     OPPO     | OPPO  |      A7x      |  PBBM00   |  PBBM00  |   28    |       OPPO/PBBM00/PBBM00:9/PPR1.180610.011/1596430101:user/release-keys       |
+|     OPPO     | OPPO  |      K1       |  PBCM30   |  PBCM30  |   29    |      OPPO/PBCM30/PBCM30:10/QKQ1.191224.003/1615196842:user/release-keys       |
+|     OPPO     | OPPO  |     Reno      |  PCAM00   |  OP46B1  |   30    |     OPPO/PCAM00/OP46B1:11/RKQ1.201217.002/1702387555942:user/release-keys     |
 |     OPPO     | OPPO  |      A8       |  PDBM00   |  OP4AED  |   28    |       OPPO/PDBM00/OP4AED:9/PPR1.180610.011/1641904128:user/release-keys       |
 |     OPPO     | OPPO  |      R15      |  PACM00   |  PACM00  |   29    |      OPPO/PACM00/PACM00:10/QP1A.190711.020/2021050100:user/release-keys       |
 |     OPPO     | OPPO  | Reno 10x Zoom |  PCCM00   |  OP46C3  |   31    |    OPPO/PCCM00/OP46C3:12/SKQ1.211113.001/P.202210140345:user/release-keys     |
