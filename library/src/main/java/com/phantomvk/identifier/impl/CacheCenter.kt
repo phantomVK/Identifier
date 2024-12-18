@@ -12,8 +12,6 @@ internal object CacheCenter {
   }
 
   fun putIfAbsent(config: ProviderConfig, result: IdentifierResult) {
-    if (config.isMemCacheEnabled) {
-      map.putIfAbsent(config.getCacheKey(), result)
-    }
+    if (config.isMemCacheEnabled) map.putIfAbsent(config.getCacheKey(), result)
   }
 }

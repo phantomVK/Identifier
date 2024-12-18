@@ -68,8 +68,8 @@ internal open class OppoHeyTapProvider(
     if (bytes.isEmpty()) return null
 
     return try {
-      val sb = StringBuilder()
       val byteArray = MessageDigest.getInstance("SHA1").digest(bytes)
+      val sb = StringBuilder(40)
 
       for (byte in byteArray) {
         sb.append(String.format("%02x", byte))
