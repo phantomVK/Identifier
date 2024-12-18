@@ -2,16 +2,23 @@ package com.phantomvk.identifier.impl
 
 import com.phantomvk.identifier.model.IdentifierResult
 import com.phantomvk.identifier.model.ProviderConfig
-import java.util.concurrent.ConcurrentHashMap
 
 internal object CacheCenter {
-  private val map = ConcurrentHashMap<String, IdentifierResult>()
+
+  // https://issuetracker.google.com/issues/37042460
+  private val map = HashMap<String, IdentifierResult>()
 
   fun get(config: ProviderConfig): IdentifierResult? {
-    return if (config.isMemCacheEnabled) map[config.getCacheKey()] else null
+    return if (config.isMemCacheEnabled) {
+      synchronized(map) { map[config.getCacheKey()] }
+    } else {
+      null
+    }
   }
 
   fun putIfAbsent(config: ProviderConfig, result: IdentifierResult) {
-    if (config.isMemCacheEnabled) map.putIfAbsent(config.getCacheKey(), result)
+    if (config.isMemCacheEnabled) {
+      synchronized(map) { map.put(config.getCacheKey(), result) }
+    }
   }
 }
