@@ -36,9 +36,8 @@ public class Subscription {
 
     @NonNull
     public Disposable subscribe() {
-        // post the runnable to the executor even on the async thread.
         SerialRunnable runnable = new SerialRunnable(conf);
-        conf.getExecutor().execute(runnable);
+        runnable.run();
         return runnable;
     }
 }

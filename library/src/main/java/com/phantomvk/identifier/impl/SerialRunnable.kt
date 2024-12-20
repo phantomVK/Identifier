@@ -1,7 +1,6 @@
 package com.phantomvk.identifier.impl
 
 import android.os.Build
-import android.os.Looper
 import com.phantomvk.identifier.disposable.Disposable
 import com.phantomvk.identifier.listener.OnResultListener
 import com.phantomvk.identifier.log.Log
@@ -35,7 +34,6 @@ import com.phantomvk.identifier.provider.XiaomiProvider
 import com.phantomvk.identifier.provider.XtcProvider
 import com.phantomvk.identifier.provider.ZteProvider
 import com.phantomvk.identifier.provider.ZuiProvider
-import java.util.concurrent.CountDownLatch
 
 internal class SerialRunnable(config: ProviderConfig) : AbstractProvider(config), Disposable {
 
@@ -50,71 +48,55 @@ internal class SerialRunnable(config: ProviderConfig) : AbstractProvider(config)
   }
 
   override fun run() {
-    if (Looper.myLooper() == Looper.getMainLooper()) {
-      if (config.isDebug) {
-        throw RuntimeException("Do not execute runnable on the main thread.")
-      } else {
-        Thread { onExecute() }.start()
-      }
+    val cached = CacheCenter.get(config)
+    if (cached == null) {
+      config.executor.execute { execute(0, getProviders()) }
     } else {
-      onExecute()
+      getCallback().onSuccess(cached)
     }
   }
 
-  private fun onExecute() {
-    val cached = CacheCenter.get(config)
-    if (cached != null) {
-      getCallback().onSuccess(cached)
+  private fun execute(index: Int, providers: List<AbstractProvider>) {
+    if (index == providers.size) {
+      getCallback().onError(NO_IMPLEMENTATION_FOUND)
       return
     }
 
-    var isSuccess = false
-    for (provider in getProviders()) {
-      if (disposable.isDisposed) {
-        return
+    if (disposable.isDisposed) {
+      return
+    }
+
+    val provider = providers[index]
+    val isSupported = try {
+      provider.isSupported()
+    } catch (t: Throwable) {
+      false
+    }
+
+    if (!isSupported) {
+      config.executor.execute { execute(index + 1, providers) }
+      return
+    }
+
+    val resultCallback = object : OnResultListener {
+      override fun onSuccess(result: IdentifierResult) {
+        CacheCenter.putIfAbsent(config, result)
+        getCallback().onSuccess(result)
       }
 
-      val isSupported = try {
-        provider.isSupported()
-      } catch (t: Throwable) {
-        false
-      }
-
-      if (!isSupported) {
-        continue
-      }
-
-      val latch = CountDownLatch(1)
-      val resultCallback = object : OnResultListener {
-        override fun onSuccess(result: IdentifierResult) {
-          CacheCenter.putIfAbsent(config, result)
-          getCallback().onSuccess(result)
-          isSuccess = true
-          latch.countDown()
-        }
-
-        override fun onError(msg: String, t: Throwable?) {
-          Log.e("SerialRunnable", "${provider.javaClass.simpleName} onError.", t)
-          latch.countDown()
-        }
-      }
-
-      // execute Runnable safely.
-      try {
-        provider.setCallback(resultCallback)
-        provider.run()
-      } catch (t: Throwable) {
-        getCallback().onError(EXCEPTION_THROWN, t)
-      }
-
-      latch.await()
-
-      if (isSuccess) {
-        return
+      override fun onError(msg: String, t: Throwable?) {
+        Log.e("SerialRunnable", "${provider.javaClass.simpleName} onError.", t)
+        config.executor.execute { execute(index + 1, providers) }
       }
     }
 
-    getCallback().onError(NO_IMPLEMENTATION_FOUND)
+    // execute Runnable safely.
+    try {
+      provider.setCallback(resultCallback)
+      provider.run()
+    } catch (t: Throwable) {
+      getCallback().onError(EXCEPTION_THROWN, t)
+    }
   }
 
   override fun dispose() {

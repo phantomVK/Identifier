@@ -10,7 +10,7 @@ import com.phantomvk.identifier.log.Log;
 import com.phantomvk.identifier.log.Logger;
 import com.phantomvk.identifier.model.ProviderConfig;
 
-import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
 
 public final class IdentifierManager {
     private static volatile IdentifierManager sInstance = null;
@@ -76,7 +76,7 @@ public final class IdentifierManager {
         }
 
         @NonNull
-        public Builder setExecutor(@NonNull Executor executor) {
+        public Builder setExecutor(@NonNull ExecutorService executor) {
             config.setExecutor(executor);
             return this;
         }

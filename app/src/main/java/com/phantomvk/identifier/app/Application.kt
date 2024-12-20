@@ -4,6 +4,7 @@ import android.app.Application
 import android.os.StrictMode
 import com.phantomvk.identifier.IdentifierManager
 import com.tencent.mmkv.MMKV
+import java.util.concurrent.Executors
 
 
 class Application : Application() {
@@ -55,7 +56,7 @@ class Application : Application() {
       .setExperimental(IS_EXPERIMENTAL)
       .setLimitAdTracking(IS_LIMIT_AD_TRACKING)
       .setMemCacheEnable(IS_MEM_CACHE_ENABLE)
-      .setExecutor { Thread(it).start() } // optional: setup custom ThreadPoolExecutor
+      .setExecutor(Executors.newFixedThreadPool(1)) // optional: setup custom ThreadPoolExecutor
       .setLogger(LoggerImpl())
       .init()
   }
