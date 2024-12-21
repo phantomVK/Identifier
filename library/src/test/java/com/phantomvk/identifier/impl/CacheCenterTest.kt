@@ -25,7 +25,7 @@ class CacheCenterTest {
   @Test
   fun testGetWithMemCacheEnabled() {
     providerConfig.isMemCacheEnabled = true
-    cacheCenter.putIfAbsent(providerConfig, identifierResult)
+    cacheCenter.put(providerConfig, identifierResult)
 
     val result = cacheCenter.get(providerConfig)
     assertNotEquals(identifierResult, result)
@@ -34,7 +34,7 @@ class CacheCenterTest {
   @Test
   fun testGetWithMemCacheDisabled() {
     providerConfig.isMemCacheEnabled = false
-    cacheCenter.putIfAbsent(providerConfig, identifierResult)
+    cacheCenter.put(providerConfig, identifierResult)
 
     val result = cacheCenter.get(providerConfig)
     assertNull(result)
@@ -43,7 +43,7 @@ class CacheCenterTest {
   @Test
   fun testPutIfAbsentWithMemCacheEnabled() {
     providerConfig.isMemCacheEnabled = true
-    cacheCenter.putIfAbsent(providerConfig, identifierResult)
+    cacheCenter.put(providerConfig, identifierResult)
 
     val result = cacheCenter.get(providerConfig)
     assertNotEquals(identifierResult, result)
@@ -52,7 +52,7 @@ class CacheCenterTest {
   @Test
   fun testPutIfAbsentWithMemCacheDisabled() {
     providerConfig.isMemCacheEnabled = false
-    cacheCenter.putIfAbsent(providerConfig, identifierResult)
+    cacheCenter.put(providerConfig, identifierResult)
 
     val result = cacheCenter.get(providerConfig)
     assertNull(result)
@@ -61,10 +61,10 @@ class CacheCenterTest {
   @Test
   fun testPutIfAbsentWithExistingKey() {
     providerConfig.isMemCacheEnabled = true
-    cacheCenter.putIfAbsent(providerConfig, identifierResult)
+    cacheCenter.put(providerConfig, identifierResult)
 
     val newIdentifierResult = IdentifierResult(oaid = "oaid")
-    cacheCenter.putIfAbsent(providerConfig, newIdentifierResult)
+    cacheCenter.put(providerConfig, newIdentifierResult)
 
     val result = cacheCenter.get(providerConfig)
     assertEquals(identifierResult, result)

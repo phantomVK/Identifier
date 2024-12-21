@@ -16,7 +16,7 @@ internal object CacheCenter {
     }
   }
 
-  fun putIfAbsent(config: ProviderConfig, result: IdentifierResult) {
+  fun put(config: ProviderConfig, result: IdentifierResult) {
     if (config.isMemCacheEnabled) {
       synchronized(map) { map.put(config.getCacheKey(), result) }
     }

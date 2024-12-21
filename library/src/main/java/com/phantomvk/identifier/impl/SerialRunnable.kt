@@ -80,7 +80,7 @@ internal class SerialRunnable(config: ProviderConfig) : AbstractProvider(config)
 
     val resultCallback = object : OnResultListener {
       override fun onSuccess(result: IdentifierResult) {
-        CacheCenter.putIfAbsent(config, result)
+        CacheCenter.put(config, result)
         getCallback().onSuccess(result)
       }
 
