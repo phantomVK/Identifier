@@ -62,6 +62,7 @@ dependencies {
 
     implementation "com.tencent:mmkv:1.2.14"
     implementation 'androidx.cardview:cardview:1.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.2.1'
 
     testImplementation "junit:junit:$junit"
     androidTestImplementation "androidx.test.ext:junit:$android_junit"

@@ -14,13 +14,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.phantomvk.identifier.IdentifierManager
-import com.phantomvk.identifier.app.Application.Companion.IS_AAID_ENABLE
-import com.phantomvk.identifier.app.Application.Companion.IS_DEBUG
-import com.phantomvk.identifier.app.Application.Companion.IS_EXPERIMENTAL
-import com.phantomvk.identifier.app.Application.Companion.IS_GOOGLE_ADS_ID_ENABLE
-import com.phantomvk.identifier.app.Application.Companion.IS_LIMIT_AD_TRACKING
-import com.phantomvk.identifier.app.Application.Companion.IS_MEM_CACHE_ENABLE
-import com.phantomvk.identifier.app.Application.Companion.IS_VAID_ENABLE
+import com.phantomvk.identifier.app.settings.Settings
+import com.phantomvk.identifier.app.settings.SettingsActivity
 import com.phantomvk.identifier.disposable.Disposable
 import com.phantomvk.identifier.listener.OnResultListener
 import com.phantomvk.identifier.model.IdentifierResult
@@ -54,16 +49,24 @@ class MainActivity : AppCompatActivity() {
     disposable = IdentifierManager
       .getInstance()
       .setSubscriber(listener)
-      .enableAaid(IS_AAID_ENABLE)
-      .enableVaid(IS_VAID_ENABLE)
-      .enableGoogleAdsId(IS_GOOGLE_ADS_ID_ENABLE)
+      .enableAaid(Settings.Aaid.getValue())
+      .enableVaid(Settings.Vaid.getValue())
+      .enableGoogleAdsId(Settings.GoogleAdsId.getValue())
       .subscribe()
   }
 
   private fun updateSuccessInfo(msg: IdentifierResult) {
+    val deviceStr = deviceInfo().append("\n* oaid: ${msg.oaid}\n\n")
+    if (!Settings.ProvidersDetails.getValue()) {
+      showInfo(deviceStr.toString())
+      return
+    }
+
     lifecycleScope.launch(Dispatchers.IO) {
+      val builder = StringBuilder()
       val str = getResultList().joinToString("\n\n") { model ->
-        val builder = StringBuilder("# ${model.tag} (${model.ts}μs)\n")
+        builder.setLength(0)
+        builder.append("# ${model.tag} (${model.ts}μs)\n")
         if (model.result == null) {
           builder.append("-msg: ${model.msg}")
         } else {
@@ -72,11 +75,9 @@ class MainActivity : AppCompatActivity() {
           model.result.vaid?.let { list.add("-vaid: $it") }
           builder.append(list.joinToString("\n"))
         }
-        builder.toString()
       }
 
-      val deviceStr = deviceInfo().append("\n* oaid: ${msg.oaid}\n\n").append(str).toString()
-      showInfo(deviceStr)
+      showInfo(deviceStr.append(str).toString())
     }
   }
 
@@ -182,13 +183,13 @@ class MainActivity : AppCompatActivity() {
 
     val c = Class.forName("com.phantomvk.identifier.model.ProviderConfig")
     val config = c.getConstructor(Context::class.java).newInstance(application)
-    c.getMethod("setDebug", Boolean::class.java).invoke(config, IS_DEBUG)
-    c.getMethod("setExperimental", Boolean::class.java).invoke(config, IS_EXPERIMENTAL)
-    c.getMethod("setLimitAdTracking", Boolean::class.java).invoke(config, IS_LIMIT_AD_TRACKING)
-    c.getMethod("setMemCacheEnabled", Boolean::class.java).invoke(config, IS_MEM_CACHE_ENABLE)
-    c.getMethod("setQueryAaid", Boolean::class.java).invoke(config, IS_AAID_ENABLE)
-    c.getMethod("setQueryVaid", Boolean::class.java).invoke(config, IS_VAID_ENABLE)
-    c.getMethod("setQueryGoogleAdsId", Boolean::class.java).invoke(config, IS_GOOGLE_ADS_ID_ENABLE)
+    c.getMethod("setDebug", Boolean::class.java).invoke(config, Settings.Debug.getValue())
+    c.getMethod("setExperimental", Boolean::class.java).invoke(config, Settings.Experimental.getValue())
+    c.getMethod("setLimitAdTracking", Boolean::class.java).invoke(config, Settings.LimitAdTracking.getValue())
+    c.getMethod("setMemCacheEnabled", Boolean::class.java).invoke(config,Settings. MemCache.getValue())
+    c.getMethod("setQueryAaid", Boolean::class.java).invoke(config, Settings.Aaid.getValue())
+    c.getMethod("setQueryVaid", Boolean::class.java).invoke(config, Settings.Vaid.getValue())
+    c.getMethod("setQueryGoogleAdsId", Boolean::class.java).invoke(config, Settings.GoogleAdsId.getValue())
     c.getMethod("setExecutor", Executor::class.java).invoke(config, Executor { r -> Thread(r).start() })
     c.getMethod("setCallback", WeakReference::class.java).invoke(config, WeakReference(object : OnResultListener {
       override fun onSuccess(result: IdentifierResult) {}
