@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.os.Looper
 import android.util.Log
 import android.widget.Button
 import android.widget.TextView
@@ -41,8 +42,8 @@ class MainActivity : AppCompatActivity() {
 
   private fun getId() {
     val listener = object : OnResultListener {
-      override fun onSuccess(result: IdentifierResult) { updateSuccessInfo(result) }
-      override fun onError(msg: String, t: Throwable?) { updateErrorInfo(msg, t) }
+      override fun onSuccess(result: IdentifierResult) { assertOnUiThread { updateSuccessInfo(result) } }
+      override fun onError(msg: String, t: Throwable?) { assertOnUiThread{ updateErrorInfo(msg, t) } }
     }
 
     disposable?.dispose()
@@ -199,5 +200,13 @@ class MainActivity : AppCompatActivity() {
     val clz = Class.forName("com.phantomvk.identifier.impl.SerialRunnable")
     return clz.getDeclaredMethod("getProviders").apply { isAccessible = true }
       .invoke(clz.getConstructor(c).newInstance(config)) as List<*>
+  }
+
+  private fun assertOnUiThread(runnable: Runnable) {
+    if (Looper.getMainLooper() == Looper.myLooper()) {
+      runnable.run()
+    } else {
+      throw RuntimeException("Should run on UiThread.")
+    }
   }
 }
