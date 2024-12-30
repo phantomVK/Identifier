@@ -135,7 +135,6 @@ class MainActivity : AppCompatActivity() {
 
     val list = ArrayList<ResultModel>()
     for (provider in getProviderList()) {
-      val startNameTs = System.nanoTime()
       val isSupported = try {
         isSupportedMethod.invoke(provider) as Boolean
       } catch (t: Throwable) {
@@ -147,8 +146,9 @@ class MainActivity : AppCompatActivity() {
       }
 
       val latch = CountDownLatch(1)
-      val simpleName = (provider as Any).javaClass.simpleName
       val resultCallback = object : OnResultListener {
+        private val simpleName = (provider as Any).javaClass.simpleName
+        private val startNanoTime = System.nanoTime()
         override fun onSuccess(result: IdentifierResult) {
           list.add(ResultModel(simpleName, result, getNanoTimeStamp()))
           latch.countDown()
@@ -160,7 +160,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         private fun getNanoTimeStamp(): String {
-          val consumed = (System.nanoTime() - startNameTs) / 1000L
+          val consumed = (System.nanoTime() - startNanoTime) / 1000L
           return decimalFormat.format(consumed)
         }
       }
