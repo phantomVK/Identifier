@@ -29,6 +29,7 @@ public final class IdentifierManager {
         return sInstance;
     }
 
+    @NonNull
     public Subscription setSubscriber(@NonNull OnResultListener callback) {
         return new Subscription(config, callback);
     }
