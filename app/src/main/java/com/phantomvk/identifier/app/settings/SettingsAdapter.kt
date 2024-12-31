@@ -6,13 +6,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.phantomvk.identifier.app.R
 
 class SettingsAdapter(
-  private val layoutInflater: LayoutInflater,
-  private val settings: List<Settings>
+  private val inflater: LayoutInflater,
+  private val settings: Array<Settings>,
+  private val listener: Runnable
 ) : RecyclerView.Adapter<SettingsViewHolder>() {
 
   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SettingsViewHolder {
-    val v = layoutInflater.inflate(R.layout.item_switch, parent, false)
-    return SettingsViewHolder(v)
+    val v = inflater.inflate(R.layout.item_switch, parent, false)
+    return SettingsViewHolder(v, listener)
   }
 
   override fun onBindViewHolder(holder: SettingsViewHolder, position: Int) {
