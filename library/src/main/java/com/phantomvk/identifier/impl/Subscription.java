@@ -17,6 +17,12 @@ public class Subscription {
     }
 
     @NonNull
+    public Subscription enableAsyncCallback(boolean enable) {
+        conf.setAsyncCallback(enable);
+        return this;
+    }
+
+    @NonNull
     public Subscription enableAaid(boolean enable) {
         conf.setQueryAaid(enable);
         return this;

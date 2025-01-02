@@ -38,6 +38,7 @@ class SettingsActivity : AppCompatActivity() {
     val config = m.getDeclaredField("config").apply { isAccessible = true }.get(i)
     val c = Class.forName("com.phantomvk.identifier.model.ProviderConfig")
     val booleanClass = Boolean::class.java
+    c.getMethod("setAsyncCallback", booleanClass).invoke(config, Settings.AsyncCallback.getValue())
     c.getMethod("setDebug", booleanClass).invoke(config, Settings.Debug.getValue())
     c.getMethod("setExperimental", booleanClass).invoke(config, Settings.Experimental.getValue())
     c.getMethod("setLimitAdTracking", booleanClass).invoke(config, Settings.LimitAdTracking.getValue())

@@ -18,6 +18,7 @@ enum class Settings(
   private val key: String,
   private val defValue: Boolean
 ) {
+  AsyncCallback("Async callback", "is_async_callback", false),
   Debug("Debug mode", "is_debug", BuildConfig.DEBUG),
   Experimental("Experimental mode ", "is_experimental", true),
   LimitAdTracking("Limit Ad Tracking", "is_limit_ad_tracking", true),

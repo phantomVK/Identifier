@@ -37,7 +37,7 @@ import com.phantomvk.identifier.provider.ZuiProvider
 
 internal class SerialRunnable(config: ProviderConfig) : AbstractProvider(config), Disposable {
 
-  private val disposable = DisposableListener(config.callback)
+  private val disposable = DisposableListener(config)
 
   init {
     setCallback(disposable)
