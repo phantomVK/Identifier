@@ -41,15 +41,17 @@ class MainActivity : AppCompatActivity() {
   }
 
   private fun getId() {
+    val isAsync = Settings.AsyncCallback.getValue()
     val listener = object : OnResultListener {
-      override fun onSuccess(result: IdentifierResult) { assertOnUiThread { updateSuccessInfo(result) } }
-      override fun onError(msg: String, t: Throwable?) { assertOnUiThread{ updateErrorInfo(msg, t) } }
+      override fun onSuccess(result: IdentifierResult) { assertThread(isAsync) { updateSuccessInfo(result) } }
+      override fun onError(msg: String, t: Throwable?) { assertThread(isAsync) { updateErrorInfo(msg, t) } }
     }
 
     disposable?.dispose()
     disposable = IdentifierManager
       .getInstance()
       .setSubscriber(listener)
+      .enableAsyncCallback(isAsync)
       .enableAaid(Settings.Aaid.getValue())
       .enableVaid(Settings.Vaid.getValue())
       .enableGoogleAdsId(Settings.GoogleAdsId.getValue())
@@ -184,6 +186,7 @@ class MainActivity : AppCompatActivity() {
 
     val c = Class.forName("com.phantomvk.identifier.model.ProviderConfig")
     val config = c.getConstructor(Context::class.java).newInstance(application)
+    c.getMethod("setAsyncCallback", Boolean::class.java).invoke(config, Settings.AsyncCallback.getValue())
     c.getMethod("setDebug", Boolean::class.java).invoke(config, Settings.Debug.getValue())
     c.getMethod("setExperimental", Boolean::class.java).invoke(config, Settings.Experimental.getValue())
     c.getMethod("setLimitAdTracking", Boolean::class.java).invoke(config, Settings.LimitAdTracking.getValue())
@@ -202,11 +205,19 @@ class MainActivity : AppCompatActivity() {
       .invoke(clz.getConstructor(c).newInstance(config)) as List<*>
   }
 
-  private fun assertOnUiThread(runnable: Runnable) {
-    if (Looper.getMainLooper() == Looper.myLooper()) {
-      runnable.run()
+  private fun assertThread(isAsyncCallback: Boolean, runnable: Runnable) {
+    if (isAsyncCallback) {
+      if (Looper.getMainLooper() == Looper.myLooper()) {
+        throw RuntimeException("Should run on UiThread.")
+      } else {
+        runnable.run()
+      }
     } else {
-      throw RuntimeException("Should run on UiThread.")
+      if (Looper.getMainLooper() == Looper.myLooper()) {
+        runnable.run()
+      } else {
+        throw RuntimeException("Should run on UiThread.")
+      }
     }
   }
 }
