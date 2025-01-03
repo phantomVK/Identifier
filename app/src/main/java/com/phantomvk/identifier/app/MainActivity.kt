@@ -206,18 +206,14 @@ class MainActivity : AppCompatActivity() {
   }
 
   private fun assertThread(isAsyncCallback: Boolean, runnable: Runnable) {
-    if (isAsyncCallback) {
-      if (Looper.getMainLooper() == Looper.myLooper()) {
-        throw RuntimeException("Should run on UiThread.")
-      } else {
-        runnable.run()
-      }
-    } else {
-      if (Looper.getMainLooper() == Looper.myLooper()) {
-        runnable.run()
-      } else {
-        throw RuntimeException("Should run on UiThread.")
-      }
+    if (isAsyncCallback && Looper.getMainLooper() == Looper.myLooper()) {
+      throw RuntimeException("Should run on WorkerThread.")
     }
+
+    if (Looper.getMainLooper() != Looper.myLooper()) {
+      throw RuntimeException("Should run on UiThread.")
+    }
+
+    runnable.run()
   }
 }
