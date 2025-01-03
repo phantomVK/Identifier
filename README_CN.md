@@ -64,6 +64,7 @@ val listener = object : OnResultListener {
 IdentifierManager
   .getInstance()
   .setSubscriber(listener)
+  .enableAsyncCallback(false) // 可选：在异步线程执行结果回调，默认为关闭
   .enableAaid(false)
   .enableVaid(false)
   .enableGoogleAdsId(false) // 可选: 使用GoogleAdsId作为备选，默认关闭
