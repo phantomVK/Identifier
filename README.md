@@ -63,6 +63,7 @@ val listener = object : OnResultListener {
 IdentifierManager
   .getInstance()
   .setSubscriber(listener)
+  .enableAsyncCallback(false) // optional: invoke result callback in worker thread, default is false
   .enableAaid(false)
   .enableVaid(false)
   .enableGoogleAdsId(false) // optional: use GoogleAdsId as backup, default is false
