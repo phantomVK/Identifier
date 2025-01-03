@@ -5,10 +5,10 @@ import android.os.Looper
 import com.phantomvk.identifier.disposable.Disposable
 import com.phantomvk.identifier.listener.OnResultListener
 import com.phantomvk.identifier.model.IdentifierResult
-import java.lang.ref.WeakReference
+import com.phantomvk.identifier.model.ProviderConfig
 
 internal class DisposableListener(
-  private val reference: WeakReference<OnResultListener>
+  private val config: ProviderConfig
 ) : OnResultListener, Disposable {
 
   @Volatile
@@ -36,20 +36,27 @@ internal class DisposableListener(
     }
 
     synchronized(this) {
-      if (disposed) {
-        return
-      }
+      if (disposed) return else disposed = true
 
       if (callback != null) {
-        reference.get()?.let {
-          Handler(Looper.getMainLooper()).post {
-            callback.invoke(it)
+        config.callback.get()?.let {
+          if (config.asyncCallback) {
+            if (Looper.getMainLooper() == Looper.myLooper()) {
+              config.executor.execute { callback.invoke(it) }
+            } else {
+              callback.invoke(it)
+            }
+          } else {
+            if (Looper.getMainLooper() == Looper.myLooper()) {
+              callback.invoke(it)
+            } else {
+              Handler(Looper.getMainLooper()).post { callback.invoke(it) }
+            }
           }
         }
       }
 
-      reference.clear()
-      disposed = true
+      config.callback.clear()
     }
   }
 }

@@ -6,6 +6,7 @@ import java.lang.ref.WeakReference
 import java.util.concurrent.Executor
 
 internal class ProviderConfig(val context: Context) {
+  var asyncCallback = false
   var executor = Executor { c: Runnable -> Thread(c).start() }
   var isDebug = false
   var isExperimental = false
@@ -18,6 +19,7 @@ internal class ProviderConfig(val context: Context) {
 
   fun clone(): ProviderConfig {
     val config = ProviderConfig(context)
+    config.asyncCallback = asyncCallback
     config.executor = executor
     config.isDebug = isDebug
     config.isExperimental = isExperimental
