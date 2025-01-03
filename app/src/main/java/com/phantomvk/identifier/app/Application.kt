@@ -4,14 +4,14 @@ import android.app.Application
 import android.os.StrictMode
 import com.phantomvk.identifier.IdentifierManager
 import com.phantomvk.identifier.app.settings.Settings
-import com.tencent.mmkv.MMKV
+import com.phantomvk.identifier.app.settings.SettingsManager
 import java.util.concurrent.Executors
 
 
 class Application : Application() {
   override fun onCreate() {
     super.onCreate()
-    MMKV.initialize(this)
+    SettingsManager.init(this)
 
     if (Settings.StrictMode.getValue()) {
       StrictMode.ThreadPolicy.Builder()

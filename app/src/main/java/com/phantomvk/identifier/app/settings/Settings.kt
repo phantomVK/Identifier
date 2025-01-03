@@ -1,9 +1,17 @@
 package com.phantomvk.identifier.app.settings
 
+import android.content.Context
+import android.content.SharedPreferences
+import com.phantomvk.identifier.app.Application
 import com.phantomvk.identifier.app.BuildConfig
-import com.tencent.mmkv.MMKV
 
-private val mmkv by lazy(LazyThreadSafetyMode.NONE) { MMKV.mmkvWithID("identifier_config") }
+private lateinit var sharedPreferences: SharedPreferences
+
+object SettingsManager {
+  fun init(application: Application) {
+    sharedPreferences = application.getSharedPreferences("identifier_config", Context.MODE_PRIVATE)
+  }
+}
 
 enum class Settings(
   val title: String,
@@ -21,10 +29,10 @@ enum class Settings(
   ProvidersDetails("Show providers' details", "is_show_providers_details", true);
 
   fun getValue(): Boolean {
-    return mmkv.getBoolean(key, defValue)
+    return sharedPreferences.getBoolean(key, defValue)
   }
 
   fun setValue(value: Boolean) {
-    mmkv.putBoolean(key, value)
+    sharedPreferences.edit().putBoolean(key, value).apply()
   }
 }
