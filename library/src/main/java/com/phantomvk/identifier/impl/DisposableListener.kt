@@ -40,19 +40,17 @@ internal class DisposableListener(
 
       if (callback != null) {
         config.callback.get()?.let {
-          if (config.asyncCallback) {
-            if (Looper.getMainLooper() == Looper.myLooper()) {
-              config.executor.execute { callback.invoke(it) }
-            } else {
-              callback.invoke(it)
-            }
-          } else {
-            if (Looper.getMainLooper() == Looper.myLooper()) {
-              callback.invoke(it)
-            } else {
-              Handler(Looper.getMainLooper()).post { callback.invoke(it) }
-            }
+          if (config.asyncCallback && Looper.getMainLooper() == Looper.myLooper()) {
+            config.executor.execute { callback.invoke(it) }
+            return@let
           }
+
+          if (!config.asyncCallback && Looper.getMainLooper() != Looper.myLooper()) {
+            Handler(Looper.getMainLooper()).post { callback.invoke(it) }
+            return@let
+          }
+
+          callback.invoke(it)
         }
       }
 
