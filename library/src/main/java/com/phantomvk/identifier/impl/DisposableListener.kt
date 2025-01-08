@@ -14,8 +14,8 @@ internal class DisposableListener(
   @Volatile
   private var disposed = false
 
-  override fun onError(msg: String, t: Throwable?) {
-    invokeCallback { it.onError(msg, t) }
+  override fun onError(msg: String, throwable: Throwable?) {
+    invokeCallback { it.onError(msg, throwable) }
   }
 
   override fun onSuccess(result: IdentifierResult) {

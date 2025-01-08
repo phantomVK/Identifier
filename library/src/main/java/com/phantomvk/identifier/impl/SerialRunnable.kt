@@ -84,8 +84,8 @@ internal class SerialRunnable(config: ProviderConfig) : AbstractProvider(config)
         getCallback().onSuccess(result)
       }
 
-      override fun onError(msg: String, t: Throwable?) {
-        Log.e("SerialRunnable", "${provider.javaClass.simpleName} onError.", t)
+      override fun onError(msg: String, throwable: Throwable?) {
+        Log.e("SerialRunnable", "${provider.javaClass.simpleName} onError.", throwable)
         config.executor.execute { execute(index + 1, providers) }
       }
     }
