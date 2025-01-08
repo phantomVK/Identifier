@@ -6,11 +6,12 @@ import com.phantomvk.identifier.model.ProviderConfig
 internal object CacheCenter {
 
   // https://issuetracker.google.com/issues/37042460
-  private val map = HashMap<String, IdentifierResult>()
+  @Volatile
+  private var map = HashMap<String, IdentifierResult>()
 
   fun get(config: ProviderConfig): IdentifierResult? {
     return if (config.isMemCacheEnabled) {
-      synchronized(map) { map[config.getCacheKey()] }
+      map[config.getCacheKey()]
     } else {
       null
     }
@@ -18,7 +19,11 @@ internal object CacheCenter {
 
   fun put(config: ProviderConfig, result: IdentifierResult) {
     if (config.isMemCacheEnabled) {
-      synchronized(map) { map.put(config.getCacheKey(), result) }
+      synchronized(CacheCenter::class.java) {
+        val hm = HashMap(map)
+        hm[config.getCacheKey()] = result
+        map = hm
+      }
     }
   }
 }
