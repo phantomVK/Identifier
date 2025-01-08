@@ -5,7 +5,6 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 
 import com.phantomvk.identifier.impl.Subscription;
-import com.phantomvk.identifier.listener.OnResultListener;
 import com.phantomvk.identifier.log.Log;
 import com.phantomvk.identifier.log.Logger;
 import com.phantomvk.identifier.model.ProviderConfig;
@@ -21,17 +20,12 @@ public final class IdentifierManager {
     }
 
     @NonNull
-    public static IdentifierManager getInstance() {
+    public static Subscription build() {
         if (sInstance == null) {
             throw new RuntimeException("Should init first.");
         }
 
-        return sInstance;
-    }
-
-    @NonNull
-    public Subscription setSubscriber(@NonNull OnResultListener callback) {
-        return new Subscription(config, callback);
+        return new Subscription(sInstance.config);
     }
 
     public static class Builder {
@@ -55,12 +49,6 @@ public final class IdentifierManager {
         @NonNull
         public Builder setExperimental(boolean enable) {
             config.setExperimental(enable);
-            return this;
-        }
-
-        @NonNull
-        public Builder setLimitAdTracking(boolean enable) {
-            config.setLimitAdTracking(enable);
             return this;
         }
 

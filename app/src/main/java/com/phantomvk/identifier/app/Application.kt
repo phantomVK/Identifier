@@ -30,7 +30,6 @@ class Application : Application() {
     IdentifierManager.Builder(this)
       .setDebug(Settings.Debug.getValue())
       .setExperimental(Settings.Experimental.getValue())
-      .setLimitAdTracking(Settings.LimitAdTracking.getValue())
       .setMemCacheEnable(Settings.MemCache.getValue())
       .setExecutor(Executors.newFixedThreadPool(1)) // optional: setup custom ThreadPoolExecutor
       .setLogger(LoggerImpl())

@@ -11,9 +11,8 @@ import java.lang.ref.WeakReference;
 public class Subscription {
     private final ProviderConfig conf;
 
-    public Subscription(ProviderConfig config, OnResultListener callback) {
+    public Subscription(ProviderConfig config) {
         conf = config.clone();
-        conf.callback = new WeakReference<>(callback);
     }
 
     @NonNull
@@ -41,7 +40,14 @@ public class Subscription {
     }
 
     @NonNull
-    public Disposable subscribe() {
+    public Subscription setLimitAdTracking(boolean enable) {
+        conf.setLimitAdTracking(enable);
+        return this;
+    }
+
+    @NonNull
+    public Disposable subscribe(@NonNull OnResultListener callback) {
+        conf.callback = new WeakReference<>(callback);
         SerialRunnable runnable = new SerialRunnable(conf);
         runnable.run();
         return runnable;

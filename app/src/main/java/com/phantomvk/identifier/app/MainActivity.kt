@@ -44,18 +44,17 @@ class MainActivity : AppCompatActivity() {
     val isAsync = Settings.AsyncCallback.getValue()
     val listener = object : OnResultListener {
       override fun onSuccess(result: IdentifierResult) { assertThread(isAsync) { updateSuccessInfo(result) } }
-      override fun onError(msg: String, t: Throwable?) { assertThread(isAsync) { updateErrorInfo(msg, t) } }
+      override fun onError(msg: String, throwable: Throwable?) { assertThread(isAsync) { updateErrorInfo(msg, throwable) } }
     }
 
     disposable?.dispose()
-    disposable = IdentifierManager
-      .getInstance()
-      .setSubscriber(listener)
+    disposable = IdentifierManager.build()
       .enableAsyncCallback(isAsync)
       .enableAaid(Settings.Aaid.getValue())
       .enableVaid(Settings.Vaid.getValue())
       .enableGoogleAdsId(Settings.GoogleAdsId.getValue())
-      .subscribe()
+      .setLimitAdTracking(Settings.LimitAdTracking.getValue())
+      .subscribe(listener)
   }
 
   private fun updateSuccessInfo(msg: IdentifierResult) {
@@ -91,7 +90,9 @@ class MainActivity : AppCompatActivity() {
 
   private fun showInfo(deviceStr: String, t: Throwable? = null) {
     Log.i("IdentifierTAG", deviceStr, t)
-    Log.i("IdentifierTAG", "| ${Build.MANUFACTURER} | ${Build.BRAND} | === | ${Build.MODEL} | ${Build.DEVICE} | ${Build.VERSION.SDK_INT} | ${Build.FINGERPRINT} |")
+    Log.i("IdentifierTAG", "| ${Build.MANUFACTURER} | ${Build.BRAND} | === " +
+        "| ${Build.MODEL} | ${Build.DEVICE} " +
+        "| ${Build.VERSION.SDK_INT} | ${Build.FINGERPRINT} |")
 
     lifecycleScope.launch(Dispatchers.Main) {
       val textView = findViewById<TextView>(R.id.system_textview)
@@ -156,7 +157,7 @@ class MainActivity : AppCompatActivity() {
           latch.countDown()
         }
 
-        override fun onError(msg: String, t: Throwable?) {
+        override fun onError(msg: String, throwable: Throwable?) {
           list.add(ResultModel(simpleName, null, getNanoTimeStamp(), msg))
           latch.countDown()
         }
@@ -197,7 +198,7 @@ class MainActivity : AppCompatActivity() {
     c.getMethod("setExecutor", Executor::class.java).invoke(config, Executor { r -> Thread(r).start() })
     c.getMethod("setCallback", WeakReference::class.java).invoke(config, WeakReference(object : OnResultListener {
       override fun onSuccess(result: IdentifierResult) {}
-      override fun onError(msg: String, t: Throwable?) {}
+      override fun onError(msg: String, throwable: Throwable?) {}
     }))
 
     val clz = Class.forName("com.phantomvk.identifier.impl.SerialRunnable")

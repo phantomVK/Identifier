@@ -13,7 +13,7 @@ class ProviderConfigTest {
   fun testClone() {
     val mockOnResultListener = object : OnResultListener {
       override fun onSuccess(result: IdentifierResult) {}
-      override fun onError(msg: String, t: Throwable?) {}
+      override fun onError(msg: String, throwable: Throwable?) {}
     }
 
     val providerConfig = ProviderConfig(Application())

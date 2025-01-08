@@ -43,7 +43,6 @@ class Application : android.app.Application() {
     IdentifierManager.Builder(applicationContext)
       .setDebug(false)
       .setExperimental(false)
-      .setLimitAdTracking(false)
       .setMemCacheEnable(true)
       .setExecutor { Thread(it).start() } // optional: setup custom ThreadPoolExecutor
       .setLogger(LoggerImpl())
@@ -57,17 +56,16 @@ How to query the latest oaid:
 ```kotlin
 val listener = object : OnResultListener {
   override fun onSuccess(result: IdentifierResult) {}
-  override fun onError(msg: String, t: Throwable?) {}
+  override fun onError(msg: String, throwable: Throwable?) {}
 }
 
-IdentifierManager
-  .getInstance()
-  .setSubscriber(listener)
+IdentifierManager.build()
   .enableAsyncCallback(false) // optional: invoke result callback in worker thread, default is false
   .enableAaid(false)
   .enableVaid(false)
   .enableGoogleAdsId(false) // optional: use GoogleAdsId as backup, default is false
-  .subscribe()
+  .setLimitAdTracking(false)
+  .subscribe(listener)
 ```
 
 License
