@@ -1,6 +1,8 @@
 package com.phantomvk.identifier.impl
 
 import android.os.Build
+import android.os.Handler
+import android.os.Looper
 import com.phantomvk.identifier.disposable.Disposable
 import com.phantomvk.identifier.listener.OnResultListener
 import com.phantomvk.identifier.log.Log
@@ -35,12 +37,15 @@ import com.phantomvk.identifier.provider.XtcProvider
 import com.phantomvk.identifier.provider.ZteProvider
 import com.phantomvk.identifier.provider.ZuiProvider
 
-internal class SerialRunnable(config: ProviderConfig) : AbstractProvider(config), Disposable {
+internal class SerialRunnable(
+  config: ProviderConfig
+) : AbstractProvider(config), OnResultListener, Disposable {
 
-  private val disposable = DisposableListener(config)
+  @Volatile
+  private var disposed = false
 
   init {
-    setCallback(disposable)
+    setCallback(this)
   }
 
   override fun isSupported(): Boolean {
@@ -62,7 +67,7 @@ internal class SerialRunnable(config: ProviderConfig) : AbstractProvider(config)
       return
     }
 
-    if (disposable.isDisposed) {
+    if (disposed) {
       return
     }
 
@@ -99,12 +104,48 @@ internal class SerialRunnable(config: ProviderConfig) : AbstractProvider(config)
     }
   }
 
+  override fun onError(msg: String, throwable: Throwable?) {
+    invokeCallback { it.onError(msg, throwable) }
+  }
+
+  override fun onSuccess(result: IdentifierResult) {
+    invokeCallback { it.onSuccess(result) }
+  }
+
   override fun dispose() {
-    disposable.dispose()
+    invokeCallback()
   }
 
   override fun isDisposed(): Boolean {
-    return disposable.isDisposed
+    return disposed
+  }
+
+  private fun invokeCallback(callback: ((OnResultListener) -> Unit)? = null) {
+    if (disposed) {
+      return
+    }
+
+    synchronized(this) {
+      if (disposed) return else disposed = true
+
+      if (callback != null) {
+        config.callback.get()?.let {
+          if (config.asyncCallback && Looper.getMainLooper() == Looper.myLooper()) {
+            config.executor.execute { callback.invoke(it) }
+            return@let
+          }
+
+          if (!config.asyncCallback && Looper.getMainLooper() != Looper.myLooper()) {
+            Handler(Looper.getMainLooper()).post { callback.invoke(it) }
+            return@let
+          }
+
+          callback.invoke(it)
+        }
+      }
+
+      config.callback.clear()
+    }
   }
 
   private fun getProviders(): List<AbstractProvider> {
