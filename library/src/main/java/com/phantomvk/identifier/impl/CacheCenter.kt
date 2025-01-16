@@ -19,9 +19,15 @@ internal object CacheCenter {
 
   fun put(config: ProviderConfig, result: IdentifierResult) {
     if (config.isMemCacheEnabled) {
+      // fail-fast
+      val cacheKey = config.getCacheKey()
+      if (map[cacheKey] == result) {
+        return
+      }
+
       synchronized(CacheCenter::class.java) {
         val hm = HashMap(map)
-        hm[config.getCacheKey()] = result
+        hm[cacheKey] = result
         map = hm
       }
     }
