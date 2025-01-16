@@ -37,4 +37,13 @@ internal class ProviderConfig(val context: Context) {
     if (queryGoogleAdsId) flag += 4
     return flag.toString()
   }
+
+  internal val getSysProps by lazy {
+    try {
+      Class.forName("android.os.SystemProperties")
+        .getMethod("get", String::class.java, String::class.java)
+    } catch (t: Throwable) {
+      null
+    }
+  }
 }

@@ -83,7 +83,7 @@ internal class SerialRunnable(
       return
     }
 
-    val resultCallback = object : OnResultListener {
+    provider.setCallback(object : OnResultListener {
       override fun onSuccess(result: IdentifierResult) {
         CacheCenter.put(config, result)
         getCallback().onSuccess(result)
@@ -93,11 +93,10 @@ internal class SerialRunnable(
         Log.e("SerialRunnable", "${provider.javaClass.simpleName} onError.", throwable)
         config.executor.execute { execute(index + 1, providers) }
       }
-    }
+    })
 
     // execute Runnable safely.
     try {
-      provider.setCallback(resultCallback)
       provider.run()
     } catch (t: Throwable) {
       getCallback().onError(EXCEPTION_THROWN, t)
