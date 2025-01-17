@@ -3,11 +3,13 @@ package com.phantomvk.identifier.model
 import android.content.Context
 import com.phantomvk.identifier.listener.OnResultListener
 import java.lang.ref.WeakReference
-import java.util.concurrent.Executor
+import java.util.concurrent.LinkedBlockingQueue
+import java.util.concurrent.ThreadPoolExecutor
+import java.util.concurrent.TimeUnit
 
 internal class ProviderConfig(val context: Context) {
   var asyncCallback = false
-  var executor = Executor { c: Runnable -> Thread(c).start() }
+  var executor = ThreadPoolExecutor(0, 4, 10L, TimeUnit.SECONDS, LinkedBlockingQueue())
   var isDebug = false
   var isExperimental = false
   var isLimitAdTracking = false
