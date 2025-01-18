@@ -26,6 +26,10 @@ internal object CacheCenter {
       }
 
       synchronized(CacheCenter::class.java) {
+        if (map[cacheKey] == result) {
+          return
+        }
+
         val hm = HashMap(map)
         hm[cacheKey] = result
         map = hm
