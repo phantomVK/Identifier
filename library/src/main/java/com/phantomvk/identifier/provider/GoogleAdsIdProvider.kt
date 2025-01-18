@@ -16,6 +16,10 @@ internal class GoogleAdsIdProvider(config: ProviderConfig) : AbstractProvider(co
     return isPackageInfoExisted("com.android.vending")
   }
 
+  override fun getInterfaceName(): String {
+    return "com.google.android.gms.ads.identifier.internal.IAdvertisingIdService"
+  }
+
   override fun run() {
     val intent = Intent("com.google.android.gms.ads.identifier.service.START").setPackage("com.google.android.gms")
     bindService(intent, object : BinderCallback {
@@ -26,25 +30,9 @@ internal class GoogleAdsIdProvider(config: ProviderConfig) : AbstractProvider(co
           }
         }
 
-        return checkId(getId(binder))
+        return getId(binder, 1)
       }
     })
-  }
-
-  private fun getId(remote: IBinder): String? {
-    val data = Parcel.obtain()
-    val reply = Parcel.obtain()
-    try {
-      data.writeInterfaceToken("com.google.android.gms.ads.identifier.internal.IAdvertisingIdService")
-      remote.transact(1, data, reply, 0)
-      reply.readException()
-      return reply.readString()
-    } catch (t: Throwable) {
-      return null
-    } finally {
-      reply.recycle()
-      data.recycle()
-    }
   }
 
   private fun isLimitAdTrackingEnabled(remote: IBinder): Boolean {

@@ -12,6 +12,10 @@ internal class AsusProvider(config: ProviderConfig) : AbstractProvider(config) {
     return isPackageInfoExisted("com.asus.msa.SupplementaryDID")
   }
 
+  override fun getInterfaceName(): String {
+    return "com.asus.msa.SupplementaryDID.IDidAidlInterface"
+  }
+
   override fun run() {
     val componentName = ComponentName("com.asus.msa.SupplementaryDID", "com.asus.msa.SupplementaryDID.SupplementaryDIDService")
     val intent = Intent("com.asus.msa.action.ACCESS_DID").setComponent(componentName)
@@ -45,22 +49,6 @@ internal class AsusProvider(config: ProviderConfig) : AbstractProvider(config) {
       return (0 != reply.readInt())
     } catch (t: Throwable) {
       return false
-    } finally {
-      reply.recycle()
-      data.recycle()
-    }
-  }
-
-  private fun getId(remote: IBinder, code: Int): BinderResult {
-    val data = Parcel.obtain()
-    val reply = Parcel.obtain()
-    try {
-      data.writeInterfaceToken("com.asus.msa.SupplementaryDID.IDidAidlInterface")
-      remote.transact(code, data, reply, 0)
-      reply.readException()
-      return checkId(reply.readString())
-    } catch (t: Throwable) {
-      return BinderResult.Failed(EXCEPTION_THROWN, t)
     } finally {
       reply.recycle()
       data.recycle()

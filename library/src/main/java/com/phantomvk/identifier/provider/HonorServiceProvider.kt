@@ -49,17 +49,7 @@ internal class HonorServiceProvider(config: ProviderConfig) : AbstractProvider(c
       }
     }
 
-    try {
-      data.writeInterfaceToken("com.hihonor.cloudservice.oaid.IOAIDService")
-      data.writeStrongInterface(callback)
-      remote.transact(2, data, reply, 0)
-      reply.readException()
-    } catch (t: Throwable) {
-    } finally {
-      reply.recycle()
-      data.recycle()
-    }
-
+    callBinder(remote, callback, 2)
     latch.await()
     return result
   }
@@ -67,8 +57,6 @@ internal class HonorServiceProvider(config: ProviderConfig) : AbstractProvider(c
   private fun isLimited(remote: IBinder): BinderResult? {
     var result: BinderResult? = null
     val latch = CountDownLatch(1)
-    val data = Parcel.obtain()
-    val reply = Parcel.obtain()
     val callback = object : IOAIDCallBack.Stub() {
       override fun a(i: Int, j: Long, z: Boolean, f: Float, d: Double, str: String?) {}
       override fun onResult(i: Int, bundle: Bundle?) {
@@ -79,18 +67,23 @@ internal class HonorServiceProvider(config: ProviderConfig) : AbstractProvider(c
       }
     }
 
+    callBinder(remote, callback, 3)
+    latch.await()
+    return result
+  }
+
+  private fun callBinder(remote: IBinder, callback: IOAIDCallBack, code: Int) {
+    val data = Parcel.obtain()
+    val reply = Parcel.obtain()
     try {
       data.writeInterfaceToken("com.hihonor.cloudservice.oaid.IOAIDService")
       data.writeStrongInterface(callback)
-      remote.transact(3, data, reply, 0)
+      remote.transact(code, data, reply, 0)
       reply.readException()
     } catch (t: Throwable) {
     } finally {
       reply.recycle()
       data.recycle()
     }
-
-    latch.await()
-    return result
   }
 }

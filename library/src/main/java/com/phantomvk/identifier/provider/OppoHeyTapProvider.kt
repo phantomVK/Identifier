@@ -97,8 +97,6 @@ internal open class OppoHeyTapProvider(
   }
 
   private fun getId(binder: IBinder, descriptor: String, sign: String, code: String): BinderResult {
-    val data = Parcel.obtain()
-    val reply = Parcel.obtain()
     val idName = when (code) {
       "UDID" -> "GUID"
       "OAID" -> "OUID"
@@ -107,6 +105,8 @@ internal open class OppoHeyTapProvider(
       else -> throw IllegalArgumentException("Unknown code: $code")
     }
 
+    val data = Parcel.obtain()
+    val reply = Parcel.obtain()
     try {
       data.writeInterfaceToken(descriptor)
       data.writeString(config.context.packageName)

@@ -11,6 +11,10 @@ internal class QikuServiceProvider(config: ProviderConfig) : AbstractProvider(co
     return isPackageInfoExisted("com.qiku.id")
   }
 
+  override fun getInterfaceName(): String {
+    return "com.qiku.id.IOAIDInterface"
+  }
+
   override fun run() {
     val intent = Intent("qiku.service.action.id").setPackage("com.qiku.id")
     bindService(intent, object : BinderCallback {
@@ -21,11 +25,11 @@ internal class QikuServiceProvider(config: ProviderConfig) : AbstractProvider(co
           }
         }
 
-        when (val r = getId(binder, 3)) {
+        when (val r = getId(binder, 3, true)) {
           is BinderResult.Failed -> return r
           is BinderResult.Success -> {
-            val vaid = queryId(IdEnum.VAID) { getId(binder, 4) }
-            val aaid = queryId(IdEnum.AAID) { getId(binder, 5) }
+            val vaid = queryId(IdEnum.VAID) { getId(binder, 4, true) }
+            val aaid = queryId(IdEnum.AAID) { getId(binder, 5, true) }
             return BinderResult.Success(r.id, vaid, aaid)
           }
         }
@@ -48,23 +52,6 @@ internal class QikuServiceProvider(config: ProviderConfig) : AbstractProvider(co
 //      data.recycle()
 //    }
 //  }
-
-  private fun getId(binder: IBinder, code: Int): BinderResult {
-    val data = Parcel.obtain()
-    val reply = Parcel.obtain()
-    try {
-      data.writeInterfaceToken("com.qiku.id.IOAIDInterface")
-      data.writeString(config.context.packageName)
-      binder.transact(code, data, reply, 0)
-      reply.readException()
-      return checkId(reply.readString())
-    } catch (t: Throwable) {
-      return BinderResult.Failed(EXCEPTION_THROWN, t)
-    } finally {
-      reply.recycle()
-      data.recycle()
-    }
-  }
 
   private fun isLimited(binder: IBinder): Boolean {
     val data = Parcel.obtain()

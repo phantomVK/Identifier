@@ -24,6 +24,10 @@ internal class HuaweiServiceProvider(config: ProviderConfig) : AbstractProvider(
     return name != null
   }
 
+  override fun getInterfaceName(): String {
+    return "com.uodis.opendevice.aidl.OpenDeviceIdentifierService"
+  }
+
   override fun run() {
     val intent = Intent("com.uodis.opendevice.OPENIDS_SERVICE").setPackage(name)
     bindService(intent, object : BinderCallback {
@@ -34,25 +38,9 @@ internal class HuaweiServiceProvider(config: ProviderConfig) : AbstractProvider(
           }
         }
 
-        return checkId(getOaid(binder))
+        return getId(binder, 1)
       }
     })
-  }
-
-  private fun getOaid(remote: IBinder): String? {
-    val data = Parcel.obtain()
-    val reply = Parcel.obtain()
-    try {
-      data.writeInterfaceToken("com.uodis.opendevice.aidl.OpenDeviceIdentifierService")
-      remote.transact(1, data, reply, 0)
-      reply.readException()
-      return reply.readString()
-    } catch (t: Throwable) {
-      return null
-    } finally {
-      reply.recycle()
-      data.recycle()
-    }
   }
 
   private fun isOaidTrackLimited(remote: IBinder): Boolean {
