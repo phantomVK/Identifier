@@ -15,7 +15,7 @@ internal class CoolpadServiceProvider(config: ProviderConfig) : AbstractProvider
     return "com.coolpad.deviceidsupport.IDeviceIdManager"
   }
 
-  // oaid:2, vaid:3, aaid:4
+  // udid:1, oaid:2, vaid:3, aaid:4
   override fun run() {
     val componentName = ComponentName("com.coolpad.deviceidsupport", "com.coolpad.deviceidsupport.DeviceIdService")
     val intent = Intent().setComponent(componentName)

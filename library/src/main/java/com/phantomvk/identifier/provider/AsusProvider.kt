@@ -16,6 +16,7 @@ internal class AsusProvider(config: ProviderConfig) : AbstractProvider(config) {
     return "com.asus.msa.SupplementaryDID.IDidAidlInterface"
   }
 
+  // udid:2, oaid:3, vaid:4, aaid:5
   override fun run() {
     val componentName = ComponentName("com.asus.msa.SupplementaryDID", "com.asus.msa.SupplementaryDID.SupplementaryDIDService")
     val intent = Intent("com.asus.msa.action.ACCESS_DID").setComponent(componentName)
