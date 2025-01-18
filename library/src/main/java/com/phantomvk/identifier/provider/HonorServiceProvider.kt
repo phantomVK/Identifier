@@ -33,8 +33,6 @@ internal class HonorServiceProvider(config: ProviderConfig) : AbstractProvider(c
   private fun getId(remote: IBinder): BinderResult? {
     var result: BinderResult? = null
     val latch = CountDownLatch(1)
-    val data = Parcel.obtain()
-    val reply = Parcel.obtain()
     val callback = object : IOAIDCallBack.Stub() {
       override fun a(i: Int, j: Long, z: Boolean, f: Float, d: Double, str: String?) {}
       override fun onResult(i: Int, bundle: Bundle?) {
@@ -49,7 +47,7 @@ internal class HonorServiceProvider(config: ProviderConfig) : AbstractProvider(c
       }
     }
 
-    callBinder(remote, callback, 2)
+    callBinder(remote, latch, callback, 2)
     latch.await()
     return result
   }
@@ -67,12 +65,12 @@ internal class HonorServiceProvider(config: ProviderConfig) : AbstractProvider(c
       }
     }
 
-    callBinder(remote, callback, 3)
+    callBinder(remote, latch, callback, 3)
     latch.await()
     return result
   }
 
-  private fun callBinder(remote: IBinder, callback: IOAIDCallBack, code: Int) {
+  private fun callBinder(remote: IBinder, latch: CountDownLatch, callback: IOAIDCallBack, code: Int) {
     val data = Parcel.obtain()
     val reply = Parcel.obtain()
     try {
@@ -81,6 +79,7 @@ internal class HonorServiceProvider(config: ProviderConfig) : AbstractProvider(c
       remote.transact(code, data, reply, 0)
       reply.readException()
     } catch (t: Throwable) {
+      latch.countDown()
     } finally {
       reply.recycle()
       data.recycle()
