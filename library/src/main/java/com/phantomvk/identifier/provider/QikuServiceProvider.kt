@@ -37,12 +37,12 @@ internal class QikuServiceProvider(config: ProviderConfig) : AbstractProvider(co
     })
   }
 
-//  private fun isSupported(binder: IBinder): Int {
+//  private fun isSupported(remote: IBinder): Int {
 //    val data = Parcel.obtain()
 //    val reply = Parcel.obtain()
 //    try {
 //      data.writeInterfaceToken("com.qiku.id.IOAIDInterface")
-//      binder.transact(1, data, reply, 0)
+//      remote.transact(1, data, reply, 0)
 //      reply.readException()
 //      return reply.readInt()
 //    } catch (t: Throwable) {
@@ -53,12 +53,12 @@ internal class QikuServiceProvider(config: ProviderConfig) : AbstractProvider(co
 //    }
 //  }
 
-  private fun isLimited(binder: IBinder): Boolean {
+  private fun isLimited(remote: IBinder): Boolean {
     val data = Parcel.obtain()
     val reply = Parcel.obtain()
     try {
       data.writeInterfaceToken("com.qiku.id.IOAIDInterface")
-      binder.transact(8, data, reply, 0)
+      remote.transact(8, data, reply, 0)
       reply.readException()
       return (0 != reply.readInt())
     } catch (t: Throwable) {
