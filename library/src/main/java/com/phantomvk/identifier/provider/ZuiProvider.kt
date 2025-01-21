@@ -2,7 +2,6 @@ package com.phantomvk.identifier.provider
 
 import android.content.Intent
 import android.os.IBinder
-import android.os.Parcel
 import com.phantomvk.identifier.model.ProviderConfig
 
 internal class ZuiProvider(config: ProviderConfig) : AbstractProvider(config) {
@@ -38,18 +37,6 @@ internal class ZuiProvider(config: ProviderConfig) : AbstractProvider(config) {
   }
 
   private fun isSupport(remote: IBinder): Boolean {
-    val data = Parcel.obtain()
-    val reply = Parcel.obtain()
-    try {
-      data.writeInterfaceToken("com.zui.deviceidservice.IDeviceidInterface")
-      remote.transact(3, data, reply, 0)
-      reply.readException()
-      return 0 != reply.readInt()
-    } catch (t: Throwable) {
-      return true
-    } finally {
-      reply.recycle()
-      data.recycle()
-    }
+    return readBoolean(remote, 3, true, null)
   }
 }

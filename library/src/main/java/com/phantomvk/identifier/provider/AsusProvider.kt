@@ -3,7 +3,6 @@ package com.phantomvk.identifier.provider
 import android.content.ComponentName
 import android.content.Intent
 import android.os.IBinder
-import android.os.Parcel
 import com.phantomvk.identifier.model.ProviderConfig
 
 internal class AsusProvider(config: ProviderConfig) : AbstractProvider(config) {
@@ -28,11 +27,11 @@ internal class AsusProvider(config: ProviderConfig) : AbstractProvider(config) {
           }
         }
 
-        when (val r = getId(binder, 3)) {
+        when (val r = getId(binder, 3, false)) {
           is BinderResult.Failed -> return r
           is BinderResult.Success -> {
-            val vaid = queryId(IdEnum.VAID) { getId(binder, 4) }
-            val aaid = queryId(IdEnum.AAID) { getId(binder, 5) }
+            val vaid = queryId(IdEnum.VAID) { getId(binder, 4, false) }
+            val aaid = queryId(IdEnum.AAID) { getId(binder, 5, false) }
             return BinderResult.Success(r.id, vaid, aaid)
           }
         }
@@ -41,18 +40,6 @@ internal class AsusProvider(config: ProviderConfig) : AbstractProvider(config) {
   }
 
   private fun isSupport(remote: IBinder): Boolean {
-    val data = Parcel.obtain()
-    val reply = Parcel.obtain()
-    try {
-      data.writeInterfaceToken("com.asus.msa.SupplementaryDID.IDidAidlInterface")
-      remote.transact(1, data, reply, 0)
-      reply.readException()
-      return (0 != reply.readInt())
-    } catch (t: Throwable) {
-      return false
-    } finally {
-      reply.recycle()
-      data.recycle()
-    }
+    return readBoolean(remote, 1, true, null)
   }
 }

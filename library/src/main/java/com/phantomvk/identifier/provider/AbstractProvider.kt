@@ -65,7 +65,29 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) :
     return getSysProperty(key, null)?.isNotBlank() == true
   }
 
-  protected fun getId(remote: IBinder, code: Int, writePackageName: Boolean = false): BinderResult {
+  protected fun readBoolean(
+    remote: IBinder,
+    code: Int,
+    defValue: Boolean,
+    writeData: ((Parcel) -> Unit)?
+  ): Boolean {
+    val data = Parcel.obtain()
+    val reply = Parcel.obtain()
+    try {
+      data.writeInterfaceToken(getInterfaceName())
+      writeData?.invoke(data)
+      remote.transact(code, data, reply, 0)
+      reply.readException()
+      return 0 != reply.readInt()
+    } catch (t: Throwable) {
+      return defValue
+    } finally {
+      reply.recycle()
+      data.recycle()
+    }
+  }
+
+  protected fun getId(remote: IBinder, code: Int, writePackageName: Boolean): BinderResult {
     val data = Parcel.obtain()
     val reply = Parcel.obtain()
     try {

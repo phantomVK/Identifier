@@ -2,7 +2,6 @@ package com.phantomvk.identifier.provider
 
 import android.content.Intent
 import android.os.IBinder
-import android.os.Parcel
 import com.phantomvk.identifier.model.ProviderConfig
 
 /**
@@ -30,25 +29,12 @@ internal class GoogleAdsIdProvider(config: ProviderConfig) : AbstractProvider(co
           }
         }
 
-        return getId(binder, 1)
+        return getId(binder, 1, false)
       }
     })
   }
 
   private fun isLimitAdTrackingEnabled(remote: IBinder): Boolean {
-    val data = Parcel.obtain()
-    val reply = Parcel.obtain()
-    try {
-      data.writeInterfaceToken("com.google.android.gms.ads.identifier.internal.IAdvertisingIdService")
-      data.writeInt(1)
-      remote.transact(2, data, reply, 0)
-      reply.readException()
-      return 0 != reply.readInt()
-    } catch (t: Throwable) {
-      return false
-    } finally {
-      reply.recycle()
-      data.recycle()
-    }
+    return readBoolean(remote, 2, false) { it.writeInt(1) }
   }
 }
