@@ -7,12 +7,12 @@ import com.phantomvk.identifier.model.ProviderConfig
 
 internal class QikuBinderProvider(config: ProviderConfig) : AbstractProvider(config) {
 
-  private lateinit var binder: IBinder
+  private lateinit var remote: IBinder
 
   override fun isSupported(): Boolean {
     val clazz = Class.forName("android.os.ServiceManager")
     val method = clazz.getDeclaredMethod("getService", String::class.java)
-    binder = method.invoke(null, "qikuid") as? IBinder ?: return false
+    remote = method.invoke(null, "qikuid") as? IBinder ?: return false
     return true
   }
 
@@ -34,11 +34,11 @@ internal class QikuBinderProvider(config: ProviderConfig) : AbstractProvider(con
     }
   }
 
-//  private fun isSupported(binder: IBinder): Boolean {
+//  private fun isSupported(remote: IBinder): Boolean {
 //    val data = Parcel.obtain()
 //    val reply = Parcel.obtain()
 //    return try {
-//      binder.transact(2, data, reply, 0)
+//      remote.transact(2, data, reply, 0)
 //      reply.readInt() == 1
 //    } catch (t: Throwable) {
 //      false
@@ -53,7 +53,7 @@ internal class QikuBinderProvider(config: ProviderConfig) : AbstractProvider(con
     val reply = Parcel.obtain()
     try {
       data.writeString(config.context.packageName)
-      binder.transact(code, data, reply, 0)
+      remote.transact(code, data, reply, 0)
       return checkId(reply.readString())
     } catch (t: Throwable) {
       return BinderResult.Failed(EXCEPTION_THROWN, t)
@@ -67,7 +67,7 @@ internal class QikuBinderProvider(config: ProviderConfig) : AbstractProvider(con
     val data = Parcel.obtain()
     val reply = Parcel.obtain()
     try {
-      binder.transact(9, data, reply, 0)
+      remote.transact(9, data, reply, 0)
       return reply.readBoolean()
     } catch (t: Throwable) {
       return false

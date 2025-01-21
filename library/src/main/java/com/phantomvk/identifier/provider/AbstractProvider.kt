@@ -7,6 +7,7 @@ import android.content.Intent
 import android.content.ServiceConnection
 import android.os.Build
 import android.os.IBinder
+import android.os.Parcel
 import com.phantomvk.identifier.listener.OnResultListener
 import com.phantomvk.identifier.model.IdentifierResult
 import com.phantomvk.identifier.model.ProviderConfig
@@ -14,6 +15,8 @@ import com.phantomvk.identifier.model.ProviderConfig
 internal abstract class AbstractProvider(protected val config: ProviderConfig) : Runnable {
 
   abstract fun isSupported(): Boolean
+
+  protected open fun getInterfaceName(): String = ""
 
   private lateinit var resultCallback: OnResultListener
 
@@ -60,6 +63,45 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) :
 
   protected fun isSysPropertyContainsKey(key: String): Boolean {
     return getSysProperty(key, null)?.isNotBlank() == true
+  }
+
+  protected fun readBoolean(
+    remote: IBinder,
+    code: Int,
+    defValue: Boolean,
+    writeData: ((Parcel) -> Unit)?
+  ): Boolean {
+    val data = Parcel.obtain()
+    val reply = Parcel.obtain()
+    try {
+      data.writeInterfaceToken(getInterfaceName())
+      writeData?.invoke(data)
+      remote.transact(code, data, reply, 0)
+      reply.readException()
+      return 0 != reply.readInt()
+    } catch (t: Throwable) {
+      return defValue
+    } finally {
+      reply.recycle()
+      data.recycle()
+    }
+  }
+
+  protected fun getId(remote: IBinder, code: Int, writePackageName: Boolean): BinderResult {
+    val data = Parcel.obtain()
+    val reply = Parcel.obtain()
+    try {
+      data.writeInterfaceToken(getInterfaceName())
+      if (writePackageName) data.writeString(config.context.packageName)
+      remote.transact(code, data, reply, 0)
+      reply.readException()
+      return checkId(reply.readString())
+    } catch (t: Throwable) {
+      return BinderResult.Failed(EXCEPTION_THROWN, t)
+    } finally {
+      reply.recycle()
+      data.recycle()
+    }
   }
 
   protected fun queryId(type: IdEnum, callback: () -> BinderResult): String? {
