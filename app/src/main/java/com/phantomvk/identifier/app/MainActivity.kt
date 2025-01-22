@@ -211,7 +211,7 @@ class MainActivity : AppCompatActivity() {
       throw RuntimeException("Should run on WorkerThread.")
     }
 
-    if (Looper.getMainLooper() != Looper.myLooper()) {
+    if (!isAsyncCallback && Looper.getMainLooper() != Looper.myLooper()) {
       throw RuntimeException("Should run on UiThread.")
     }
 
