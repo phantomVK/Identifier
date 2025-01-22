@@ -16,7 +16,7 @@ internal class HonorSdkProvider(config: ProviderConfig) : AbstractProvider(confi
       return
     }
 
-    if (config.isLimitAdTracking) {
+    if (config.verifyLimitAdTracking) {
       if (info.isLimit) {
         getCallback().onError(LIMIT_AD_TRACKING_IS_ENABLED)
         return

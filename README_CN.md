@@ -65,7 +65,7 @@ IdentifierManager.build()
   .enableAaid(false)
   .enableVaid(false)
   .enableGoogleAdsId(false) // 可选: 使用GoogleAdsId作为备选，默认关闭
-  .setLimitAdTracking(false)
+  .enableVerifyLimitAdTracking(false)
   .subscribe(listener)
 ```
 

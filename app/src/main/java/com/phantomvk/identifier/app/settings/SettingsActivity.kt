@@ -41,7 +41,7 @@ class SettingsActivity : AppCompatActivity() {
     c.getMethod("setAsyncCallback", booleanClass).invoke(config, Settings.AsyncCallback.getValue())
     c.getMethod("setDebug", booleanClass).invoke(config, Settings.Debug.getValue())
     c.getMethod("setExperimental", booleanClass).invoke(config, Settings.Experimental.getValue())
-    c.getMethod("setLimitAdTracking", booleanClass).invoke(config, Settings.LimitAdTracking.getValue())
+    c.getMethod("setVerifyLimitAdTracking", booleanClass).invoke(config, Settings.LimitAdTracking.getValue())
     c.getMethod("setMemCacheEnabled", booleanClass).invoke(config, Settings.MemCache.getValue())
     c.getMethod("setQueryAaid", booleanClass).invoke(config, Settings.Aaid.getValue())
     c.getMethod("setQueryVaid", booleanClass).invoke(config, Settings.Vaid.getValue())
