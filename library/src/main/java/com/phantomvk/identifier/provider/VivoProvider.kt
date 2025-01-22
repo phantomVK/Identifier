@@ -7,15 +7,18 @@ import com.phantomvk.identifier.model.ProviderConfig
 internal class VivoProvider(config: ProviderConfig) : AbstractProvider(config) {
 
   override fun isSupported(): Boolean {
-    val isSupported = getSysProperty("persist.sys.identifierid.supported", "0")
-    if (isSupported != "1") {
-      return false
-    }
-
     return isContentProviderExisted("com.vivo.vms.IdProvider")
   }
 
   override fun run() {
+    if (config.isLimitAdTracking) {
+      val isSupported = getSysProperty("persist.sys.identifierid.supported", "0")
+      if (isSupported != "1") {
+        getCallback().onError(LIMIT_AD_TRACKING_IS_ENABLED)
+        return
+      }
+    }
+
     when (val r = getId("OAID")) {
       is BinderResult.Failed -> return getCallback().onError(r.msg, r.throwable)
       is BinderResult.Success -> {
