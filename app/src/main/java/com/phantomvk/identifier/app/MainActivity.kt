@@ -53,7 +53,7 @@ class MainActivity : AppCompatActivity() {
       .enableAaid(Settings.Aaid.getValue())
       .enableVaid(Settings.Vaid.getValue())
       .enableGoogleAdsId(Settings.GoogleAdsId.getValue())
-      .setLimitAdTracking(Settings.LimitAdTracking.getValue())
+      .enableVerifyLimitAdTracking(Settings.LimitAdTracking.getValue())
       .subscribe(listener)
   }
 
@@ -190,7 +190,7 @@ class MainActivity : AppCompatActivity() {
     c.getMethod("setAsyncCallback", Boolean::class.java).invoke(config, Settings.AsyncCallback.getValue())
     c.getMethod("setDebug", Boolean::class.java).invoke(config, Settings.Debug.getValue())
     c.getMethod("setExperimental", Boolean::class.java).invoke(config, Settings.Experimental.getValue())
-    c.getMethod("setLimitAdTracking", Boolean::class.java).invoke(config, Settings.LimitAdTracking.getValue())
+    c.getMethod("setVerifyLimitAdTracking", Boolean::class.java).invoke(config, Settings.LimitAdTracking.getValue())
     c.getMethod("setMemCacheEnabled", Boolean::class.java).invoke(config,Settings. MemCache.getValue())
     c.getMethod("setQueryAaid", Boolean::class.java).invoke(config, Settings.Aaid.getValue())
     c.getMethod("setQueryVaid", Boolean::class.java).invoke(config, Settings.Vaid.getValue())

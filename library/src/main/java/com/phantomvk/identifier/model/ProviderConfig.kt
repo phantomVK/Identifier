@@ -10,11 +10,11 @@ internal class ProviderConfig(val context: Context) {
   var executor = Executor { c: Runnable -> Thread(c).start() }
   var isDebug = false
   var isExperimental = false
-  var isLimitAdTracking = false
   var isMemCacheEnabled = false
   var queryAaid = false
   var queryVaid = false
   var queryGoogleAdsId = false
+  var verifyLimitAdTracking = false
   lateinit var callback: WeakReference<OnResultListener>
 
   fun clone(): ProviderConfig {
@@ -23,11 +23,11 @@ internal class ProviderConfig(val context: Context) {
     config.executor = executor
     config.isDebug = isDebug
     config.isExperimental = isExperimental
-    config.isLimitAdTracking = isLimitAdTracking
     config.isMemCacheEnabled = isMemCacheEnabled
     config.queryAaid = queryAaid
     config.queryVaid = queryVaid
     config.queryGoogleAdsId = queryGoogleAdsId
+    config.verifyLimitAdTracking = verifyLimitAdTracking
     return config
   }
 

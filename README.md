@@ -64,7 +64,7 @@ IdentifierManager.build()
   .enableAaid(false)
   .enableVaid(false)
   .enableGoogleAdsId(false) // optional: use GoogleAdsId as backup, default is false
-  .setLimitAdTracking(false)
+  .enableVerifyLimitAdTracking(false)
   .subscribe(listener)
 ```
 
