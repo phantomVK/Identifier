@@ -3,43 +3,45 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="10dp"
+    android:layout_margin="8dp"
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <LinearLayout
-        android:id="@+id/view_group"
+    <View
+        android:id="@+id/anchor"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:id="@+id/button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        android:layout_toStartOf="@+id/anchor"
+        android:text="Refresh"
+        android:textAllCaps="false"
+        android:textSize="16sp"
+        android:textStyle="bold" />
 
-        <Button
-            android:id="@+id/button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Refresh ids"
-            android:textAllCaps="false"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
-        <Button
-            android:id="@+id/button_settings"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Settings"
-            android:textAllCaps="false"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-    </LinearLayout>
+    <Button
+        android:id="@+id/button_settings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_toEndOf="@id/anchor"
+        android:text="Settings"
+        android:textAllCaps="false"
+        android:textSize="16sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/system_textview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/view_group"
-        android:textColor="@color/black"
+        android:layout_above="@+id/button"
+        android:textColor="#FF000000"
         android:textSize="14sp"
         android:textStyle="bold" />
 </RelativeLayout>
