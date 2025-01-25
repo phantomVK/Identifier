@@ -1,6 +1,5 @@
 package com.phantomvk.identifier.app
 
-import android.app.Application
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
@@ -181,12 +180,12 @@ class MainActivity : AppCompatActivity() {
   }
 
   private fun getProviderList(): List<*> {
-    val application = Class.forName("android.app.ActivityThread")
-      .getMethod("currentApplication")
-      .invoke(null) as Application
+//    val application = Class.forName("android.app.ActivityThread")
+//      .getMethod("currentApplication")
+//      .invoke(null) as Application
 
     val c = Class.forName("com.phantomvk.identifier.model.ProviderConfig")
-    val config = c.getConstructor(Context::class.java).newInstance(application)
+    val config = c.getConstructor(Context::class.java).newInstance(Application.applicationInstance)
     c.getMethod("setAsyncCallback", Boolean::class.java).invoke(config, Settings.AsyncCallback.getValue())
     c.getMethod("setDebug", Boolean::class.java).invoke(config, Settings.Debug.getValue())
     c.getMethod("setExperimental", Boolean::class.java).invoke(config, Settings.Experimental.getValue())

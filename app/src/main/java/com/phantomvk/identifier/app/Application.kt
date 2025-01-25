@@ -9,8 +9,14 @@ import java.util.concurrent.Executors
 
 
 class Application : Application() {
+
+  companion object {
+    lateinit var applicationInstance: Application
+  }
+
   override fun onCreate() {
     super.onCreate()
+    applicationInstance = this
     SettingsManager.init(this)
 
     if (Settings.StrictMode.getValue()) {
