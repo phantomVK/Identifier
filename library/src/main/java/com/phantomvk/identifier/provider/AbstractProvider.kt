@@ -30,7 +30,7 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) :
   }
 
   protected fun isBrand(brand: String): Boolean {
-    return Build.MANUFACTURER.equals(brand, true) && Build.BRAND.equals(brand, true)
+    return isBrand(brand, brand)
   }
 
   protected fun isBrand(manufacturer: String, brand: String): Boolean {
@@ -122,13 +122,11 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) :
       BinderResult.Success(id)
     }
 
-    if (callback == null) {
-      return result
-    }
-
-    when (result) {
-      is BinderResult.Failed -> callback.onError(result.msg)
-      is BinderResult.Success -> callback.onSuccess(IdentifierResult(result.id))
+    if (callback != null) {
+      when (result) {
+        is BinderResult.Failed -> callback.onError(result.msg)
+        is BinderResult.Success -> callback.onSuccess(IdentifierResult(result.id))
+      }
     }
 
     return result
