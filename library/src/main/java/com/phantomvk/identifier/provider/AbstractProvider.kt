@@ -34,7 +34,7 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) :
   }
 
   protected fun isBrand(manufacturer: String, brand: String): Boolean {
-    return Build.MANUFACTURER.equals(manufacturer, true) && Build.BRAND.equals(brand, true)
+    return Build.BRAND.equals(brand, true) && Build.MANUFACTURER.equals(manufacturer, true)
   }
 
   protected fun isPackageInfoExisted(packageName: String): Boolean {
@@ -114,12 +114,10 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) :
   }
 
   protected fun checkId(id: String?, callback: OnResultListener? = null): BinderResult {
-    val result = if (id.isNullOrBlank()) {
-      BinderResult.Failed(ID_IS_NULL_OR_BLANK)
-    } else if (id.all { it == '0' || it == '-' }) {
-      BinderResult.Failed(ID_IS_INVALID)
-    } else {
-      BinderResult.Success(id)
+    val result = when {
+      id.isNullOrBlank() -> BinderResult.Failed(ID_IS_NULL_OR_BLANK)
+      id.any { it != '0' && it != '-' } -> BinderResult.Success(id)
+      else -> BinderResult.Failed(ID_IS_INVALID)
     }
 
     if (callback != null) {
