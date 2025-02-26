@@ -138,6 +138,11 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) :
     }
   }
 
+  private fun unbindServiceOnError(connection: ServiceConnection, msg: String) {
+    config.context.unbindService(connection)
+    getCallback().onError(msg)
+  }
+
   protected fun bindService(intent: Intent, binderCallback: BinderCallback) {
     val conn = object : ServiceConnection {
       override fun onServiceConnected(name: ComponentName, service: IBinder) {
@@ -156,27 +161,25 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) :
       }
 
       override fun onServiceDisconnected(name: ComponentName) {
-        getCallback().onError("Service is disconnected.")
+        unbindServiceOnError(this, "Service is disconnected.")
       }
 
       override fun onBindingDied(name: ComponentName) {
-        getCallback().onError("Service is on binding died.")
-        config.context.unbindService(this)
+        unbindServiceOnError(this, "Service is on binding died.")
       }
 
       override fun onNullBinding(name: ComponentName) {
-        getCallback().onError("Service is on null binding.")
-        config.context.unbindService(this)
+        unbindServiceOnError(this, "Service is on null binding.")
       }
     }
 
     try {
       if (!config.context.bindService(intent, conn, Context.BIND_AUTO_CREATE)) {
         getCallback().onError("Bind service return false.")
-        config.context.unbindService(conn)
       }
     } catch (t: Throwable) {
       getCallback().onError("Bind service error.", t)
+    } finally {
       config.context.unbindService(conn)
     }
   }
