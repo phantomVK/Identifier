@@ -36,13 +36,13 @@ import com.phantomvk.identifier.provider.XiaomiProvider
 import com.phantomvk.identifier.provider.XtcProvider
 import com.phantomvk.identifier.provider.ZteProvider
 import com.phantomvk.identifier.provider.ZuiProvider
+import java.util.concurrent.atomic.AtomicBoolean
 
 internal class SerialRunnable(
   config: ProviderConfig
 ) : AbstractProvider(config), OnResultListener, Disposable {
 
-  @Volatile
-  private var disposed = false
+  private val disposedFlag = AtomicBoolean(false)
 
   init {
     setCallback(this)
@@ -67,7 +67,7 @@ internal class SerialRunnable(
       return
     }
 
-    if (disposed) {
+    if (disposedFlag.get()) {
       return
     }
 
@@ -116,17 +116,15 @@ internal class SerialRunnable(
   }
 
   override fun isDisposed(): Boolean {
-    return disposed
+    return disposedFlag.get()
   }
 
   private fun invokeCallback(callback: ((OnResultListener) -> Unit)? = null) {
-    if (disposed) {
+    if (disposedFlag.get()) {
       return
     }
 
-    synchronized(this) {
-      if (disposed) return else disposed = true
-
+    if (disposedFlag.compareAndSet(false, true)) {
       if (callback != null) {
         config.callback.get()?.let {
           if (config.asyncCallback && Looper.getMainLooper() == Looper.myLooper()) {
