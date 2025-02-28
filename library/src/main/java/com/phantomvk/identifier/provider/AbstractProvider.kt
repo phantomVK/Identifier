@@ -176,10 +176,10 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) :
     try {
       if (!config.context.bindService(intent, conn, Context.BIND_AUTO_CREATE)) {
         getCallback().onError("Bind service return false.")
+        config.context.unbindService(conn)
       }
     } catch (t: Throwable) {
       getCallback().onError("Bind service error.", t)
-    } finally {
       config.context.unbindService(conn)
     }
   }
