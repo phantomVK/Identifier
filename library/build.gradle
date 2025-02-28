@@ -33,6 +33,15 @@ android {
         languageVersion = '1.5'
         apiVersion = '1.5'
     }
+    afterEvaluate {
+        publishing {
+            publications {
+                release(MavenPublication) {
+                    from components.release
+                }
+            }
+        }
+    }
 }
 
 dependencies {
@@ -46,15 +55,15 @@ dependencies {
     androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_core"
 }
 
-afterEvaluate {
-    publishing {
-        publications {
-            release(MavenPublication) {
-                from components.release
-                groupId = "com.phantomvk.identifier"
-                artifactId = 'identifier'
-                version = rootProject.ext.versionName
-            }
-        }
-    }
-}
+//afterEvaluate {
+//    publishing {
+//        publications {
+//            release(MavenPublication) {
+//                from components.release
+//                groupId = "com.phantomvk.identifier"
+//                artifactId = 'identifier'
+//                version = rootProject.ext.versionName
+//            }
+//        }
+//    }
+//}
