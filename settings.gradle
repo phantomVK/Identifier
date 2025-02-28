@@ -10,6 +10,6 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "Identifier"
-include ':app'
 include ':library'
+//include ':app'
 //include ':aidl'
