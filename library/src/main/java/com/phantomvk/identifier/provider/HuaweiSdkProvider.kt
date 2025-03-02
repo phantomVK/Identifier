@@ -1,28 +1,30 @@
 package com.phantomvk.identifier.provider
 
-import com.huawei.hms.ads.identifier.AdvertisingIdClient
+import android.content.Context
 import com.phantomvk.identifier.model.ProviderConfig
 
 internal class HuaweiSdkProvider(config: ProviderConfig) : AbstractProvider(config) {
+  private lateinit var clazz: Class<*>
 
   override fun isSupported(): Boolean {
-    return AdvertisingIdClient.isAdvertisingIdAvailable(config.context)
+    clazz = Class.forName("com.huawei.hms.ads.identifier.AdvertisingIdClient")
+    return clazz.getMethod("isAdvertisingIdAvailable", Context::class.java).invoke(null, config.context) as Boolean
   }
 
   override fun run() {
-    val info = AdvertisingIdClient.getAdvertisingIdInfo(config.context)
+    val info = clazz.getMethod("getAdvertisingIdInfo", Context::class.java).invoke(null, config.context)
     if (info == null) {
       getCallback().onError(ID_INFO_IS_NULL)
       return
     }
 
     if (config.verifyLimitAdTracking) {
-      if (info.isLimitAdTrackingEnabled) {
+      if (info.javaClass.getMethod("isLimitAdTrackingEnabled").invoke(info) as Boolean) {
         getCallback().onError(LIMIT_AD_TRACKING_IS_ENABLED)
         return
       }
     }
 
-    checkId(info.id, getCallback())
+    checkId(info.javaClass.getMethod("getId").invoke(info) as String, getCallback())
   }
 }
