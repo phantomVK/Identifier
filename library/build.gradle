@@ -38,8 +38,8 @@ android {
 dependencies {
     implementation "androidx.annotation:annotation:$annotation"
 
-    compileOnly("com.huawei.hms:ads-identifier:$hms")
-    compileOnly("com.hihonor.mcs:ads-identifier:$mcs")
+//    compileOnly("com.huawei.hms:ads-identifier:$hms")
+//    compileOnly("com.hihonor.mcs:ads-identifier:$mcs")
 
     testImplementation "junit:junit:$junit"
     androidTestImplementation "androidx.test.ext:junit:$android_junit"

@@ -1,28 +1,30 @@
 package com.phantomvk.identifier.provider
 
-import com.hihonor.ads.identifier.AdvertisingIdClient
+import android.content.Context
 import com.phantomvk.identifier.model.ProviderConfig
 
 internal class HonorSdkProvider(config: ProviderConfig) : AbstractProvider(config) {
+  private lateinit var clazz: Class<*>
 
   override fun isSupported(): Boolean {
-    return AdvertisingIdClient.isAdvertisingIdAvailable(config.context)
+    clazz = Class.forName("com.hihonor.ads.identifier.AdvertisingIdClient")
+    return clazz.getMethod("isAdvertisingIdAvailable", Context::class.java).invoke(null, config.context) as Boolean
   }
 
   override fun run() {
-    val info = AdvertisingIdClient.getAdvertisingIdInfo(config.context)
+    val info = clazz.getMethod("getAdvertisingIdInfo", Context::class.java).invoke(null, config.context)
     if (info == null) {
       getCallback().onError(ID_INFO_IS_NULL)
       return
     }
 
     if (config.verifyLimitAdTracking) {
-      if (info.isLimit) {
+      if (info.javaClass.getField("isLimit").getBoolean(info)) {
         getCallback().onError(LIMIT_AD_TRACKING_IS_ENABLED)
         return
       }
     }
 
-    checkId(info.id, getCallback())
+    checkId(info.javaClass.getField("id").get(info) as String, getCallback())
   }
 }
