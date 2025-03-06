@@ -1,5 +1,6 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
+    apply from: "build_versions.gradle"
     repositories {
         google()
         mavenCentral()
@@ -12,22 +13,6 @@ buildscript {
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
-    ext {
-        compileSdk = 34
-        minSdk = 17
-        targetSdk = 34
-        versionCode = 705
-        versionName = "0.7.5"
-
-        hms = '3.4.62.300'
-        mcs = '1.0.3.300'
-
-        appcompact = '1.4.2'
-        annotation = '1.3.0'
-        junit = '4.13.2'
-        android_junit = '1.0.0'
-        espresso_core = '3.1.0'
-    }
 }
 
 task clean(type: Delete) {
@@ -36,24 +21,4 @@ task clean(type: Delete) {
 
 task uninstall(type: Exec) {
     commandLine("adb", "uninstall", "com.phantomvk.identifier.app")
-}
-
-def getGitTagVersionName() {
-    try {
-        def stdout = new ByteArrayOutputStream()
-        exec {
-            commandLine 'git', 'describe', '--tags'
-            standardOutput = stdout
-        }
-        return stdout.toString().trim().takeBefore('-')
-    } catch (ignored) {
-        return "0.0.1"
-    }
-}
-
-def getGitTagVersionCode() {
-    def name = getGitTagVersion()
-    def code = 0
-    name.split("\\.").each { code = code * 100 + it.toInteger() }
-    return code
 }

@@ -1,5 +1,7 @@
 jdk:
   - openjdk17
 
+subdir: "library"
+
 environment:
   EXCLUDE_MODULE_APP: "true"
