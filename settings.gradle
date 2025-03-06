@@ -11,5 +11,7 @@ dependencyResolutionManagement {
 
 rootProject.name = "Identifier"
 include ':library'
-if (!"true".equalsIgnoreCase(System.getenv("EXCLUDE_MODULE_APP"))) include ':app'
+if (!System.env.JITPACK) {
+    include ':app'
+}
 //include ':aidl'
