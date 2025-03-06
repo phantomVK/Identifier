@@ -1,5 +1,2 @@
 jdk:
   - openjdk17
-
-environment:
-  EXCLUDE_MODULE_APP: "true"
