@@ -161,17 +161,17 @@ internal class SerialRunnable(
   }
 
   private fun addProviders(config: ProviderConfig, providers: ArrayList<AbstractProvider>) {
-    if (isBrand("360")) {
+    if (isBrand("360", "360")) {
       providers.add(QikuBinderProvider(config))
       return
     }
 
-    if (isBrand("ASUS")) {
+    if (isBrand("ASUS", "ASUS")) {
       providers.add(AsusProvider(config))
       return
     }
 
-    if (isBrand("Coolpad")) {
+    if (isBrand("Coolpad", "Coolpad")) {
       if (config.queryAaid || config.queryVaid) {
         providers.add(CoolpadServiceProvider(config))
         providers.add(CoolpadSettingsProvider(config))
@@ -182,12 +182,12 @@ internal class SerialRunnable(
       return
     }
 
-    if (isBrand("HUAWEI")
-      || isBrand("HONOR")
+    if (isBrand("HUAWEI", "HUAWEI")
+      || isBrand("HONOR", "HONOR")
       || isBrand("HUAWEI", "HONOR")
       || isSysPropertyContainsKey("ro.build.version.emui")
     ) {
-      if (isBrand("HUAWEI")
+      if (isBrand("HUAWEI", "HUAWEI")
         || isBrand("HUAWEI", "HONOR")
         || isSysPropertyContainsKey("ro.build.version.emui")
       ) {
@@ -197,7 +197,7 @@ internal class SerialRunnable(
         providers.add(HuaweiServiceProvider(config))
       }
 
-      if (isBrand("HONOR")) {
+      if (isBrand("HONOR", "HONOR")) {
         providers.add(HonorSdkProvider(config))
         providers.add(HonorSettingsProvider(config))
         providers.add(HonorServiceProvider(config))
@@ -205,31 +205,31 @@ internal class SerialRunnable(
       return
     }
 
-    if (isBrand("LENOVO")
+    if (isBrand("LENOVO", "LENOVO")
       || isBrand("LENOVO", "ZUK")
-      || isBrand("MOTOROLA")
+      || isBrand("MOTOROLA", "MOTOROLA")
     ) {
       providers.add(ZuiProvider(config))
       return
     }
 
-    if (isBrand("XIAOMI")
+    if (isBrand("XIAOMI", "XIAOMI")
       || isBrand("XIAOMI", "REDMI")
-      || isBrand("BLACKSHARK")
+      || isBrand("BLACKSHARK", "BLACKSHARK")
       || isSysPropertyContainsKey("ro.miui.ui.version.name")
     ) {
       providers.add(XiaomiProvider(config))
       return
     }
 
-    if (isBrand("NUBIA")) {
+    if (isBrand("NUBIA", "NUBIA")) {
       providers.add(NubiaProvider(config))
       return
     }
 
-    if (isBrand("OPPO")
-      || isBrand("realme")
-      || isBrand("ONEPLUS")
+    if (isBrand("OPPO", "OPPO")
+      || isBrand("realme", "realme")
+      || isBrand("ONEPLUS", "ONEPLUS")
       || isSysPropertyContainsKey("ro.build.version.opporom")
     ) {
       providers.add(OppoHeyTapProvider(config))
@@ -237,22 +237,22 @@ internal class SerialRunnable(
       return
     }
 
-    if (isBrand("VIVO") || isSysPropertyContainsKey("ro.vivo.os.version")) {
+    if (isBrand("VIVO", "VIVO") || isSysPropertyContainsKey("ro.vivo.os.version")) {
       providers.add(VivoProvider(config))
       return
     }
 
-    if (isBrand("SAMSUNG")) {
+    if (isBrand("SAMSUNG", "SAMSUNG")) {
       providers.add(SamsungProvider(config))
       return
     }
 
-    if (isBrand("MEIZU") || Build.DISPLAY.contains("FLYME", true)) {
+    if (isBrand("MEIZU", "MEIZU") || Build.DISPLAY.contains("FLYME", true)) {
       providers.add(MeizuProvider(config))
       return
     }
 
-    if (isBrand("ZTE")) {
+    if (isBrand("ZTE", "ZTE")) {
       providers.add(ZteProvider(config))
       return
     }
@@ -262,7 +262,7 @@ internal class SerialRunnable(
     config: ProviderConfig,
     providers: ArrayList<AbstractProvider>
   ) {
-    if (isBrand("360")) {
+    if (isBrand("360", "360")) {
       providers.add(QikuServiceProvider(config))
       return
     }
@@ -272,7 +272,7 @@ internal class SerialRunnable(
       return
     }
 
-    if (isBrand("Pico")) {
+    if (isBrand("Pico", "Pico")) {
       providers.add(PicoProvider(config))
       return
     }
