@@ -43,8 +43,6 @@ class Application : android.app.Application() {
 
     IdentifierManager.Builder(applicationContext)
       .setDebug(false)
-      .setExperimental(false)
-      .setMemCacheEnable(true)
       .setExecutor { Thread(it).start() } // 可选: 设置自定义ThreadPoolExecutor
       .setLogger(LoggerImpl())
       .init()
@@ -64,6 +62,8 @@ IdentifierManager.build()
   .enableAsyncCallback(false) // 可选：在异步线程执行结果回调，默认为关闭
   .enableAaid(false)
   .enableVaid(false)
+  .enableExperimental(false)
+  .enableMemCache(false)
   .enableGoogleAdsId(false) // 可选: 使用GoogleAdsId作为备选，默认关闭
   .enableVerifyLimitAdTracking(false)
   .subscribe(listener)

@@ -42,8 +42,6 @@ class Application : android.app.Application() {
 
     IdentifierManager.Builder(applicationContext)
       .setDebug(false)
-      .setExperimental(false)
-      .setMemCacheEnable(true)
       .setExecutor { Thread(it).start() } // optional: setup custom ThreadPoolExecutor
       .setLogger(LoggerImpl())
       .init()
@@ -63,6 +61,8 @@ IdentifierManager.build()
   .enableAsyncCallback(false) // optional: invoke result callback in worker thread, default is false
   .enableAaid(false)
   .enableVaid(false)
+  .enableExperimental(false)
+  .enableMemCache(false)
   .enableGoogleAdsId(false) // optional: use GoogleAdsId as backup, default is false
   .enableVerifyLimitAdTracking(false)
   .subscribe(listener)

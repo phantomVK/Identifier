@@ -51,6 +51,8 @@ class MainActivity : AppCompatActivity() {
       .enableAsyncCallback(isAsync)
       .enableAaid(Settings.Aaid.getValue())
       .enableVaid(Settings.Vaid.getValue())
+      .enableExperimental(Settings.Experimental.getValue())
+      .enableMemCache(Settings.MemCache.getValue())
       .enableGoogleAdsId(Settings.GoogleAdsId.getValue())
       .enableVerifyLimitAdTracking(Settings.LimitAdTracking.getValue())
       .subscribe(listener)
