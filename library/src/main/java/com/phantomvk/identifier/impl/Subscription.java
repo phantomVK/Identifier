@@ -28,6 +28,12 @@ public class Subscription {
     }
 
     @NonNull
+    public Subscription enableExperimental(boolean enable) {
+        conf.setExperimental(enable);
+        return this;
+    }
+
+    @NonNull
     public Subscription enableVaid(boolean enable) {
         conf.setQueryVaid(enable);
         return this;
@@ -36,6 +42,12 @@ public class Subscription {
     @NonNull
     public Subscription enableGoogleAdsId(boolean enable) {
         conf.setQueryGoogleAdsId(enable);
+        return this;
+    }
+
+    @NonNull
+    public Subscription enableMemCache(boolean enable) {
+        conf.setMemCacheEnabled(enable);
         return this;
     }
 
