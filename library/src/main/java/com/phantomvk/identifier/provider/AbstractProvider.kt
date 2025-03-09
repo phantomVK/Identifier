@@ -29,10 +29,6 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) :
     return resultCallback
   }
 
-  protected fun isBrand(brand: String): Boolean {
-    return isBrand(brand, brand)
-  }
-
   protected fun isBrand(manufacturer: String, brand: String): Boolean {
     return Build.BRAND.equals(brand, true) && Build.MANUFACTURER.equals(manufacturer, true)
   }
