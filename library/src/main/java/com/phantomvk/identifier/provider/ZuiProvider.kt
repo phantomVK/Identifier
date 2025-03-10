@@ -18,7 +18,7 @@ internal class ZuiProvider(config: ProviderConfig) : AbstractProvider(config) {
     val intent = Intent().setClassName("com.zui.deviceidservice", "com.zui.deviceidservice.DeviceidService")
     bindService(intent, object : BinderCallback {
       override fun call(binder: IBinder): BinderResult {
-        if (config.verifyLimitAdTracking) {
+        if (config.isLimitAdTracking) {
           if (!isSupport(binder)) {
             return BinderResult.Failed(LIMIT_AD_TRACKING_IS_ENABLED)
           }

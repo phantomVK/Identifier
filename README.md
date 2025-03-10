@@ -64,7 +64,7 @@ IdentifierManager.build()
   .enableExperimental(false)
   .enableMemCache(false)
   .enableGoogleAdsId(false) // optional: use GoogleAdsId as backup, default is false
-  .enableVerifyLimitAdTracking(false)
+  .enableLimitAdTracking(false)
   .subscribe(listener)
 ```
 

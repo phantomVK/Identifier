@@ -52,8 +52,8 @@ public class Subscription {
     }
 
     @NonNull
-    public Subscription enableVerifyLimitAdTracking(boolean enable) {
-        conf.setVerifyLimitAdTracking(enable);
+    public Subscription enableLimitAdTracking(boolean enable) {
+        conf.setLimitAdTracking(enable);
         return this;
     }
 

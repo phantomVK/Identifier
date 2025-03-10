@@ -65,7 +65,7 @@ IdentifierManager.build()
   .enableExperimental(false)
   .enableMemCache(false)
   .enableGoogleAdsId(false) // 可选: 使用GoogleAdsId作为备选，默认关闭
-  .enableVerifyLimitAdTracking(false)
+  .enableLimitAdTracking(false)
   .subscribe(listener)
 ```
 

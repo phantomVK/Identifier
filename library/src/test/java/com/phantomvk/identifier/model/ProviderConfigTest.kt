@@ -24,7 +24,7 @@ class ProviderConfigTest {
     providerConfig.queryAaid = true
     providerConfig.queryVaid = true
     providerConfig.queryGoogleAdsId = true
-    providerConfig.verifyLimitAdTracking = true
+    providerConfig.isLimitAdTracking = true
     providerConfig.callback = WeakReference(mockOnResultListener)
 
     val clonedConfig = providerConfig.clone()
@@ -32,7 +32,7 @@ class ProviderConfigTest {
     assertEquals(providerConfig.executor, clonedConfig.executor)
     assertEquals(providerConfig.isDebug, clonedConfig.isDebug)
     assertEquals(providerConfig.isExperimental, clonedConfig.isExperimental)
-    assertEquals(providerConfig.verifyLimitAdTracking, clonedConfig.verifyLimitAdTracking)
+    assertEquals(providerConfig.isLimitAdTracking, clonedConfig.isLimitAdTracking)
     assertEquals(providerConfig.isMemCacheEnabled, clonedConfig.isMemCacheEnabled)
     assertEquals(providerConfig.queryAaid, clonedConfig.queryAaid)
     assertEquals(providerConfig.queryVaid, clonedConfig.queryVaid)
