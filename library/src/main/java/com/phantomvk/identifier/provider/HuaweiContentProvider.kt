@@ -20,7 +20,7 @@ internal class HuaweiContentProvider(config: ProviderConfig) : AbstractProvider(
     cursor.use { c ->
       c.moveToFirst()
 
-      if (config.verifyLimitAdTracking) {
+      if (config.isLimitAdTracking) {
         val code = c.getColumnIndex("limit_track")
         if (code >= 0 && c.getString(code).toBoolean()) {
           return getCallback().onError(LIMIT_AD_TRACKING_IS_ENABLED)

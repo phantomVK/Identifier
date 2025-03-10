@@ -26,7 +26,7 @@ internal class MsaProvider(config: ProviderConfig) : AbstractProvider(config) {
           return BinderResult.Failed(AIDL_INTERFACE_IS_NULL)
         }
 
-        if (config.verifyLimitAdTracking) {
+        if (config.isLimitAdTracking) {
           if (!asInterface.isSupported) {
             return BinderResult.Failed(LIMIT_AD_TRACKING_IS_ENABLED)
           }

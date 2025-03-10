@@ -19,7 +19,7 @@ internal class NubiaProvider(config: ProviderConfig) : AbstractProvider(config) 
       return
     }
 
-    if (config.verifyLimitAdTracking) {
+    if (config.isLimitAdTracking) {
       val bundle = client.call("isSupport", null, null)
       if (bundle?.getInt("code", -1) == 0) {
         val isSupported = bundle.getBoolean("issupport", false)

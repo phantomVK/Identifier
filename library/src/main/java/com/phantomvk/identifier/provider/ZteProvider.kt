@@ -25,7 +25,7 @@ internal class ZteProvider(config: ProviderConfig) : AbstractProvider(config) {
   }
 
   override fun run() {
-    if (config.verifyLimitAdTracking) {
+    if (config.isLimitAdTracking) {
       try {
         val method = clazz?.getDeclaredMethod("isSupported", Context::class.java)
         val isSupported = method?.invoke(instance, config.context) as? Boolean

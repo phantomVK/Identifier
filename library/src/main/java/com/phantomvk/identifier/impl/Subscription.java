@@ -40,8 +40,20 @@ public class Subscription {
     }
 
     @NonNull
-    public Subscription enableVerifyLimitAdTracking(boolean enable) {
-        conf.setVerifyLimitAdTracking(enable);
+    public Subscription enableExperimental(boolean enable) {
+        conf.setExperimental(enable);
+        return this;
+    }
+
+    @NonNull
+    public Subscription enableMemCache(boolean enable) {
+        conf.setMemCacheEnabled(enable);
+        return this;
+    }
+
+    @NonNull
+    public Subscription enableLimitAdTracking(boolean enable) {
+        conf.setLimitAdTracking(enable);
         return this;
     }
 
