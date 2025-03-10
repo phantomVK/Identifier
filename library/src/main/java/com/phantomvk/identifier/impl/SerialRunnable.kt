@@ -17,7 +17,8 @@ import com.phantomvk.identifier.provider.FreemeProvider
 import com.phantomvk.identifier.provider.GoogleAdsIdProvider
 import com.phantomvk.identifier.provider.HonorSdkProvider
 import com.phantomvk.identifier.provider.HonorServiceProvider
-import com.phantomvk.identifier.provider.HonorSettingsProvider
+import com.phantomvk.identifier.provider.HonorSettingsGlobalProvider
+import com.phantomvk.identifier.provider.HonorSettingsSecureProvider
 import com.phantomvk.identifier.provider.HuaweiContentProvider
 import com.phantomvk.identifier.provider.HuaweiSdkProvider
 import com.phantomvk.identifier.provider.HuaweiServiceProvider
@@ -199,7 +200,8 @@ internal class SerialRunnable(
 
       if (isBrand("HONOR", "HONOR")) {
         providers.add(HonorSdkProvider(config))
-        providers.add(HonorSettingsProvider(config))
+        providers.add(HonorSettingsSecureProvider(config))
+        providers.add(HonorSettingsGlobalProvider(config))
         providers.add(HonorServiceProvider(config))
       }
       return
