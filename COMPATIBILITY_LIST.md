@@ -59,19 +59,20 @@
 
 ### Honor
 
-| Manufacturer | Brand |     Name     |  Model   |  Device  | SDK_INT |                                    FingerPrint                                     |
-|:------------:|:-----:|:------------:|:--------:|:--------:|:-------:|:----------------------------------------------------------------------------------:|
-|    HONOR     | HONOR |   Play 20    | KOZ-AL00 | HNKOZ-S  |   29    |       HONOR/KOZ-AL00/HNKOZ-S:10/HONORKOZ-AL00/4.0.0.216C00:user/release-keys       |
-|    HONOR     | HONOR | Play 30 Plus | CMA-AN00 | HNCMA-MC |   30    |      HONOR/CMA-AN00/HNCMA-MC:11/HONORCMA-AN00/5.0.0.168C00:user/release-keys       |
-|    HONOR     | HONOR |     X30      | ANY-AN00 | HNANY-Q  |   31    |       HONOR/ANY-AN00/HNANY-Q:12/HONORANY-AN00/6.1.0.127C00:user/release-keys       |
-|    HONOR     | HONOR |  Magic4 Pro  | LGE-AN10 |  HNLGE   |   33    |    HONOR/LGE-AN10/HNLGE:13/HONORLGE-AN10/7.1.0.172C00E170R7P9:user/release-keys    |
-|    HONOR     | HONOR |   Honor 60   | LSA-AN00 |  HNLSA   |   31    |        HONOR/LSA-AN00/HNLSA:12/HONORLSA-AN00/6.1.0.150C00:user/release-keys        |
-|    HONOR     | HONOR |   X30 Max    | KKG-AN70 | HNKKG-M  |   30    |       HONOR/KKG-AN70/HNKKG-M:11/HONORKKG-AN70/5.0.0.186C00:user/release-keys       |
-|    HONOR     | HONOR |     X30i     | TFY-AN00 | HNTFY-M  |   31    |       HONOR/TFY-AN00/HNTFY-M:12/HONORTFY-AN00/6.1.0.127C00:user/release-keys       |
-|    HONOR     | HONOR |   Honor 70   | FNE-AN00 |  HNFNE   |   31    |        HONOR/FNE-AN00/HNFNE:12/HONORFNE-AN00/7.0.0.183C00:user/release-keys        |
-|    HONOR     | HONOR |    Magic5    | PGT-AN00 |  HNPGT   |   34    | HONOR/PGT-AN00/HNPGT:14/HONORPGT-AN00/8.0.0.158SP1CHNC00E158R7P7:user/release-keys |
-|    HONOR     | HONOR |   Honor 90   | REA-AN00 |  HNREA   |   34    |  HONOR/REA-AN00/HNREA:14/HONORREA-AN00/8.0.0.143CHNC00E143R4P3:user/release-keys   |
-|    HONOR     | HONOR |  Honor 100   | MAA-AN10 |  HNMAP   |   34    |    HONOR/MAA-AN10/HNMAP:14/HONORMAA-AN10/8.0.0.128C00E128R6P1:user/release-keys    |
+| Manufacturer | Brand |     Name      |  Model   |  Device  | SDK_INT |                                    FingerPrint                                     |
+|:------------:|:-----:|:-------------:|:--------:|:--------:|:-------:|:----------------------------------------------------------------------------------:|
+|    HONOR     | HONOR |    Play 20    | KOZ-AL00 | HNKOZ-S  |   29    |       HONOR/KOZ-AL00/HNKOZ-S:10/HONORKOZ-AL00/4.0.0.216C00:user/release-keys       |
+|    HONOR     | HONOR | Play 30 Plus  | CMA-AN00 | HNCMA-MC |   30    |      HONOR/CMA-AN00/HNCMA-MC:11/HONORCMA-AN00/5.0.0.168C00:user/release-keys       |
+|    HONOR     | HONOR |      X30      | ANY-AN00 | HNANY-Q  |   31    |       HONOR/ANY-AN00/HNANY-Q:12/HONORANY-AN00/6.1.0.127C00:user/release-keys       |
+|    HONOR     | HONOR |  Magic4 Pro   | LGE-AN10 |  HNLGE   |   33    |    HONOR/LGE-AN10/HNLGE:13/HONORLGE-AN10/7.1.0.172C00E170R7P9:user/release-keys    |
+|    HONOR     | HONOR |   Honor 60    | LSA-AN00 |  HNLSA   |   31    |        HONOR/LSA-AN00/HNLSA:12/HONORLSA-AN00/6.1.0.150C00:user/release-keys        |
+|    HONOR     | HONOR |    X30 Max    | KKG-AN70 | HNKKG-M  |   30    |       HONOR/KKG-AN70/HNKKG-M:11/HONORKKG-AN70/5.0.0.186C00:user/release-keys       |
+|    HONOR     | HONOR |     X30i      | TFY-AN00 | HNTFY-M  |   31    |       HONOR/TFY-AN00/HNTFY-M:12/HONORTFY-AN00/6.1.0.127C00:user/release-keys       |
+|    HONOR     | HONOR |   Honor 70    | FNE-AN00 |  HNFNE   |   31    |        HONOR/FNE-AN00/HNFNE:12/HONORFNE-AN00/7.0.0.183C00:user/release-keys        |
+|    HONOR     | HONOR |   Honor 70    | FNE-AN00 |  HNFNE   |   34    |   HONOR/FNE-AN00/HNFNE:14/HONORFNE-AN00/8.0.0.181C00E173R10P6:user/release-keys    |
+|    HONOR     | HONOR |    Magic5     | PGT-AN00 |  HNPGT   |   34    | HONOR/PGT-AN00/HNPGT:14/HONORPGT-AN00/8.0.0.158SP1CHNC00E158R7P7:user/release-keys |
+|    HONOR     | HONOR |   Honor 90    | REA-AN00 |  HNREA   |   34    |  HONOR/REA-AN00/HNREA:14/HONORREA-AN00/8.0.0.143CHNC00E143R4P3:user/release-keys   |
+|    HONOR     | HONOR | Honor 100 Pro | MAA-AN10 |  HNMAP   |   34    |    HONOR/MAA-AN10/HNMAP:14/HONORMAA-AN10/8.0.0.128C00E128R6P1:user/release-keys    |
 
 ### Huawei
 
