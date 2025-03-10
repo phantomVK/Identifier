@@ -188,10 +188,7 @@ internal class SerialRunnable(
       || isBrand("HUAWEI", "HONOR")
       || isSysPropertyContainsKey("ro.build.version.emui")
     ) {
-      if (isBrand("HONOR", "HONOR")
-        || isBrand("HUAWEI", "HONOR")
-        || isSysPropertyContainsKey("ro.build.version.emui")
-      ) {
+      if (isBrand("HONOR", "HONOR") || isBrand("HUAWEI", "HONOR")) {
         providers.add(HonorSdkProvider(config))
         providers.add(HonorSettingsSecureProvider(config))
         providers.add(HonorSettingsGlobalProvider(config))
