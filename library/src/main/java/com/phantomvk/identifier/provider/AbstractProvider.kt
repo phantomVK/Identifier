@@ -8,7 +8,7 @@ import android.content.ServiceConnection
 import android.os.Build
 import android.os.IBinder
 import android.os.Parcel
-import com.phantomvk.identifier.listener.OnResultListener
+import com.phantomvk.identifier.functions.Consumer
 import com.phantomvk.identifier.model.IdentifierResult
 import com.phantomvk.identifier.model.ProviderConfig
 
@@ -18,14 +18,14 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) :
 
   protected open fun getInterfaceName(): String = ""
 
-  private lateinit var resultCallback: OnResultListener
+  private lateinit var resultCallback: Consumer
 
   // This method must be public.
-  fun setCallback(callback: OnResultListener) {
+  fun setConsumer(callback: Consumer) {
     resultCallback = callback
   }
 
-  protected fun getCallback(): OnResultListener {
+  protected fun getConsumer(): Consumer {
     return resultCallback
   }
 
@@ -109,7 +109,7 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) :
     return if (isEnabled) (callback.invoke() as? BinderResult.Success)?.id else null
   }
 
-  protected fun checkId(id: String?, callback: OnResultListener? = null): BinderResult {
+  protected fun checkId(id: String?, callback: Consumer? = null): BinderResult {
     val result = when {
       id.isNullOrBlank() -> BinderResult.Failed(ID_IS_NULL_OR_BLANK)
       id.any { it != '0' && it != '-' } -> BinderResult.Success(id)
@@ -136,7 +136,7 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) :
 
   private fun unbindServiceOnError(connection: ServiceConnection, msg: String) {
     config.context.unbindService(connection)
-    getCallback().onError(msg)
+    getConsumer().onError(msg)
   }
 
   protected fun bindService(intent: Intent, binderCallback: BinderCallback) {
@@ -145,11 +145,11 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) :
         config.executor.execute {
           try {
             when (val r = binderCallback.call(service)) {
-              is BinderResult.Success -> getCallback().onSuccess(IdentifierResult(r.id, r.aaid, r.vaid))
-              is BinderResult.Failed -> getCallback().onError(r.msg, r.throwable)
+              is BinderResult.Success -> getConsumer().onSuccess(IdentifierResult(r.id, r.aaid, r.vaid))
+              is BinderResult.Failed -> getConsumer().onError(r.msg, r.throwable)
             }
           } catch (t: Throwable) {
-            getCallback().onError(EXCEPTION_THROWN, t)
+            getConsumer().onError(EXCEPTION_THROWN, t)
           } finally {
             config.context.unbindService(this)
           }
@@ -171,11 +171,11 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) :
 
     try {
       if (!config.context.bindService(intent, conn, Context.BIND_AUTO_CREATE)) {
-        getCallback().onError("Bind service return false.")
+        getConsumer().onError("Bind service return false.")
         config.context.unbindService(conn)
       }
     } catch (t: Throwable) {
-      getCallback().onError("Bind service error.", t)
+      getConsumer().onError("Bind service error.", t)
       config.context.unbindService(conn)
     }
   }

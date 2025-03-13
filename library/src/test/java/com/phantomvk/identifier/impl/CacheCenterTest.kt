@@ -1,6 +1,7 @@
 package com.phantomvk.identifier.impl
 
 import android.app.Application
+import com.phantomvk.identifier.internal.CacheCenter
 import com.phantomvk.identifier.model.IdentifierResult
 import com.phantomvk.identifier.model.ProviderConfig
 import org.junit.Assert.assertEquals

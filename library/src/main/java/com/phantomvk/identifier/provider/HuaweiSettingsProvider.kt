@@ -17,7 +17,7 @@ internal class HuaweiSettingsProvider(config: ProviderConfig) : AbstractProvider
       try {
         val isLimited = Settings.Global.getString(config.context.contentResolver, "pps_track_limit")
         if (isLimited?.toBoolean() == true) {
-          getCallback().onError(LIMIT_AD_TRACKING_IS_ENABLED)
+          getConsumer().onError(LIMIT_AD_TRACKING_IS_ENABLED)
           return
         }
       } catch (t: Throwable) {
@@ -25,6 +25,6 @@ internal class HuaweiSettingsProvider(config: ProviderConfig) : AbstractProvider
     }
 
     val id = Settings.Global.getString(config.context.contentResolver, "pps_oaid")
-    checkId(id, getCallback())
+    checkId(id, getConsumer())
   }
 }

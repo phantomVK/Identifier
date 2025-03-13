@@ -1,7 +1,7 @@
 package com.phantomvk.identifier.model
 
 import android.app.Application
-import com.phantomvk.identifier.listener.OnResultListener
+import com.phantomvk.identifier.functions.Consumer
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import java.lang.ref.WeakReference
@@ -11,7 +11,7 @@ class ProviderConfigTest {
 
   @Test
   fun testClone() {
-    val mockOnResultListener = object : OnResultListener {
+    val mockConsumer = object : Consumer {
       override fun onSuccess(result: IdentifierResult) {}
       override fun onError(msg: String, throwable: Throwable?) {}
     }
@@ -25,7 +25,7 @@ class ProviderConfigTest {
     providerConfig.queryVaid = true
     providerConfig.queryGoogleAdsId = true
     providerConfig.verifyLimitAdTracking = true
-    providerConfig.callback = WeakReference(mockOnResultListener)
+    providerConfig.consumer = WeakReference(mockConsumer)
 
     val clonedConfig = providerConfig.clone()
 

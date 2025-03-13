@@ -20,7 +20,7 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
--keepclassmembers class com.phantomvk.identifier.impl.SerialRunnable {
+-keepclassmembers class com.phantomvk.identifier.internal.SerialRunnable {
     private java.util.List getProviders();
 }
 
@@ -28,8 +28,8 @@
 
 -keep class com.phantomvk.identifier.model.ProviderConfig {*;}
 
--keepnames class com.phantomvk.identifier.listener.OnResultListener
+-keepnames class com.phantomvk.identifier.functions.Consumer
 
 -keepclassmembernames class com.phantomvk.identifier.provider.AbstractProvider {
-    public void setCallback(com.phantomvk.identifier.listener.OnResultListener);
+    public void setConsumer(com.phantomvk.identifier.functions.Consumer);
 }

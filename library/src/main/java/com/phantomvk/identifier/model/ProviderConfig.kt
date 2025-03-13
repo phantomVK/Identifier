@@ -1,7 +1,7 @@
 package com.phantomvk.identifier.model
 
 import android.content.Context
-import com.phantomvk.identifier.listener.OnResultListener
+import com.phantomvk.identifier.functions.Consumer
 import java.lang.ref.WeakReference
 import java.util.concurrent.Executor
 
@@ -15,7 +15,7 @@ internal class ProviderConfig(val context: Context) {
   var queryVaid = false
   var queryGoogleAdsId = false
   var verifyLimitAdTracking = false
-  lateinit var callback: WeakReference<OnResultListener>
+  lateinit var consumer: WeakReference<Consumer>
 
   fun clone(): ProviderConfig {
     val config = ProviderConfig(context)

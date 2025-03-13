@@ -14,17 +14,17 @@ internal class HonorSdkProvider(config: ProviderConfig) : AbstractProvider(confi
   override fun run() {
     val info = clazz.getMethod("getAdvertisingIdInfo", Context::class.java).invoke(null, config.context)
     if (info == null) {
-      getCallback().onError(ID_INFO_IS_NULL)
+      getConsumer().onError(ID_INFO_IS_NULL)
       return
     }
 
     if (config.verifyLimitAdTracking) {
       if (info.javaClass.getField("isLimit").getBoolean(info)) {
-        getCallback().onError(LIMIT_AD_TRACKING_IS_ENABLED)
+        getConsumer().onError(LIMIT_AD_TRACKING_IS_ENABLED)
         return
       }
     }
 
-    checkId(info.javaClass.getField("id").get(info) as String, getCallback())
+    checkId(info.javaClass.getField("id").get(info) as String, getConsumer())
   }
 }

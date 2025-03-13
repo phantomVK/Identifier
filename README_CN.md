@@ -43,8 +43,6 @@ class Application : android.app.Application() {
 
     IdentifierManager.Builder(applicationContext)
       .setDebug(false)
-      .setExperimental(false)
-      .setMemCacheEnable(true)
       .setExecutor { Thread(it).start() } // 可选: 设置自定义ThreadPoolExecutor
       .setLogger(LoggerImpl())
       .init()
@@ -55,7 +53,7 @@ class Application : android.app.Application() {
 如何获取标识符
 
 ```kotlin
-val listener = object : OnResultListener {
+val consumer = object : Consumer {
   override fun onSuccess(result: IdentifierResult) {}
   override fun onError(msg: String, throwable: Throwable?) {}
 }
@@ -65,8 +63,10 @@ IdentifierManager.build()
   .enableAaid(false)
   .enableVaid(false)
   .enableGoogleAdsId(false) // 可选: 使用GoogleAdsId作为备选，默认关闭
+  .enableExperimental(false)
+  .enableMemCache(false)
   .enableVerifyLimitAdTracking(false)
-  .subscribe(listener)
+  .subscribe(consumer)
 ```
 
 许可证

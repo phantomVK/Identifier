@@ -17,7 +17,7 @@ import com.phantomvk.identifier.app.main.MainManager.getResultList
 import com.phantomvk.identifier.app.settings.Settings
 import com.phantomvk.identifier.app.settings.SettingsActivity
 import com.phantomvk.identifier.disposable.Disposable
-import com.phantomvk.identifier.listener.OnResultListener
+import com.phantomvk.identifier.functions.Consumer
 import com.phantomvk.identifier.model.IdentifierResult
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
 
   private fun getId() {
     val isAsync = Settings.AsyncCallback.getValue()
-    val listener = object : OnResultListener {
+    val consumer = object : Consumer {
       override fun onSuccess(result: IdentifierResult) { assertThread(isAsync) { updateSuccessInfo(result) } }
       override fun onError(msg: String, throwable: Throwable?) { assertThread(isAsync) { updateErrorInfo(msg, throwable) } }
     }
@@ -47,8 +47,10 @@ class MainActivity : AppCompatActivity() {
       .enableAaid(Settings.Aaid.getValue())
       .enableVaid(Settings.Vaid.getValue())
       .enableGoogleAdsId(Settings.GoogleAdsId.getValue())
+      .enableExperimental(Settings.Experimental.getValue())
+      .enableMemCache(Settings.MemCache.getValue())
       .enableVerifyLimitAdTracking(Settings.LimitAdTracking.getValue())
-      .subscribe(listener)
+      .subscribe(consumer)
   }
 
   private fun updateSuccessInfo(msg: IdentifierResult) {
