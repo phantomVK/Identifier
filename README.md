@@ -44,7 +44,7 @@ class Application : android.app.Application() {
       .setDebug(false)
       .setExecutor { Thread(it).start() } // optional: setup custom ThreadPoolExecutor
       .setLogger(LoggerImpl())
-      .init()
+      .build()
   }
 }
 ```

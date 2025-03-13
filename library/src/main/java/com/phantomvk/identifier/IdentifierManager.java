@@ -69,7 +69,7 @@ public final class IdentifierManager {
             return this;
         }
 
-        public void init() {
+        public void build() {
             synchronized (Builder.class) {
                 if (sInstance == null) {
                     Log.setLogger(logger);

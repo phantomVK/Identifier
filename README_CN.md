@@ -45,7 +45,7 @@ class Application : android.app.Application() {
       .setDebug(false)
       .setExecutor { Thread(it).start() } // 可选: 设置自定义ThreadPoolExecutor
       .setLogger(LoggerImpl())
-      .init()
+      .build()
   }
 }
 ```
