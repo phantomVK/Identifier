@@ -51,7 +51,7 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) :
 
   protected fun getSysProperty(key: String, defValue: String?): String? {
     return try {
-      config.getSysProps?.invoke(null, key, defValue) as? String ?: defValue
+      config.sysProps.invoke(null, key, defValue) as? String ?: defValue
     } catch (t: Throwable) {
       defValue
     }
@@ -208,6 +208,7 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) :
     const val QUERY_CURSOR_IS_NULL: String = "Query cursor is null."
     const val SIGNATURE_IS_NULL: String = "Signature is null."
     const val SIGNATURE_HASH_IS_NULL: String = "Signature hash is null."
+    const val SYSTEM_PROPS_METHOD_NOT_FOUND: String = "SystemProperties not found using reflection."
   }
 
 //  protected inline fun <reified T> getResult(clazz: String, method: String, context: Context): T? {

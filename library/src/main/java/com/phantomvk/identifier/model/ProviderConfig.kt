@@ -3,6 +3,7 @@ package com.phantomvk.identifier.model
 import android.content.Context
 import com.phantomvk.identifier.functions.Consumer
 import java.lang.ref.WeakReference
+import java.lang.reflect.Method
 import java.util.concurrent.Executor
 
 internal class ProviderConfig(val context: Context) {
@@ -16,6 +17,7 @@ internal class ProviderConfig(val context: Context) {
   var queryGoogleAdsId = false
   var verifyLimitAdTracking = false
   lateinit var consumer: WeakReference<Consumer>
+  lateinit var sysProps: Method
 
   fun clone(): ProviderConfig {
     val config = ProviderConfig(context)
@@ -36,14 +38,5 @@ internal class ProviderConfig(val context: Context) {
     if (queryVaid) flag += 2
     if (queryGoogleAdsId) flag += 4
     return flag.toString()
-  }
-
-  internal val getSysProps by lazy {
-    try {
-      Class.forName("android.os.SystemProperties")
-        .getMethod("get", String::class.java, String::class.java)
-    } catch (t: Throwable) {
-      null
-    }
   }
 }

@@ -7,6 +7,7 @@ import com.phantomvk.identifier.app.settings.Settings
 import com.phantomvk.identifier.functions.Consumer
 import com.phantomvk.identifier.model.IdentifierResult
 import java.lang.ref.WeakReference
+import java.lang.reflect.Method
 import java.text.DecimalFormat
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.Executor
@@ -65,6 +66,7 @@ object MainManager {
 //      .getMethod("currentApplication")
 //      .invoke(null) as Application
 
+    val sysProps = Class.forName("android.os.SystemProperties").getMethod("get", String::class.java, String::class.java)
     val c = Class.forName("com.phantomvk.identifier.model.ProviderConfig")
     val config = c.getConstructor(Context::class.java).newInstance(Application.applicationInstance)
     c.getMethod("setAsyncCallback", Boolean::class.java).invoke(config, Settings.AsyncCallback.getValue())
@@ -75,6 +77,7 @@ object MainManager {
     c.getMethod("setQueryAaid", Boolean::class.java).invoke(config, Settings.Aaid.getValue())
     c.getMethod("setQueryVaid", Boolean::class.java).invoke(config, Settings.Vaid.getValue())
     c.getMethod("setQueryGoogleAdsId", Boolean::class.java).invoke(config, Settings.GoogleAdsId.getValue())
+    c.getMethod("setSysProps", Method::class.java).invoke(config, sysProps)
     c.getMethod("setExecutor", Executor::class.java).invoke(config, Executor { r -> Thread(r).start() })
     c.getMethod("setConsumer", WeakReference::class.java).invoke(config, WeakReference(object : Consumer {
       override fun onSuccess(result: IdentifierResult) {}
