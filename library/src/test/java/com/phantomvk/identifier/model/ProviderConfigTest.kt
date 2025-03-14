@@ -20,10 +20,8 @@ class ProviderConfigTest {
     providerConfig.executor = Executor { it.run() }
     providerConfig.isDebug = true
     providerConfig.isExperimental = true
-    providerConfig.isMemCacheEnabled = true
-    providerConfig.queryAaid = true
-    providerConfig.queryVaid = true
-    providerConfig.queryGoogleAdsId = true
+    providerConfig.memoryConfig = MemoryConfig(true)
+    providerConfig.idConfig = IdConfig(true, true, true)
     providerConfig.verifyLimitAdTracking = true
     providerConfig.consumer = WeakReference(mockConsumer)
 
@@ -33,54 +31,38 @@ class ProviderConfigTest {
     assertEquals(providerConfig.isDebug, clonedConfig.isDebug)
     assertEquals(providerConfig.isExperimental, clonedConfig.isExperimental)
     assertEquals(providerConfig.verifyLimitAdTracking, clonedConfig.verifyLimitAdTracking)
-    assertEquals(providerConfig.isMemCacheEnabled, clonedConfig.isMemCacheEnabled)
-    assertEquals(providerConfig.queryAaid, clonedConfig.queryAaid)
-    assertEquals(providerConfig.queryVaid, clonedConfig.queryVaid)
-    assertEquals(providerConfig.queryGoogleAdsId, clonedConfig.queryGoogleAdsId)
+    assertEquals(providerConfig.memoryConfig.isEnabled, clonedConfig.memoryConfig.isEnabled)
+    assertEquals(providerConfig.idConfig.isAaidEnabled, clonedConfig.idConfig.isAaidEnabled)
+    assertEquals(providerConfig.idConfig.isVaidEnabled, clonedConfig.idConfig.isVaidEnabled)
+    assertEquals(providerConfig.idConfig.isGoogleAdsIdEnabled, clonedConfig.idConfig.isGoogleAdsIdEnabled)
   }
 
   @Test
   fun testGetCacheKey() {
     val providerConfig = ProviderConfig(Application())
 
-    providerConfig.queryAaid = false
-    providerConfig.queryVaid = false
-    providerConfig.queryGoogleAdsId = false
+    providerConfig.idConfig = IdConfig()
     assertEquals("0", providerConfig.getCacheKey())
 
-    providerConfig.queryAaid = true
-    providerConfig.queryVaid = false
-    providerConfig.queryGoogleAdsId = false
+    providerConfig.idConfig = IdConfig(isAaidEnabled = true)
     assertEquals("1", providerConfig.getCacheKey())
 
-    providerConfig.queryAaid = false
-    providerConfig.queryVaid = true
-    providerConfig.queryGoogleAdsId = false
+    providerConfig.idConfig = IdConfig(isVaidEnabled = true)
     assertEquals("2", providerConfig.getCacheKey())
 
-    providerConfig.queryAaid = false
-    providerConfig.queryVaid = false
-    providerConfig.queryGoogleAdsId = true
+    providerConfig.idConfig = IdConfig(isGoogleAdsIdEnabled = true)
     assertEquals("4", providerConfig.getCacheKey())
 
-    providerConfig.queryAaid = true
-    providerConfig.queryVaid = true
-    providerConfig.queryGoogleAdsId = false
+    providerConfig.idConfig = IdConfig(isAaidEnabled = true, isVaidEnabled = true)
     assertEquals("3", providerConfig.getCacheKey())
 
-    providerConfig.queryAaid = true
-    providerConfig.queryVaid = false
-    providerConfig.queryGoogleAdsId = true
+    providerConfig.idConfig = IdConfig(isAaidEnabled = true, isGoogleAdsIdEnabled = true)
     assertEquals("5", providerConfig.getCacheKey())
 
-    providerConfig.queryAaid = false
-    providerConfig.queryVaid = true
-    providerConfig.queryGoogleAdsId = true
+    providerConfig.idConfig = IdConfig(isVaidEnabled = true, isGoogleAdsIdEnabled = true)
     assertEquals("6", providerConfig.getCacheKey())
 
-    providerConfig.queryAaid = true
-    providerConfig.queryVaid = true
-    providerConfig.queryGoogleAdsId = true
+    providerConfig.idConfig = IdConfig(true, true, true)
     assertEquals("7", providerConfig.getCacheKey())
   }
 }

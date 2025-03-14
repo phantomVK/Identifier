@@ -18,7 +18,9 @@ import com.phantomvk.identifier.app.settings.Settings
 import com.phantomvk.identifier.app.settings.SettingsActivity
 import com.phantomvk.identifier.disposable.Disposable
 import com.phantomvk.identifier.functions.Consumer
+import com.phantomvk.identifier.model.IdConfig
 import com.phantomvk.identifier.model.IdentifierResult
+import com.phantomvk.identifier.model.MemoryConfig
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -44,12 +46,16 @@ class MainActivity : AppCompatActivity() {
     disposable?.dispose()
     disposable = IdentifierManager.build()
       .enableAsyncCallback(isAsync)
-      .enableAaid(Settings.Aaid.getValue())
-      .enableVaid(Settings.Vaid.getValue())
-      .enableGoogleAdsId(Settings.GoogleAdsId.getValue())
       .enableExperimental(Settings.Experimental.getValue())
-      .enableMemCache(Settings.MemCache.getValue())
       .enableVerifyLimitAdTracking(Settings.LimitAdTracking.getValue())
+      .setIdConfig(
+        IdConfig(
+          isAaidEnabled = Settings.Aaid.getValue(),
+          isVaidEnabled = Settings.Vaid.getValue(),
+          isGoogleAdsIdEnabled = Settings.GoogleAdsId.getValue()
+        )
+      )
+      .setMemoryConfig(MemoryConfig(Settings.MemCache.getValue()))
       .subscribe(consumer)
   }
 

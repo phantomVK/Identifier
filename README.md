@@ -59,12 +59,17 @@ val consumer = object : Consumer {
 
 IdentifierManager.build()
   .enableAsyncCallback(false) // optional: invoke result callback in worker thread, default is false
-  .enableAaid(false)
-  .enableVaid(false)
-  .enableGoogleAdsId(false) // optional: use GoogleAdsId as backup, default is false
   .enableExperimental(false)
   .enableMemCache(false)
   .enableVerifyLimitAdTracking(false)
+  .setIdConfig(
+    IdConfig(
+      isAaidEnabled = false,
+      isVaidEnabled = false,
+      isGoogleEnabled = false // optional: use GoogleAdsId as backup, default is false
+    )
+  )
+  .setMemoryConfig(MemoryConfig(false))
   .subscribe(consumer)
 ```
 
