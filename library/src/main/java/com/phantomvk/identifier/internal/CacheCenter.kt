@@ -1,4 +1,4 @@
-package com.phantomvk.identifier.impl
+package com.phantomvk.identifier.internal
 
 import com.phantomvk.identifier.model.IdentifierResult
 import com.phantomvk.identifier.model.ProviderConfig
@@ -10,7 +10,7 @@ internal object CacheCenter {
   private var map = HashMap<String, IdentifierResult>()
 
   fun get(config: ProviderConfig): IdentifierResult? {
-    return if (config.isMemCacheEnabled) {
+    return if (config.memoryConfig.isEnabled) {
       map[config.getCacheKey()]
     } else {
       null
@@ -18,7 +18,7 @@ internal object CacheCenter {
   }
 
   fun put(config: ProviderConfig, result: IdentifierResult) {
-    if (config.isMemCacheEnabled) {
+    if (config.memoryConfig.isEnabled) {
       // fail-fast
       val cacheKey = config.getCacheKey()
       if (map[cacheKey] == result) {

@@ -14,16 +14,16 @@ internal class VivoProvider(config: ProviderConfig) : AbstractProvider(config) {
     if (config.verifyLimitAdTracking) {
       val isSupported = getSysProperty("persist.sys.identifierid.supported", "0")
       if (isSupported != "1") {
-        getCallback().onError(LIMIT_AD_TRACKING_IS_ENABLED)
+        getConsumer().onError(LIMIT_AD_TRACKING_IS_ENABLED)
         return
       }
     }
 
     when (val r = getId("OAID")) {
-      is BinderResult.Failed -> return getCallback().onError(r.msg, r.throwable)
+      is BinderResult.Failed -> return getConsumer().onError(r.msg, r.throwable)
       is BinderResult.Success -> {
         val aaid = queryId(IdEnum.AAID) { getId("AAID") }
-        getCallback().onSuccess(IdentifierResult(r.id, aaid))
+        getConsumer().onSuccess(IdentifierResult(r.id, aaid))
       }
     }
   }

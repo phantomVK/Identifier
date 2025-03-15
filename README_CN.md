@@ -43,11 +43,9 @@ class Application : android.app.Application() {
 
     IdentifierManager.Builder(applicationContext)
       .setDebug(false)
-      .setExperimental(false)
-      .setMemCacheEnable(true)
       .setExecutor { Thread(it).start() } // 可选: 设置自定义ThreadPoolExecutor
       .setLogger(LoggerImpl())
-      .init()
+      .build()
   }
 }
 ```
@@ -55,18 +53,25 @@ class Application : android.app.Application() {
 如何获取标识符
 
 ```kotlin
-val listener = object : OnResultListener {
+val consumer = object : Consumer {
   override fun onSuccess(result: IdentifierResult) {}
   override fun onError(msg: String, throwable: Throwable?) {}
 }
 
 IdentifierManager.build()
   .enableAsyncCallback(false) // 可选：在异步线程执行结果回调，默认为关闭
-  .enableAaid(false)
-  .enableVaid(false)
-  .enableGoogleAdsId(false) // 可选: 使用GoogleAdsId作为备选，默认关闭
+  .enableExperimental(false)
+  .enableMemCache(false)
   .enableVerifyLimitAdTracking(false)
-  .subscribe(listener)
+  .setIdConfig(
+    IdConfig(
+      isAaidEnabled = false,
+      isVaidEnabled = false,
+      isGoogleEnabled = false // 可选: 使用GoogleAdsId作为备选，默认关闭
+    )
+  )
+  .setMemoryConfig(MemoryConfig(false))
+  .subscribe(consumer)
 ```
 
 许可证

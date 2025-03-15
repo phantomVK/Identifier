@@ -4,8 +4,10 @@ import android.content.Context
 import android.os.Looper
 import com.phantomvk.identifier.app.Application
 import com.phantomvk.identifier.app.settings.Settings
-import com.phantomvk.identifier.listener.OnResultListener
+import com.phantomvk.identifier.functions.Consumer
+import com.phantomvk.identifier.model.IdConfig
 import com.phantomvk.identifier.model.IdentifierResult
+import com.phantomvk.identifier.model.MemoryConfig
 import java.lang.ref.WeakReference
 import java.text.DecimalFormat
 import java.util.concurrent.CountDownLatch
@@ -17,8 +19,8 @@ object MainManager {
   fun getResultList(): List<ResultDetail> {
     val absProviderClass = Class.forName("com.phantomvk.identifier.provider.AbstractProvider")
     val isSupportedMethod = absProviderClass.getMethod("isSupported")
-    val onResultListenerClass = Class.forName("com.phantomvk.identifier.listener.OnResultListener")
-    val setCallbackMethod = absProviderClass.getDeclaredMethod("setCallback", onResultListenerClass)
+    val consumerClass = Class.forName("com.phantomvk.identifier.functions.Consumer")
+    val setCallbackMethod = absProviderClass.getDeclaredMethod("setConsumer", consumerClass)
     val runMethod = absProviderClass.getMethod("run")
 
     val list = ArrayList<ResultDetail>()
@@ -34,7 +36,7 @@ object MainManager {
       }
 
       val latch = CountDownLatch(1)
-      val resultCallback = object : OnResultListener {
+      val resultCallback = object : Consumer {
         private val simpleName = (provider as Any).javaClass.simpleName
         private val startNanoTime = System.nanoTime()
         override fun onSuccess(result: IdentifierResult) {
@@ -71,17 +73,20 @@ object MainManager {
     c.getMethod("setDebug", Boolean::class.java).invoke(config, Settings.Debug.getValue())
     c.getMethod("setExperimental", Boolean::class.java).invoke(config, Settings.Experimental.getValue())
     c.getMethod("setVerifyLimitAdTracking", Boolean::class.java).invoke(config, Settings.LimitAdTracking.getValue())
-    c.getMethod("setMemCacheEnabled", Boolean::class.java).invoke(config, Settings. MemCache.getValue())
-    c.getMethod("setQueryAaid", Boolean::class.java).invoke(config, Settings.Aaid.getValue())
-    c.getMethod("setQueryVaid", Boolean::class.java).invoke(config, Settings.Vaid.getValue())
-    c.getMethod("setQueryGoogleAdsId", Boolean::class.java).invoke(config, Settings.GoogleAdsId.getValue())
+
+    val memoryConfig = MemoryConfig(Settings.MemCache.getValue())
+    c.getMethod("setMemoryConfig", MemoryConfig::class.java).invoke(config, memoryConfig)
+
+    val idConfig = IdConfig(Settings.Aaid.getValue(), Settings.Vaid.getValue(), Settings.GoogleAdsId.getValue())
+    c.getMethod("setIdConfig", IdConfig::class.java).invoke(config, idConfig)
+
     c.getMethod("setExecutor", Executor::class.java).invoke(config, Executor { r -> Thread(r).start() })
-    c.getMethod("setCallback", WeakReference::class.java).invoke(config, WeakReference(object : OnResultListener {
+    c.getMethod("setConsumer", WeakReference::class.java).invoke(config, WeakReference(object : Consumer {
       override fun onSuccess(result: IdentifierResult) {}
       override fun onError(msg: String, throwable: Throwable?) {}
     }))
 
-    val clz = Class.forName("com.phantomvk.identifier.impl.SerialRunnable")
+    val clz = Class.forName("com.phantomvk.identifier.internal.SerialRunnable")
     return clz.getDeclaredMethod("getProviders").apply { isAccessible = true }
       .invoke(clz.getConstructor(c).newInstance(config)) as List<*>
   }

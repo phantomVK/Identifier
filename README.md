@@ -42,11 +42,9 @@ class Application : android.app.Application() {
 
     IdentifierManager.Builder(applicationContext)
       .setDebug(false)
-      .setExperimental(false)
-      .setMemCacheEnable(true)
       .setExecutor { Thread(it).start() } // optional: setup custom ThreadPoolExecutor
       .setLogger(LoggerImpl())
-      .init()
+      .build()
   }
 }
 ```
@@ -54,18 +52,25 @@ class Application : android.app.Application() {
 How to query the latest oaid:
 
 ```kotlin
-val listener = object : OnResultListener {
+val consumer = object : Consumer {
   override fun onSuccess(result: IdentifierResult) {}
   override fun onError(msg: String, throwable: Throwable?) {}
 }
 
 IdentifierManager.build()
   .enableAsyncCallback(false) // optional: invoke result callback in worker thread, default is false
-  .enableAaid(false)
-  .enableVaid(false)
-  .enableGoogleAdsId(false) // optional: use GoogleAdsId as backup, default is false
+  .enableExperimental(false)
+  .enableMemCache(false)
   .enableVerifyLimitAdTracking(false)
-  .subscribe(listener)
+  .setIdConfig(
+    IdConfig(
+      isAaidEnabled = false,
+      isVaidEnabled = false,
+      isGoogleEnabled = false // optional: use GoogleAdsId as backup, default is false
+    )
+  )
+  .setMemoryConfig(MemoryConfig(false))
+  .subscribe(consumer)
 ```
 
 License

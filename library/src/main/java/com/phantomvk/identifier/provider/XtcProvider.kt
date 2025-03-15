@@ -13,6 +13,6 @@ internal class XtcProvider(config: ProviderConfig) : AbstractProvider(config) {
   override fun run() {
     val uri = Uri.parse("content://com.xtc.provider/BaseDataProvider/openID/8")
     val id = config.context.contentResolver.getType(uri)
-    checkId(id, getCallback())
+    checkId(id, getConsumer())
   }
 }

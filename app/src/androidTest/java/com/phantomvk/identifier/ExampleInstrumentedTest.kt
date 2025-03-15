@@ -3,7 +3,7 @@ package com.phantomvk.identifier
 import android.os.Looper
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.phantomvk.identifier.listener.OnResultListener
+import com.phantomvk.identifier.functions.Consumer
 import com.phantomvk.identifier.model.IdentifierResult
 
 import org.junit.Test
@@ -22,14 +22,14 @@ class ExampleInstrumentedTest {
   fun useAppContext() {
     // Context of the app under test.
     val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-    assertEquals("com.phantomvk.identifier", appContext.packageName)
+    assertEquals("com.phantomvk.identifier.app", appContext.packageName)
   }
 
   @Test
   fun assertCallbackUiThread() {
     IdentifierManager.build()
       .enableAsyncCallback(false)
-      .subscribe(object : OnResultListener {
+      .subscribe(object : Consumer {
         override fun onSuccess(result: IdentifierResult) {
           assertEquals(Looper.getMainLooper(), Looper.myLooper())
         }
@@ -44,7 +44,7 @@ class ExampleInstrumentedTest {
   fun assertCallbackWorkerThread() {
     IdentifierManager.build()
       .enableAsyncCallback(true)
-      .subscribe(object : OnResultListener {
+      .subscribe(object : Consumer {
         override fun onSuccess(result: IdentifierResult) {
           assertNotEquals(Looper.getMainLooper(), Looper.myLooper())
         }

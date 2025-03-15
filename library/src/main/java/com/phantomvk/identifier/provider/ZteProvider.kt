@@ -30,7 +30,7 @@ internal class ZteProvider(config: ProviderConfig) : AbstractProvider(config) {
         val method = clazz?.getDeclaredMethod("isSupported", Context::class.java)
         val isSupported = method?.invoke(instance, config.context) as? Boolean
         if (isSupported == false) {
-          getCallback().onError(LIMIT_AD_TRACKING_IS_ENABLED)
+          getConsumer().onError(LIMIT_AD_TRACKING_IS_ENABLED)
           return
         }
       } catch (ignore: Throwable) {
@@ -38,11 +38,11 @@ internal class ZteProvider(config: ProviderConfig) : AbstractProvider(config) {
     }
 
     when (val r = getId("getOAID")) {
-      is BinderResult.Failed -> getCallback().onError(r.msg, r.throwable)
+      is BinderResult.Failed -> getConsumer().onError(r.msg, r.throwable)
       is BinderResult.Success -> {
         val aaid = queryId(IdEnum.AAID) { getId("getAAID") }
         val vaid = queryId(IdEnum.VAID) { getId("getVAID") }
-        getCallback().onSuccess(IdentifierResult(r.id, aaid, vaid))
+        getConsumer().onSuccess(IdentifierResult(r.id, aaid, vaid))
       }
     }
   }

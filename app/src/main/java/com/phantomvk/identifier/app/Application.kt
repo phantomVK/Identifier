@@ -51,10 +51,8 @@ class Application : Application() {
 
     IdentifierManager.Builder(this)
       .setDebug(Settings.Debug.getValue())
-      .setExperimental(Settings.Experimental.getValue())
-      .setMemCacheEnable(Settings.MemCache.getValue())
       .setExecutor(Executors.newFixedThreadPool(1)) // optional: setup custom ThreadPoolExecutor
       .setLogger(logger)
-      .init()
+      .build()
   }
 }

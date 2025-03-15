@@ -10,6 +10,6 @@ internal class HonorSettingsSecureProvider(config: ProviderConfig) : AbstractPro
   }
 
   override fun run() {
-    checkId(Settings.Secure.getString(config.context.contentResolver, "oaid"), getCallback())
+    checkId(Settings.Secure.getString(config.context.contentResolver, "oaid"), getConsumer())
   }
 }

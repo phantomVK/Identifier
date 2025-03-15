@@ -1,10 +1,10 @@
-package com.phantomvk.identifier.impl
+package com.phantomvk.identifier.internal
 
 import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import com.phantomvk.identifier.disposable.Disposable
-import com.phantomvk.identifier.listener.OnResultListener
+import com.phantomvk.identifier.functions.Consumer
 import com.phantomvk.identifier.log.Log
 import com.phantomvk.identifier.model.IdentifierResult
 import com.phantomvk.identifier.model.ProviderConfig
@@ -41,12 +41,12 @@ import java.util.concurrent.atomic.AtomicBoolean
 
 internal class SerialRunnable(
   config: ProviderConfig
-) : AbstractProvider(config), OnResultListener, Disposable {
+) : AbstractProvider(config), Consumer, Disposable {
 
   private val disposed = AtomicBoolean()
 
   init {
-    setCallback(this)
+    setConsumer(this)
   }
 
   override fun isSupported(): Boolean {
@@ -58,13 +58,13 @@ internal class SerialRunnable(
     if (cached == null) {
       config.executor.execute { execute(0, getProviders()) }
     } else {
-      getCallback().onSuccess(cached)
+      getConsumer().onSuccess(cached)
     }
   }
 
   private fun execute(index: Int, providers: List<AbstractProvider>) {
     if (index == providers.size) {
-      getCallback().onError(NO_IMPLEMENTATION_FOUND)
+      getConsumer().onError(NO_IMPLEMENTATION_FOUND)
       return
     }
 
@@ -84,10 +84,10 @@ internal class SerialRunnable(
       return
     }
 
-    provider.setCallback(object : OnResultListener {
+    provider.setConsumer(object : Consumer {
       override fun onSuccess(result: IdentifierResult) {
         CacheCenter.put(config, result)
-        getCallback().onSuccess(result)
+        getConsumer().onSuccess(result)
       }
 
       override fun onError(msg: String, throwable: Throwable?) {
@@ -100,7 +100,7 @@ internal class SerialRunnable(
     try {
       provider.run()
     } catch (t: Throwable) {
-      getCallback().onError(EXCEPTION_THROWN, t)
+      getConsumer().onError(EXCEPTION_THROWN, t)
     }
   }
 
@@ -120,14 +120,14 @@ internal class SerialRunnable(
     return disposed.get()
   }
 
-  private fun invokeCallback(callback: ((OnResultListener) -> Unit)? = null) {
+  private fun invokeCallback(callback: ((Consumer) -> Unit)? = null) {
     if (disposed.get()) {
       return
     }
 
     if (disposed.compareAndSet(false, true)) {
       if (callback != null) {
-        config.callback.get()?.let {
+        config.consumer.get()?.let {
           if (config.asyncCallback && Looper.getMainLooper() == Looper.myLooper()) {
             config.executor.execute { callback.invoke(it) }
             return@let
@@ -142,7 +142,7 @@ internal class SerialRunnable(
         }
       }
 
-      config.callback.clear()
+      config.consumer.clear()
     }
   }
 
@@ -154,7 +154,7 @@ internal class SerialRunnable(
       addExperimentalProviders(config, providers)
     }
 
-    if (config.queryGoogleAdsId) {
+    if (config.idConfig.isGoogleAdsIdEnabled) {
       providers.add(GoogleAdsIdProvider(config))
     }
 
@@ -173,7 +173,7 @@ internal class SerialRunnable(
     }
 
     if (isBrand("Coolpad", "Coolpad")) {
-      if (config.queryAaid || config.queryVaid) {
+      if (config.idConfig.isAaidEnabled || config.idConfig.isVaidEnabled) {
         providers.add(CoolpadServiceProvider(config))
         providers.add(CoolpadSettingsProvider(config))
       } else {

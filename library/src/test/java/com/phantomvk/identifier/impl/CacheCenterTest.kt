@@ -1,10 +1,11 @@
 package com.phantomvk.identifier.impl
 
 import android.app.Application
+import com.phantomvk.identifier.internal.CacheCenter
 import com.phantomvk.identifier.model.IdentifierResult
+import com.phantomvk.identifier.model.MemoryConfig
 import com.phantomvk.identifier.model.ProviderConfig
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNotEquals
 import org.junit.Assert.assertNull
 import org.junit.Before
 import org.junit.Test
@@ -24,16 +25,16 @@ class CacheCenterTest {
 
   @Test
   fun testGetWithMemCacheEnabled() {
-    providerConfig.isMemCacheEnabled = true
+    providerConfig.memoryConfig = MemoryConfig(true)
     cacheCenter.put(providerConfig, identifierResult)
 
     val result = cacheCenter.get(providerConfig)
-    assertNotEquals(identifierResult, result)
+    assertEquals(identifierResult, result)
   }
 
   @Test
   fun testGetWithMemCacheDisabled() {
-    providerConfig.isMemCacheEnabled = false
+    providerConfig.memoryConfig = MemoryConfig(false)
     cacheCenter.put(providerConfig, identifierResult)
 
     val result = cacheCenter.get(providerConfig)
@@ -42,16 +43,16 @@ class CacheCenterTest {
 
   @Test
   fun testPutIfAbsentWithMemCacheEnabled() {
-    providerConfig.isMemCacheEnabled = true
+    providerConfig.memoryConfig = MemoryConfig(true)
     cacheCenter.put(providerConfig, identifierResult)
 
     val result = cacheCenter.get(providerConfig)
-    assertNotEquals(identifierResult, result)
+    assertEquals(identifierResult, result)
   }
 
   @Test
   fun testPutIfAbsentWithMemCacheDisabled() {
-    providerConfig.isMemCacheEnabled = false
+    providerConfig.memoryConfig = MemoryConfig(false)
     cacheCenter.put(providerConfig, identifierResult)
 
     val result = cacheCenter.get(providerConfig)
@@ -60,7 +61,7 @@ class CacheCenterTest {
 
   @Test
   fun testPutIfAbsentWithExistingKey() {
-    providerConfig.isMemCacheEnabled = true
+    providerConfig.memoryConfig = MemoryConfig(true)
     cacheCenter.put(providerConfig, identifierResult)
 
     val newIdentifierResult = IdentifierResult(oaid = "oaid")

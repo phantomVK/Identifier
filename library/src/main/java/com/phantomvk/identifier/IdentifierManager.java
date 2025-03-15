@@ -4,7 +4,6 @@ import android.content.Context;
 
 import androidx.annotation.NonNull;
 
-import com.phantomvk.identifier.impl.Subscription;
 import com.phantomvk.identifier.log.Log;
 import com.phantomvk.identifier.log.Logger;
 import com.phantomvk.identifier.model.ProviderConfig;
@@ -47,18 +46,6 @@ public final class IdentifierManager {
         }
 
         @NonNull
-        public Builder setExperimental(boolean enable) {
-            config.setExperimental(enable);
-            return this;
-        }
-
-        @NonNull
-        public Builder setMemCacheEnable(boolean enable) {
-            config.setMemCacheEnabled(enable);
-            return this;
-        }
-
-        @NonNull
         public Builder setLogger(Logger logger) {
             this.logger = logger;
             return this;
@@ -70,7 +57,7 @@ public final class IdentifierManager {
             return this;
         }
 
-        public void init() {
+        public void build() {
             synchronized (Builder.class) {
                 if (sInstance == null) {
                     Log.setLogger(logger);

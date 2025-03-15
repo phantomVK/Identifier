@@ -17,8 +17,10 @@ import com.phantomvk.identifier.app.main.MainManager.getResultList
 import com.phantomvk.identifier.app.settings.Settings
 import com.phantomvk.identifier.app.settings.SettingsActivity
 import com.phantomvk.identifier.disposable.Disposable
-import com.phantomvk.identifier.listener.OnResultListener
+import com.phantomvk.identifier.functions.Consumer
+import com.phantomvk.identifier.model.IdConfig
 import com.phantomvk.identifier.model.IdentifierResult
+import com.phantomvk.identifier.model.MemoryConfig
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -36,7 +38,7 @@ class MainActivity : AppCompatActivity() {
 
   private fun getId() {
     val isAsync = Settings.AsyncCallback.getValue()
-    val listener = object : OnResultListener {
+    val consumer = object : Consumer {
       override fun onSuccess(result: IdentifierResult) { assertThread(isAsync) { updateSuccessInfo(result) } }
       override fun onError(msg: String, throwable: Throwable?) { assertThread(isAsync) { updateErrorInfo(msg, throwable) } }
     }
@@ -44,11 +46,17 @@ class MainActivity : AppCompatActivity() {
     disposable?.dispose()
     disposable = IdentifierManager.build()
       .enableAsyncCallback(isAsync)
-      .enableAaid(Settings.Aaid.getValue())
-      .enableVaid(Settings.Vaid.getValue())
-      .enableGoogleAdsId(Settings.GoogleAdsId.getValue())
+      .enableExperimental(Settings.Experimental.getValue())
       .enableVerifyLimitAdTracking(Settings.LimitAdTracking.getValue())
-      .subscribe(listener)
+      .setIdConfig(
+        IdConfig(
+          isAaidEnabled = Settings.Aaid.getValue(),
+          isVaidEnabled = Settings.Vaid.getValue(),
+          isGoogleAdsIdEnabled = Settings.GoogleAdsId.getValue()
+        )
+      )
+      .setMemoryConfig(MemoryConfig(Settings.MemCache.getValue()))
+      .subscribe(consumer)
   }
 
   private fun updateSuccessInfo(msg: IdentifierResult) {
