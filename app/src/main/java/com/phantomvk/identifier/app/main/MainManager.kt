@@ -9,6 +9,7 @@ import com.phantomvk.identifier.model.IdConfig
 import com.phantomvk.identifier.model.IdentifierResult
 import com.phantomvk.identifier.model.MemoryConfig
 import java.lang.ref.WeakReference
+import java.lang.reflect.Method
 import java.text.DecimalFormat
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.Executor
@@ -79,6 +80,9 @@ object MainManager {
 
     val idConfig = IdConfig(Settings.Aaid.getValue(), Settings.Vaid.getValue(), Settings.GoogleAdsId.getValue())
     c.getMethod("setIdConfig", IdConfig::class.java).invoke(config, idConfig)
+
+    val sysProps = Class.forName("android.os.SystemProperties").getMethod("get", String::class.java, String::class.java)
+    c.getMethod("setSysProps", Method::class.java).invoke(config, sysProps)
 
     c.getMethod("setExecutor", Executor::class.java).invoke(config, Executor { r -> Thread(r).start() })
     c.getMethod("setConsumer", WeakReference::class.java).invoke(config, WeakReference(object : Consumer {
