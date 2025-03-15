@@ -1,6 +1,7 @@
 package com.phantomvk.identifier
 
 import android.app.Application
+import com.phantomvk.identifier.model.IdConfig
 import com.phantomvk.identifier.model.ProviderConfig
 import org.junit.Test
 
@@ -13,15 +14,16 @@ class ExampleUnitTest {
     @Test
     fun providerConfigCacheKeyTest() {
         val config = ProviderConfig(Application())
+        config.idConfig = IdConfig()
         assert(config.getCacheKey() == "0")
 
-        config.queryAaid = true
+        config.idConfig = IdConfig(true)
         assert(config.getCacheKey() == "1")
 
-        config.queryVaid = true
+        config.idConfig = IdConfig(true, true)
         assert(config.getCacheKey() == "3")
 
-        config.queryGoogleAdsId = true
+        config.idConfig = IdConfig(true, true, true)
         assert(config.getCacheKey() == "7")
     }
 }

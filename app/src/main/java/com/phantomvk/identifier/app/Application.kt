@@ -53,6 +53,6 @@ class Application : Application() {
       .setDebug(Settings.Debug.getValue())
       .setExecutor(Executors.newFixedThreadPool(1)) // optional: setup custom ThreadPoolExecutor
       .setLogger(logger)
-      .init()
+      .build()
   }
 }

@@ -45,7 +45,7 @@ class Application : android.app.Application() {
       .setDebug(false)
       .setExecutor { Thread(it).start() } // 可选: 设置自定义ThreadPoolExecutor
       .setLogger(LoggerImpl())
-      .init()
+      .build()
   }
 }
 ```
@@ -60,12 +60,17 @@ val consumer = object : Consumer {
 
 IdentifierManager.build()
   .enableAsyncCallback(false) // 可选：在异步线程执行结果回调，默认为关闭
-  .enableAaid(false)
-  .enableVaid(false)
-  .enableGoogleAdsId(false) // 可选: 使用GoogleAdsId作为备选，默认关闭
   .enableExperimental(false)
   .enableMemCache(false)
   .enableVerifyLimitAdTracking(false)
+  .setIdConfig(
+    IdConfig(
+      isAaidEnabled = false,
+      isVaidEnabled = false,
+      isGoogleEnabled = false // 可选: 使用GoogleAdsId作为备选，默认关闭
+    )
+  )
+  .setMemoryConfig(MemoryConfig(false))
   .subscribe(consumer)
 ```
 

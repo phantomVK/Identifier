@@ -170,7 +170,7 @@ internal class SerialRunnable(
       addExperimentalProviders(config, providers)
     }
 
-    if (config.queryGoogleAdsId) {
+    if (config.idConfig.isGoogleAdsIdEnabled) {
       providers.add(GoogleAdsIdProvider(config))
     }
 
@@ -189,7 +189,7 @@ internal class SerialRunnable(
     }
 
     if (isBrand("Coolpad", "Coolpad")) {
-      if (config.queryAaid || config.queryVaid) {
+      if (config.idConfig.isAaidEnabled || config.idConfig.isVaidEnabled) {
         providers.add(CoolpadServiceProvider(config))
         providers.add(CoolpadSettingsProvider(config))
       } else {

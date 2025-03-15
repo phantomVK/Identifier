@@ -102,8 +102,8 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) :
 
   protected fun queryId(type: IdEnum, callback: () -> BinderResult): String? {
     val isEnabled = when (type) {
-      IdEnum.AAID -> config.queryAaid
-      IdEnum.VAID -> config.queryVaid
+      IdEnum.AAID -> config.idConfig.isAaidEnabled
+      IdEnum.VAID -> config.idConfig.isVaidEnabled
     }
 
     return if (isEnabled) (callback.invoke() as? BinderResult.Success)?.id else null
