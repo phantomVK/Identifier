@@ -50,6 +50,7 @@ public class Subscription {
 
     @NonNull
     public Disposable subscribe(@NonNull Consumer consumer) {
+        ProviderConfig conf = this.conf.clone();
         conf.consumer = new WeakReference<>(consumer);
         SerialRunnable runnable = new SerialRunnable(conf);
         runnable.run();
