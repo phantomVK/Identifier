@@ -7,25 +7,32 @@ import java.lang.reflect.Method
 import java.util.concurrent.Executor
 
 internal class ProviderConfig(val context: Context) {
-  var asyncCallback = false
+  // Global configs.
   var executor = Executor { c: Runnable -> Thread(c).start() }
   var isDebug = false
+
+  // Local configs.
+  var isAsyncCallback = false
   var isExperimental = false
+  var isVerifyLimitAdTracking = false
   var idConfig = IdConfig()
   var memoryConfig = MemoryConfig()
-  var verifyLimitAdTracking = false
   lateinit var consumer: WeakReference<Consumer>
   lateinit var sysProps: Method
 
   fun clone(): ProviderConfig {
     val config = ProviderConfig(context)
-    config.asyncCallback = asyncCallback
+
+    // Global configs.
     config.executor = executor
     config.isDebug = isDebug
+
+    // Local configs.
+    config.isAsyncCallback = isAsyncCallback
     config.isExperimental = isExperimental
+    config.isVerifyLimitAdTracking = isVerifyLimitAdTracking
     config.idConfig = idConfig.clone()
     config.memoryConfig = memoryConfig.clone()
-    config.verifyLimitAdTracking = verifyLimitAdTracking
     return config
   }
 

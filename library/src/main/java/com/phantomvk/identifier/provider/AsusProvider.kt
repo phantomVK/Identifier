@@ -21,7 +21,7 @@ internal class AsusProvider(config: ProviderConfig) : AbstractProvider(config) {
     val intent = Intent("com.asus.msa.action.ACCESS_DID").setComponent(componentName)
     bindService(intent, object : BinderCallback {
       override fun call(binder: IBinder): BinderResult {
-        if (config.verifyLimitAdTracking) {
+        if (config.isVerifyLimitAdTracking) {
           if (!isSupport(binder)) {
             return BinderResult.Failed(LIMIT_AD_TRACKING_IS_ENABLED)
           }

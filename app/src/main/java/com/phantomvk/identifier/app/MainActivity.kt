@@ -27,10 +27,12 @@ import kotlinx.coroutines.launch
 class MainActivity : AppCompatActivity() {
 
   private var disposable: Disposable? = null
+  private lateinit var textView: TextView
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_main)
+    textView = findViewById(R.id.system_textview)
     findViewById<Button>(R.id.button).setOnClickListener { getId() }
     findViewById<Button>(R.id.button_settings).setOnClickListener { startActivity(Intent(this, SettingsActivity::class.java)) }
     getId()
@@ -97,7 +99,6 @@ class MainActivity : AppCompatActivity() {
         "| ${Build.VERSION.SDK_INT} | ${Build.FINGERPRINT} |")
 
     lifecycleScope.launch(Dispatchers.Main) {
-      val textView = findViewById<TextView>(R.id.system_textview)
       textView.text = deviceStr
       textView.setOnLongClickListener {
         copyToClipboard(deviceStr)

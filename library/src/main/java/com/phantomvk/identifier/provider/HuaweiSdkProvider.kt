@@ -18,7 +18,7 @@ internal class HuaweiSdkProvider(config: ProviderConfig) : AbstractProvider(conf
       return
     }
 
-    if (config.verifyLimitAdTracking) {
+    if (config.isVerifyLimitAdTracking) {
       if (info.javaClass.getMethod("isLimitAdTrackingEnabled").invoke(info) as Boolean) {
         getConsumer().onError(LIMIT_AD_TRACKING_IS_ENABLED)
         return
