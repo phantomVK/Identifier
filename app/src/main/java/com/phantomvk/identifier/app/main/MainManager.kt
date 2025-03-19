@@ -74,6 +74,7 @@ object MainManager {
     c.getMethod("setDebug", Boolean::class.java).invoke(config, Settings.Debug.getValue())
     c.getMethod("setExperimental", Boolean::class.java).invoke(config, Settings.Experimental.getValue())
     c.getMethod("setVerifyLimitAdTracking", Boolean::class.java).invoke(config, Settings.LimitAdTracking.getValue())
+    c.getMethod("setMergeRequests", Boolean::class.java).invoke(config, Settings.MergeRequests.getValue())
 
     val memoryConfig = MemoryConfig(Settings.MemCache.getValue())
     c.getMethod("setMemoryConfig", MemoryConfig::class.java).invoke(config, memoryConfig)

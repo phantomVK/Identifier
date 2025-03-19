@@ -46,14 +46,20 @@ public final class IdentifierManager {
         }
 
         @NonNull
+        public Builder setExecutor(@NonNull ExecutorService executor) {
+            config.setExecutor(executor);
+            return this;
+        }
+
+        @NonNull
         public Builder setLogger(Logger logger) {
             this.logger = logger;
             return this;
         }
 
         @NonNull
-        public Builder setExecutor(@NonNull ExecutorService executor) {
-            config.setExecutor(executor);
+        public Builder setMergeRequests(boolean enable) {
+            config.setMergeRequests(enable);
             return this;
         }
 

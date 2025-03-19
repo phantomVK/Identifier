@@ -52,6 +52,7 @@ class Application : Application() {
     IdentifierManager.Builder(this)
       .setDebug(Settings.Debug.getValue())
       .setExecutor(Executors.newFixedThreadPool(1)) // optional: setup custom ThreadPoolExecutor
+      .setMergeRequests(Settings.MergeRequests.getValue())
       .setLogger(logger)
       .build()
   }
