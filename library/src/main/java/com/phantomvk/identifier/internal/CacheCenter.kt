@@ -9,7 +9,7 @@ internal object CacheCenter {
   @Volatile
   private var map = HashMap<String, IdentifierResult>()
 
-  fun get(config: ProviderConfig): IdentifierResult? {
+  internal fun get(config: ProviderConfig): IdentifierResult? {
     return if (config.memoryConfig.isEnabled) {
       map[config.getCacheKey()]
     } else {
@@ -17,7 +17,7 @@ internal object CacheCenter {
     }
   }
 
-  fun put(config: ProviderConfig, result: IdentifierResult) {
+  internal fun put(config: ProviderConfig, result: IdentifierResult) {
     if (config.memoryConfig.isEnabled) {
       // fail-fast
       val cacheKey = config.getCacheKey()
