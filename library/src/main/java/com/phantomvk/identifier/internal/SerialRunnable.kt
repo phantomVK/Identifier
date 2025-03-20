@@ -6,6 +6,7 @@ import android.os.Looper
 import com.phantomvk.identifier.disposable.Disposable
 import com.phantomvk.identifier.functions.Consumer
 import com.phantomvk.identifier.internal.RunnableComposer.putRunnable
+import com.phantomvk.identifier.internal.RunnableComposer.removeRunnable
 import com.phantomvk.identifier.internal.RunnableComposer.removeRunnableSet
 import com.phantomvk.identifier.log.Log
 import com.phantomvk.identifier.model.IdentifierResult
@@ -150,6 +151,10 @@ internal class SerialRunnable(
   }
 
   override fun dispose() {
+    if (config.isMergeRequests) {
+      removeRunnable(config.getCacheKey(), this)
+    }
+
     invokeCallback()
   }
 
