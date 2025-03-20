@@ -144,12 +144,12 @@ internal class SerialRunnable(
     if (disposed.compareAndSet(false, true)) {
       if (callback != null) {
         config.consumer.get()?.let {
-          if (config.asyncCallback && Looper.getMainLooper() == Looper.myLooper()) {
+          if (config.isAsyncCallback && Looper.getMainLooper() == Looper.myLooper()) {
             config.executor.execute { callback.invoke(it) }
             return@let
           }
 
-          if (!config.asyncCallback && Looper.getMainLooper() != Looper.myLooper()) {
+          if (!config.isAsyncCallback && Looper.getMainLooper() != Looper.myLooper()) {
             Handler(Looper.getMainLooper()).post { callback.invoke(it) }
             return@let
           }

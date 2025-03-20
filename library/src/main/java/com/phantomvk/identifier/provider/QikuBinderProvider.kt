@@ -17,7 +17,7 @@ internal class QikuBinderProvider(config: ProviderConfig) : AbstractProvider(con
   }
 
   override fun run() {
-    if (config.verifyLimitAdTracking) {
+    if (config.isVerifyLimitAdTracking) {
       if (isLimited()) {
         getConsumer().onError(LIMIT_AD_TRACKING_IS_ENABLED)
         return

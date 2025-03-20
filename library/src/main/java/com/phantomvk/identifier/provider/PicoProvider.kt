@@ -25,7 +25,7 @@ internal class PicoProvider(config: ProviderConfig) : AbstractProvider(config) {
       return
     }
 
-    if (config.verifyLimitAdTracking) {
+    if (config.isVerifyLimitAdTracking) {
       if (bundle.getBoolean("forbidden", false)) {
         getConsumer().onError(LIMIT_AD_TRACKING_IS_ENABLED)
         return

@@ -30,7 +30,7 @@ internal class MeizuProvider(config: ProviderConfig) : AbstractProvider(config) 
     cursor.use { c ->
       c.moveToFirst()
 
-      if (config.verifyLimitAdTracking) {
+      if (config.isVerifyLimitAdTracking) {
         val code = c.getColumnIndex("code")
         if (code >= 0 && c.getLong(code) == 6L) {
           return BinderResult.Failed(LIMIT_AD_TRACKING_IS_ENABLED)
