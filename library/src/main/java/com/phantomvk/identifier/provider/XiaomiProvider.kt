@@ -9,20 +9,13 @@ import com.phantomvk.identifier.model.ProviderConfig
  */
 internal class XiaomiProvider(config: ProviderConfig) : AbstractProvider(config) {
 
-  private val clazz = try {
-    Class.forName("com.android.id.impl.IdProviderImpl")
-  } catch (t: Throwable) {
-    null
-  }
-
-  private val instance = try {
-    clazz!!.getDeclaredConstructor().newInstance()
-  } catch (t: Throwable) {
-    null
-  }
+  private lateinit var clazz: Class<*>
+  private lateinit var instance: Any
 
   override fun isSupported(): Boolean {
-    return clazz != null && instance != null
+    clazz = Class.forName("com.android.id.impl.IdProviderImpl")
+    instance = clazz.getDeclaredConstructor().newInstance()
+    return true
   }
 
   override fun run() {
@@ -38,7 +31,7 @@ internal class XiaomiProvider(config: ProviderConfig) : AbstractProvider(config)
 
   private fun getId(name: String): BinderResult {
     return try {
-      val method = clazz!!.getMethod(name, Context::class.java)
+      val method = clazz.getMethod(name, Context::class.java)
       checkId(method.invoke(instance, config.context) as? String)
     } catch (t: Throwable) {
       BinderResult.Failed(EXCEPTION_THROWN, t)

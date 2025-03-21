@@ -18,15 +18,15 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) :
 
   protected open fun getInterfaceName(): String = ""
 
-  private lateinit var resultCallback: Consumer
+  private lateinit var consumer: Consumer
 
   // This method must be public.
   fun setConsumer(callback: Consumer) {
-    resultCallback = callback
+    consumer = callback
   }
 
   protected fun getConsumer(): Consumer {
-    return resultCallback
+    return consumer
   }
 
   protected fun isBrand(manufacturer: String, brand: String): Boolean {
