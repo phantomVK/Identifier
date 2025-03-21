@@ -42,23 +42,6 @@ class MainActivity : AppCompatActivity() {
 
   private fun getId() {
     if (Settings.MergeRequests.getValue()) {
-      val array = ArrayList<Subscription>()
-      repeat(100) {
-        IdentifierManager.build()
-          .enableAsyncCallback(Settings.AsyncCallback.getValue())
-          .enableExperimental(Settings.Experimental.getValue())
-          .enableVerifyLimitAdTracking(Settings.LimitAdTracking.getValue())
-          .setIdConfig(
-            IdConfig(
-              isAaidEnabled = Settings.Aaid.getValue(),
-              isVaidEnabled = Settings.Vaid.getValue(),
-              isGoogleAdsIdEnabled = Settings.GoogleAdsId.getValue()
-            )
-          )
-          .setMemoryConfig(MemoryConfig(Settings.MemCache.getValue()))
-          .let { array.add(it) }
-      }
-
       val mergeConsumer = object : Consumer {
         private val successCount = AtomicInteger()
         private val errorCount = AtomicInteger()
@@ -77,30 +60,47 @@ class MainActivity : AppCompatActivity() {
         }
       }
 
-      array.forEach { it.subscribe(mergeConsumer) }
+      getSubscriptionList(100).forEach { it.subscribe(mergeConsumer) }
       return
     }
 
-    val isAsync = Settings.AsyncCallback.getValue()
-    val consumer = object : Consumer {
-      override fun onSuccess(result: IdentifierResult) { assertThread(isAsync) { updateSuccessInfo(result) } }
-      override fun onError(msg: String, throwable: Throwable?) { assertThread(isAsync) { updateErrorInfo(msg, throwable) } }
+    disposable?.dispose()
+    disposable = getSubscriptionList(1).first().subscribe(object : Consumer {
+      private val isAsync = Settings.AsyncCallback.getValue()
+
+      override fun onSuccess(result: IdentifierResult) {
+        assertThread(isAsync) { updateSuccessInfo(result) }
+      }
+
+      override fun onError(msg: String, throwable: Throwable?) {
+        assertThread(isAsync) { updateErrorInfo(msg, throwable) }
+      }
+    })
+  }
+
+  private fun getSubscriptionList(capacity: Int): List<Subscription> {
+    val list = ArrayList<Subscription>(capacity)
+    val asyncCallback = Settings.AsyncCallback.getValue()
+    val experimental = Settings.Experimental.getValue()
+    val limitAdTracking = Settings.LimitAdTracking.getValue()
+    val memoryConfig = MemoryConfig(Settings.MemCache.getValue())
+    val idConfig = IdConfig(
+      isAaidEnabled = Settings.Aaid.getValue(),
+      isVaidEnabled = Settings.Vaid.getValue(),
+      isGoogleAdsIdEnabled = Settings.GoogleAdsId.getValue()
+    )
+
+    repeat(capacity) {
+      IdentifierManager.build()
+        .enableAsyncCallback(asyncCallback)
+        .enableExperimental(experimental)
+        .enableVerifyLimitAdTracking(limitAdTracking)
+        .setIdConfig(idConfig)
+        .setMemoryConfig(memoryConfig)
+        .let { list.add(it) }
     }
 
-    disposable?.dispose()
-    disposable = IdentifierManager.build()
-      .enableAsyncCallback(isAsync)
-      .enableExperimental(Settings.Experimental.getValue())
-      .enableVerifyLimitAdTracking(Settings.LimitAdTracking.getValue())
-      .setIdConfig(
-        IdConfig(
-          isAaidEnabled = Settings.Aaid.getValue(),
-          isVaidEnabled = Settings.Vaid.getValue(),
-          isGoogleAdsIdEnabled = Settings.GoogleAdsId.getValue()
-        )
-      )
-      .setMemoryConfig(MemoryConfig(Settings.MemCache.getValue()))
-      .subscribe(consumer)
+    return list
   }
 
   private fun updateSuccessInfo(msg: IdentifierResult) {
