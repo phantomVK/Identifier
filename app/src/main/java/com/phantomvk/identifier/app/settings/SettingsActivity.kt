@@ -39,6 +39,7 @@ class SettingsActivity : AppCompatActivity() {
     val c = Class.forName("com.phantomvk.identifier.model.ProviderConfig")
     val booleanClass = Boolean::class.java
     c.getMethod("setDebug", booleanClass).invoke(config, Settings.Debug.getValue())
+    c.getMethod("setMergeRequests", booleanClass).invoke(config, Settings.MergeRequests.getValue())
   }
 
   override fun onDestroy() {

@@ -44,6 +44,7 @@ class Application : android.app.Application() {
       .setDebug(false)
       .setExecutor { Thread(it).start() } // optional: setup custom ThreadPoolExecutor
       .setLogger(LoggerImpl())
+      .setMergeRequests(false) // optional: merge multiple requests into one, default is false
       .build()
   }
 }

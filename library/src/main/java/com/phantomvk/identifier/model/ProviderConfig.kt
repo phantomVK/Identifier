@@ -10,6 +10,7 @@ internal class ProviderConfig(val context: Context) {
   // Global configs.
   var executor = Executor { c: Runnable -> Thread(c).start() }
   var isDebug = false
+  var isMergeRequests = false
 
   // Local configs.
   var isAsyncCallback = false
@@ -26,6 +27,7 @@ internal class ProviderConfig(val context: Context) {
     // Global configs.
     config.executor = executor
     config.isDebug = isDebug
+    config.isMergeRequests = isMergeRequests
 
     // Local configs.
     config.isAsyncCallback = isAsyncCallback

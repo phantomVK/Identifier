@@ -45,6 +45,7 @@ class Application : android.app.Application() {
       .setDebug(false)
       .setExecutor { Thread(it).start() } // 可选: 设置自定义ThreadPoolExecutor
       .setLogger(LoggerImpl())
+      .setMergeRequests(false) // 可选：合并多个请求，默认关闭
       .build()
   }
 }

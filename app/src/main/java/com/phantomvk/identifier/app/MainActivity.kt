@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.phantomvk.identifier.IdentifierManager
+import com.phantomvk.identifier.Subscription
 import com.phantomvk.identifier.app.main.MainManager.assertThread
 import com.phantomvk.identifier.app.main.MainManager.getResultList
 import com.phantomvk.identifier.app.settings.Settings
@@ -23,6 +24,7 @@ import com.phantomvk.identifier.model.IdentifierResult
 import com.phantomvk.identifier.model.MemoryConfig
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.concurrent.atomic.AtomicInteger
 
 class MainActivity : AppCompatActivity() {
 
@@ -39,26 +41,66 @@ class MainActivity : AppCompatActivity() {
   }
 
   private fun getId() {
-    val isAsync = Settings.AsyncCallback.getValue()
-    val consumer = object : Consumer {
-      override fun onSuccess(result: IdentifierResult) { assertThread(isAsync) { updateSuccessInfo(result) } }
-      override fun onError(msg: String, throwable: Throwable?) { assertThread(isAsync) { updateErrorInfo(msg, throwable) } }
+    if (Settings.MergeRequests.getValue()) {
+      val mergeConsumer = object : Consumer {
+        private val successCount = AtomicInteger()
+        private val errorCount = AtomicInteger()
+        override fun onSuccess(result: IdentifierResult) {
+          val deviceStr = deviceInfo()
+            .append("\n- Count: success->${successCount.incrementAndGet()}, error->${errorCount.get()}")
+            .append("\n- oaid: ${result.oaid}")
+          showInfo(deviceStr.toString())
+        }
+
+        override fun onError(msg: String, throwable: Throwable?) {
+          val deviceStr = deviceInfo()
+            .append("\n- Count: success->${successCount.get()}, error->${errorCount.incrementAndGet()}")
+            .append("\n- ErrMsg: $msg")
+          showInfo(deviceStr.toString(), throwable)
+        }
+      }
+
+      getSubscriptionList(100).forEach { it.subscribe(mergeConsumer) }
+      return
     }
 
     disposable?.dispose()
-    disposable = IdentifierManager.build()
-      .enableAsyncCallback(isAsync)
-      .enableExperimental(Settings.Experimental.getValue())
-      .enableVerifyLimitAdTracking(Settings.LimitAdTracking.getValue())
-      .setIdConfig(
-        IdConfig(
-          isAaidEnabled = Settings.Aaid.getValue(),
-          isVaidEnabled = Settings.Vaid.getValue(),
-          isGoogleAdsIdEnabled = Settings.GoogleAdsId.getValue()
-        )
-      )
-      .setMemoryConfig(MemoryConfig(Settings.MemCache.getValue()))
-      .subscribe(consumer)
+    disposable = getSubscriptionList(1).first().subscribe(object : Consumer {
+      private val isAsync = Settings.AsyncCallback.getValue()
+
+      override fun onSuccess(result: IdentifierResult) {
+        assertThread(isAsync) { updateSuccessInfo(result) }
+      }
+
+      override fun onError(msg: String, throwable: Throwable?) {
+        assertThread(isAsync) { updateErrorInfo(msg, throwable) }
+      }
+    })
+  }
+
+  private fun getSubscriptionList(capacity: Int): List<Subscription> {
+    val list = ArrayList<Subscription>(capacity)
+    val asyncCallback = Settings.AsyncCallback.getValue()
+    val experimental = Settings.Experimental.getValue()
+    val limitAdTracking = Settings.LimitAdTracking.getValue()
+    val memoryConfig = MemoryConfig(Settings.MemCache.getValue())
+    val idConfig = IdConfig(
+      isAaidEnabled = Settings.Aaid.getValue(),
+      isVaidEnabled = Settings.Vaid.getValue(),
+      isGoogleAdsIdEnabled = Settings.GoogleAdsId.getValue()
+    )
+
+    repeat(capacity) {
+      IdentifierManager.build()
+        .enableAsyncCallback(asyncCallback)
+        .enableExperimental(experimental)
+        .enableVerifyLimitAdTracking(limitAdTracking)
+        .setIdConfig(idConfig)
+        .setMemoryConfig(memoryConfig)
+        .let { list.add(it) }
+    }
+
+    return list
   }
 
   private fun updateSuccessInfo(msg: IdentifierResult) {
@@ -88,7 +130,7 @@ class MainActivity : AppCompatActivity() {
   }
 
   private fun updateErrorInfo(msg: String? = null, t: Throwable? = null) {
-    val deviceStr = deviceInfo().append("\n* ErrMsg: $msg").toString()
+    val deviceStr = deviceInfo().append("\n- ErrMsg: $msg").toString()
     showInfo(deviceStr, t)
   }
 

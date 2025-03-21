@@ -23,6 +23,7 @@ enum class Settings(
   Experimental("Experimental mode ", "is_experimental", true),
   LimitAdTracking("Limit Ad Tracking", "is_limit_ad_tracking", true),
   MemCache("Enable Memory Cache", "is_mem_cache_enable", false),
+  MergeRequests("Enable Merge-Requests", "is_merge_requests_enable", false),
   Aaid("Enable AAID", "is_aaid_enable", true),
   Vaid("Enable VAID", "is_vaid_enable", true),
   GoogleAdsId("Enable Google Ads ID", "is_google_ads_id_enable", true),
