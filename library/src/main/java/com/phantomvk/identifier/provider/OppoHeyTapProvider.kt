@@ -82,10 +82,9 @@ internal open class OppoHeyTapProvider(
   }
 
   private fun getSignatureHash(): BinderResult {
-    val signature = getSignatures(config.context.packageManager, config.context.packageName)?.firstOrNull()
-    if (signature == null) {
-      return BinderResult.Failed(SIGNATURE_IS_NULL)
-    }
+    val signature = getSignatures(config.context.packageManager, config.context.packageName)
+      ?.firstOrNull()
+      ?: return BinderResult.Failed(SIGNATURE_IS_NULL)
 
     val byteArray = signature.toByteArray()
     val sign = sha1(byteArray)
@@ -93,7 +92,7 @@ internal open class OppoHeyTapProvider(
       return BinderResult.Failed(SIGNATURE_HASH_IS_NULL)
     }
 
-    return BinderResult.Success(sign)
+    return BinderResult.Success(sign, null, null)
   }
 
   private fun getId(remote: IBinder, descriptor: String, sign: String, code: String): BinderResult {

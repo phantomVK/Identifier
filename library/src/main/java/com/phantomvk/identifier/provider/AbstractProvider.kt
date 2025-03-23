@@ -112,7 +112,7 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) :
   protected fun checkId(id: String?, callback: Consumer? = null): BinderResult {
     val result = when {
       id.isNullOrBlank() -> BinderResult.Failed(ID_IS_NULL_OR_BLANK)
-      id.any { it != '0' && it != '-' } -> BinderResult.Success(id)
+      id.any { it != '0' && it != '-' } -> BinderResult.Success(id, null, null)
       else -> BinderResult.Failed(ID_IS_INVALID)
     }
 
@@ -185,7 +185,7 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) :
   }
 
   protected sealed class BinderResult {
-    class Success(val id: String, val vaid: String? = null, val aaid: String? = null) : BinderResult()
+    class Success(val id: String, val vaid: String?, val aaid: String?) : BinderResult()
     class Failed(val msg: String, val throwable: Throwable? = null) : BinderResult()
   }
 
