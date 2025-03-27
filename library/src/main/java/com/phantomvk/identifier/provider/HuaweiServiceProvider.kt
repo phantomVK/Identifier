@@ -7,20 +7,25 @@ import com.phantomvk.identifier.model.ProviderConfig
 
 internal class HuaweiServiceProvider(config: ProviderConfig) : AbstractProvider(config) {
 
-  private val name by lazy(LazyThreadSafetyMode.NONE) {
-    listOf(
-      "com.huawei.hwid",
-      "com.huawei.hwid.tv",
-      "com.huawei.hms"
-    ).firstOrNull { isPackageInfoExisted(it) }
-  }
+  private lateinit var packageName: String
 
   override fun isSupported(): Boolean {
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
       return false
     }
 
-    return name != null
+    val name = listOf(
+      "com.huawei.hwid",
+      "com.huawei.hwid.tv",
+      "com.huawei.hms"
+    ).firstOrNull { isPackageInfoExisted(it) }
+
+    if (name == null) {
+      return false
+    }
+
+    packageName = name
+    return true
   }
 
   override fun getInterfaceName(): String {
@@ -28,7 +33,7 @@ internal class HuaweiServiceProvider(config: ProviderConfig) : AbstractProvider(
   }
 
   override fun run() {
-    val intent = Intent("com.uodis.opendevice.OPENIDS_SERVICE").setPackage(name)
+    val intent = Intent("com.uodis.opendevice.OPENIDS_SERVICE").setPackage(packageName)
     bindService(intent, object : BinderCallback {
       override fun call(binder: IBinder): BinderResult {
         if (config.isVerifyLimitAdTracking) {
