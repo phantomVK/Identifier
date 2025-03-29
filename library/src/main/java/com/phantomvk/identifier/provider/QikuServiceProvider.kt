@@ -24,11 +24,11 @@ internal class QikuServiceProvider(config: ProviderConfig) : AbstractProvider(co
           }
         }
 
-        when (val r = getId(binder, 3, true)) {
+        when (val r = getId(binder, 3)) {
           is BinderResult.Failed -> return r
           is BinderResult.Success -> {
-            val vaid = queryId(IdEnum.VAID) { getId(binder, 4, true) }
-            val aaid = queryId(IdEnum.AAID) { getId(binder, 5, true) }
+            val vaid = queryId(IdEnum.VAID) { getId(binder, 4) }
+            val aaid = queryId(IdEnum.AAID) { getId(binder, 5) }
             return BinderResult.Success(r.id, vaid, aaid)
           }
         }

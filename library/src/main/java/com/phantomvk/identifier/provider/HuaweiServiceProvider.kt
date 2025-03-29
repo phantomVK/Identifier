@@ -42,7 +42,7 @@ internal class HuaweiServiceProvider(config: ProviderConfig) : AbstractProvider(
           }
         }
 
-        return getId(binder, 1, false)
+        return getId(binder, 1)
       }
     })
   }

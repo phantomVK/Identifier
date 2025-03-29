@@ -29,7 +29,7 @@ internal class GoogleAdsIdProvider(config: ProviderConfig) : AbstractProvider(co
           }
         }
 
-        return getId(binder, 1, false)
+        return getId(binder, 1)
       }
     })
   }

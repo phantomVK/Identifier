@@ -24,11 +24,11 @@ internal class ZuiProvider(config: ProviderConfig) : AbstractProvider(config) {
           }
         }
 
-        return when (val r = getId(binder, 1, true)) {
+        return when (val r = getId(binder, 1)) {
           is BinderResult.Failed -> r
           is BinderResult.Success -> {
-            val vaid = queryId(IdEnum.VAID) { getId(binder, 4, true) }
-            val aaid = queryId(IdEnum.AAID) { getId(binder, 5, true) }
+            val vaid = queryId(IdEnum.VAID) { getId(binder, 4) }
+            val aaid = queryId(IdEnum.AAID) { getId(binder, 5) }
             BinderResult.Success(r.id, vaid, aaid)
           }
         }
