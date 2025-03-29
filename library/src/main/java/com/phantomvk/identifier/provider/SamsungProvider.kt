@@ -2,7 +2,6 @@ package com.phantomvk.identifier.provider
 
 import android.content.Intent
 import android.os.IBinder
-import android.os.Parcel
 import com.phantomvk.identifier.model.ProviderConfig
 
 internal class SamsungProvider(config: ProviderConfig) : AbstractProvider(config) {
@@ -19,11 +18,11 @@ internal class SamsungProvider(config: ProviderConfig) : AbstractProvider(config
     val intent = Intent().setClassName("com.samsung.android.deviceidservice", "com.samsung.android.deviceidservice.DeviceIdService")
     bindService(intent, object : BinderCallback {
       override fun call(binder: IBinder): BinderResult {
-        return when (val r = getId(binder, 1, true)) {
+        return when (val r = getId(binder, 1)) {
           is BinderResult.Failed -> return r
           is BinderResult.Success -> {
-            val vaid = queryId(IdEnum.VAID) { getId(binder, 2, true) }
-            val aaid = queryId(IdEnum.AAID) { getId(binder, 3, true) }
+            val vaid = queryId(IdEnum.VAID) { getId(binder, 2) }
+            val aaid = queryId(IdEnum.AAID) { getId(binder, 3) }
             BinderResult.Success(r.id, vaid, aaid)
           }
         }

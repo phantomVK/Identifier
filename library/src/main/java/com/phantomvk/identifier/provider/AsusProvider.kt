@@ -27,11 +27,11 @@ internal class AsusProvider(config: ProviderConfig) : AbstractProvider(config) {
           }
         }
 
-        when (val r = getId(binder, 3, false)) {
+        when (val r = getId(binder, 3)) {
           is BinderResult.Failed -> return r
           is BinderResult.Success -> {
-            val vaid = queryId(IdEnum.VAID) { getId(binder, 4, false) }
-            val aaid = queryId(IdEnum.AAID) { getId(binder, 5, false) }
+            val vaid = queryId(IdEnum.VAID) { getId(binder, 4) }
+            val aaid = queryId(IdEnum.AAID) { getId(binder, 5) }
             return BinderResult.Success(r.id, vaid, aaid)
           }
         }

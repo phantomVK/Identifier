@@ -83,12 +83,12 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) :
     }
   }
 
-  protected fun getId(remote: IBinder, code: Int, writePackageName: Boolean): BinderResult {
+  protected fun getId(remote: IBinder, code: Int): BinderResult {
     val data = Parcel.obtain()
     val reply = Parcel.obtain()
     try {
       data.writeInterfaceToken(getInterfaceName())
-      if (writePackageName) data.writeString(config.context.packageName)
+      data.writeString(config.context.packageName)
       remote.transact(code, data, reply, 0)
       reply.readException()
       return checkId(reply.readString())
