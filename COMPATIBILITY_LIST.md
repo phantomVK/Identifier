@@ -38,6 +38,7 @@
 |:------------:|:-----:|:--------------------------:|:-----------:|:-----------:|:-------:|:---------------------------------------------------------------------------------:|
 |     asus     | asus  | ROG Phone II Elite Edition | ASUS_I001DA | ASUS_I001_1 |   28    |  asus/CN_I001D/ASUS_I001_1:9/PKQ1.190414.001/16.0631.1908.12-0:user/release-keys  |
 |     asus     | asus  | ROG Phone II Elite Edition | ASUS_I001DA | ASUS_I001_1 |   30    | asus/CN_I001D/ASUS_I001_1:11/RKQ1.200710.002/18.0210.2111.190-0:user/release-keys |
+|     asus     | asus  |        ROG Phone 5         | ASUS_I005DA | ASUS_I005_1 |   31    | asus/CN_I005D/ASUS_I005_1:12/SKQ1.210821.001/31.0810.1226.114-0:user/release-keys |
 
 ### BlackShark
 
