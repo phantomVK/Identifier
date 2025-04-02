@@ -82,6 +82,7 @@ class MainActivity : AppCompatActivity() {
     val list = ArrayList<Subscription>(capacity)
     val asyncCallback = Settings.AsyncCallback.getValue()
     val experimental = Settings.Experimental.getValue()
+    val externalSdkQuerying = Settings.ExternalSdkQuerying.getValue()
     val limitAdTracking = Settings.LimitAdTracking.getValue()
     val memoryConfig = MemoryConfig(Settings.MemCache.getValue())
     val idConfig = IdConfig(
@@ -94,6 +95,7 @@ class MainActivity : AppCompatActivity() {
       IdentifierManager.build()
         .enableAsyncCallback(asyncCallback)
         .enableExperimental(experimental)
+        .enableExternalSdkQuerying(externalSdkQuerying)
         .enableVerifyLimitAdTracking(limitAdTracking)
         .setIdConfig(idConfig)
         .setMemoryConfig(memoryConfig)
