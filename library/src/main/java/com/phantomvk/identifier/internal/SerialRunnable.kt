@@ -231,7 +231,10 @@ internal class SerialRunnable(
       || isSysPropertyContainsKey("ro.build.version.emui")
     ) {
       if (isBrand("HONOR", "HONOR") || isBrand("HUAWEI", "HONOR")) {
-        providers.add(HonorSdkProvider(config))
+        if (config.isExternalSdkQuerying) {
+          providers.add(HonorSdkProvider(config))
+        }
+
         providers.add(HonorSettingsSecureProvider(config))
         providers.add(HonorSettingsGlobalProvider(config))
         providers.add(HonorServiceProvider(config))
@@ -241,7 +244,10 @@ internal class SerialRunnable(
         || isBrand("HUAWEI", "HONOR")
         || isSysPropertyContainsKey("ro.build.version.emui") // Honor 100Pro(MAA-AN10) returns false.
       ) {
-        providers.add(HuaweiSdkProvider(config))
+        if (config.isExternalSdkQuerying) {
+          providers.add(HuaweiSdkProvider(config))
+        }
+
         providers.add(HuaweiSettingsProvider(config))
         providers.add(HuaweiContentProvider(config))
         providers.add(HuaweiServiceProvider(config))

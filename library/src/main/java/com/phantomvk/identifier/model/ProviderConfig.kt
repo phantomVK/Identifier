@@ -15,6 +15,7 @@ internal class ProviderConfig(val context: Context) {
   // Local configs.
   var isAsyncCallback = false
   var isExperimental = false
+  var isExternalSdkQuerying = false
   var isVerifyLimitAdTracking = false
   var idConfig = IdConfig()
   var memoryConfig = MemoryConfig()
@@ -32,6 +33,7 @@ internal class ProviderConfig(val context: Context) {
     // Local configs.
     config.isAsyncCallback = isAsyncCallback
     config.isExperimental = isExperimental
+    config.isExternalSdkQuerying = isExternalSdkQuerying
     config.isVerifyLimitAdTracking = isVerifyLimitAdTracking
     config.idConfig = idConfig.clone()
     config.memoryConfig = memoryConfig.clone()

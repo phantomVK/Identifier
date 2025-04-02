@@ -73,6 +73,7 @@ object MainManager {
     c.getMethod("setAsyncCallback", Boolean::class.java).invoke(config, Settings.AsyncCallback.getValue())
     c.getMethod("setDebug", Boolean::class.java).invoke(config, Settings.Debug.getValue())
     c.getMethod("setExperimental", Boolean::class.java).invoke(config, Settings.Experimental.getValue())
+    c.getMethod("setExternalSdkQuerying", Boolean::class.java).invoke(config,Settings.ExternalSdkQuerying.getValue())
     c.getMethod("setVerifyLimitAdTracking", Boolean::class.java).invoke(config, Settings.LimitAdTracking.getValue())
     c.getMethod("setMergeRequests", Boolean::class.java).invoke(config, Settings.MergeRequests.getValue())
 

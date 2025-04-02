@@ -31,6 +31,12 @@ public class Subscription {
     }
 
     @NonNull
+    public Subscription enableExternalSdkQuerying(boolean enable) {
+        conf.setExternalSdkQuerying(enable);
+        return this;
+    }
+
+    @NonNull
     public Subscription enableVerifyLimitAdTracking(boolean enable) {
         conf.setVerifyLimitAdTracking(enable);
         return this;
