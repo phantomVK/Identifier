@@ -83,6 +83,22 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) :
     }
   }
 
+  protected fun queryId(
+    binder: IBinder,
+    oaidCode: Int,
+    vaidCode: Int,
+    aaidCode: Int
+  ): BinderResult {
+    return when (val o = getId(binder, oaidCode)) {
+      is BinderResult.Failed -> o
+      is BinderResult.Success -> {
+        val vaid = invokeById(IdEnum.VAID) { getId(binder, vaidCode) }
+        val aaid = invokeById(IdEnum.AAID) { getId(binder, aaidCode) }
+        BinderResult.Success(o.id, vaid, aaid)
+      }
+    }
+  }
+
   protected fun getId(remote: IBinder, code: Int): BinderResult {
     val data = Parcel.obtain()
     val reply = Parcel.obtain()
@@ -100,7 +116,7 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) :
     }
   }
 
-  protected fun queryId(type: IdEnum, callback: () -> BinderResult): String? {
+  protected fun invokeById(type: IdEnum, callback: () -> BinderResult): String? {
     val isEnabled = when (type) {
       IdEnum.AAID -> config.idConfig.isAaidEnabled
       IdEnum.VAID -> config.idConfig.isVaidEnabled

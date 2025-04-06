@@ -35,8 +35,8 @@ internal class NubiaProvider(config: ProviderConfig) : AbstractProvider(config) 
       when (val r = getId(client, "getOAID")) {
         is BinderResult.Failed -> getConsumer().onError(r.msg, r.throwable)
         is BinderResult.Success -> {
-          val aaid = queryId(IdEnum.AAID) { getId(client, "getAAID") }
-          val vaid = queryId(IdEnum.VAID) { getId(client, "getVAID") }
+          val aaid = invokeById(IdEnum.AAID) { getId(client, "getAAID") }
+          val vaid = invokeById(IdEnum.VAID) { getId(client, "getVAID") }
           getConsumer().onSuccess(IdentifierResult(r.id, aaid, vaid))
         }
       }

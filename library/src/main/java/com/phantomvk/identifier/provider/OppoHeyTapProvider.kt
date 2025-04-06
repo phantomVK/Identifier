@@ -35,7 +35,7 @@ internal open class OppoHeyTapProvider(
           is BinderResult.Failed -> return r
           is BinderResult.Success -> {
 //            val vaid = queryId(IdEnum.VAID) { getId(binder, descriptor, sign, "VAID") }
-            val aaid = queryId(IdEnum.AAID) { getId(binder, descriptor, sign, "AAID") }
+            val aaid = invokeById(IdEnum.AAID) { getId(binder, descriptor, sign, "AAID") }
             return BinderResult.Success(r.id, null, aaid)
           }
         }
