@@ -18,14 +18,7 @@ internal class SamsungProvider(config: ProviderConfig) : AbstractProvider(config
     val intent = Intent().setClassName("com.samsung.android.deviceidservice", "com.samsung.android.deviceidservice.DeviceIdService")
     bindService(intent, object : BinderCallback {
       override fun call(binder: IBinder): BinderResult {
-        return when (val r = getId(binder, 1)) {
-          is BinderResult.Failed -> return r
-          is BinderResult.Success -> {
-            val vaid = queryId(IdEnum.VAID) { getId(binder, 2) }
-            val aaid = queryId(IdEnum.AAID) { getId(binder, 3) }
-            BinderResult.Success(r.id, vaid, aaid)
-          }
-        }
+        return queryId(binder, 1, 2, 3)
       }
     })
   }

@@ -22,7 +22,7 @@ internal class VivoProvider(config: ProviderConfig) : AbstractProvider(config) {
     when (val r = getId("OAID")) {
       is BinderResult.Failed -> return getConsumer().onError(r.msg, r.throwable)
       is BinderResult.Success -> {
-        val aaid = queryId(IdEnum.AAID) { getId("AAID") }
+        val aaid = invokeById(IdEnum.AAID) { getId("AAID") }
         getConsumer().onSuccess(IdentifierResult(r.id, aaid))
       }
     }

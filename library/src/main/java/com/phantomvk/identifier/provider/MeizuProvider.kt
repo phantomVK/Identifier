@@ -14,7 +14,7 @@ internal class MeizuProvider(config: ProviderConfig) : AbstractProvider(config) 
     when (val r = getId("oaid")) {
       is BinderResult.Failed -> getConsumer().onError(r.msg, r.throwable)
       is BinderResult.Success -> {
-        val aaid = queryId(IdEnum.AAID) { getId("aaid") }
+        val aaid = invokeById(IdEnum.AAID) { getId("aaid") }
         getConsumer().onSuccess(IdentifierResult(r.id, aaid))
       }
     }

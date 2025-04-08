@@ -27,8 +27,8 @@ internal class QikuBinderProvider(config: ProviderConfig) : AbstractProvider(con
     when (val r = getId(4)) {
       is BinderResult.Failed -> getConsumer().onError(r.msg, r.throwable)
       is BinderResult.Success -> {
-//        val vaid = queryId(IdEnum.VAID) { getId(5) }
-//        val aaid = queryId(IdEnum.AAID) { getId(6) }
+//        val vaid = invokeById(IdEnum.VAID) { getId(5) }
+//        val aaid = invokeById(IdEnum.AAID) { getId(6) }
         getConsumer().onSuccess(IdentifierResult(r.id))
       }
     }

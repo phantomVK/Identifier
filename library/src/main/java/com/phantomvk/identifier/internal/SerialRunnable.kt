@@ -155,14 +155,14 @@ internal class SerialRunnable(
       removeRunnable(config.getCacheKey(), this)
     }
 
-    invokeCallback()
+    invokeCallback(null)
   }
 
   override fun isDisposed(): Boolean {
     return disposed.get()
   }
 
-  private fun invokeCallback(callback: ((Consumer) -> Unit)? = null) {
+  private fun invokeCallback(callback: ((Consumer) -> Unit)?) {
     if (disposed.get()) {
       return
     }
