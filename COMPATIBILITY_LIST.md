@@ -175,6 +175,7 @@
 |     OPPO     | OPPO  |  Find X3 Pro  |  PEEM00   |  OP4E3F  |   33    | OPPO/PEEM00/OP4E3F:13/TP1A.220905.001/R.ed8712-374db-16478e:user/release-keys |
 |     OPPO     | OPPO  |    Find N     |  PEUM00   | OP4E75L1 |   34    |   OPPO/PEUM00/OP4E75L1:14/UKQ1.230924.001/R.179f45b_207-1:user/release-keys   |
 |     OPPO     | OPPO  |    Find X5    |  PFFM10   | OP520DL1 |   34    | OPPO/PFFM10/OP520DL1:14/UKQ1.230924.001/S.14bf5a6-5841-5842:user/release-keys |
+|     OPPO     | OPPO  |      Pad      |  OPD2101  |  OP5223  |   34    |  OPPO/OPD2101/OP5223:14/UKQ1.230924.001/R.1acf252-1-131d2b:user/release-keys  |
 
 ### Qiku
 
@@ -232,6 +233,7 @@
 |    Xiaomi    | Xiaomi |      12S      |   2203121C   |    thor    |   31    |      Xiaomi/thor/thor:12/SKQ1.220303.001/V13.0.11.0.SLACNXM:user/release-keys       |
 |    Xiaomi    | Xiaomi |     13Pro     |   2210132C   |    nuwa    |   34    |      Xiaomi/nuwa/nuwa:14/UKQ1.230804.001/V816.0.8.0.UMBCNXM:user/release-keys       |
 |    Xiaomi    | Xiaomi |      14       |  23127PN0CC  |   houji    |   34    |     Xiaomi/houji/houji:14/UKQ1.230804.001/V816.0.36.0.UNCCNXM:user/release-keys     |
+|    Xiaomi    | Xiaomi |     Pad6      |  23043RP34C  |    pipa    |   34    |      Xiaomi/pipa/pipa:14/UKQ1.230917.001/V816.0.13.0.UMZCNXM:user/release-keys      |
 
 #### Zte
 
