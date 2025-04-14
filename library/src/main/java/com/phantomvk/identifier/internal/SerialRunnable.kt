@@ -27,7 +27,6 @@ import com.phantomvk.identifier.provider.HuaweiSdkProvider
 import com.phantomvk.identifier.provider.HuaweiServiceProvider
 import com.phantomvk.identifier.provider.HuaweiSettingsProvider
 import com.phantomvk.identifier.provider.MeizuProvider
-import com.phantomvk.identifier.provider.MsaProvider
 import com.phantomvk.identifier.provider.NubiaProvider
 import com.phantomvk.identifier.provider.OppoColorOsProvider
 import com.phantomvk.identifier.provider.OppoHeyTapProvider
@@ -335,10 +334,6 @@ internal class SerialRunnable(
 
     if (Build.MODEL.startsWith("xtc", true) || Build.MODEL.startsWith("imoo", true)) {
       providers.add(XtcProvider(config))
-    }
-
-    if (isPackageInfoExisted("com.mdid.msa")) {
-      providers.add(MsaProvider(config))
     }
   }
 }
