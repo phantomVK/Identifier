@@ -28,9 +28,6 @@
         <package android:name="com.freeme.secureguard" />
         <package android:name="com.android.secureguard" />
 
-        <!-- zte -->
-        <package android:name="com.mdid.msa" />
-
         <!-- samsung -->
         <package android:name="com.samsung.android.deviceidservice" />
 
