@@ -16,7 +16,6 @@
 |  HuaweiServiceProvider.kt  |      Huawei      |  Y   |      |      |
 | HuaweiSettingsProvider.kt  |      Huawei      |  Y   |      |      |
 |      MeizuProvider.kt      |      Meizu       |  Y   |  Y   |      |
-|       MsaProvider.kt       |                  |      |      |      |
 |      NubiaProvider.kt      |      Nubia       |  Y   |  Y   |  Y   |
 |   OppoColorOsProvider.kt   |       Oppo       |  Y   |  Y   |      |
 |   OppoHeyTapProvider.kt    |       Oppo       |  Y   |  Y   |      |
