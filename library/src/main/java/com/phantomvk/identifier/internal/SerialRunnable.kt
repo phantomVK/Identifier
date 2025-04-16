@@ -129,7 +129,7 @@ internal class SerialRunnable(
 
   override fun onError(msg: String, throwable: Throwable?) {
     if (config.isMergeRequests) {
-      removeRunnableSet(config.getCacheKey()).forEach { r ->
+      removeRunnableSet(config.getCacheKey())?.forEach { r ->
         r.invokeCallback { it.onError(msg, throwable) }
       }
       return
@@ -140,7 +140,7 @@ internal class SerialRunnable(
 
   override fun onSuccess(result: IdentifierResult) {
     if (config.isMergeRequests) {
-      removeRunnableSet(config.getCacheKey()).forEach { r ->
+      removeRunnableSet(config.getCacheKey())?.forEach { r ->
         r.invokeCallback { it.onSuccess(result) }
       }
       return
