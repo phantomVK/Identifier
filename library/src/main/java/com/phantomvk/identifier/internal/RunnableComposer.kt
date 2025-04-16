@@ -41,9 +41,7 @@ internal object RunnableComposer {
    * Return the HashSet of SerialRunnable which is associated with the same cacheKey.
    */
   @Synchronized
-  internal fun removeRunnableSet(cacheKey: String): HashSet<SerialRunnable> {
-    val set = map[cacheKey]
-    map.remove(cacheKey)
-    return set ?: HashSet()
+  internal fun removeRunnableSet(cacheKey: String): HashSet<SerialRunnable>? {
+    return map.remove(cacheKey)
   }
 }
