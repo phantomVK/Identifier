@@ -39,7 +39,6 @@ import com.phantomvk.identifier.provider.XiaomiProvider
 import com.phantomvk.identifier.provider.XtcProvider
 import com.phantomvk.identifier.provider.ZteProvider
 import com.phantomvk.identifier.provider.ZuiProvider
-import java.lang.reflect.Method
 import java.util.concurrent.atomic.AtomicBoolean
 
 internal class SerialRunnable(
@@ -74,18 +73,6 @@ internal class SerialRunnable(
       }
     } else {
       getConsumer().onSuccess(cached)
-    }
-  }
-
-  /**
-   * Return error message if android.os.SystemProperties not found using reflection.
-   */
-  private fun getSysPropsMethod(): Method? {
-    return try {
-      Class.forName("android.os.SystemProperties").getMethod("get", String::class.java, String::class.java)
-    } catch (t: Throwable) {
-      getConsumer().onError(SYSTEM_PROPS_METHOD_NOT_FOUND, t)
-      null
     }
   }
 
