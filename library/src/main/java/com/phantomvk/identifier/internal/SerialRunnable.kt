@@ -65,8 +65,12 @@ internal class SerialRunnable(
       }
 
       config.executor.execute {
-        config.sysProps = getSysPropsMethod() ?: return@execute
-        execute(0, getProviders())
+        try {
+          config.sysProps = CacheCenter.getSystemPropsMethod()
+          execute(0, getProviders())
+        } catch (t: Throwable) {
+          getConsumer().onError(SYSTEM_PROPS_METHOD_NOT_FOUND, t)
+        }
       }
     } else {
       getConsumer().onSuccess(cached)
