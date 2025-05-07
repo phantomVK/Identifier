@@ -68,14 +68,18 @@ internal open class OppoHeyTapProvider(
     if (bytes.isEmpty()) return null
 
     return try {
+      var index = 0
+      val chars = CharArray(40)
+      val digits = charArrayOf('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f')
       val byteArray = MessageDigest.getInstance("SHA1").digest(bytes)
-      val sb = StringBuilder(40)
 
       for (byte in byteArray) {
-        sb.append(String.format("%02x", byte))
+        val intValue = byte.toInt()
+        chars[index++] = digits[intValue ushr 4 and 0xf]
+        chars[index++] = digits[intValue and 0xf]
       }
 
-      sb.toString()
+      String(chars)
     } catch (t: Throwable) {
       null
     }
