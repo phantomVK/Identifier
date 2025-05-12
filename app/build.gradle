@@ -13,6 +13,8 @@ android {
         versionCode rootProject.ext.versionCode
         versionName rootProject.ext.versionName
 
+        buildConfigField "String", "GIT_REVISION", "\"${rootProject.ext.gitRevision}\""
+
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 

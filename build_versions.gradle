@@ -2,8 +2,9 @@ ext {
     compileSdk = 34
     minSdk = 17
     targetSdk = 34
-    versionCode = getVersionCode().toInteger()
-    versionName = getVersionName().toString()
+    versionCode = getVersionCode()
+    versionName = getVersionName()
+    gitRevision = getGitRevision()
 
     hms = '3.4.62.300'
     mcs = '1.0.3.300'
@@ -38,4 +39,12 @@ def getVersionCode() {
     def code = 0
     name.split("\\.").each { code = code * 100 + it.toInteger() }
     return code
+}
+
+static def getGitRevision() {
+    try {
+        return "git rev-parse --short HEAD".execute().text.trim()
+    } catch (ignored) {
+        return "0000000"
+    }
 }
