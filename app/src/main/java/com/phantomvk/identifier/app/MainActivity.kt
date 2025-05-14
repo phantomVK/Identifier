@@ -13,6 +13,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.phantomvk.identifier.IdentifierManager
 import com.phantomvk.identifier.Subscription
+import com.phantomvk.identifier.app.BuildConfig.BUILD_TYPE
+import com.phantomvk.identifier.app.BuildConfig.GIT_REVISION
+import com.phantomvk.identifier.app.BuildConfig.VERSION_NAME
 import com.phantomvk.identifier.app.main.MainManager.assertThread
 import com.phantomvk.identifier.app.main.MainManager.getResultList
 import com.phantomvk.identifier.app.settings.Settings
@@ -154,6 +157,7 @@ class MainActivity : AppCompatActivity() {
 
   private fun deviceInfo(): StringBuilder {
     return StringBuilder("# Device info\n")
+      .append("- AppVer: v${VERSION_NAME}_${GIT_REVISION}_${BUILD_TYPE}\n")
       .append("- Manufacturer: ${Build.MANUFACTURER}, Brand: ${Build.BRAND}\n")
       .append("- Model: ${Build.MODEL}, Device: ${Build.DEVICE}\n")
       .append("- Release: Android ${Build.VERSION.RELEASE} (SDK_INT: ${Build.VERSION.SDK_INT})\n")
