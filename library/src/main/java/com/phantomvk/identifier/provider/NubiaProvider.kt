@@ -15,7 +15,7 @@ internal class NubiaProvider(config: ProviderConfig) : AbstractProvider(config) 
     val uri = Uri.parse("content://cn.nubia.identity/identity")
     val client = config.context.contentResolver.acquireContentProviderClient(uri)
     if (client == null) {
-      getConsumer().onError(CONTENT_PROVIDER_CLIENT_IS_NULL)
+      targetConsumer.onError(CONTENT_PROVIDER_CLIENT_IS_NULL)
       return
     }
 
@@ -25,7 +25,7 @@ internal class NubiaProvider(config: ProviderConfig) : AbstractProvider(config) 
         val isSupported = bundle.getBoolean("issupport", false)
         if (!isSupported) {
           releaseContentProviderClient(client)
-          getConsumer().onError(LIMIT_AD_TRACKING_IS_ENABLED)
+          targetConsumer.onError(LIMIT_AD_TRACKING_IS_ENABLED)
           return
         }
       }
@@ -33,15 +33,15 @@ internal class NubiaProvider(config: ProviderConfig) : AbstractProvider(config) 
 
     try {
       when (val r = getId(client, "getOAID")) {
-        is BinderResult.Failed -> getConsumer().onError(r.msg, r.throwable)
+        is BinderResult.Failed -> targetConsumer.onError(r.msg, r.throwable)
         is BinderResult.Success -> {
           val aaid = invokeById(IdEnum.AAID) { getId(client, "getAAID") }
           val vaid = invokeById(IdEnum.VAID) { getId(client, "getVAID") }
-          getConsumer().onSuccess(IdentifierResult(r.id, aaid, vaid))
+          targetConsumer.onSuccess(IdentifierResult(r.id, aaid, vaid))
         }
       }
     } catch (t: Throwable) {
-      getConsumer().onError(EXCEPTION_THROWN, t)
+      targetConsumer.onError(EXCEPTION_THROWN, t)
     } finally {
       releaseContentProviderClient(client)
     }

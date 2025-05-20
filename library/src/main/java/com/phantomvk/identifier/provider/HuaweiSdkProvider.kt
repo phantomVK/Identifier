@@ -14,17 +14,17 @@ internal class HuaweiSdkProvider(config: ProviderConfig) : AbstractProvider(conf
   override fun run() {
     val info = clazz.getMethod("getAdvertisingIdInfo", Context::class.java).invoke(null, config.context)
     if (info == null) {
-      getConsumer().onError(ID_INFO_IS_NULL)
+      targetConsumer.onError(ID_INFO_IS_NULL)
       return
     }
 
     if (config.isVerifyLimitAdTracking) {
       if (info.javaClass.getMethod("isLimitAdTrackingEnabled").invoke(info) as Boolean) {
-        getConsumer().onError(LIMIT_AD_TRACKING_IS_ENABLED)
+        targetConsumer.onError(LIMIT_AD_TRACKING_IS_ENABLED)
         return
       }
     }
 
-    checkId(info.javaClass.getMethod("getId").invoke(info) as String, getConsumer())
+    checkId(info.javaClass.getMethod("getId").invoke(info) as String, targetConsumer)
   }
 }

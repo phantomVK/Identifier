@@ -11,6 +11,6 @@ internal class CoolpadSettingsProvider(config: ProviderConfig) : AbstractProvide
 
   override fun run() {
     val id = Settings.Global.getString(config.context.contentResolver, "coolos.oaid")
-    checkId(id, getConsumer())
+    checkId(id, targetConsumer)
   }
 }

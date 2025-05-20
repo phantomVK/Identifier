@@ -20,11 +20,11 @@ internal class XiaomiProvider(config: ProviderConfig) : AbstractProvider(config)
 
   override fun run() {
     when (val r = getId("getOAID")) {
-      is BinderResult.Failed -> getConsumer().onError(r.msg, r.throwable)
+      is BinderResult.Failed -> targetConsumer.onError(r.msg, r.throwable)
       is BinderResult.Success -> {
         val aaid = invokeById(IdEnum.AAID) { getId("getAAID") }
         val vaid = invokeById(IdEnum.VAID) { getId("getVAID") }
-        getConsumer().onSuccess(IdentifierResult(r.id, aaid, vaid))
+        targetConsumer.onSuccess(IdentifierResult(r.id, aaid, vaid))
       }
     }
   }

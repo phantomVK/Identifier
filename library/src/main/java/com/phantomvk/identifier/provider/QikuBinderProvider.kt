@@ -19,17 +19,17 @@ internal class QikuBinderProvider(config: ProviderConfig) : AbstractProvider(con
   override fun run() {
     if (config.isVerifyLimitAdTracking) {
       if (isLimited()) {
-        getConsumer().onError(LIMIT_AD_TRACKING_IS_ENABLED)
+        targetConsumer.onError(LIMIT_AD_TRACKING_IS_ENABLED)
         return
       }
     }
 
     when (val r = getId(4)) {
-      is BinderResult.Failed -> getConsumer().onError(r.msg, r.throwable)
+      is BinderResult.Failed -> targetConsumer.onError(r.msg, r.throwable)
       is BinderResult.Success -> {
 //        val vaid = invokeById(IdEnum.VAID) { getId(5) }
 //        val aaid = invokeById(IdEnum.AAID) { getId(6) }
-        getConsumer().onSuccess(IdentifierResult(r.id))
+        targetConsumer.onSuccess(IdentifierResult(r.id))
       }
     }
   }
