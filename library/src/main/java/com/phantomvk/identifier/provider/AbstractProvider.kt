@@ -18,15 +18,11 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) :
 
   protected open fun getInterfaceName(): String = ""
 
-  private lateinit var consumer: Consumer
+  protected lateinit var targetConsumer: Consumer
 
   // This method must be public.
   fun setConsumer(callback: Consumer) {
-    consumer = callback
-  }
-
-  protected fun getConsumer(): Consumer {
-    return consumer
+    targetConsumer = callback
   }
 
   protected fun isBrand(manufacturer: String, brand: String): Boolean {
@@ -152,7 +148,7 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) :
 
   private fun unbindServiceOnError(connection: ServiceConnection, msg: String) {
     config.context.unbindService(connection)
-    getConsumer().onError(msg)
+    targetConsumer.onError(msg)
   }
 
   protected fun bindService(intent: Intent, binderCallback: BinderCallback) {
@@ -161,11 +157,11 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) :
         config.executor.execute {
           try {
             when (val r = binderCallback.call(service)) {
-              is BinderResult.Success -> getConsumer().onSuccess(IdentifierResult(r.id, r.aaid, r.vaid))
-              is BinderResult.Failed -> getConsumer().onError(r.msg, r.throwable)
+              is BinderResult.Success -> targetConsumer.onSuccess(IdentifierResult(r.id, r.aaid, r.vaid))
+              is BinderResult.Failed -> targetConsumer.onError(r.msg, r.throwable)
             }
           } catch (t: Throwable) {
-            getConsumer().onError(EXCEPTION_THROWN, t)
+            targetConsumer.onError(EXCEPTION_THROWN, t)
           } finally {
             config.context.unbindService(this)
           }
@@ -187,11 +183,11 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) :
 
     try {
       if (!config.context.bindService(intent, conn, Context.BIND_AUTO_CREATE)) {
-        getConsumer().onError("Bind service return false.")
+        targetConsumer.onError("Bind service return false.")
         config.context.unbindService(conn)
       }
     } catch (t: Throwable) {
-      getConsumer().onError("Bind service error.", t)
+      targetConsumer.onError("Bind service error.", t)
       config.context.unbindService(conn)
     }
   }

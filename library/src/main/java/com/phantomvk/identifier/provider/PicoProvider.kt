@@ -13,7 +13,7 @@ internal class PicoProvider(config: ProviderConfig) : AbstractProvider(config) {
     val uri = Uri.parse("content://com.pico.idprovider")
     val client = config.context.contentResolver.acquireContentProviderClient(uri)
     if (client == null) {
-      getConsumer().onError(CONTENT_PROVIDER_CLIENT_IS_NULL)
+      targetConsumer.onError(CONTENT_PROVIDER_CLIENT_IS_NULL)
       return
     }
 
@@ -21,18 +21,18 @@ internal class PicoProvider(config: ProviderConfig) : AbstractProvider(config) {
     releaseContentProviderClient(client)
 
     if (bundle == null) {
-      getConsumer().onError(BUNDLE_IS_NULL)
+      targetConsumer.onError(BUNDLE_IS_NULL)
       return
     }
 
     if (config.isVerifyLimitAdTracking) {
       if (bundle.getBoolean("forbidden", false)) {
-        getConsumer().onError(LIMIT_AD_TRACKING_IS_ENABLED)
+        targetConsumer.onError(LIMIT_AD_TRACKING_IS_ENABLED)
         return
       }
     }
 
     val id = bundle.getString("oaid", null)
-    checkId(id, getConsumer())
+    checkId(id, targetConsumer)
   }
 }

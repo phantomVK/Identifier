@@ -68,17 +68,17 @@ internal class SerialRunnable(
           config.sysProps = CacheCenter.getSystemPropsMethod()
           execute(0, getProviders())
         } catch (t: Throwable) {
-          getConsumer().onError(SYSTEM_PROPS_METHOD_NOT_FOUND, t)
+          targetConsumer.onError(SYSTEM_PROPS_METHOD_NOT_FOUND, t)
         }
       }
     } else {
-      getConsumer().onSuccess(cached)
+      targetConsumer.onSuccess(cached)
     }
   }
 
   private fun execute(index: Int, providers: List<AbstractProvider>) {
     if (index == providers.size) {
-      getConsumer().onError(NO_IMPLEMENTATION_FOUND)
+      targetConsumer.onError(NO_IMPLEMENTATION_FOUND)
       return
     }
 
@@ -101,7 +101,7 @@ internal class SerialRunnable(
     provider.setConsumer(object : Consumer {
       override fun onSuccess(result: IdentifierResult) {
         CacheCenter.put(config, result)
-        getConsumer().onSuccess(result)
+        targetConsumer.onSuccess(result)
       }
 
       override fun onError(msg: String, throwable: Throwable?) {
@@ -114,7 +114,7 @@ internal class SerialRunnable(
     try {
       provider.run()
     } catch (t: Throwable) {
-      getConsumer().onError(EXCEPTION_THROWN, t)
+      targetConsumer.onError(EXCEPTION_THROWN, t)
     }
   }
 
