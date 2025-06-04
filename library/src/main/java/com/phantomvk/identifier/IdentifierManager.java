@@ -2,7 +2,6 @@ package com.phantomvk.identifier;
 
 import android.content.Context;
 
-import androidx.annotation.NonNull;
 
 import com.phantomvk.identifier.log.Log;
 import com.phantomvk.identifier.log.Logger;
@@ -18,7 +17,6 @@ public final class IdentifierManager {
         this.config = config;
     }
 
-    @NonNull
     public static Subscription build() {
         if (sInstance == null) {
             throw new RuntimeException("Should init first.");
@@ -39,25 +37,21 @@ public final class IdentifierManager {
             config = new ProviderConfig(context.getApplicationContext());
         }
 
-        @NonNull
         public Builder setDebug(boolean enable) {
             config.setDebug(enable);
             return this;
         }
 
-        @NonNull
-        public Builder setExecutor(@NonNull ExecutorService executor) {
+        public Builder setExecutor(ExecutorService executor) {
             config.setExecutor(executor);
             return this;
         }
 
-        @NonNull
         public Builder setLogger(Logger logger) {
             this.logger = logger;
             return this;
         }
 
-        @NonNull
         public Builder setMergeRequests(boolean enable) {
             config.setMergeRequests(enable);
             return this;

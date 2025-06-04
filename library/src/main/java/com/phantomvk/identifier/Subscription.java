@@ -1,6 +1,5 @@
 package com.phantomvk.identifier;
 
-import androidx.annotation.NonNull;
 
 import com.phantomvk.identifier.disposable.Disposable;
 import com.phantomvk.identifier.functions.Consumer;
@@ -18,44 +17,37 @@ public class Subscription {
         conf = config.clone();
     }
 
-    @NonNull
     public Subscription enableAsyncCallback(boolean enable) {
         conf.setAsyncCallback(enable);
         return this;
     }
 
-    @NonNull
     public Subscription enableExperimental(boolean enable) {
         conf.setExperimental(enable);
         return this;
     }
 
-    @NonNull
     public Subscription enableExternalSdkQuerying(boolean enable) {
         conf.setExternalSdkQuerying(enable);
         return this;
     }
 
-    @NonNull
     public Subscription enableVerifyLimitAdTracking(boolean enable) {
         conf.setVerifyLimitAdTracking(enable);
         return this;
     }
 
-    @NonNull
-    public Subscription setIdConfig(@NonNull IdConfig idConfig) {
+    public Subscription setIdConfig(IdConfig idConfig) {
         conf.setIdConfig(idConfig);
         return this;
     }
 
-    @NonNull
-    public Subscription setMemoryConfig(@NonNull MemoryConfig memoryConfig) {
+    public Subscription setMemoryConfig(MemoryConfig memoryConfig) {
         conf.setMemoryConfig(memoryConfig);
         return this;
     }
 
-    @NonNull
-    public Disposable subscribe(@NonNull Consumer consumer) {
+    public Disposable subscribe(Consumer consumer) {
         ProviderConfig conf = this.conf.clone();
         conf.consumer = new WeakReference<>(consumer);
         SerialRunnable runnable = new SerialRunnable(conf);

@@ -36,8 +36,6 @@ android {
 }
 
 dependencies {
-    implementation "androidx.annotation:annotation:$annotation"
-
 //    compileOnly("com.huawei.hms:ads-identifier:$hms")
 //    compileOnly("com.hihonor.mcs:ads-identifier:$mcs")
 
