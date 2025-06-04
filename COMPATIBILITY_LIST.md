@@ -175,6 +175,7 @@
 |     OPPO     | OPPO  |    Find N     |  PEUM00   | OP4E75L1 |   34    |   OPPO/PEUM00/OP4E75L1:14/UKQ1.230924.001/R.179f45b_207-1:user/release-keys   |
 |     OPPO     | OPPO  |    Find X5    |  PFFM10   | OP520DL1 |   34    | OPPO/PFFM10/OP520DL1:14/UKQ1.230924.001/S.14bf5a6-5841-5842:user/release-keys |
 |     OPPO     | OPPO  |      Pad      |  OPD2101  |  OP5223  |   34    |  OPPO/OPD2101/OP5223:14/UKQ1.230924.001/R.1acf252-1-131d2b:user/release-keys  |
+|     OPPO     | OPPO  |   Reno8 Pro   |  PGAM10   |  OP5285  |   34    |   OPPO/PGAM10/OP5285:14/UKQ1.230924.001/S.1bd58e4-1-4d153:user/release-keys   |
 
 ### Qiku
 
@@ -196,6 +197,7 @@
 |   samsung    | samsung | Galaxy S7 edge | SM-G9350 | hero2qltechn |   26    | samsung/hero2qltezc/hero2qltechn:8.0.0/R16NW/G9350ZCS5CTA1:user/release-keys |
 |   samsung    | samsung |   Galaxy a53   | SM-A5360 |     a53x     |   33    |    samsung/a53xzc/a53x:13/TP1A.220624.014/A5360ZCS5CWC1:user/release-keys    |
 |   samsung    | samsung |   Galaxy S22   | SM-S9080 |     b0q      |   33    |    samsung/b0qzcx/b0q:13/TP1A.220624.014/S9080ZCS4CWJ1:user/release-keys     |
+|   samsung    | samsung |   Galaxy a53   | SM-A5360 |     a53x     |   34    |    samsung/a53xzc/a53x:14/UP1A.231005.007/A5360ZCU7DWK7:user/release-keys    |
 
 #### Vivo
 
@@ -211,6 +213,7 @@
 |     vivo     | vivo  | iQOO Neo7 |  V2231A   | PD2231  |   33    |   vivo/PD2231/PD2231:13/TP1A.220624.014/compiler11171508:user/release-keys   |
 |     vivo     | vivo  | iQOO Neo7 |  V2231A   | PD2231  |   34    |   vivo/PD2231/PD2231:14/UP1A.231005.007/compiler03072119:user/release-keys   |
 |     vivo     | vivo  | IQOO Neo9 |  V2338A   | PD2338  |   34    |   vivo/PD2338/PD2338:14/UP1A.231005.007/compiler02221956:user/release-keys   |
+|     vivo     | vivo  |    Pad    |  PA2373   | DPD2221 |   34    |  vivo/DPD2221/DPD2221:14/UP1A.231005.007/compiler12161130:user/release-keys  |
 |     vivo     | vivo  |   X100s   |  V2359A   | PD2309  |   35    | vivo/PD2309M/PD2309:15/AP3A.240905.015.A1/compiler11060027:user/release-keys |
 
 #### Xiaomi
