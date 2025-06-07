@@ -8,6 +8,7 @@ import android.content.ServiceConnection
 import android.os.Build
 import android.os.IBinder
 import android.os.Parcel
+import androidx.annotation.IntDef
 import com.phantomvk.identifier.functions.Consumer
 import com.phantomvk.identifier.model.IdentifierResult
 import com.phantomvk.identifier.model.ProviderConfig
@@ -116,10 +117,11 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) :
     }
   }
 
-  protected fun invokeById(type: IdEnum, callback: () -> BinderResult): String? {
+  protected fun invokeById(@IdEnum type: Int, callback: () -> BinderResult): String? {
     val isEnabled = when (type) {
       IdEnum.AAID -> config.idConfig.isAaidEnabled
       IdEnum.VAID -> config.idConfig.isVaidEnabled
+      else -> false
     }
 
     return if (isEnabled) (callback.invoke() as? BinderResult.Success)?.id else null
@@ -205,7 +207,14 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) :
     class Failed(val msg: String, val throwable: Throwable? = null) : BinderResult()
   }
 
-  protected enum class IdEnum { AAID, VAID }
+  @IntDef(IdEnum.AAID, IdEnum.VAID)
+  @Retention(AnnotationRetention.SOURCE)
+  protected annotation class IdEnum {
+    companion object {
+      const val AAID = 0
+      const val VAID = 1
+    }
+  }
 
   protected companion object {
     //    public static final String BLANK_ID_FORMAT = "00000000-0000-0000-0000-000000000000";
