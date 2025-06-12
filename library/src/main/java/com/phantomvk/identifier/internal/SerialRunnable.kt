@@ -56,6 +56,12 @@ internal class SerialRunnable(
   }
 
   override fun run() {
+    val l = config.onPrivacyAcceptedListener
+    if (l != null && !l.isAccepted()) {
+      getConsumer().onError(PRIVACY_IS_NOT_ACCEPTED)
+      return
+    }
+
     val cached = CacheCenter.get(config)
     if (cached == null) {
       if (config.isMergeRequests) {
