@@ -151,31 +151,32 @@
 
 #### Oppo
 
-| Manufacturer | Brand |     Name      |   Model   |  Device  | SDK_INT |                                  FingerPrint                                  |
-|:------------:|:-----:|:-------------:|:---------:|:--------:|:-------:|:-----------------------------------------------------------------------------:|
-|     OPPO     | OPPO  |     A79k      | OPPO A79k |   A79k   |   25    |           OPPO/A79k/A79k:7.1.1/N6F26Q/1573311976:user/release-keys            |
-|     OPPO     | OPPO  |     A83t      | OPPO A83t |   A83t   |   25    |           OPPO/A83t/A83t:7.1.1/N6F26Q/1573312196:user/release-keys            |
-|     OPPO     | OPPO  |      A5       |  PBAM00   |  PBAM00  |   27    |     OPPO/PBAM00/PBAM00:8.1.0/OPM1.171019.026/1594640100:user/release-keys     |
-|     OPPO     | OPPO  |      A5       |  PBBM30   |  PBBM30  |   27    |     OPPO/PBBM30/PBBM30:8.1.0/OPM1.171019.026/1595231200:user/release-keys     |
-|     OPPO     | OPPO  |      A7x      |  PBBM00   |  PBBM00  |   28    |       OPPO/PBBM00/PBBM00:9/PPR1.180610.011/1596430101:user/release-keys       |
-|     OPPO     | OPPO  |      K1       |  PBCM30   |  PBCM30  |   29    |      OPPO/PBCM30/PBCM30:10/QKQ1.191224.003/1615196842:user/release-keys       |
-|     OPPO     | OPPO  |     Reno      |  PCAM00   |  OP46B1  |   30    |     OPPO/PCAM00/OP46B1:11/RKQ1.201217.002/1702387555942:user/release-keys     |
-|     OPPO     | OPPO  |      A8       |  PDBM00   |  OP4AED  |   28    |       OPPO/PDBM00/OP4AED:9/PPR1.180610.011/1641904128:user/release-keys       |
-|     OPPO     | OPPO  |      R15      |  PACM00   |  PACM00  |   29    |      OPPO/PACM00/PACM00:10/QP1A.190711.020/2021050100:user/release-keys       |
-|     OPPO     | OPPO  | Reno 10x Zoom |  PCCM00   |  OP46C3  |   31    |    OPPO/PCCM00/OP46C3:12/SKQ1.211113.001/P.202210140345:user/release-keys     |
-|     OPPO     | OPPO  |     A92s      |  PDKT00   |  OP4ABB  |   31    |     OPPO/PDKT00/OP4ABB:12/SP1A.210812.016/Q.10149fc_722:user/release-keys     |
-|     OPPO     | OPPO  | Reno4 Pro 5G  |  PDNM00   |  OP4AF7  |   31    |   OPPO/PDNM00/OP4AF7:12/RKQ1.211103.002/Q.12f35d4_271_272:user/release-keys   |
-|     OPPO     | OPPO  |   Reno4 SE    |  PEAM00   |  OP4E6B  |   29    |      OPPO/PEAM00/OP4E6B:10/QP1A.190711.020/1618364652:user/release-keys       |
-|     OPPO     | OPPO  |    A53 5G     |  PECM30   |  OP4E49  |   29    |      OPPO/PECM30/OP4E49:10/QP1A.190711.020/1630410391:user/release-keys       |
-|     OPPO     | OPPO  |    Reno 5K    |  PEGM10   |  OP4E59  |   31    |    OPPO/PEGM10/OP4E59:12/RKQ1.211103.002/R.202210110611:user/release-keys     |
-|     OPPO     | OPPO  |      A55      |  PEMM20   |  OP4E8C  |   30    |     OPPO/PEMM20/OP4E8C:11/RP1A.200720.011/1641633889965:user/release-keys     |
-|     OPPO     | OPPO  |      A55      |  PEMM20   |  OP4E8C  |   31    |    OPPO/PEMM20/OP4E8C:12/SP1A.210812.016/R.202301111000:user/release-keys     |
-|     OPPO     | OPPO  |    K10x 5G    |  PGGM10   |  OP5295  |   33    |   OPPO/PGGM10/OP5295:13/TP1A.220905.001/S.1503316_43c0d_1:user/release-keys   |
-|     OPPO     | OPPO  |  Find X3 Pro  |  PEEM00   |  OP4E3F  |   33    | OPPO/PEEM00/OP4E3F:13/TP1A.220905.001/R.ed8712-374db-16478e:user/release-keys |
-|     OPPO     | OPPO  |    Find N     |  PEUM00   | OP4E75L1 |   34    |   OPPO/PEUM00/OP4E75L1:14/UKQ1.230924.001/R.179f45b_207-1:user/release-keys   |
-|     OPPO     | OPPO  |    Find X5    |  PFFM10   | OP520DL1 |   34    | OPPO/PFFM10/OP520DL1:14/UKQ1.230924.001/S.14bf5a6-5841-5842:user/release-keys |
-|     OPPO     | OPPO  |      Pad      |  OPD2101  |  OP5223  |   34    |  OPPO/OPD2101/OP5223:14/UKQ1.230924.001/R.1acf252-1-131d2b:user/release-keys  |
-|     OPPO     | OPPO  |   Reno8 Pro   |  PGAM10   |  OP5285  |   34    |   OPPO/PGAM10/OP5285:14/UKQ1.230924.001/S.1bd58e4-1-4d153:user/release-keys   |
+| Manufacturer | Brand |     Name      |   Model   |  Device  | SDK_INT |                                   FingerPrint                                   |
+|:------------:|:-----:|:-------------:|:---------:|:--------:|:-------:|:-------------------------------------------------------------------------------:|
+|     OPPO     | OPPO  |     A79k      | OPPO A79k |   A79k   |   25    |            OPPO/A79k/A79k:7.1.1/N6F26Q/1573311976:user/release-keys             |
+|     OPPO     | OPPO  |     A83t      | OPPO A83t |   A83t   |   25    |            OPPO/A83t/A83t:7.1.1/N6F26Q/1573312196:user/release-keys             |
+|     OPPO     | OPPO  |      A5       |  PBAM00   |  PBAM00  |   27    |      OPPO/PBAM00/PBAM00:8.1.0/OPM1.171019.026/1594640100:user/release-keys      |
+|     OPPO     | OPPO  |      A5       |  PBBM30   |  PBBM30  |   27    |      OPPO/PBBM30/PBBM30:8.1.0/OPM1.171019.026/1595231200:user/release-keys      |
+|     OPPO     | OPPO  |      A7x      |  PBBM00   |  PBBM00  |   28    |        OPPO/PBBM00/PBBM00:9/PPR1.180610.011/1596430101:user/release-keys        |
+|     OPPO     | OPPO  |      K1       |  PBCM30   |  PBCM30  |   29    |       OPPO/PBCM30/PBCM30:10/QKQ1.191224.003/1615196842:user/release-keys        |
+|     OPPO     | OPPO  |     Reno      |  PCAM00   |  OP46B1  |   30    |      OPPO/PCAM00/OP46B1:11/RKQ1.201217.002/1702387555942:user/release-keys      |
+|     OPPO     | OPPO  |      A8       |  PDBM00   |  OP4AED  |   28    |        OPPO/PDBM00/OP4AED:9/PPR1.180610.011/1641904128:user/release-keys        |
+|     OPPO     | OPPO  |      R15      |  PACM00   |  PACM00  |   29    |       OPPO/PACM00/PACM00:10/QP1A.190711.020/2021050100:user/release-keys        |
+|     OPPO     | OPPO  | Reno 10x Zoom |  PCCM00   |  OP46C3  |   31    |     OPPO/PCCM00/OP46C3:12/SKQ1.211113.001/P.202210140345:user/release-keys      |
+|     OPPO     | OPPO  |     A92s      |  PDKT00   |  OP4ABB  |   31    |      OPPO/PDKT00/OP4ABB:12/SP1A.210812.016/Q.10149fc_722:user/release-keys      |
+|     OPPO     | OPPO  | Reno4 Pro 5G  |  PDNM00   |  OP4AF7  |   31    |    OPPO/PDNM00/OP4AF7:12/RKQ1.211103.002/Q.12f35d4_271_272:user/release-keys    |
+|     OPPO     | OPPO  |   Reno4 SE    |  PEAM00   |  OP4E6B  |   29    |       OPPO/PEAM00/OP4E6B:10/QP1A.190711.020/1618364652:user/release-keys        |
+|     OPPO     | OPPO  |    A53 5G     |  PECM30   |  OP4E49  |   29    |       OPPO/PECM30/OP4E49:10/QP1A.190711.020/1630410391:user/release-keys        |
+|     OPPO     | OPPO  |    Reno 5K    |  PEGM10   |  OP4E59  |   31    |     OPPO/PEGM10/OP4E59:12/RKQ1.211103.002/R.202210110611:user/release-keys      |
+|     OPPO     | OPPO  |      A55      |  PEMM20   |  OP4E8C  |   30    |      OPPO/PEMM20/OP4E8C:11/RP1A.200720.011/1641633889965:user/release-keys      |
+|     OPPO     | OPPO  |      A55      |  PEMM20   |  OP4E8C  |   31    |     OPPO/PEMM20/OP4E8C:12/SP1A.210812.016/R.202301111000:user/release-keys      |
+|     OPPO     | OPPO  |    K10x 5G    |  PGGM10   |  OP5295  |   33    |    OPPO/PGGM10/OP5295:13/TP1A.220905.001/S.1503316_43c0d_1:user/release-keys    |
+|     OPPO     | OPPO  |  Find X3 Pro  |  PEEM00   |  OP4E3F  |   33    |  OPPO/PEEM00/OP4E3F:13/TP1A.220905.001/R.ed8712-374db-16478e:user/release-keys  |
+|     OPPO     | OPPO  |    Find N     |  PEUM00   | OP4E75L1 |   34    |    OPPO/PEUM00/OP4E75L1:14/UKQ1.230924.001/R.179f45b_207-1:user/release-keys    |
+|     OPPO     | OPPO  |    Find X5    |  PFFM10   | OP520DL1 |   34    |  OPPO/PFFM10/OP520DL1:14/UKQ1.230924.001/S.14bf5a6-5841-5842:user/release-keys  |
+|     OPPO     | OPPO  |    Find X7    |  PHZ110   | OP5661L1 |   34    | OPPO/PHZ110/OP5661L1:14/UP1A.231005.007/U.180c1f1_1748e-4f5ab:user/release-keys |
+|     OPPO     | OPPO  |      Pad      |  OPD2101  |  OP5223  |   34    |   OPPO/OPD2101/OP5223:14/UKQ1.230924.001/R.1acf252-1-131d2b:user/release-keys   |
+|     OPPO     | OPPO  |   Reno8 Pro   |  PGAM10   |  OP5285  |   34    |    OPPO/PGAM10/OP5285:14/UKQ1.230924.001/S.1bd58e4-1-4d153:user/release-keys    |
 
 ### Qiku
 

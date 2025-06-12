@@ -2,6 +2,7 @@ package com.phantomvk.identifier.model
 
 import android.content.Context
 import com.phantomvk.identifier.functions.Consumer
+import com.phantomvk.identifier.functions.OnPrivacyAcceptedListener
 import java.lang.ref.WeakReference
 import java.lang.reflect.Method
 import java.util.concurrent.Executor
@@ -11,6 +12,7 @@ internal class ProviderConfig(val context: Context) {
   var executor = Executor { c: Runnable -> Thread(c).start() }
   var isDebug = false
   var isMergeRequests = false
+  var onPrivacyAcceptedListener: OnPrivacyAcceptedListener? = null
 
   // Local configs.
   var isAsyncCallback = false
@@ -29,6 +31,7 @@ internal class ProviderConfig(val context: Context) {
     config.executor = executor
     config.isDebug = isDebug
     config.isMergeRequests = isMergeRequests
+    config.onPrivacyAcceptedListener = onPrivacyAcceptedListener
 
     // Local configs.
     config.isAsyncCallback = isAsyncCallback

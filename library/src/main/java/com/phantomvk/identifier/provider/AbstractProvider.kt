@@ -234,6 +234,7 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) :
     const val SIGNATURE_IS_NULL: String = "Signature is null."
     const val SIGNATURE_HASH_IS_NULL: String = "Signature hash is null."
     const val SYSTEM_PROPS_METHOD_NOT_FOUND: String = "SystemProperties not found using reflection."
+    const val PRIVACY_IS_NOT_ACCEPTED: String = "Privacy is not accepted."
   }
 
 //  protected inline fun <reified T> getResult(clazz: String, method: String, context: Context): T? {
