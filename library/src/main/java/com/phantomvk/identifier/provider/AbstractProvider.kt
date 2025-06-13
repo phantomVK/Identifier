@@ -202,9 +202,9 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) :
     fun call(binder: IBinder): BinderResult
   }
 
-  protected sealed class BinderResult {
-    class Success(val id: String, val vaid: String?, val aaid: String?) : BinderResult()
-    class Failed(val msg: String, val throwable: Throwable? = null) : BinderResult()
+  protected sealed interface BinderResult {
+    class Success(val id: String, val vaid: String?, val aaid: String?) : BinderResult
+    class Failed(val msg: String, val throwable: Throwable? = null) : BinderResult
   }
 
   @IntDef(IdEnum.AAID, IdEnum.VAID)
