@@ -13,9 +13,11 @@ import com.phantomvk.identifier.functions.Consumer
 import com.phantomvk.identifier.model.IdentifierResult
 import com.phantomvk.identifier.model.ProviderConfig
 
-internal abstract class AbstractProvider(protected val config: ProviderConfig) : Runnable {
+internal abstract class AbstractProvider(protected val config: ProviderConfig) {
 
   abstract fun isSupported(): Boolean
+
+  abstract fun run()
 
   protected open fun getInterfaceName(): String = ""
 
@@ -202,9 +204,9 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) :
     fun call(binder: IBinder): BinderResult
   }
 
-  protected sealed class BinderResult {
-    class Success(val id: String, val vaid: String?, val aaid: String?) : BinderResult()
-    class Failed(val msg: String, val throwable: Throwable? = null) : BinderResult()
+  protected sealed interface BinderResult {
+    class Success(val id: String, val vaid: String?, val aaid: String?) : BinderResult
+    class Failed(val msg: String, val throwable: Throwable? = null) : BinderResult
   }
 
   @IntDef(IdEnum.AAID, IdEnum.VAID)
@@ -214,26 +216,6 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) :
       const val AAID = 0
       const val VAID = 1
     }
-  }
-
-  protected companion object {
-    //    public static final String BLANK_ID_FORMAT = "00000000-0000-0000-0000-000000000000";
-    //    public static final String BLANK_ID_FORMAT_VIVO = "0000000000000000000000000000000000000000000000000000000000000000";
-    //    public static final String BLANK_ID_FORMAT_MEIZU = "00000000000000000000000000000000";
-    const val AIDL_INTERFACE_IS_NULL: String = "Aidl interface is null."
-    const val CONTENT_PROVIDER_CLIENT_IS_NULL: String = "ContentProvider client is null."
-    const val BUNDLE_IS_NULL: String = "Bundle is null."
-    const val EXCEPTION_THROWN: String = "Exception thrown when querying id."
-    const val ID_INFO_IS_NULL: String = "Advertising identifier info is null."
-    const val ID_IS_NULL_OR_BLANK: String = "ID is null or blank."
-    const val ID_IS_INVALID: String = "ID is invalid."
-    const val LIMIT_AD_TRACKING_IS_ENABLED: String = "Limit ad tracking is enabled."
-    const val NO_AVAILABLE_COLUMN_INDEX: String = "No available column index."
-    const val NO_IMPLEMENTATION_FOUND: String = "No implementation found."
-    const val QUERY_CURSOR_IS_NULL: String = "Query cursor is null."
-    const val SIGNATURE_IS_NULL: String = "Signature is null."
-    const val SIGNATURE_HASH_IS_NULL: String = "Signature hash is null."
-    const val SYSTEM_PROPS_METHOD_NOT_FOUND: String = "SystemProperties not found using reflection."
   }
 
 //  protected inline fun <reified T> getResult(clazz: String, method: String, context: Context): T? {
@@ -260,3 +242,21 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) :
 //    }
 //  }
 }
+
+//    public static final String BLANK_ID_FORMAT = "00000000-0000-0000-0000-000000000000";
+//    public static final String BLANK_ID_FORMAT_VIVO = "0000000000000000000000000000000000000000000000000000000000000000";
+//    public static final String BLANK_ID_FORMAT_MEIZU = "00000000000000000000000000000000";
+internal const val AIDL_INTERFACE_IS_NULL: String = "Aidl interface is null."
+internal const val CONTENT_PROVIDER_CLIENT_IS_NULL: String = "ContentProvider client is null."
+internal const val BUNDLE_IS_NULL: String = "Bundle is null."
+internal const val EXCEPTION_THROWN: String = "Exception thrown when querying id."
+internal const val ID_INFO_IS_NULL: String = "Advertising identifier info is null."
+internal const val ID_IS_NULL_OR_BLANK: String = "ID is null or blank."
+internal const val ID_IS_INVALID: String = "ID is invalid."
+internal const val LIMIT_AD_TRACKING_IS_ENABLED: String = "Limit ad tracking is enabled."
+internal const val NO_AVAILABLE_COLUMN_INDEX: String = "No available column index."
+internal const val NO_IMPLEMENTATION_FOUND: String = "No implementation found."
+internal const val QUERY_CURSOR_IS_NULL: String = "Query cursor is null."
+internal const val SIGNATURE_IS_NULL: String = "Signature is null."
+internal const val SIGNATURE_HASH_IS_NULL: String = "Signature hash is null."
+internal const val SYSTEM_PROPS_METHOD_NOT_FOUND: String = "SystemProperties not found using reflection."
