@@ -13,9 +13,11 @@ import com.phantomvk.identifier.functions.Consumer
 import com.phantomvk.identifier.model.IdentifierResult
 import com.phantomvk.identifier.model.ProviderConfig
 
-internal abstract class AbstractProvider(protected val config: ProviderConfig) : Runnable {
+internal abstract class AbstractProvider(protected val config: ProviderConfig) {
 
   abstract fun isSupported(): Boolean
+
+  abstract fun run()
 
   protected open fun getInterfaceName(): String = ""
 
