@@ -32,6 +32,7 @@ import com.phantomvk.identifier.provider.NO_IMPLEMENTATION_FOUND
 import com.phantomvk.identifier.provider.NubiaProvider
 import com.phantomvk.identifier.provider.OppoColorOsProvider
 import com.phantomvk.identifier.provider.OppoHeyTapProvider
+import com.phantomvk.identifier.provider.PRIVACY_IS_NOT_ACCEPTED
 import com.phantomvk.identifier.provider.PicoProvider
 import com.phantomvk.identifier.provider.QikuBinderProvider
 import com.phantomvk.identifier.provider.QikuServiceProvider
