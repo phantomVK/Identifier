@@ -4,6 +4,7 @@ import android.content.Context;
 
 import androidx.annotation.NonNull;
 
+import com.phantomvk.identifier.functions.OnPrivacyAcceptedListener;
 import com.phantomvk.identifier.log.Log;
 import com.phantomvk.identifier.log.Logger;
 import com.phantomvk.identifier.model.ProviderConfig;
@@ -60,6 +61,12 @@ public final class IdentifierManager {
         @NonNull
         public Builder setMergeRequests(boolean enable) {
             config.setMergeRequests(enable);
+            return this;
+        }
+
+        @NonNull
+        public Builder setPrivacyAcceptedListener(OnPrivacyAcceptedListener listener) {
+            config.setOnPrivacyAcceptedListener(listener);
             return this;
         }
 

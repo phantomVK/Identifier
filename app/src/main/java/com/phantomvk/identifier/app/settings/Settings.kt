@@ -29,6 +29,7 @@ enum class Settings(
   Vaid("Enable VAID", "is_vaid_enable", true),
   GoogleAdsId("Enable Google Ads ID", "is_google_ads_id_enable", true),
   StrictMode("Enable StrictMode (Restart Required)", "is_strict_mode_enable", false),
+  PrivacyAccepted("Privacy Accepted", "is_privacy_accepted", true),
   ProvidersDetails("Show providers' details", "is_show_providers_details", true);
 
   fun getValue(): Boolean {

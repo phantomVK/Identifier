@@ -54,6 +54,7 @@ class Application : Application() {
       .setExecutor(Executors.newFixedThreadPool(1)) // optional: setup custom ThreadPoolExecutor
       .setMergeRequests(Settings.MergeRequests.getValue())
       .setLogger(logger)
+      .setPrivacyAcceptedListener { Settings.PrivacyAccepted.getValue() }
       .build()
   }
 }

@@ -72,6 +72,7 @@ IdentifierManager.build()
     )
   )
   .setMemoryConfig(MemoryConfig(false))
+  .setPrivacyAcceptedListener { true } // 可选: 是否已接受隐私协议，默认值为true
   .subscribe(consumer)
 ```
 
