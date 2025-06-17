@@ -71,6 +71,7 @@ IdentifierManager.build()
     )
   )
   .setMemoryConfig(MemoryConfig(false))
+  .setPrivacyAcceptedListener { true } // optional: if privacy is accepted, default is true
   .subscribe(consumer)
 ```
 
