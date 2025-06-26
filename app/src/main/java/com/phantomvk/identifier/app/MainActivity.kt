@@ -109,7 +109,13 @@ class MainActivity : AppCompatActivity() {
   }
 
   private fun updateSuccessInfo(msg: IdentifierResult) {
-    val deviceStr = deviceInfo().append("\n- oaid: ${msg.oaid}\n\n")
+    val deviceStr = deviceInfo().append(
+      "\n- Result:" +
+          "\n * oaid: ${msg.oaid}" +
+          "\n * aaid: ${msg.aaid}" +
+          "\n * vaid: ${msg.vaid}" +
+          "\n * gaid: ${msg.gaid}\n\n"
+    )
     if (!Settings.ProvidersDetails.getValue()) {
       showInfo(deviceStr.toString())
       return
