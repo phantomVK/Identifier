@@ -116,6 +116,7 @@ class MainActivity : AppCompatActivity() {
           "\n * vaid: ${msg.vaid}" +
           "\n * gaid: ${msg.gaid}\n\n"
     )
+
     if (!Settings.ProvidersDetails.getValue()) {
       showInfo(deviceStr.toString())
       return
