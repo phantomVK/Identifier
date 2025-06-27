@@ -75,6 +75,19 @@ IdentifierManager.build()
   .subscribe(consumer)
 ```
 
+Example of results
+
+```
+ * oaid: c220daa990000000 // If only gaid is available, Oaid is empty
+ * aaid: e7deddda-0000-0000-9ffb-a00003c05e56
+ * vaid: cb82b86710000000
+ * gaid: aa1819fe-0000-0000-b484-c00008457221
+```
+
+R8 / Proguard
+--------
+The specific rules are already bundled into the aar which can be interpreted by R8 automatically
+
 License
 --------
 

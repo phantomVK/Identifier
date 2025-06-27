@@ -157,7 +157,7 @@ internal class SerialRunnable(
     provider.setConsumer(object : Consumer {
       override fun onSuccess(result: IdentifierResult) {
         if (r == null) {
-          val res = IdentifierResult(result.oaid, null, null, result.oaid)
+          val res = IdentifierResult("", null, null, result.oaid)
           getConsumer().onSuccess(res)
         } else {
           val res = IdentifierResult(r.oaid, r.aaid, r.vaid, result.oaid)
