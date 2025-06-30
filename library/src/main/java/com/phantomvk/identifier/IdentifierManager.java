@@ -29,9 +29,10 @@ public final class IdentifierManager {
         return new Subscription(sInstance.config);
     }
 
-    @NonNull
     public static void clearMemoryCache() {
-        CacheCenter.INSTANCE.clear$library_release();
+        if (sInstance != null) {
+            CacheCenter.INSTANCE.clear$library_release();
+        }
     }
 
     public static class Builder {

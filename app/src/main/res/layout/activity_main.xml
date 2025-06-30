@@ -7,40 +7,52 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <View
-        android:id="@+id/anchor"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
-
-    <Button
-        android:id="@+id/button"
+    <LinearLayout
+        android:id="@+id/button_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_toStartOf="@+id/anchor"
-        android:text="Refresh"
-        android:textAllCaps="false"
-        android:textSize="16sp"
-        android:textStyle="bold" />
+        android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/button_settings"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_toEndOf="@id/anchor"
-        android:text="Settings"
-        android:textAllCaps="false"
-        android:textSize="16sp"
-        android:textStyle="bold" />
+        <Button
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_toStartOf="@+id/anchor"
+            android:text="Refresh"
+            android:textAllCaps="false"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/clear_cache"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_toStartOf="@+id/anchor"
+            android:text="Clear cache"
+            android:textAllCaps="false"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/button_settings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_toEndOf="@id/anchor"
+            android:text="Settings"
+            android:textAllCaps="false"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/system_textview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/button"
+        android:layout_above="@+id/button_list"
         android:textColor="#FF000000"
         android:textSize="14sp"
         android:textStyle="bold" />

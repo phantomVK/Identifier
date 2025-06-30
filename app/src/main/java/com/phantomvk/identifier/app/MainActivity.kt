@@ -39,6 +39,7 @@ class MainActivity : AppCompatActivity() {
     setContentView(R.layout.activity_main)
     textView = findViewById(R.id.system_textview)
     findViewById<Button>(R.id.button).setOnClickListener { getId() }
+    findViewById<Button>(R.id.clear_cache).setOnClickListener { IdentifierManager.clearMemoryCache() }
     findViewById<Button>(R.id.button_settings).setOnClickListener { startActivity(Intent(this, SettingsActivity::class.java)) }
     getId()
   }
