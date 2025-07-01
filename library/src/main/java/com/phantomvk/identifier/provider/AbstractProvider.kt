@@ -37,19 +37,11 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) {
   }
 
   protected fun isPackageInfoExisted(packageName: String): Boolean {
-    return try {
-      config.context.packageManager.getPackageInfo(packageName, 0) != null
-    } catch (t: Throwable) {
-      false
-    }
+    return config.context.packageManager.getPackageInfo(packageName, 0) != null
   }
 
   protected fun isContentProviderExisted(packageName: String): Boolean {
-    return try {
-      config.context.packageManager.resolveContentProvider(packageName, 0) != null
-    } catch (t: Throwable) {
-      false
-    }
+    return config.context.packageManager.resolveContentProvider(packageName, 0) != null
   }
 
   protected fun getSysProperty(key: String, defValue: String?): String? {
@@ -58,10 +50,6 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) {
     } catch (t: Throwable) {
       defValue
     }
-  }
-
-  protected fun isSysPropertyContainsKey(key: String): Boolean {
-    return getSysProperty(key, null)?.isNotBlank() == true
   }
 
   protected fun readBoolean(
