@@ -142,9 +142,14 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) {
     }
   }
 
-  private fun unbindServiceOnError(connection: ServiceConnection, msg: String) {
-    config.context.unbindService(connection)
-    getConsumer().onError(msg)
+  private fun unbindServiceOnError(conn: ServiceConnection, msg: String, t: Throwable?) {
+    getConsumer().onError(msg, t)
+
+    try {
+      config.context.unbindService(conn)
+    } catch (ignore: Exception) {
+      // Caused by: java.lang.IllegalArgumentException: Service not registered
+    }
   }
 
   protected fun bindService(intent: Intent, binderCallback: BinderCallback) {
@@ -157,34 +162,30 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) {
               is BinderResult.Failed -> getConsumer().onError(r.msg, r.throwable)
             }
           } catch (t: Throwable) {
-            getConsumer().onError(EXCEPTION_THROWN, t)
-          } finally {
-            config.context.unbindService(this)
+            unbindServiceOnError(this, EXCEPTION_THROWN, t)
           }
         }
       }
 
       override fun onServiceDisconnected(name: ComponentName) {
-        unbindServiceOnError(this, "Service is disconnected.")
+        unbindServiceOnError(this, "Service is disconnected.", null)
       }
 
       override fun onBindingDied(name: ComponentName) {
-        unbindServiceOnError(this, "Service is on binding died.")
+        unbindServiceOnError(this, "Service is on binding died.", null)
       }
 
       override fun onNullBinding(name: ComponentName) {
-        unbindServiceOnError(this, "Service is on null binding.")
+        unbindServiceOnError(this, "Service is on null binding.", null)
       }
     }
 
     try {
       if (!config.context.bindService(intent, conn, Context.BIND_AUTO_CREATE)) {
-        getConsumer().onError("Bind service return false.")
-        config.context.unbindService(conn)
+        unbindServiceOnError(conn, "Bind service return false.", null)
       }
     } catch (t: Throwable) {
-      getConsumer().onError("Bind service error.", t)
-      config.context.unbindService(conn)
+      unbindServiceOnError(conn, "Bind service error.", t)
     }
   }
 
