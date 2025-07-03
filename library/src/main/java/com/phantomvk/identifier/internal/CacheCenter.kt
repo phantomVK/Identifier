@@ -41,6 +41,12 @@ internal object CacheCenter {
     }
   }
 
+  fun clear() {
+    synchronized(CacheCenter::class.java) {
+      map = HashMap()
+    }
+  }
+
   internal fun getSystemPropsMethod(): Method {
     var method = getSystemPropsMethod
     if (method != null) {

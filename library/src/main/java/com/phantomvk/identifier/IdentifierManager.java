@@ -5,6 +5,7 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 
 import com.phantomvk.identifier.functions.OnPrivacyAcceptedListener;
+import com.phantomvk.identifier.internal.CacheCenter;
 import com.phantomvk.identifier.log.Log;
 import com.phantomvk.identifier.log.Logger;
 import com.phantomvk.identifier.model.ProviderConfig;
@@ -26,6 +27,12 @@ public final class IdentifierManager {
         }
 
         return new Subscription(sInstance.config);
+    }
+
+    public static void clearMemoryCache() {
+        if (sInstance != null) {
+            CacheCenter.INSTANCE.clear();
+        }
     }
 
     public static class Builder {
