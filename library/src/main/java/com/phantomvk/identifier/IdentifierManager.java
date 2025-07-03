@@ -31,7 +31,7 @@ public final class IdentifierManager {
 
     public static void clearMemoryCache() {
         if (sInstance != null) {
-            CacheCenter.INSTANCE.clear$library_release();
+            CacheCenter.INSTANCE.clear();
         }
     }
 

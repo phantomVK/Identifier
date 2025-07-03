@@ -41,7 +41,7 @@ internal object CacheCenter {
     }
   }
 
-  internal fun clear() {
+  fun clear() {
     synchronized(CacheCenter::class.java) {
       map = HashMap()
     }
