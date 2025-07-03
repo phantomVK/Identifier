@@ -18,7 +18,7 @@ internal class HuaweiServiceProvider(config: ProviderConfig) : AbstractProvider(
       "com.huawei.hwid",
       "com.huawei.hwid.tv",
       "com.huawei.hms"
-    ).firstOrNull { isPackageInfoExisted(it) }
+    ).firstOrNull { try { isPackageInfoExisted(it) } catch (e: Exception) { false } }
 
     if (name == null) {
       return false

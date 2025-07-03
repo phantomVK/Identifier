@@ -337,4 +337,8 @@ internal class SerialRunnable(
       providers.add(XtcProvider(config))
     }
   }
+
+  private fun isSysPropertyContainsKey(key: String): Boolean {
+    return getSysProperty(key, null)?.isNotBlank() == true
+  }
 }
