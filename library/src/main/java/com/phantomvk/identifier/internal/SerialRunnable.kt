@@ -104,7 +104,7 @@ internal class SerialRunnable(
     }
 
     if (!isSupported) {
-      config.executor.execute { execute(index + 1, providers) }
+      execute(index + 1, providers)
       return
     }
 
@@ -116,7 +116,7 @@ internal class SerialRunnable(
 
       override fun onError(msg: String, throwable: Throwable?) {
         Log.e("SerialRunnable", "${provider.javaClass.simpleName} onError.", throwable)
-        config.executor.execute { execute(index + 1, providers) }
+        execute(index + 1, providers)
       }
     })
 
