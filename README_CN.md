@@ -76,6 +76,19 @@ IdentifierManager.build()
   .subscribe(consumer)
 ```
 
+返回结果示例
+
+```
+ * oaid: c220daa990000000 // 如果只有gaid可用，则Oaid为空
+ * aaid: e7deddda-0000-0000-9ffb-a00003c05e56
+ * vaid: cb82b86710000000
+ * gaid: aa1819fe-0000-0000-b484-c00008457221
+```
+
+R8 / Proguard
+--------
+特定规则已内置到aar，并在R8编译过程自动应用
+
 许可证
 --------
 

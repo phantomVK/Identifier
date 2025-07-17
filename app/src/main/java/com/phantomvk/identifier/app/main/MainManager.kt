@@ -93,8 +93,14 @@ object MainManager {
     }))
 
     val clz = Class.forName("com.phantomvk.identifier.internal.SerialRunnable")
-    return clz.getDeclaredMethod("getProviders").apply { isAccessible = true }
-      .invoke(clz.getConstructor(c).newInstance(config)) as List<*>
+    val list = clz.getDeclaredMethod("getProviders").apply { isAccessible = true }
+      .invoke(clz.getConstructor(c).newInstance(config)) as ArrayList<Any>
+
+    // GoogleAdsIdProvider
+    val provider = Class.forName("com.phantomvk.identifier.provider.GoogleAdsIdProvider")
+    list.add(provider.getConstructor(c).newInstance(config))
+
+    return list
   }
 
   fun assertThread(isAsyncCallback: Boolean, runnable: Runnable) {

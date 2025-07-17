@@ -88,7 +88,11 @@ internal class SerialRunnable(
 
   private fun execute(index: Int, providers: List<AbstractProvider>) {
     if (index == providers.size) {
-      getConsumer().onError(NO_IMPLEMENTATION_FOUND)
+      if (config.idConfig.isGoogleAdsIdEnabled) {
+        getGoogleAdsId(null)
+      } else {
+        getConsumer().onError(NO_IMPLEMENTATION_FOUND)
+      }
       return
     }
 
@@ -110,6 +114,11 @@ internal class SerialRunnable(
 
     provider.setConsumer(object : Consumer {
       override fun onSuccess(result: IdentifierResult) {
+        if (config.idConfig.isGoogleAdsIdEnabled) {
+          getGoogleAdsId(result)
+          return
+        }
+
         CacheCenter.put(config, result)
         getConsumer().onSuccess(result)
       }
@@ -126,6 +135,47 @@ internal class SerialRunnable(
     } catch (t: Throwable) {
       getConsumer().onError(EXCEPTION_THROWN, t)
     }
+  }
+
+  private fun getGoogleAdsId(r: IdentifierResult?) {
+    val provider = GoogleAdsIdProvider(config)
+    val isSupported = try {
+      provider.isSupported()
+    } catch (t: Throwable) {
+      false
+    }
+
+    if (!isSupported) {
+      if (r == null) {
+        getConsumer().onError(NO_IMPLEMENTATION_FOUND)
+      } else {
+        getConsumer().onSuccess(r)
+      }
+      return
+    }
+
+    provider.setConsumer(object : Consumer {
+      override fun onSuccess(result: IdentifierResult) {
+        if (r == null) {
+          val res = IdentifierResult("", null, null, result.oaid)
+          getConsumer().onSuccess(res)
+        } else {
+          val res = IdentifierResult(r.oaid, r.aaid, r.vaid, result.oaid)
+          CacheCenter.put(config, res)
+          getConsumer().onSuccess(res)
+        }
+      }
+
+      override fun onError(msg: String, throwable: Throwable?) {
+        if (r == null) {
+          getConsumer().onError(NO_IMPLEMENTATION_FOUND)
+        } else {
+          getConsumer().onSuccess(r)
+        }
+      }
+    })
+
+    provider.run()
   }
 
   override fun onError(msg: String, throwable: Throwable?) {
@@ -194,10 +244,6 @@ internal class SerialRunnable(
 
     if (config.isExperimental) {
       addExperimentalProviders(config, providers)
-    }
-
-    if (config.idConfig.isGoogleAdsIdEnabled) {
-      providers.add(GoogleAdsIdProvider(config))
     }
 
     return providers
