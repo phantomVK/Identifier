@@ -236,6 +236,7 @@
 |    Xiaomi    | Xiaomi |      12S      |   2203121C   |    thor    |   31    |      Xiaomi/thor/thor:12/SKQ1.220303.001/V13.0.11.0.SLACNXM:user/release-keys       |
 |    Xiaomi    | Xiaomi |     13Pro     |   2210132C   |    nuwa    |   34    |      Xiaomi/nuwa/nuwa:14/UKQ1.230804.001/V816.0.8.0.UMBCNXM:user/release-keys       |
 |    Xiaomi    | Xiaomi |      14       |  23127PN0CC  |   houji    |   34    |     Xiaomi/houji/houji:14/UKQ1.230804.001/V816.0.36.0.UNCCNXM:user/release-keys     |
+|    Xiaomi    | Xiaomi |      14       |  23127PN0CC  |   houji    |   34    |     Xiaomi/houji/houji:14/UKQ1.230804.001/V816.0.47.0.UNCCNXM:user/release-keys     |
 |    Xiaomi    | Xiaomi |     Pad6      |  23043RP34C  |    pipa    |   34    |      Xiaomi/pipa/pipa:14/UKQ1.230917.001/V816.0.13.0.UMZCNXM:user/release-keys      |
 
 #### Zte
