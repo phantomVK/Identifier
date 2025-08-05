@@ -1,11 +1,10 @@
 plugins {
     id 'com.android.library'
-    id 'kotlin-android'
-    id 'maven-publish'
+    id 'org.jetbrains.kotlin.android'
 }
 
 android {
-    namespace "com.phantomvk.identifier"
+    namespace 'com.phantomvk.dependencies'
     compileSdk rootProject.ext.compileSdk
 
     defaultConfig {
@@ -37,25 +36,7 @@ android {
 
 dependencies {
     implementation "androidx.annotation:annotation:$annotation"
-    compileOnly project(":dependencies")
-
-//    compileOnly("com.huawei.hms:ads-identifier:$hms")
-//    compileOnly("com.hihonor.mcs:ads-identifier:$mcs")
-
     testImplementation "junit:junit:$junit"
     androidTestImplementation "androidx.test.ext:junit:$android_junit"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_core"
-}
-
-afterEvaluate {
-    publishing {
-        publications {
-            release(MavenPublication) {
-                from components.release
-                groupId = "com.phantomvk.identifier"
-                artifactId = 'identifier'
-                version = rootProject.ext.versionName
-            }
-        }
-    }
 }
