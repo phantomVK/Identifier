@@ -83,9 +83,6 @@ object MainManager {
     val idConfig = IdConfig(Settings.Aaid.getValue(), Settings.Vaid.getValue(), Settings.GoogleAdsId.getValue())
     c.getMethod("setIdConfig", IdConfig::class.java).invoke(config, idConfig)
 
-    val sysProps = Class.forName("android.os.SystemProperties").getMethod("get", String::class.java, String::class.java)
-    c.getMethod("setSysProps", Method::class.java).invoke(config, sysProps)
-
     c.getMethod("setExecutor", Executor::class.java).invoke(config, Executor { r -> Thread(r).start() })
     c.getMethod("setConsumer", WeakReference::class.java).invoke(config, WeakReference(object : Consumer {
       override fun onSuccess(result: IdentifierResult) {}
