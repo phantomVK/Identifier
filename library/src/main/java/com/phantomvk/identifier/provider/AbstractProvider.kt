@@ -8,6 +8,7 @@ import android.content.ServiceConnection
 import android.os.Build
 import android.os.IBinder
 import android.os.Parcel
+import android.os.SystemProperties
 import androidx.annotation.IntDef
 import com.phantomvk.identifier.functions.Consumer
 import com.phantomvk.identifier.model.IdentifierResult
@@ -46,7 +47,7 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) {
 
   protected fun getSysProperty(key: String, defValue: String?): String? {
     return try {
-      config.sysProps.invoke(null, key, defValue) as? String ?: defValue
+      SystemProperties.get(key, defValue)
     } catch (t: Throwable) {
       defValue
     }

@@ -21,7 +21,7 @@ enum class Settings(
   AsyncCallback("Async callback", "is_async_callback", false),
   Debug("Debug mode", "is_debug", BuildConfig.DEBUG),
   Experimental("Experimental mode ", "is_experimental", true),
-  ExternalSdkQuerying("External SDK Querying", "is_external_sdk_querying", false),
+  ExternalSdkQuerying("External SDK Querying", "is_external_sdk_querying", true),
   LimitAdTracking("Limit Ad Tracking", "is_limit_ad_tracking", true),
   MemCache("Enable Memory Cache", "is_mem_cache_enable", false),
   MergeRequests("Enable Merge-Requests", "is_merge_requests_enable", false),

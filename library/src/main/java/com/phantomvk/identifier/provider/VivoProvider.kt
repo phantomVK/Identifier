@@ -1,6 +1,7 @@
 package com.phantomvk.identifier.provider
 
 import android.net.Uri
+import android.os.SystemProperties
 import com.phantomvk.identifier.model.IdentifierResult
 import com.phantomvk.identifier.model.ProviderConfig
 
@@ -12,7 +13,7 @@ internal class VivoProvider(config: ProviderConfig) : AbstractProvider(config) {
 
   override fun run() {
     if (config.isVerifyLimitAdTracking) {
-      val isSupported = getSysProperty("persist.sys.identifierid.supported", "0")
+      val isSupported = SystemProperties.get("persist.sys.identifierid.supported", "0")
       if (isSupported != "1") {
         getConsumer().onError(LIMIT_AD_TRACKING_IS_ENABLED)
         return

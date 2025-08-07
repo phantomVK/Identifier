@@ -2,16 +2,12 @@ package com.phantomvk.identifier.internal
 
 import com.phantomvk.identifier.model.IdentifierResult
 import com.phantomvk.identifier.model.ProviderConfig
-import java.lang.reflect.Method
 
 internal object CacheCenter {
 
   // https://issuetracker.google.com/issues/37042460
   @Volatile
   private var map = HashMap<String, IdentifierResult>()
-
-  @Volatile
-  private var getSystemPropsMethod: Method? = null
 
   internal fun get(config: ProviderConfig): IdentifierResult? {
     return if (config.memoryConfig.isEnabled) {
@@ -45,16 +41,5 @@ internal object CacheCenter {
     synchronized(CacheCenter::class.java) {
       map = HashMap()
     }
-  }
-
-  internal fun getSystemPropsMethod(): Method {
-    var method = getSystemPropsMethod
-    if (method != null) {
-      return method
-    }
-
-    method = Class.forName("android.os.SystemProperties").getMethod("get", String::class.java, String::class.java)
-    getSystemPropsMethod = method
-    return method
   }
 }
