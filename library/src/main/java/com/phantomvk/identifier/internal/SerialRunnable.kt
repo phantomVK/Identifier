@@ -3,7 +3,6 @@ package com.phantomvk.identifier.internal
 import android.os.Build
 import android.os.Handler
 import android.os.Looper
-import android.os.SystemProperties
 import com.phantomvk.identifier.disposable.Disposable
 import com.phantomvk.identifier.functions.Consumer
 import com.phantomvk.identifier.internal.RunnableComposer.putRunnable
@@ -374,7 +373,7 @@ internal class SerialRunnable(
     }
 
     // Access denied finding property "ro.odm.manufacturer"
-    if (SystemProperties.get("ro.odm.manufacturer", "") == "PRIZE") {
+    if (getSysProperty("ro.odm.manufacturer", "") == "PRIZE") {
       providers.add(CooseaProvider(config))
       return
     }
@@ -385,6 +384,6 @@ internal class SerialRunnable(
   }
 
   private fun isSysPropertyContainsKey(key: String): Boolean {
-    return SystemProperties.get(key, null)?.isNotBlank() == true
+    return getSysProperty(key, null)?.isNotBlank() == true
   }
 }
