@@ -1,6 +1,6 @@
 package com.phantomvk.identifier.provider
 
-import android.content.Context
+import com.android.id.impl.IdProviderImpl
 import com.phantomvk.identifier.model.IdentifierResult
 import com.phantomvk.identifier.model.ProviderConfig
 
@@ -9,32 +9,21 @@ import com.phantomvk.identifier.model.ProviderConfig
  */
 internal class XiaomiProvider(config: ProviderConfig) : AbstractProvider(config) {
 
-  private lateinit var clazz: Class<*>
-  private lateinit var instance: Any
+  private lateinit var impl: IdProviderImpl
 
   override fun isSupported(): Boolean {
-    clazz = Class.forName("com.android.id.impl.IdProviderImpl")
-    instance = clazz.getDeclaredConstructor().newInstance()
+    impl = IdProviderImpl()
     return true
   }
 
   override fun run() {
-    when (val r = getId("getOAID")) {
+    when (val r = checkId(impl.getOAID(config.context))) {
       is BinderResult.Failed -> getConsumer().onError(r.msg, r.throwable)
       is BinderResult.Success -> {
-        val aaid = invokeById(IdEnum.AAID) { getId("getAAID") }
-        val vaid = invokeById(IdEnum.VAID) { getId("getVAID") }
+        val aaid = invokeById(IdEnum.AAID) { checkId(impl.getAAID(config.context)) }
+        val vaid = invokeById(IdEnum.VAID) { checkId(impl.getVAID(config.context)) }
         getConsumer().onSuccess(IdentifierResult(r.id, aaid, vaid))
       }
-    }
-  }
-
-  private fun getId(name: String): BinderResult {
-    return try {
-      val method = clazz.getMethod(name, Context::class.java)
-      checkId(method.invoke(instance, config.context) as? String)
-    } catch (t: Throwable) {
-      BinderResult.Failed(EXCEPTION_THROWN, t)
     }
   }
 }

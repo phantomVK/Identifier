@@ -1,35 +1,27 @@
 package com.phantomvk.identifier.provider
 
-import android.content.Context
+import android.app.ZteDeviceIdentifyManager
 import com.phantomvk.identifier.model.IdentifierResult
 import com.phantomvk.identifier.model.ProviderConfig
 
 internal class ZteProvider(config: ProviderConfig) : AbstractProvider(config) {
 
-  private var clazz: Class<*>? = null
-  private var instance: Any? = null
+  private lateinit var manager: ZteDeviceIdentifyManager
 
   override fun isSupported(): Boolean {
     try {
-      val c = Class.forName("android.app.ZteDeviceIdentifyManager")
-      val constructor = c.getDeclaredConstructor(Context::class.java)
-      constructor.isAccessible = true
-      instance = constructor.newInstance(config.context)
-      clazz = c
+      manager = ZteDeviceIdentifyManager(config.context)
+      return true
     } catch (ignore: Throwable) {
-      clazz = null
-      instance = null
+      return false
     }
-
-    return instance != null
   }
 
   override fun run() {
     if (config.isVerifyLimitAdTracking) {
       try {
-        val method = clazz?.getDeclaredMethod("isSupported", Context::class.java)
-        val isSupported = method?.invoke(instance, config.context) as? Boolean
-        if (isSupported == false) {
+        val isSupported = manager.isSupported(config.context)
+        if (!isSupported) {
           getConsumer().onError(LIMIT_AD_TRACKING_IS_ENABLED)
           return
         }
@@ -37,22 +29,13 @@ internal class ZteProvider(config: ProviderConfig) : AbstractProvider(config) {
       }
     }
 
-    when (val r = getId("getOAID")) {
+    when (val r = checkId(manager.getOAID(config.context))) {
       is BinderResult.Failed -> getConsumer().onError(r.msg, r.throwable)
       is BinderResult.Success -> {
-        val aaid = invokeById(IdEnum.AAID) { getId("getAAID") }
-        val vaid = invokeById(IdEnum.VAID) { getId("getVAID") }
+        val aaid = invokeById(IdEnum.AAID) { checkId(manager.getAAID(config.context)) }
+        val vaid = invokeById(IdEnum.VAID) { checkId(manager.getVAID(config.context)) }
         getConsumer().onSuccess(IdentifierResult(r.id, aaid, vaid))
       }
-    }
-  }
-
-  private fun getId(code: String): BinderResult {
-    try {
-      val method = clazz?.getDeclaredMethod(code, Context::class.java)
-      return checkId(method?.invoke(instance, config.context) as? String)
-    } catch (t: Throwable) {
-      return BinderResult.Failed(EXCEPTION_THROWN, t)
     }
   }
 }

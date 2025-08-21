@@ -22,7 +22,6 @@ internal class ProviderConfig(val context: Context) {
   var idConfig = IdConfig()
   var memoryConfig = MemoryConfig()
   lateinit var consumer: WeakReference<Consumer>
-  lateinit var sysProps: Method
 
   fun clone(): ProviderConfig {
     val config = ProviderConfig(context)
