@@ -29,27 +29,13 @@ internal class ZteProvider(config: ProviderConfig) : AbstractProvider(config) {
       }
     }
 
-    when (val r = getId("getOAID")) {
+    when (val r = checkId(manager.getOAID(config.context))) {
       is BinderResult.Failed -> getConsumer().onError(r.msg, r.throwable)
       is BinderResult.Success -> {
-        val aaid = invokeById(IdEnum.AAID) { getId("getAAID") }
-        val vaid = invokeById(IdEnum.VAID) { getId("getVAID") }
+        val aaid = invokeById(IdEnum.AAID) { checkId(manager.getAAID(config.context)) }
+        val vaid = invokeById(IdEnum.VAID) { checkId(manager.getVAID(config.context)) }
         getConsumer().onSuccess(IdentifierResult(r.id, aaid, vaid))
       }
-    }
-  }
-
-  private fun getId(code: String): BinderResult {
-    try {
-      val result = when (code) {
-        "getOAID" -> manager.getOAID(config.context)
-        "getAAID" -> manager.getAAID(config.context)
-        "getVAID" -> manager.getVAID(config.context)
-        else -> null
-      }
-      return checkId(result)
-    } catch (t: Throwable) {
-      return BinderResult.Failed(EXCEPTION_THROWN, t)
     }
   }
 }
