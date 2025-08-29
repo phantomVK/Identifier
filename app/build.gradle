@@ -8,6 +8,7 @@ android {
     compileSdk rootProject.ext.compileSdk
 
     defaultConfig {
+        multiDexEnabled true
         minSdk rootProject.ext.minSdk
         targetSdk rootProject.ext.targetSdk
         versionCode rootProject.ext.versionCode
@@ -42,6 +43,15 @@ android {
             crunchPngs true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
+            applicationVariants.all { variant ->
+                variant.outputs.each { output ->
+                    output.outputFileName = "identifier" +
+                            "_${rootProject.ext.versionName}" +
+                            "_${rootProject.ext.gitRevision}" +
+                            "_${variant.buildType.name}" +
+                            ".apk" // identifier_0.8.12_88e1359_release.apk
+                }
+            }
         }
     }
 
@@ -56,6 +66,7 @@ android {
 
     packagingOptions {
         exclude "DebugProbesKt.bin"
+        exclude "androidsupportmultidexversion.txt"
     }
 }
 
