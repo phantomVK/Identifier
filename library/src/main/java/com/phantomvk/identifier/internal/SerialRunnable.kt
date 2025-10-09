@@ -77,8 +77,15 @@ internal class SerialRunnable(
       }
 
       config.executor.execute {
+        val providers = ArrayList<AbstractProvider>()
+        addProviders(providers)
+
+        if (config.isExperimental) {
+          addExperimentalProviders(providers)
+        }
+
         try {
-          execute(0, getProviders())
+          execute(0, providers)
         } catch (t: Throwable) {
           getConsumer().onError(SYSTEM_PROPS_METHOD_NOT_FOUND, t)
         }
@@ -240,18 +247,7 @@ internal class SerialRunnable(
     }
   }
 
-  private fun getProviders(): List<AbstractProvider> {
-    val providers = ArrayList<AbstractProvider>()
-    addProviders(config, providers)
-
-    if (config.isExperimental) {
-      addExperimentalProviders(config, providers)
-    }
-
-    return providers
-  }
-
-  private fun addProviders(config: ProviderConfig, providers: ArrayList<AbstractProvider>) {
+  private fun addProviders(providers: ArrayList<AbstractProvider>) {
     if (isBrand("360", "360")) {
       providers.add(QikuBinderProvider(config))
       return
@@ -356,10 +352,7 @@ internal class SerialRunnable(
     }
   }
 
-  private fun addExperimentalProviders(
-    config: ProviderConfig,
-    providers: ArrayList<AbstractProvider>
-  ) {
+  private fun addExperimentalProviders(providers: ArrayList<AbstractProvider>) {
     if (isBrand("360", "360")) {
       providers.add(QikuServiceProvider(config))
       return

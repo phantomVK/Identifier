@@ -9,7 +9,6 @@ import com.phantomvk.identifier.model.IdConfig
 import com.phantomvk.identifier.model.IdentifierResult
 import com.phantomvk.identifier.model.MemoryConfig
 import java.lang.ref.WeakReference
-import java.lang.reflect.Method
 import java.text.DecimalFormat
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.Executor
@@ -90,8 +89,18 @@ object MainManager {
     }))
 
     val clz = Class.forName("com.phantomvk.identifier.internal.SerialRunnable")
-    val list = clz.getDeclaredMethod("getProviders").apply { isAccessible = true }
-      .invoke(clz.getConstructor(c).newInstance(config)) as ArrayList<Any>
+    val instance = clz.getConstructor(c).newInstance(config)
+    val list = ArrayList<Any>()
+
+    clz.getDeclaredMethod("addProviders", ArrayList::class.java)
+      .apply { isAccessible = true }
+      .invoke(instance, list)
+
+    if (Settings.Experimental.getValue()) {
+      clz.getDeclaredMethod("addExperimentalProviders", ArrayList::class.java)
+        .apply { isAccessible = true }
+        .invoke(instance, list)
+    }
 
     // GoogleAdsIdProvider
     val provider = Class.forName("com.phantomvk.identifier.provider.GoogleAdsIdProvider")
