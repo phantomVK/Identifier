@@ -3,6 +3,7 @@ package com.phantomvk.identifier.internal
 import android.os.Build
 import android.os.Handler
 import android.os.Looper
+import android.os.SystemProperties
 import com.phantomvk.identifier.disposable.Disposable
 import com.phantomvk.identifier.functions.Consumer
 import com.phantomvk.identifier.log.Log
@@ -382,6 +383,18 @@ internal class SerialRunnable(
 
     if (Build.MODEL.startsWith("xtc", true) || Build.MODEL.startsWith("imoo", true)) {
       providers.add(XtcProvider(config))
+    }
+  }
+
+  private fun isBrand(manufacturer: String, brand: String): Boolean {
+    return Build.BRAND.equals(brand, true) && Build.MANUFACTURER.equals(manufacturer, true)
+  }
+
+  private fun getSysProperty(key: String, defValue: String?): String? {
+    return try {
+      SystemProperties.get(key, defValue)
+    } catch (t: Throwable) {
+      defValue
     }
   }
 
