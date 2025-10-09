@@ -19,7 +19,7 @@ internal class QikuServiceProvider(config: ProviderConfig) : AbstractProvider(co
     bindService(intent, object : BinderCallback {
       override fun call(binder: IBinder): BinderResult {
         if (config.isVerifyLimitAdTracking) {
-          if (isLimited(binder)) {
+          if (readBoolean(binder, 8, false, null)) {
             return BinderResult.Failed(LIMIT_AD_TRACKING_IS_ENABLED)
           }
         }
@@ -44,8 +44,4 @@ internal class QikuServiceProvider(config: ProviderConfig) : AbstractProvider(co
 //      data.recycle()
 //    }
 //  }
-
-  private fun isLimited(remote: IBinder): Boolean {
-    return readBoolean(remote, 8, false, null)
-  }
 }
