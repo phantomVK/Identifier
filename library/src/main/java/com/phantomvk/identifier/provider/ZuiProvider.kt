@@ -19,7 +19,7 @@ internal class ZuiProvider(config: ProviderConfig) : AbstractProvider(config) {
     bindService(intent, object : BinderCallback {
       override fun call(binder: IBinder): BinderResult {
         if (config.isVerifyLimitAdTracking) {
-          if (!isSupport(binder)) {
+          if (!readBoolean(binder, 3, true, null)) {
             return BinderResult.Failed(LIMIT_AD_TRACKING_IS_ENABLED)
           }
         }
@@ -27,9 +27,5 @@ internal class ZuiProvider(config: ProviderConfig) : AbstractProvider(config) {
         return queryId(binder, 1, 4, 5)
       }
     })
-  }
-
-  private fun isSupport(remote: IBinder): Boolean {
-    return readBoolean(remote, 3, true, null)
   }
 }

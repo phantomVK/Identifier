@@ -3,6 +3,7 @@ package com.phantomvk.identifier.internal
 import android.os.Build
 import android.os.Handler
 import android.os.Looper
+import android.os.SystemProperties
 import com.phantomvk.identifier.disposable.Disposable
 import com.phantomvk.identifier.functions.Consumer
 import com.phantomvk.identifier.log.Log
@@ -76,8 +77,15 @@ internal class SerialRunnable(
       }
 
       config.executor.execute {
+        val providers = ArrayList<AbstractProvider>()
+        addProviders(providers)
+
+        if (config.isExperimental) {
+          addExperimentalProviders(providers)
+        }
+
         try {
-          execute(0, getProviders())
+          execute(0, providers)
         } catch (t: Throwable) {
           getConsumer().onError(SYSTEM_PROPS_METHOD_NOT_FOUND, t)
         }
@@ -239,18 +247,7 @@ internal class SerialRunnable(
     }
   }
 
-  private fun getProviders(): List<AbstractProvider> {
-    val providers = ArrayList<AbstractProvider>()
-    addProviders(config, providers)
-
-    if (config.isExperimental) {
-      addExperimentalProviders(config, providers)
-    }
-
-    return providers
-  }
-
-  private fun addProviders(config: ProviderConfig, providers: ArrayList<AbstractProvider>) {
+  private fun addProviders(providers: ArrayList<AbstractProvider>) {
     if (isBrand("360", "360")) {
       providers.add(QikuBinderProvider(config))
       return
@@ -355,10 +352,7 @@ internal class SerialRunnable(
     }
   }
 
-  private fun addExperimentalProviders(
-    config: ProviderConfig,
-    providers: ArrayList<AbstractProvider>
-  ) {
+  private fun addExperimentalProviders(providers: ArrayList<AbstractProvider>) {
     if (isBrand("360", "360")) {
       providers.add(QikuServiceProvider(config))
       return
@@ -382,6 +376,18 @@ internal class SerialRunnable(
 
     if (Build.MODEL.startsWith("xtc", true) || Build.MODEL.startsWith("imoo", true)) {
       providers.add(XtcProvider(config))
+    }
+  }
+
+  private fun isBrand(manufacturer: String, brand: String): Boolean {
+    return Build.BRAND.equals(brand, true) && Build.MANUFACTURER.equals(manufacturer, true)
+  }
+
+  private fun getSysProperty(key: String, defValue: String?): String? {
+    return try {
+      SystemProperties.get(key, defValue)
+    } catch (t: Throwable) {
+      defValue
     }
   }
 

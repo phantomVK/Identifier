@@ -8,7 +8,6 @@ import android.content.ServiceConnection
 import android.os.Build
 import android.os.IBinder
 import android.os.Parcel
-import android.os.SystemProperties
 import androidx.annotation.IntDef
 import com.phantomvk.identifier.functions.Consumer
 import com.phantomvk.identifier.model.IdentifierResult
@@ -33,24 +32,12 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) {
     return consumer
   }
 
-  protected fun isBrand(manufacturer: String, brand: String): Boolean {
-    return Build.BRAND.equals(brand, true) && Build.MANUFACTURER.equals(manufacturer, true)
-  }
-
   protected fun isPackageInfoExisted(packageName: String): Boolean {
     return config.context.packageManager.getPackageInfo(packageName, 0) != null
   }
 
   protected fun isContentProviderExisted(packageName: String): Boolean {
     return config.context.packageManager.resolveContentProvider(packageName, 0) != null
-  }
-
-  protected fun getSysProperty(key: String, defValue: String?): String? {
-    return try {
-      SystemProperties.get(key, defValue)
-    } catch (t: Throwable) {
-      defValue
-    }
   }
 
   protected fun readBoolean(

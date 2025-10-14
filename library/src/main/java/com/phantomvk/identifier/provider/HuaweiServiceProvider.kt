@@ -37,7 +37,7 @@ internal class HuaweiServiceProvider(config: ProviderConfig) : AbstractProvider(
     bindService(intent, object : BinderCallback {
       override fun call(binder: IBinder): BinderResult {
         if (config.isVerifyLimitAdTracking) {
-          if (isOaidTrackLimited(binder)) {
+          if (readBoolean(binder, 2, false, null)) {
             return BinderResult.Failed(LIMIT_AD_TRACKING_IS_ENABLED)
           }
         }
@@ -45,9 +45,5 @@ internal class HuaweiServiceProvider(config: ProviderConfig) : AbstractProvider(
         return getId(binder, 1)
       }
     })
-  }
-
-  private fun isOaidTrackLimited(remote: IBinder): Boolean {
-    return readBoolean(remote, 2, false, null)
   }
 }
