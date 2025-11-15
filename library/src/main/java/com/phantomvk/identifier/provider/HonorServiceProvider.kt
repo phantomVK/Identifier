@@ -6,7 +6,6 @@ import android.os.IBinder
 import android.os.Parcel
 import com.phantomvk.identifier.model.ProviderConfig
 import generated.com.hihonor.cloudservice.oaid.IOAIDCallBack
-import java.util.concurrent.CountDownLatch
 
 internal class HonorServiceProvider(config: ProviderConfig) : AbstractProvider(config) {
 
@@ -16,61 +15,52 @@ internal class HonorServiceProvider(config: ProviderConfig) : AbstractProvider(c
 
   override fun run() {
     val intent = Intent("com.hihonor.id.HnOaIdService").setPackage("com.hihonor.id")
-    bindService(intent, object : BinderCallback {
-      override fun call(binder: IBinder): BinderResult {
-        if (config.isVerifyLimitAdTracking) {
-          val result = isLimited(binder)
-          if (result != null) {
-            return result
+    bindService(intent) { binder ->
+      if (config.isVerifyLimitAdTracking) {
+        isLimited(binder) { result ->
+          if (result is BinderResult.Success) {
+            getId(binder) { r -> verifyResult(r) }
+          } else {
+            verifyResult(result)
           }
         }
-
-        return getId(binder) ?: BinderResult.Failed(ID_INFO_IS_NULL)
+      } else {
+        getId(binder) { r -> verifyResult(r) }
       }
-    })
+    }
   }
 
-  private fun getId(remote: IBinder): BinderResult? {
-    var result: BinderResult? = null
-    val latch = CountDownLatch(1)
+  private fun getId(remote: IBinder, callback: OnResultCallback) {
     val callback = object : IOAIDCallBack.Stub() {
       override fun a(i: Int, j: Long, z: Boolean, f: Float, d: Double, str: String?) {}
       override fun onResult(i: Int, bundle: Bundle?) {
         if (i != 0 || bundle == null) {
-          result = BinderResult.Failed(BUNDLE_IS_NULL)
-          latch.countDown()
-          return
+          callback.call(BinderResult.Failed(BUNDLE_IS_NULL))
+        } else {
+          callback.call(checkId(bundle.getString("oa_id_flag")))
         }
-
-        result = checkId(bundle.getString("oa_id_flag"))
-        latch.countDown()
       }
     }
 
-    callBinder(remote, latch, callback, 2)
-    latch.await()
-    return result
+    callBinder(remote, callback, 2)
   }
 
-  private fun isLimited(remote: IBinder): BinderResult? {
-    var result: BinderResult? = null
-    val latch = CountDownLatch(1)
+  private fun isLimited(remote: IBinder, callback: OnResultCallback) {
     val callback = object : IOAIDCallBack.Stub() {
       override fun a(i: Int, j: Long, z: Boolean, f: Float, d: Double, str: String?) {}
       override fun onResult(i: Int, bundle: Bundle?) {
         if (i == 0 && bundle?.getBoolean("oa_id_limit_state") == true) {
-          result = BinderResult.Failed(LIMIT_AD_TRACKING_IS_ENABLED)
+          callback.call(BinderResult.Failed(LIMIT_AD_TRACKING_IS_ENABLED))
+        } else {
+          callback.call(BinderResult.Success("", "", ""))
         }
-        latch.countDown()
       }
     }
 
-    callBinder(remote, latch, callback, 3)
-    latch.await()
-    return result
+    callBinder(remote, callback, 3)
   }
 
-  private fun callBinder(remote: IBinder, latch: CountDownLatch, callback: IOAIDCallBack, code: Int) {
+  private fun callBinder(remote: IBinder, callback: IOAIDCallBack, code: Int) {
     val data = Parcel.obtain()
     val reply = Parcel.obtain()
     try {
@@ -79,10 +69,13 @@ internal class HonorServiceProvider(config: ProviderConfig) : AbstractProvider(c
       remote.transact(code, data, reply, 0)
       reply.readException()
     } catch (t: Throwable) {
-      latch.countDown()
     } finally {
       reply.recycle()
       data.recycle()
     }
+  }
+
+  private fun interface OnResultCallback {
+    fun call(result: BinderResult)
   }
 }
