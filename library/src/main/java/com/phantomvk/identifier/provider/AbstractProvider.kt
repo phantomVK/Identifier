@@ -12,6 +12,7 @@ import androidx.annotation.IntDef
 import com.phantomvk.identifier.functions.Consumer
 import com.phantomvk.identifier.model.IdentifierResult
 import com.phantomvk.identifier.model.ProviderConfig
+import com.phantomvk.identifier.provider.AbstractProvider.BinderCallback
 
 internal abstract class AbstractProvider(protected val config: ProviderConfig) {
 
@@ -140,15 +141,25 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) {
     }
   }
 
+  protected fun verifyResult(r: BinderResult) {
+    when (r) {
+      is BinderResult.Success -> getConsumer().onSuccess(IdentifierResult(r.id, r.aaid, r.vaid))
+      is BinderResult.Failed -> getConsumer().onError(r.msg, r.throwable)
+    }
+  }
+
   protected fun bindService(intent: Intent, binderCallback: BinderCallback) {
+    bindService(intent) { service ->
+      verifyResult(binderCallback.call(service))
+    }
+  }
+
+  protected fun bindService(intent: Intent, callback: (service: IBinder) -> Unit) {
     val conn = object : ServiceConnection {
       override fun onServiceConnected(name: ComponentName, service: IBinder) {
         config.executor.execute {
           try {
-            when (val r = binderCallback.call(service)) {
-              is BinderResult.Success -> getConsumer().onSuccess(IdentifierResult(r.id, r.aaid, r.vaid))
-              is BinderResult.Failed -> getConsumer().onError(r.msg, r.throwable)
-            }
+            callback.invoke(service)
           } catch (t: Throwable) {
             unbindServiceOnError(this, EXCEPTION_THROWN, t)
           }
