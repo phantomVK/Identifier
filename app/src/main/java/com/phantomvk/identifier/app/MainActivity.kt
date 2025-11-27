@@ -112,7 +112,7 @@ class MainActivity : AppCompatActivity() {
   private fun updateSuccessInfo(msg: IdentifierResult) {
     val deviceStr = deviceInfo().append(
       "\n- Result:" +
-          "\n * oaid: ${msg.oaid}" +
+          "\n * oaid: ${if (msg.oaid.isNotBlank()) msg.oaid else "null"}" +
           "\n * aaid: ${msg.aaid}" +
           "\n * vaid: ${msg.vaid}" +
           "\n * gaid: ${msg.gaid}\n\n"
