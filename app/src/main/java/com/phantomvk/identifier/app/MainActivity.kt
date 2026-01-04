@@ -18,6 +18,7 @@ import com.phantomvk.identifier.app.BuildConfig.GIT_REVISION
 import com.phantomvk.identifier.app.BuildConfig.VERSION_NAME
 import com.phantomvk.identifier.app.main.MainManager.assertThread
 import com.phantomvk.identifier.app.main.MainManager.getResultList
+import com.phantomvk.identifier.app.main.SysMarkJni
 import com.phantomvk.identifier.app.settings.Settings
 import com.phantomvk.identifier.app.settings.SettingsActivity
 import com.phantomvk.identifier.disposable.Disposable
@@ -131,9 +132,9 @@ class MainActivity : AppCompatActivity() {
         if (model.result == null) {
           builder.append("-msg: ${model.msg}")
         } else {
-          val list = arrayListOf("-oaid: ${model.result.oaid}")
-          model.result.aaid?.let { list.add("-aaid: $it") }
-          model.result.vaid?.let { list.add("-vaid: $it") }
+          val list = arrayListOf(" * oaid: ${model.result.oaid}")
+          model.result.aaid?.let { list.add(" * aaid: $it") }
+          model.result.vaid?.let { list.add(" * vaid: $it") }
           builder.append(list.joinToString("\n"))
         }
       }
@@ -167,10 +168,11 @@ class MainActivity : AppCompatActivity() {
     return StringBuilder("# Device info\n")
       .append("- AppVer: v${VERSION_NAME}_${GIT_REVISION}_${BUILD_TYPE}\n")
       .append("- Manufacturer: ${Build.MANUFACTURER}, Brand: ${Build.BRAND}\n")
-      .append("- Model: ${Build.MODEL}, Device: ${Build.DEVICE}\n")
-      .append("- Release: Android ${Build.VERSION.RELEASE} (SDK_INT: ${Build.VERSION.SDK_INT})\n")
+      .append("- Model: ${Build.MODEL}, Device: ${Build.DEVICE}, Android ${Build.VERSION.RELEASE} (${Build.VERSION.SDK_INT})\n")
       .append("- Display: ${Build.DISPLAY}\n")
-      .append("- Incremental: ${Build.VERSION.INCREMENTAL}")
+      .append("- Incremental: ${Build.VERSION.INCREMENTAL}\n")
+      .append("- BootId: ${SysMarkJni.getBootMark()}\n")
+      .append("- UpdateId: ${SysMarkJni.getUpdateMark()}")
   }
 
   private fun copyToClipboard(text: String) {
