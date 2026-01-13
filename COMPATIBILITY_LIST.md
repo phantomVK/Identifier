@@ -11,10 +11,10 @@
 |    HonorSdkProvider.kt     |      Honor       |  Y   |      |      |
 |  HonorServiceProvider.kt   |      Honor       |  Y   |      |      |
 |  HonorSettingsProvider.kt  |      Honor       |  Y   |      |      |
-|  HuaweiContentProvider.kt  |      Huawei      |  Y   |      |      |
-|    HuaweiSdkProvider.kt    |      Huawei      |  Y   |      |      |
-|  HuaweiServiceProvider.kt  |      Huawei      |  Y   |      |      |
-| HuaweiSettingsProvider.kt  |      Huawei      |  Y   |      |      |
+|  HuaweiContentProvider.kt  |      Huawei      |  Y   |  Y   |      |
+|    HuaweiSdkProvider.kt    |      Huawei      |  Y   |  Y   |      |
+|  HuaweiServiceProvider.kt  |      Huawei      |  Y   |  Y   |      |
+| HuaweiSettingsProvider.kt  |      Huawei      |  Y   |  Y   |      |
 |      MeizuProvider.kt      |      Meizu       |  Y   |  Y   |      |
 |      NubiaProvider.kt      |      Nubia       |  Y   |  Y   |  Y   |
 |   OppoColorOsProvider.kt   |       Oppo       |  Y   |  Y   |      |

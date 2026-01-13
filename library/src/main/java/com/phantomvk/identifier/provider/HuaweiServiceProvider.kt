@@ -5,7 +5,7 @@ import android.os.Build
 import android.os.IBinder
 import com.phantomvk.identifier.model.ProviderConfig
 
-internal class HuaweiServiceProvider(config: ProviderConfig) : AbstractProvider(config) {
+internal class HuaweiServiceProvider(config: ProviderConfig) : HuaweiBaseProvider(config) {
 
   private lateinit var packageName: String
 
@@ -42,7 +42,14 @@ internal class HuaweiServiceProvider(config: ProviderConfig) : AbstractProvider(
           }
         }
 
-        return getId(binder, 1)
+        return when (val r = getId(binder, 1)) {
+          is BinderResult.Failed -> r
+          is BinderResult.Success -> {
+            val aaid = invokeById(IdEnum.AAID) { getAAID() }
+            val vaid = invokeById(IdEnum.VAID) { getVAID() }
+            BinderResult.Success(r.id, vaid, aaid)
+          }
+        }
       }
     })
   }

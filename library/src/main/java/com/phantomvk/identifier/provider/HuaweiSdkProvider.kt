@@ -1,9 +1,10 @@
 package com.phantomvk.identifier.provider
 
 import com.huawei.hms.ads.identifier.AdvertisingIdClient
+import com.phantomvk.identifier.model.IdentifierResult
 import com.phantomvk.identifier.model.ProviderConfig
 
-internal class HuaweiSdkProvider(config: ProviderConfig) : AbstractProvider(config) {
+internal class HuaweiSdkProvider(config: ProviderConfig) : HuaweiBaseProvider(config) {
 
   override fun isSupported(): Boolean {
     return AdvertisingIdClient.isAdvertisingIdAvailable(config.context)
@@ -23,6 +24,13 @@ internal class HuaweiSdkProvider(config: ProviderConfig) : AbstractProvider(conf
       }
     }
 
-    checkId(info.id, getConsumer())
+    when (val r = checkId(info.id)) {
+      is BinderResult.Failed -> getConsumer().onError(r.msg, r.throwable)
+      is BinderResult.Success -> {
+        val aaid = invokeById(IdEnum.AAID) { getAAID() }
+        val vaid = invokeById(IdEnum.VAID) { getVAID() }
+        getConsumer().onSuccess(IdentifierResult(r.id, aaid, vaid))
+      }
+    }
   }
 }
