@@ -29,7 +29,9 @@ import com.phantomvk.identifier.provider.MeizuProvider
 import com.phantomvk.identifier.provider.NO_IMPLEMENTATION_FOUND
 import com.phantomvk.identifier.provider.NubiaProvider
 import com.phantomvk.identifier.provider.OppoColorOsProvider
+import com.phantomvk.identifier.provider.OppoContentProvider
 import com.phantomvk.identifier.provider.OppoHeyTapProvider
+import com.phantomvk.identifier.provider.OppoIdProvider
 import com.phantomvk.identifier.provider.PRIVACY_IS_NOT_ACCEPTED
 import com.phantomvk.identifier.provider.PicoProvider
 import com.phantomvk.identifier.provider.QikuBinderProvider
@@ -326,6 +328,8 @@ internal class SerialRunnable(
       || isBrand("ONEPLUS", "ONEPLUS")
       || isSysPropertyContainsKey("ro.build.version.opporom")
     ) {
+      providers.add(OppoIdProvider(config))
+      providers.add(OppoContentProvider(config))
       providers.add(OppoHeyTapProvider(config))
       providers.add(OppoColorOsProvider(config))
       return
