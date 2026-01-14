@@ -75,8 +75,8 @@ dependencies {
 //    implementation "com.github.phantomVK:Identifier:latest.release@aar"
 
 //    implementation("com.huawei.hms:ads-identifier:$hms")
-//    implementation("rcom.hihonor.mcs:ads-identifie:$mcs")
-    implementation("com.huawei.hms:opendevice:$hms_opendevice")
+//    implementation("com.hihonor.mcs:ads-identifier:$mcs")
+//    implementation("com.huawei.hms:opendevice:$hms_opendevice")
 
     implementation "androidx.appcompat:appcompat:$appcompact"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.4.0"

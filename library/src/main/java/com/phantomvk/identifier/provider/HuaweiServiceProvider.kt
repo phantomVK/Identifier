@@ -44,11 +44,7 @@ internal class HuaweiServiceProvider(config: ProviderConfig) : HuaweiBaseProvide
 
         return when (val r = getId(binder, 1)) {
           is BinderResult.Failed -> r
-          is BinderResult.Success -> {
-            val aaid = invokeById(IdEnum.AAID) { getAAID() }
-            val vaid = invokeById(IdEnum.VAID) { getVAID() }
-            BinderResult.Success(r.id, vaid, aaid)
-          }
+          is BinderResult.Success -> BinderResult.Success(r.id, getVAID(), getAAID())
         }
       }
     })

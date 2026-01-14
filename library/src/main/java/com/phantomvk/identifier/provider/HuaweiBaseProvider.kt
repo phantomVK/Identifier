@@ -5,7 +5,11 @@ import com.phantomvk.identifier.provider.AbstractProvider.BinderResult
 import java.util.concurrent.CountDownLatch
 
 internal abstract class HuaweiBaseProvider(config: ProviderConfig) : AbstractProvider(config) {
-  protected fun getAAID(): BinderResult {
+  protected fun getAAID(): String? {
+    if (config.idConfig.isAaidEnabled == false) {
+      return null
+    }
+
     val latch = CountDownLatch(1)
     var result: BinderResult = BinderResult.Failed(EXCEPTION_THROWN)
 
@@ -25,10 +29,14 @@ internal abstract class HuaweiBaseProvider(config: ProviderConfig) : AbstractPro
     }
 
     latch.await()
-    return result
+    return (result as? BinderResult.Success)?.id
   }
 
-  protected fun getVAID(): BinderResult {
+  protected fun getVAID(): String? {
+    if (config.idConfig.isVaidEnabled == false) {
+      return null
+    }
+
     val latch = CountDownLatch(1)
     var result: BinderResult = BinderResult.Failed(EXCEPTION_THROWN)
 
@@ -48,6 +56,6 @@ internal abstract class HuaweiBaseProvider(config: ProviderConfig) : AbstractPro
     }
 
     latch.await()
-    return result
+    return (result as? BinderResult.Success)?.id
   }
 }
