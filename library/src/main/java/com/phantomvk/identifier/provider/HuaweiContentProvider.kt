@@ -1,9 +1,10 @@
 package com.phantomvk.identifier.provider
 
 import android.net.Uri
+import com.phantomvk.identifier.model.IdentifierResult
 import com.phantomvk.identifier.model.ProviderConfig
 
-internal class HuaweiContentProvider(config: ProviderConfig) : AbstractProvider(config) {
+internal class HuaweiContentProvider(config: ProviderConfig) : HuaweiBaseProvider(config) {
 
   override fun isSupported(): Boolean {
     return isContentProviderExisted("com.huawei.hwid.pps.apiprovider")
@@ -32,7 +33,10 @@ internal class HuaweiContentProvider(config: ProviderConfig) : AbstractProvider(
         return getConsumer().onError(NO_AVAILABLE_COLUMN_INDEX)
       }
 
-      checkId(c.getString(code), getConsumer())
+      when (val r = checkId(c.getString(code))) {
+        is BinderResult.Failed -> getConsumer().onError(r.msg, r.throwable)
+        is BinderResult.Success -> getConsumer().onSuccess(IdentifierResult(r.id, getAAID(), getVAID()))
+      }
     }
   }
 }

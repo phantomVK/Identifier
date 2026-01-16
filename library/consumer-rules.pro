@@ -1,4 +1,4 @@
-# Huawei HNS SDK
+# Huawei HMS SDK
 -dontwarn com.huawei.hms.ads.**
 -keep class com.huawei.hms.ads.** {*; }
 -keep interface com.huawei.hms.ads.** {*; }

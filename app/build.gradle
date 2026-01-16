@@ -76,6 +76,7 @@ dependencies {
 
 //    implementation("com.huawei.hms:ads-identifier:$hms")
 //    implementation("com.hihonor.mcs:ads-identifier:$mcs")
+//    implementation("com.huawei.hms:opendevice:$hms_opendevice")
 
     implementation "androidx.appcompat:appcompat:$appcompact"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.4.0"

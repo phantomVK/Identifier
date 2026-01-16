@@ -3,9 +3,10 @@ package com.phantomvk.identifier.provider
 import android.os.Build
 import android.provider.Settings
 import androidx.annotation.ChecksSdkIntAtLeast
+import com.phantomvk.identifier.model.IdentifierResult
 import com.phantomvk.identifier.model.ProviderConfig
 
-internal class HuaweiSettingsProvider(config: ProviderConfig) : AbstractProvider(config) {
+internal class HuaweiSettingsProvider(config: ProviderConfig) : HuaweiBaseProvider(config) {
 
   @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.N)
   override fun isSupported(): Boolean {
@@ -25,6 +26,9 @@ internal class HuaweiSettingsProvider(config: ProviderConfig) : AbstractProvider
     }
 
     val id = Settings.Global.getString(config.context.contentResolver, "pps_oaid")
-    checkId(id, getConsumer())
+    when (val r = checkId(id)) {
+      is BinderResult.Failed -> getConsumer().onError(r.msg, r.throwable)
+      is BinderResult.Success -> getConsumer().onSuccess(IdentifierResult(r.id, getAAID(), getVAID()))
+    }
   }
 }
