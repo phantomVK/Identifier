@@ -3,6 +3,7 @@ package com.phantomvk.identifier.app
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -40,6 +41,7 @@ class MainActivity : AppCompatActivity() {
     textView = findViewById(R.id.system_textview)
     findViewById<Button>(R.id.button).setOnClickListener { getId() }
     findViewById<Button>(R.id.clear_cache).setOnClickListener { IdentifierManager.clearMemoryCache() }
+    findViewById<Button>(R.id.uninstall).setOnClickListener { uninstall() }
     findViewById<Button>(R.id.button_settings).setOnClickListener { startActivity(Intent(this, SettingsActivity::class.java)) }
     getId()
   }
@@ -131,9 +133,9 @@ class MainActivity : AppCompatActivity() {
         if (model.result == null) {
           builder.append("-msg: ${model.msg}")
         } else {
-          val list = arrayListOf("-oaid: ${model.result.oaid}")
-          model.result.aaid?.let { list.add("-aaid: $it") }
-          model.result.vaid?.let { list.add("-vaid: $it") }
+          val list = arrayListOf(" * oaid: ${model.result.oaid}")
+          model.result.aaid?.let { list.add(" * aaid: $it") }
+          model.result.vaid?.let { list.add(" * vaid: $it") }
           builder.append(list.joinToString("\n"))
         }
       }
@@ -164,8 +166,8 @@ class MainActivity : AppCompatActivity() {
   }
 
   private fun deviceInfo(): StringBuilder {
-    return StringBuilder("# Device info\n")
-      .append("- AppVer: v${VERSION_NAME}_${GIT_REVISION}_${BUILD_TYPE}\n")
+    return StringBuilder("# Information\n")
+      .append("- Ver: v${VERSION_NAME}_${GIT_REVISION}_${BUILD_TYPE}\n")
       .append("- Manufacturer: ${Build.MANUFACTURER}, Brand: ${Build.BRAND}\n")
       .append("- Model: ${Build.MODEL}, Device: ${Build.DEVICE}\n")
       .append("- Release: Android ${Build.VERSION.RELEASE} (SDK_INT: ${Build.VERSION.SDK_INT})\n")
@@ -187,5 +189,11 @@ class MainActivity : AppCompatActivity() {
     if (disposable?.isDisposed == false) {
       disposable?.dispose()
     }
+  }
+
+  private fun uninstall() {
+    val i = Intent(Intent.ACTION_DELETE, Uri.parse("package:$packageName"))
+    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+    startActivity(i)
   }
 }
