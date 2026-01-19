@@ -23,7 +23,7 @@ internal class AsusProvider(config: ProviderConfig) : AbstractProvider(config) {
       override fun call(binder: IBinder): BinderResult {
         if (config.isVerifyLimitAdTracking) {
           if (!readBoolean(binder, 1, true, null)) {
-            return BinderResult.Failed(LIMIT_AD_TRACKING_IS_ENABLED)
+            return Failed(LIMIT_AD_TRACKING_IS_ENABLED)
           }
         }
 

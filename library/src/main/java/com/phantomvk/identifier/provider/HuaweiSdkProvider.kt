@@ -25,8 +25,8 @@ internal class HuaweiSdkProvider(config: ProviderConfig) : HuaweiBaseProvider(co
     }
 
     when (val r = checkId(info.id)) {
-      is BinderResult.Failed -> getConsumer().onError(r.msg, r.throwable)
-      is BinderResult.Success -> getConsumer().onSuccess(IdentifierResult(r.id, getAAID(), getVAID()))
+      is Failed -> getConsumer().onError(r.msg, r.throwable)
+      is Success -> getConsumer().onSuccess(IdentifierResult(r.id, getAAID(), getVAID()))
     }
   }
 }

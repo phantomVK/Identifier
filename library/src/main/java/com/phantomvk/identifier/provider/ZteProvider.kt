@@ -30,8 +30,8 @@ internal class ZteProvider(config: ProviderConfig) : AbstractProvider(config) {
     }
 
     when (val r = checkId(manager.getOAID(config.context))) {
-      is BinderResult.Failed -> getConsumer().onError(r.msg, r.throwable)
-      is BinderResult.Success -> {
+      is Failed -> getConsumer().onError(r.msg, r.throwable)
+      is Success -> {
         val aaid = invokeById(IdEnum.AAID) { checkId(manager.getAAID(config.context)) }
         val vaid = invokeById(IdEnum.VAID) { checkId(manager.getVAID(config.context)) }
         getConsumer().onSuccess(IdentifierResult(r.id, aaid, vaid))

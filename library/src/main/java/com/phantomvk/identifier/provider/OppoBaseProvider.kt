@@ -52,14 +52,14 @@ internal abstract class OppoBaseProvider(config: ProviderConfig) : AbstractProvi
   protected fun getSignatureHash(): BinderResult {
     val signature = getSignatures(config.context.packageManager, config.context.packageName)
       ?.firstOrNull()
-      ?: return BinderResult.Failed(SIGNATURE_IS_NULL)
+      ?: return Failed(SIGNATURE_IS_NULL)
 
     val byteArray = signature.toByteArray()
     val sign = sha1(byteArray)
     if (sign.isNullOrBlank()) {
-      return BinderResult.Failed(SIGNATURE_HASH_IS_NULL)
+      return Failed(SIGNATURE_HASH_IS_NULL)
     }
 
-    return BinderResult.Success(sign, null, null)
+    return Success(sign, null, null)
   }
 }

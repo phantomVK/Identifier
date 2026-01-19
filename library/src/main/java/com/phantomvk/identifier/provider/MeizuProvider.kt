@@ -12,8 +12,8 @@ internal class MeizuProvider(config: ProviderConfig) : AbstractProvider(config) 
 
   override fun run() {
     when (val r = getId("oaid")) {
-      is BinderResult.Failed -> getConsumer().onError(r.msg, r.throwable)
-      is BinderResult.Success -> {
+      is Failed -> getConsumer().onError(r.msg, r.throwable)
+      is Success -> {
         val aaid = invokeById(IdEnum.AAID) { getId("aaid") }
         getConsumer().onSuccess(IdentifierResult(r.id, aaid))
       }
@@ -24,7 +24,7 @@ internal class MeizuProvider(config: ProviderConfig) : AbstractProvider(config) 
     val uri = Uri.parse("content://com.meizu.flyme.openidsdk/")
     val cursor = config.context.contentResolver.query(uri, null, null, arrayOf(name), null)
     if (cursor == null) {
-      return BinderResult.Failed(QUERY_CURSOR_IS_NULL)
+      return Failed(QUERY_CURSOR_IS_NULL)
     }
 
     cursor.use { c ->
@@ -33,18 +33,18 @@ internal class MeizuProvider(config: ProviderConfig) : AbstractProvider(config) 
       if (config.isVerifyLimitAdTracking) {
         val code = c.getColumnIndex("code")
         if (code >= 0 && c.getLong(code) == 6L) {
-          return BinderResult.Failed(LIMIT_AD_TRACKING_IS_ENABLED)
+          return Failed(LIMIT_AD_TRACKING_IS_ENABLED)
         }
 
         val expired = c.getColumnIndex("expired")
         if (expired >= 0 && c.getLong(expired) == 0L) {
-          return BinderResult.Failed(LIMIT_AD_TRACKING_IS_ENABLED)
+          return Failed(LIMIT_AD_TRACKING_IS_ENABLED)
         }
       }
 
       val index = c.getColumnIndex("value")
       if (index == -1) {
-        return BinderResult.Failed(NO_AVAILABLE_COLUMN_INDEX)
+        return Failed(NO_AVAILABLE_COLUMN_INDEX)
       }
 
       return checkId(c.getString(index))

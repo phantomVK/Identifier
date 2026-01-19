@@ -24,8 +24,8 @@ internal class QikuBinderProvider(config: ProviderConfig) : AbstractProvider(con
     }
 
     when (val r = getId(4)) {
-      is BinderResult.Failed -> getConsumer().onError(r.msg, r.throwable)
-      is BinderResult.Success -> {
+      is Failed -> getConsumer().onError(r.msg, r.throwable)
+      is Success -> {
 //        val vaid = invokeById(IdEnum.VAID) { getId(5) }
 //        val aaid = invokeById(IdEnum.AAID) { getId(6) }
         getConsumer().onSuccess(IdentifierResult(r.id))
@@ -55,7 +55,7 @@ internal class QikuBinderProvider(config: ProviderConfig) : AbstractProvider(con
       iBinder.transact(code, data, reply, 0)
       return checkId(reply.readString())
     } catch (t: Throwable) {
-      return BinderResult.Failed(EXCEPTION_THROWN, t)
+      return Failed(EXCEPTION_THROWN, t)
     } finally {
       reply.recycle()
       data.recycle()

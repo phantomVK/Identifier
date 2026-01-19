@@ -21,8 +21,8 @@ internal class VivoProvider(config: ProviderConfig) : AbstractProvider(config) {
     }
 
     when (val r = getId("OAID")) {
-      is BinderResult.Failed -> return getConsumer().onError(r.msg, r.throwable)
-      is BinderResult.Success -> {
+      is Failed -> return getConsumer().onError(r.msg, r.throwable)
+      is Success -> {
         val aaid = invokeById(IdEnum.AAID) { getId("AAID") }
         getConsumer().onSuccess(IdentifierResult(r.id, aaid))
       }
@@ -34,7 +34,7 @@ internal class VivoProvider(config: ProviderConfig) : AbstractProvider(config) {
     val uri = Uri.parse(prefix + config.context.packageName)
     val cursor = config.context.contentResolver.query(uri, null, null, null, null)
     if (cursor == null) {
-      return BinderResult.Failed(QUERY_CURSOR_IS_NULL)
+      return Failed(QUERY_CURSOR_IS_NULL)
     }
 
     return cursor.use { c ->
@@ -42,7 +42,7 @@ internal class VivoProvider(config: ProviderConfig) : AbstractProvider(config) {
 
       val index = c.getColumnIndex("value")
       if (index == -1) {
-        return BinderResult.Failed(NO_AVAILABLE_COLUMN_INDEX)
+        return Failed(NO_AVAILABLE_COLUMN_INDEX)
       }
 
       checkId(c.getString(index))

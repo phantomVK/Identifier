@@ -25,7 +25,7 @@ internal class GoogleAdsIdProvider(config: ProviderConfig) : AbstractProvider(co
       override fun call(binder: IBinder): BinderResult {
         if (config.isVerifyLimitAdTracking) {
           if (readBoolean(binder, 2, false) { it.writeInt(1) }) {
-            return BinderResult.Failed(LIMIT_AD_TRACKING_IS_ENABLED)
+            return Failed(LIMIT_AD_TRACKING_IS_ENABLED)
           }
         }
 
