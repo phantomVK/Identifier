@@ -18,9 +18,9 @@ internal class OppoIdProvider(config: ProviderConfig) : AbstractProvider(config)
     when (val r = checkId(impl.getOUID(config.context))) {
       is Failed -> getConsumer().onError(r.msg, r.throwable)
       is Success -> {
-        val aaid = invokeById(IdEnum.AAID) { checkId(impl.getAUID(config.context)) }
-//        val vaid = invokeById(IdEnum.VAID) { checkId(impl.getDUID(config.context)) }
-        getConsumer().onSuccess(IdentifierResult(r.id, aaid, null))
+        val aaid = if (config.idConfig.isAaidEnabled) (checkId(impl.getAUID(config.context)) as? Success)?.id else null
+        val vaid = if (config.idConfig.isVaidEnabled) (checkId(impl.getDUID(config.context)) as? Success)?.id else null
+        getConsumer().onSuccess(IdentifierResult(r.id, aaid, vaid))
       }
     }
   }

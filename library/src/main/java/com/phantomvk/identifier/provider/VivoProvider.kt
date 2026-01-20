@@ -23,7 +23,7 @@ internal class VivoProvider(config: ProviderConfig) : AbstractProvider(config) {
     when (val r = getId("OAID")) {
       is Failed -> return getConsumer().onError(r.msg, r.throwable)
       is Success -> {
-        val aaid = invokeById(IdEnum.AAID) { getId("AAID") }
+        val aaid = if (config.idConfig.isAaidEnabled) (getId("AAID") as? Success)?.id else null
         getConsumer().onSuccess(IdentifierResult(r.id, aaid))
       }
     }

@@ -72,8 +72,8 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) {
     return when (val o = getId(binder, oaidCode)) {
       is Failed -> o
       is Success -> {
-        val vaid = invokeById(IdEnum.VAID) { getId(binder, vaidCode) }
-        val aaid = invokeById(IdEnum.AAID) { getId(binder, aaidCode) }
+        val vaid = if (config.idConfig.isVaidEnabled) (getId(binder, vaidCode) as? Success)?.id else null
+        val aaid = if (config.idConfig.isAaidEnabled) (getId(binder, aaidCode) as? Success)?.id else null
         Success(o.id, vaid, aaid)
       }
     }
@@ -94,16 +94,6 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) {
       reply.recycle()
       data.recycle()
     }
-  }
-
-  protected fun invokeById(@IdEnum type: Int, callback: () -> BinderResult): String? {
-    val isEnabled = when (type) {
-      IdEnum.AAID -> config.idConfig.isAaidEnabled
-      IdEnum.VAID -> config.idConfig.isVaidEnabled
-      else -> false
-    }
-
-    return if (isEnabled) (callback.invoke() as? Success)?.id else null
   }
 
   protected fun checkId(id: String?, callback: Consumer? = null): BinderResult {

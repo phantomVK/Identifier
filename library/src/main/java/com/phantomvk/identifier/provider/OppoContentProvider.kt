@@ -36,7 +36,7 @@ internal class OppoContentProvider(config: ProviderConfig) : OppoBaseProvider(co
       when (val r = getId(client, "OUID", extras)) {
         is Failed -> getConsumer().onError(r.msg, r.throwable)
         is Success -> {
-          val aaid = invokeById(IdEnum.AAID) { getId(client, "AUID", extras) }
+          val aaid = if (config.idConfig.isAaidEnabled) (getId(client, "AUID", extras) as? Success)?.id else null
           getConsumer().onSuccess(IdentifierResult(r.id, aaid, null))
         }
       }
