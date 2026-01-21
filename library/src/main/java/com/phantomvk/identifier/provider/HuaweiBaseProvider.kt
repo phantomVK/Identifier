@@ -11,7 +11,7 @@ internal abstract class HuaweiBaseProvider(config: ProviderConfig) : AbstractPro
     }
 
     val latch = CountDownLatch(1)
-    var result: BinderResult = BinderResult.Failed(EXCEPTION_THROWN)
+    var result: BinderResult = Failed(EXCEPTION_THROWN)
 
     try {
       com.huawei.hms.aaid.HmsInstanceId.getInstance(config.context).aaid
@@ -20,16 +20,16 @@ internal abstract class HuaweiBaseProvider(config: ProviderConfig) : AbstractPro
           latch.countDown()
         }
         .addOnFailureListener { t: Throwable ->
-          result = BinderResult.Failed(EXCEPTION_THROWN, t)
+          result = Failed(EXCEPTION_THROWN, t)
           latch.countDown()
         }
     } catch (t: Throwable) {
-      result = BinderResult.Failed(EXCEPTION_THROWN, t)
+      result = Failed(EXCEPTION_THROWN, t)
       latch.countDown()
     }
 
     latch.await()
-    return (result as? BinderResult.Success)?.id
+    return (result as? Success)?.id
   }
 
   protected fun getVAID(): String? {
@@ -38,7 +38,7 @@ internal abstract class HuaweiBaseProvider(config: ProviderConfig) : AbstractPro
     }
 
     val latch = CountDownLatch(1)
-    var result: BinderResult = BinderResult.Failed(EXCEPTION_THROWN)
+    var result: BinderResult = Failed(EXCEPTION_THROWN)
 
     try {
       com.huawei.hms.opendevice.OpenDevice.getOpenDeviceClient(config.context).odid
@@ -47,15 +47,15 @@ internal abstract class HuaweiBaseProvider(config: ProviderConfig) : AbstractPro
           latch.countDown()
         }
         .addOnFailureListener { t: Throwable ->
-          result = BinderResult.Failed(EXCEPTION_THROWN, t)
+          result = Failed(EXCEPTION_THROWN, t)
           latch.countDown()
         }
     } catch (t: Throwable) {
-      result = BinderResult.Failed(EXCEPTION_THROWN, t)
+      result = Failed(EXCEPTION_THROWN, t)
       latch.countDown()
     }
 
     latch.await()
-    return (result as? BinderResult.Success)?.id
+    return (result as? Success)?.id
   }
 }

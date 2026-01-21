@@ -6,6 +6,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS
 import android.util.Log
 import android.widget.Button
 import android.widget.TextView
@@ -39,10 +40,10 @@ class MainActivity : AppCompatActivity() {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_main)
     textView = findViewById(R.id.system_textview)
-    findViewById<Button>(R.id.button).setOnClickListener { getId() }
+    findViewById<Button>(R.id.refresh).setOnClickListener { getId() }
     findViewById<Button>(R.id.clear_cache).setOnClickListener { IdentifierManager.clearMemoryCache() }
-    findViewById<Button>(R.id.uninstall).setOnClickListener { uninstall() }
-    findViewById<Button>(R.id.button_settings).setOnClickListener { startActivity(Intent(this, SettingsActivity::class.java)) }
+    findViewById<Button>(R.id.appSettings).setOnClickListener { openAppDetailsSettings() }
+    findViewById<Button>(R.id.configs).setOnClickListener { startActivity(Intent(this, SettingsActivity::class.java)) }
     getId()
   }
 
@@ -191,8 +192,9 @@ class MainActivity : AppCompatActivity() {
     }
   }
 
-  private fun uninstall() {
-    val i = Intent(Intent.ACTION_DELETE, Uri.parse("package:$packageName"))
+  private fun openAppDetailsSettings() {
+    val i = Intent(ACTION_APPLICATION_DETAILS_SETTINGS)
+    i.setData(Uri.parse("package:$packageName"))
     i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
     startActivity(i)
   }

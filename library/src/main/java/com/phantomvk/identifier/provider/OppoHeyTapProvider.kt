@@ -27,16 +27,16 @@ internal open class OppoHeyTapProvider(
     bindService(intent, object : BinderCallback {
       override fun call(binder: IBinder): BinderResult {
         val sign = when (val result = getSignatureHash()) {
-          is BinderResult.Failed -> return result
-          is BinderResult.Success -> result.id
+          is Failed -> return result
+          is Success -> result.id
         }
 
         when (val r = (getId(binder, descriptor, sign, "OAID"))) {
-          is BinderResult.Failed -> return r
-          is BinderResult.Success -> {
-//            val vaid = invokeById(IdEnum.VAID) { getId(binder, descriptor, sign, "VAID") }
-            val aaid = invokeById(IdEnum.AAID) { getId(binder, descriptor, sign, "AAID") }
-            return BinderResult.Success(r.id, null, aaid)
+          is Failed -> return r
+          is Success -> {
+            val vaid = if (config.idConfig.isVaidEnabled) (getId(binder, descriptor, sign, "VAID") as? Success)?.id else null
+            val aaid = if (config.idConfig.isAaidEnabled) (getId(binder, descriptor, sign, "AAID") as? Success)?.id else null
+            return Success(r.id, vaid, aaid)
           }
         }
       }
@@ -63,7 +63,7 @@ internal open class OppoHeyTapProvider(
       reply.readException()
       return checkId(reply.readString())
     } catch (t: Throwable) {
-      return BinderResult.Failed(EXCEPTION_THROWN, t)
+      return Failed(EXCEPTION_THROWN, t)
     } finally {
       reply.recycle()
       data.recycle()

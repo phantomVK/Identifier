@@ -22,7 +22,7 @@ internal class OppoContentProvider(config: ProviderConfig) : OppoBaseProvider(co
     }
 
     val sign = getSignatureHash()
-    if (sign !is BinderResult.Success) {
+    if (sign !is Success) {
       releaseContentProviderClient(client)
       getConsumer().onError(SIGNATURE_HASH_IS_NULL)
       return
@@ -34,9 +34,9 @@ internal class OppoContentProvider(config: ProviderConfig) : OppoBaseProvider(co
 
     try {
       when (val r = getId(client, "OUID", extras)) {
-        is BinderResult.Failed -> getConsumer().onError(r.msg, r.throwable)
-        is BinderResult.Success -> {
-          val aaid = invokeById(IdEnum.AAID) { getId(client, "AUID", extras) }
+        is Failed -> getConsumer().onError(r.msg, r.throwable)
+        is Success -> {
+          val aaid = if (config.idConfig.isAaidEnabled) (getId(client, "AUID", extras) as? Success)?.id else null
           getConsumer().onSuccess(IdentifierResult(r.id, aaid, null))
         }
       }
@@ -50,7 +50,7 @@ internal class OppoContentProvider(config: ProviderConfig) : OppoBaseProvider(co
   private fun getId(client: ContentProviderClient, method: String, extras: Bundle): BinderResult {
     val bundle = client.call(method, null, extras)
     return if (bundle == null) {
-      BinderResult.Failed(BUNDLE_IS_NULL)
+      Failed(BUNDLE_IS_NULL)
     } else {
       checkId(bundle.getString(method))
     }

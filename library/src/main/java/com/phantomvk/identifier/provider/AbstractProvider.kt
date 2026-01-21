@@ -70,11 +70,11 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) {
     aaidCode: Int
   ): BinderResult {
     return when (val o = getId(binder, oaidCode)) {
-      is BinderResult.Failed -> o
-      is BinderResult.Success -> {
-        val vaid = invokeById(IdEnum.VAID) { getId(binder, vaidCode) }
-        val aaid = invokeById(IdEnum.AAID) { getId(binder, aaidCode) }
-        BinderResult.Success(o.id, vaid, aaid)
+      is Failed -> o
+      is Success -> {
+        val vaid = if (config.idConfig.isVaidEnabled) (getId(binder, vaidCode) as? Success)?.id else null
+        val aaid = if (config.idConfig.isAaidEnabled) (getId(binder, aaidCode) as? Success)?.id else null
+        Success(o.id, vaid, aaid)
       }
     }
   }
@@ -89,34 +89,24 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) {
       reply.readException()
       return checkId(reply.readString())
     } catch (t: Throwable) {
-      return BinderResult.Failed(EXCEPTION_THROWN, t)
+      return Failed(EXCEPTION_THROWN, t)
     } finally {
       reply.recycle()
       data.recycle()
     }
   }
 
-  protected fun invokeById(@IdEnum type: Int, callback: () -> BinderResult): String? {
-    val isEnabled = when (type) {
-      IdEnum.AAID -> config.idConfig.isAaidEnabled
-      IdEnum.VAID -> config.idConfig.isVaidEnabled
-      else -> false
-    }
-
-    return if (isEnabled) (callback.invoke() as? BinderResult.Success)?.id else null
-  }
-
   protected fun checkId(id: String?, callback: Consumer? = null): BinderResult {
     val result = when {
-      id.isNullOrBlank() -> BinderResult.Failed(ID_IS_NULL_OR_BLANK)
-      id.any { it != '0' && it != '-' } -> BinderResult.Success(id, null, null)
-      else -> BinderResult.Failed(ID_IS_INVALID)
+      id.isNullOrBlank() -> Failed(ID_IS_NULL_OR_BLANK)
+      id.any { it != '0' && it != '-' } -> Success(id, null, null)
+      else -> Failed(ID_IS_INVALID)
     }
 
     if (callback != null) {
       when (result) {
-        is BinderResult.Failed -> callback.onError(result.msg)
-        is BinderResult.Success -> callback.onSuccess(IdentifierResult(result.id))
+        is Failed -> callback.onError(result.msg)
+        is Success -> callback.onSuccess(IdentifierResult(result.id))
       }
     }
 
@@ -143,8 +133,8 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) {
 
   protected fun verifyResult(r: BinderResult) {
     when (r) {
-      is BinderResult.Success -> getConsumer().onSuccess(IdentifierResult(r.id, r.aaid, r.vaid))
-      is BinderResult.Failed -> getConsumer().onError(r.msg, r.throwable)
+      is Success -> getConsumer().onSuccess(IdentifierResult(r.id, r.aaid, r.vaid))
+      is Failed -> getConsumer().onError(r.msg, r.throwable)
     }
   }
 
@@ -192,10 +182,9 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) {
     fun call(binder: IBinder): BinderResult
   }
 
-  protected sealed interface BinderResult {
-    class Success(val id: String, val vaid: String?, val aaid: String?) : BinderResult
-    class Failed(val msg: String, val throwable: Throwable? = null) : BinderResult
-  }
+  protected sealed interface BinderResult
+  class Success(val id: String, val vaid: String?, val aaid: String?) : BinderResult
+  class Failed(val msg: String, val throwable: Throwable? = null) : BinderResult
 
   @IntDef(IdEnum.AAID, IdEnum.VAID)
   @Retention(AnnotationRetention.SOURCE)

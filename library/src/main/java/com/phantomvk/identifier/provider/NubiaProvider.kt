@@ -33,10 +33,10 @@ internal class NubiaProvider(config: ProviderConfig) : AbstractProvider(config) 
 
     try {
       when (val r = getId(client, "getOAID")) {
-        is BinderResult.Failed -> getConsumer().onError(r.msg, r.throwable)
-        is BinderResult.Success -> {
-          val aaid = invokeById(IdEnum.AAID) { getId(client, "getAAID") }
-          val vaid = invokeById(IdEnum.VAID) { getId(client, "getVAID") }
+        is Failed -> getConsumer().onError(r.msg, r.throwable)
+        is Success -> {
+          val aaid = if (config.idConfig.isAaidEnabled) (getId(client, "getAAID") as? Success)?.id else null
+          val vaid = if (config.idConfig.isVaidEnabled) (getId(client, "getVAID") as? Success)?.id else null
           getConsumer().onSuccess(IdentifierResult(r.id, aaid, vaid))
         }
       }
@@ -50,13 +50,13 @@ internal class NubiaProvider(config: ProviderConfig) : AbstractProvider(config) 
   private fun getId(client: ContentProviderClient, name: String): BinderResult {
     val bundle = client.call(name, config.context.packageName, null)
     if (bundle == null) {
-      return BinderResult.Failed(BUNDLE_IS_NULL)
+      return Failed(BUNDLE_IS_NULL)
     }
 
     return if (bundle.getInt("code", -1) == 0) {
       checkId(bundle.getString("id"))
     } else {
-      BinderResult.Failed(ID_IS_INVALID)
+      Failed(ID_IS_INVALID)
     }
   }
 }
