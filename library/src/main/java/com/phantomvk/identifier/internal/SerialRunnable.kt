@@ -32,6 +32,7 @@ import com.phantomvk.identifier.provider.OppoColorOsProvider
 import com.phantomvk.identifier.provider.OppoContentProvider
 import com.phantomvk.identifier.provider.OppoHeyTapProvider
 import com.phantomvk.identifier.provider.OppoIdProvider
+import com.phantomvk.identifier.provider.OppoManagerProvider
 import com.phantomvk.identifier.provider.PRIVACY_IS_NOT_ACCEPTED
 import com.phantomvk.identifier.provider.PicoProvider
 import com.phantomvk.identifier.provider.QikuBinderProvider
@@ -329,6 +330,7 @@ internal class SerialRunnable(
       || isSysPropertyContainsKey("ro.build.version.opporom")
     ) {
       providers.add(OppoIdProvider(config))
+      providers.add(OppoManagerProvider(config))
       providers.add(OppoContentProvider(config))
       providers.add(OppoHeyTapProvider(config))
       providers.add(OppoColorOsProvider(config))
