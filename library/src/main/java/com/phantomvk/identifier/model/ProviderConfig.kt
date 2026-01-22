@@ -20,7 +20,7 @@ internal class ProviderConfig(val context: Context) {
   var isExternalSdkQuerying = false
   var isVerifyLimitAdTracking = false
   var idConfig = IdConfig()
-  var memoryConfig = MemoryConfig()
+  var memoryConfig = MemoryConfig(false)
   lateinit var consumer: WeakReference<Consumer>
 
   fun clone(): ProviderConfig {

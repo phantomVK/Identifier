@@ -24,23 +24,23 @@ internal open class OppoHeyTapProvider(
 
   override fun run() {
     val intent = Intent(action).setComponent(ComponentName(pkg, cls))
-    bindService(intent, object : BinderCallback {
-      override fun call(binder: IBinder): BinderResult {
-        val sign = when (val result = getSignatureHash()) {
-          is Failed -> return result
-          is Success -> result.id
-        }
+    bindService(intent)
+  }
 
-        when (val r = (getId(binder, descriptor, sign, "OAID"))) {
-          is Failed -> return r
-          is Success -> {
-            val vaid = if (config.idConfig.isVaidEnabled) (getId(binder, descriptor, sign, "VAID") as? Success)?.id else null
-            val aaid = if (config.idConfig.isAaidEnabled) (getId(binder, descriptor, sign, "AAID") as? Success)?.id else null
-            return Success(r.id, vaid, aaid)
-          }
-        }
+  override fun call(binder: IBinder): BinderResult {
+    val sign = when (val result = getSignatureHash()) {
+      is Failed -> return result
+      is Success -> result.id
+    }
+
+    when (val r = (getId(binder, descriptor, sign, "OAID"))) {
+      is Failed -> return r
+      is Success -> {
+        val vaid = if (config.idConfig.isVaidEnabled) (getId(binder, descriptor, sign, "VAID") as? Success)?.id else null
+        val aaid = if (config.idConfig.isAaidEnabled) (getId(binder, descriptor, sign, "AAID") as? Success)?.id else null
+        return Success(r.id, vaid, aaid)
       }
-    })
+    }
   }
 
   private fun getId(remote: IBinder, descriptor: String, sign: String, code: String): BinderResult {

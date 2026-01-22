@@ -8,11 +8,9 @@ import android.content.ServiceConnection
 import android.os.Build
 import android.os.IBinder
 import android.os.Parcel
-import androidx.annotation.IntDef
 import com.phantomvk.identifier.functions.Consumer
 import com.phantomvk.identifier.model.IdentifierResult
 import com.phantomvk.identifier.model.ProviderConfig
-import com.phantomvk.identifier.provider.AbstractProvider.BinderCallback
 
 internal abstract class AbstractProvider(protected val config: ProviderConfig) {
 
@@ -21,6 +19,10 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) {
   abstract fun run()
 
   protected open fun getInterfaceName(): String = ""
+
+  protected open fun call(binder: IBinder): BinderResult {
+    return Failed("Not supported.")
+  }
 
   private lateinit var consumer: Consumer
 
@@ -138,18 +140,16 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) {
     }
   }
 
-  protected fun bindService(intent: Intent, binderCallback: BinderCallback) {
-    bindService(intent) { service ->
-      verifyResult(binderCallback.call(service))
-    }
-  }
-
-  protected fun bindService(intent: Intent, callback: (service: IBinder) -> Unit) {
+  protected fun bindService(intent: Intent, callback: ((service: IBinder) -> Unit)? = null) {
     val conn = object : ServiceConnection {
       override fun onServiceConnected(name: ComponentName, service: IBinder) {
         config.executor.execute {
           try {
-            callback.invoke(service)
+            if (callback != null) {
+              callback.invoke(service)
+            } else {
+              verifyResult(call(service))
+            }
           } catch (t: Throwable) {
             unbindServiceOnError(this, EXCEPTION_THROWN, t)
           }
@@ -185,15 +185,6 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) {
   protected sealed interface BinderResult
   class Success(val id: String, val vaid: String?, val aaid: String?) : BinderResult
   class Failed(val msg: String, val throwable: Throwable? = null) : BinderResult
-
-  @IntDef(IdEnum.AAID, IdEnum.VAID)
-  @Retention(AnnotationRetention.SOURCE)
-  protected annotation class IdEnum {
-    companion object {
-      const val AAID = 0
-      const val VAID = 1
-    }
-  }
 
 //  protected inline fun <reified T> getResult(clazz: String, method: String, context: Context): T? {
 //    return try {
