@@ -13,6 +13,12 @@ internal class VivoProvider(config: ProviderConfig) : AbstractProvider(config) {
 
   override fun run() {
     if (config.isVerifyLimitAdTracking) {
+      val status = getId("OAIDSTATUS")
+      if ((status as? Success)?.id == "0") {
+        getConsumer().onError(LIMIT_AD_TRACKING_IS_ENABLED)
+        return
+      }
+
       val isSupported = SystemProperties.get("persist.sys.identifierid.supported", "0")
       if (isSupported != "1") {
         getConsumer().onError(LIMIT_AD_TRACKING_IS_ENABLED)
@@ -24,7 +30,8 @@ internal class VivoProvider(config: ProviderConfig) : AbstractProvider(config) {
       is Failed -> return getConsumer().onError(r.msg, r.throwable)
       is Success -> {
         val aaid = if (config.idConfig.isAaidEnabled) (getId("AAID") as? Success)?.id else null
-        getConsumer().onSuccess(IdentifierResult(r.id, aaid))
+        val vaid = if (config.idConfig.isVaidEnabled) (getId("VAID") as? Success)?.id else null
+        getConsumer().onSuccess(IdentifierResult(r.id, aaid, vaid))
       }
     }
   }
@@ -45,7 +52,11 @@ internal class VivoProvider(config: ProviderConfig) : AbstractProvider(config) {
         return Failed(NO_AVAILABLE_COLUMN_INDEX)
       }
 
-      checkId(c.getString(index))
+      if (code == "OAIDSTATUS") {
+        Success(c.getString(index) ?: "1", null, null)
+      } else {
+        checkId(c.getString(index))
+      }
     }
   }
 }
