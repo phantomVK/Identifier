@@ -19,10 +19,10 @@ internal class CoolpadServiceProvider(config: ProviderConfig) : AbstractProvider
   override fun run() {
     val componentName = ComponentName("com.coolpad.deviceidsupport", "com.coolpad.deviceidsupport.DeviceIdService")
     val intent = Intent().setComponent(componentName)
-    bindService(intent, object : BinderCallback {
-      override fun call(binder: IBinder): BinderResult {
-        return queryId(binder, 2, 3, 4)
-      }
-    })
+    bindService(intent)
+  }
+
+  override fun call(binder: IBinder): BinderResult {
+    return queryId(binder, 2, 3, 4)
   }
 }
