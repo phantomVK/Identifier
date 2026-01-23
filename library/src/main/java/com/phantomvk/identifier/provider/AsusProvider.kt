@@ -19,16 +19,16 @@ internal class AsusProvider(config: ProviderConfig) : AbstractProvider(config) {
   override fun run() {
     val componentName = ComponentName("com.asus.msa.SupplementaryDID", "com.asus.msa.SupplementaryDID.SupplementaryDIDService")
     val intent = Intent("com.asus.msa.action.ACCESS_DID").setComponent(componentName)
-    bindService(intent, object : BinderCallback {
-      override fun call(binder: IBinder): BinderResult {
-        if (config.isVerifyLimitAdTracking) {
-          if (!readBoolean(binder, 1, true, null)) {
-            return Failed(LIMIT_AD_TRACKING_IS_ENABLED)
-          }
-        }
+    bindService(intent)
+  }
 
-        return queryId(binder, 3, 4, 5)
+  override fun call(binder: IBinder): BinderResult {
+    if (config.isVerifyLimitAdTracking) {
+      if (!readBoolean(binder, 1, true, null)) {
+        return Failed(LIMIT_AD_TRACKING_IS_ENABLED)
       }
-    })
+    }
+
+    return queryId(binder, 3, 4, 5)
   }
 }

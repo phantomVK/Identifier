@@ -1,7 +1,7 @@
 package com.phantomvk.identifier.model
 
 class MemoryConfig(
-  var isEnabled: Boolean = false
+  var isEnabled: Boolean
 ) {
   fun clone(): MemoryConfig {
     return MemoryConfig(

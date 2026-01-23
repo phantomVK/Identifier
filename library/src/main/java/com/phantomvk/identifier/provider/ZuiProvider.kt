@@ -16,16 +16,16 @@ internal class ZuiProvider(config: ProviderConfig) : AbstractProvider(config) {
 
   override fun run() {
     val intent = Intent().setClassName("com.zui.deviceidservice", "com.zui.deviceidservice.DeviceidService")
-    bindService(intent, object : BinderCallback {
-      override fun call(binder: IBinder): BinderResult {
-        if (config.isVerifyLimitAdTracking) {
-          if (!readBoolean(binder, 3, true, null)) {
-            return Failed(LIMIT_AD_TRACKING_IS_ENABLED)
-          }
-        }
+    bindService(intent)
+  }
 
-        return queryId(binder, 1, 4, 5)
+  override fun call(binder: IBinder): BinderResult {
+    if (config.isVerifyLimitAdTracking) {
+      if (!readBoolean(binder, 3, true, null)) {
+        return Failed(LIMIT_AD_TRACKING_IS_ENABLED)
       }
-    })
+    }
+
+    return queryId(binder, 1, 4, 5)
   }
 }

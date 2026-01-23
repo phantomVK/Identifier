@@ -34,19 +34,19 @@ internal class HuaweiServiceProvider(config: ProviderConfig) : HuaweiBaseProvide
 
   override fun run() {
     val intent = Intent("com.uodis.opendevice.OPENIDS_SERVICE").setPackage(packageName)
-    bindService(intent, object : BinderCallback {
-      override fun call(binder: IBinder): BinderResult {
-        if (config.isVerifyLimitAdTracking) {
-          if (readBoolean(binder, 2, false, null)) {
-            return Failed(LIMIT_AD_TRACKING_IS_ENABLED)
-          }
-        }
+    bindService(intent)
+  }
 
-        return when (val r = getId(binder, 1)) {
-          is Failed -> r
-          is Success -> Success(r.id, getVAID(), getAAID())
-        }
+  override fun call(binder: IBinder): BinderResult {
+    if (config.isVerifyLimitAdTracking) {
+      if (readBoolean(binder, 2, false, null)) {
+        return Failed(LIMIT_AD_TRACKING_IS_ENABLED)
       }
-    })
+    }
+
+    return when (val r = getId(binder, 1)) {
+      is Failed -> r
+      is Success -> Success(r.id, getVAID(), getAAID())
+    }
   }
 }
