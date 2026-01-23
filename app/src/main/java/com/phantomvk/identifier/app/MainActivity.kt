@@ -7,6 +7,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+import android.text.method.ScrollingMovementMethod
 import android.util.Log
 import android.widget.Button
 import android.widget.TextView
@@ -39,7 +40,10 @@ class MainActivity : AppCompatActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_main)
+
     textView = findViewById(R.id.system_textview)
+    textView.movementMethod = ScrollingMovementMethod.getInstance()
+
     findViewById<Button>(R.id.refresh).setOnClickListener { getId() }
     findViewById<Button>(R.id.clear_cache).setOnClickListener { IdentifierManager.clearMemoryCache() }
     findViewById<Button>(R.id.appSettings).setOnClickListener { openAppDetailsSettings() }
