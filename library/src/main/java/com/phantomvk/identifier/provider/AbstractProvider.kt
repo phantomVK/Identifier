@@ -74,8 +74,8 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) {
     return when (val o = getId(binder, oaidCode)) {
       is Failed -> o
       is Success -> {
-        val vaid = if (config.idConfig.isVaidEnabled) (getId(binder, vaidCode) as? Success)?.id else null
-        val aaid = if (config.idConfig.isAaidEnabled) (getId(binder, aaidCode) as? Success)?.id else null
+        val vaid = if (config.idConfig.isVaidEnabled) getId(binder, vaidCode).id else null
+        val aaid = if (config.idConfig.isAaidEnabled) getId(binder, aaidCode).id else null
         Success(o.id, vaid, aaid)
       }
     }
@@ -178,13 +178,9 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) {
     }
   }
 
-  protected interface BinderCallback {
-    fun call(binder: IBinder): BinderResult
-  }
-
-  protected sealed interface BinderResult
-  class Success(val id: String, val vaid: String?, val aaid: String?) : BinderResult
-  class Failed(val msg: String, val throwable: Throwable? = null) : BinderResult
+  protected sealed interface BinderResult { val id: String? }
+  class Success(override val id: String, val vaid: String?, val aaid: String?) : BinderResult
+  class Failed(val msg: String, val throwable: Throwable? = null, override val id: String? = null) : BinderResult
 
 //  protected inline fun <reified T> getResult(clazz: String, method: String, context: Context): T? {
 //    return try {
