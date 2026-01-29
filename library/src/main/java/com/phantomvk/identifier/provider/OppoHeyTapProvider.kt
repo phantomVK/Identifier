@@ -32,8 +32,8 @@ internal open class OppoHeyTapProvider(
     when (val r = getId(binder, descriptor, sign, OppoID.OAID)) {
       is Failed -> return r
       is Success -> {
-        val vaid = if (config.idConfig.isVaidEnabled) (getId(binder, descriptor, sign, OppoID.VAID) as? Success)?.id else null
-        val aaid = if (config.idConfig.isAaidEnabled) (getId(binder, descriptor, sign, OppoID.AAID) as? Success)?.id else null
+        val vaid = if (config.idConfig.isVaidEnabled) getId(binder, descriptor, sign, OppoID.VAID).id else null
+        val aaid = if (config.idConfig.isAaidEnabled) getId(binder, descriptor, sign, OppoID.AAID).id else null
         return Success(r.id, vaid, aaid)
       }
     }

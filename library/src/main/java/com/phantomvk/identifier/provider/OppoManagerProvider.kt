@@ -22,8 +22,8 @@ internal class OppoManagerProvider(config: ProviderConfig) : OppoBaseProvider(co
       when (val r = checkId(o.getStdid(p, u, OppoID.OAID.id))) {
         is Failed -> getConsumer().onError(r.msg, r.throwable)
         is Success -> {
-          val aaid = if (config.idConfig.isAaidEnabled) (checkId(o.getStdid(p, u, OppoID.AAID.id)) as? Success)?.id else null
-          val vaid = if (config.idConfig.isVaidEnabled) (checkId(o.getStdid(p, u, OppoID.VAID.id)) as? Success)?.id else null
+          val aaid = if (config.idConfig.isAaidEnabled) checkId(o.getStdid(p, u, OppoID.AAID.id)).id else null
+          val vaid = if (config.idConfig.isVaidEnabled) checkId(o.getStdid(p, u, OppoID.VAID.id)).id else null
           getConsumer().onSuccess(IdentifierResult(r.id, aaid, vaid))
         }
       }

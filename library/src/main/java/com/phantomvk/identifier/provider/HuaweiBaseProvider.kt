@@ -29,7 +29,7 @@ internal abstract class HuaweiBaseProvider(config: ProviderConfig) : AbstractPro
     }
 
     latch.await()
-    return (result as? Success)?.id
+    return result.id
   }
 
   protected fun getVAID(): String? {
@@ -56,6 +56,6 @@ internal abstract class HuaweiBaseProvider(config: ProviderConfig) : AbstractPro
     }
 
     latch.await()
-    return (result as? Success)?.id
+    return result.id
   }
 }
