@@ -128,7 +128,7 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) {
 
     try {
       config.context.unbindService(conn)
-    } catch (ignore: Exception) {
+    } catch (ignore: Throwable) {
       // Caused by: java.lang.IllegalArgumentException: Service not registered
     }
   }
