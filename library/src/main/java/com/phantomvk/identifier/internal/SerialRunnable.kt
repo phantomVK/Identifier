@@ -10,6 +10,7 @@ import com.phantomvk.identifier.log.Log
 import com.phantomvk.identifier.model.IdentifierResult
 import com.phantomvk.identifier.model.ProviderConfig
 import com.phantomvk.identifier.provider.AbstractProvider
+import com.phantomvk.identifier.provider.AndroidIdProvider
 import com.phantomvk.identifier.provider.AsusProvider
 import com.phantomvk.identifier.provider.CoolpadServiceProvider
 import com.phantomvk.identifier.provider.CoolpadSettingsProvider
@@ -383,6 +384,8 @@ internal class SerialRunnable(
     if (Build.MODEL.startsWith("xtc", true) || Build.MODEL.startsWith("imoo", true)) {
       providers.add(XtcProvider(config))
     }
+
+    providers.add(AndroidIdProvider(config))
   }
 
   private fun isBrand(manufacturer: String, brand: String): Boolean {
