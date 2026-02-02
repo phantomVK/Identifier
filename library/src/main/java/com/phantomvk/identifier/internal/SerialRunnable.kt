@@ -145,7 +145,7 @@ internal class SerialRunnable(
     try {
       provider.run()
     } catch (t: Throwable) {
-      getConsumer().onError(EXCEPTION_THROWN, t)
+      execute(index + 1, providers)
     }
   }
 
