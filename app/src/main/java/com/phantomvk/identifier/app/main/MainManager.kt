@@ -36,37 +36,40 @@ object MainManager {
       }
 
       val latch = CountDownLatch(1)
+      val simpleName = (provider as Any).javaClass.simpleName
+      val nanoTime = System.nanoTime()
       val resultCallback = object : Consumer {
-        private val simpleName = (provider as Any).javaClass.simpleName
-        private val startNanoTime = System.nanoTime()
         override fun onSuccess(result: IdentifierResult) {
-          list.add(ResultDetail(simpleName, result, getNanoTimeStamp()))
+          list.add(ResultDetail(simpleName, result, getNanoTimeStamp(nanoTime)))
           latch.countDown()
         }
 
         override fun onError(msg: String, throwable: Throwable?) {
-          list.add(ResultDetail(simpleName, null, getNanoTimeStamp(), msg))
+          list.add(ResultDetail(simpleName, null, getNanoTimeStamp(nanoTime), msg))
           latch.countDown()
-        }
-
-        private fun getNanoTimeStamp(): String {
-          val consumed = (System.nanoTime() - startNanoTime) / 1000L
-          return decimalFormat.format(consumed)
         }
       }
       setCallbackMethod.invoke(provider, resultCallback)
-      runMethod.invoke(provider)
+
+      try {
+        runMethod.invoke(provider)
+      } catch (t: Throwable) {
+        list.add(ResultDetail(simpleName, null, getNanoTimeStamp(nanoTime), t.toString()))
+        latch.countDown()
+      }
+
       latch.await()
     }
 
     return list
   }
 
-  private fun getProviderList(): List<*> {
-//    val application = Class.forName("android.app.ActivityThread")
-//      .getMethod("currentApplication")
-//      .invoke(null) as Application
+  private fun getNanoTimeStamp(time: Long): String {
+    val consumed = (System.nanoTime() - time) / 1000L
+    return decimalFormat.format(consumed)
+  }
 
+  private fun getProviderList(): List<*> {
     val c = Class.forName("com.phantomvk.identifier.model.ProviderConfig")
     val config = c.getConstructor(Context::class.java).newInstance(Application.applicationInstance)
     c.getMethod("setAsyncCallback", Boolean::class.java).invoke(config, Settings.AsyncCallback.getValue())

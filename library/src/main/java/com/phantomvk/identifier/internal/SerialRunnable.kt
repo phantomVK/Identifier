@@ -14,7 +14,6 @@ import com.phantomvk.identifier.provider.AsusProvider
 import com.phantomvk.identifier.provider.CoolpadServiceProvider
 import com.phantomvk.identifier.provider.CoolpadSettingsProvider
 import com.phantomvk.identifier.provider.CooseaProvider
-import com.phantomvk.identifier.provider.EXCEPTION_THROWN
 import com.phantomvk.identifier.provider.FreemeProvider
 import com.phantomvk.identifier.provider.GoogleAdsIdProvider
 import com.phantomvk.identifier.provider.HonorSdkProvider
@@ -135,8 +134,8 @@ internal class SerialRunnable(
         getConsumer().onSuccess(result)
       }
 
-      override fun onError(msg: String, throwable: Throwable?) {
-        Log.e("SerialRunnable", "${provider.javaClass.simpleName} onError.", throwable)
+      override fun onError(msg: String, t: Throwable?) {
+        Log.e("SerialRunnable", "${provider.javaClass.simpleName} onError.", t)
         execute(index + 1, providers)
       }
     })
@@ -145,7 +144,8 @@ internal class SerialRunnable(
     try {
       provider.run()
     } catch (t: Throwable) {
-      getConsumer().onError(EXCEPTION_THROWN, t)
+      Log.e("SerialRunnable", "${provider.javaClass.simpleName} onRun.", t)
+      execute(index + 1, providers)
     }
   }
 
