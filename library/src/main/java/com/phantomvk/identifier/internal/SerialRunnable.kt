@@ -14,6 +14,7 @@ import com.phantomvk.identifier.provider.AsusProvider
 import com.phantomvk.identifier.provider.CoolpadServiceProvider
 import com.phantomvk.identifier.provider.CoolpadSettingsProvider
 import com.phantomvk.identifier.provider.CooseaProvider
+import com.phantomvk.identifier.provider.EXCEPTION_THROWN
 import com.phantomvk.identifier.provider.FreemeProvider
 import com.phantomvk.identifier.provider.GoogleAdsIdProvider
 import com.phantomvk.identifier.provider.HonorSdkProvider
@@ -36,7 +37,6 @@ import com.phantomvk.identifier.provider.PRIVACY_IS_NOT_ACCEPTED
 import com.phantomvk.identifier.provider.PicoProvider
 import com.phantomvk.identifier.provider.QikuBinderProvider
 import com.phantomvk.identifier.provider.QikuServiceProvider
-import com.phantomvk.identifier.provider.SYSTEM_PROPS_METHOD_NOT_FOUND
 import com.phantomvk.identifier.provider.SamsungProvider
 import com.phantomvk.identifier.provider.VivoProvider
 import com.phantomvk.identifier.provider.XiaomiProvider
@@ -89,7 +89,7 @@ internal class SerialRunnable(
         try {
           execute(0, providers)
         } catch (t: Throwable) {
-          getConsumer().onError(SYSTEM_PROPS_METHOD_NOT_FOUND, t)
+          getConsumer().onError(EXCEPTION_THROWN, t)
         }
       }
     } else {
@@ -151,18 +151,13 @@ internal class SerialRunnable(
 
   private fun getGoogleAdsId(r: IdentifierResult?) {
     val provider = GoogleAdsIdProvider(config)
-    val isSupported = try {
-      provider.isSupported()
-    } catch (t: Throwable) {
-      false
-    }
-
-    if (!isSupported) {
-      if (r == null) {
-        getConsumer().onError(NO_IMPLEMENTATION_FOUND)
-      } else {
-        getConsumer().onSuccess(r)
+    try {
+      if (provider.isSupported() == false) {
+        setGoogleAdsIdResult(r, null)
+        return
       }
+    } catch (t: Throwable) {
+      setGoogleAdsIdResult(r, t)
       return
     }
 
@@ -179,15 +174,19 @@ internal class SerialRunnable(
       }
 
       override fun onError(msg: String, throwable: Throwable?) {
-        if (r == null) {
-          getConsumer().onError(NO_IMPLEMENTATION_FOUND)
-        } else {
-          getConsumer().onSuccess(r)
-        }
+        setGoogleAdsIdResult(r, throwable)
       }
     })
 
     provider.run()
+  }
+
+  private fun setGoogleAdsIdResult(r: IdentifierResult?, t: Throwable?) {
+    if (r == null) {
+      getConsumer().onError(NO_IMPLEMENTATION_FOUND, t)
+    } else {
+      getConsumer().onSuccess(r)
+    }
   }
 
   override fun onError(msg: String, throwable: Throwable?) {
