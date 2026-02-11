@@ -153,6 +153,11 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) {
           } catch (t: Throwable) {
             unbindServiceOnError(this, EXCEPTION_THROWN, t)
           }
+
+          try {
+            config.context.unbindService(this)
+          } catch (ignore: Throwable) {
+          }
         }
       }
 
