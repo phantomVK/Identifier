@@ -3,6 +3,7 @@ package com.phantomvk.identifier.provider
 import com.phantomvk.identifier.model.ProviderConfig
 import com.phantomvk.identifier.provider.AbstractProvider.BinderResult
 import java.util.concurrent.CountDownLatch
+import java.util.concurrent.TimeUnit
 
 internal abstract class HuaweiBaseProvider(config: ProviderConfig) : AbstractProvider(config) {
   protected fun getAAID(): String? {
@@ -28,7 +29,7 @@ internal abstract class HuaweiBaseProvider(config: ProviderConfig) : AbstractPro
       latch.countDown()
     }
 
-    latch.await()
+    latch.await(5, TimeUnit.SECONDS)
     return result.id
   }
 
@@ -55,7 +56,7 @@ internal abstract class HuaweiBaseProvider(config: ProviderConfig) : AbstractPro
       latch.countDown()
     }
 
-    latch.await()
+    latch.await(5, TimeUnit.SECONDS)
     return result.id
   }
 }
