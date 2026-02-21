@@ -6,6 +6,7 @@ import android.os.Looper
 import android.os.SystemProperties
 import com.phantomvk.identifier.disposable.Disposable
 import com.phantomvk.identifier.functions.Consumer
+import com.phantomvk.identifier.internal.CacheCenter.removeRunnableSet
 import com.phantomvk.identifier.log.Log
 import com.phantomvk.identifier.model.IdentifierResult
 import com.phantomvk.identifier.model.ProviderConfig
@@ -51,11 +52,6 @@ internal class SerialRunnable(
 
   private val disposed = AtomicBoolean()
 
-  /**
-   * HashMap<CacheKey: String, runnable: HashSet<SerialRunnable>>
-   */
-  private val runnableMap = HashMap<String, HashSet<SerialRunnable>>()
-
   init {
     setConsumer(this)
   }
@@ -74,7 +70,7 @@ internal class SerialRunnable(
     val cached = CacheCenter.get(config)
     if (cached == null) {
       if (config.isMergeRequests) {
-        val isExist = putRunnable(config.getCacheKey(), this)
+        val isExist = CacheCenter.putRunnable(config.getCacheKey(), this)
         if (isExist) return
       }
 
@@ -214,7 +210,7 @@ internal class SerialRunnable(
 
   override fun dispose() {
     if (config.isMergeRequests) {
-      removeRunnable(config.getCacheKey(), this)
+      CacheCenter.removeRunnable(config.getCacheKey(), this)
     }
 
     invokeCallback(null)
@@ -399,45 +395,5 @@ internal class SerialRunnable(
 
   private fun isSysPropertyContainsKey(key: String): Boolean {
     return getSysProperty(key, null)?.isNotBlank() == true
-  }
-
-  /**
-   * Put runnable into the HashSet of SerialRunnable which is associated with the same cacheKey.
-   *
-   * @return return ture if HashSet is existed, otherwise return false.
-   */
-  private fun putRunnable(cacheKey: String, runnable: SerialRunnable): Boolean {
-    synchronized(runnableMap) {
-      var set = runnableMap[cacheKey]
-      if (set != null) {
-        set.add(runnable)
-        return true
-      }
-
-      set = HashSet()
-      set.add(runnable)
-      runnableMap[cacheKey] = set
-      return false
-    }
-  }
-
-  /**
-   * Remove runnable from the HashSet of SerialRunnable which is associated with the same cacheKey.
-   *
-   * Returns: true if the set contained the specified element
-   */
-  private fun removeRunnable(cacheKey: String, runnable: SerialRunnable) {
-    synchronized(runnableMap) {
-      runnableMap[cacheKey]?.remove(runnable)
-    }
-  }
-
-  /**
-   * Return the HashSet of SerialRunnable which is associated with the same cacheKey.
-   */
-  internal fun removeRunnableSet(cacheKey: String): HashSet<SerialRunnable>? {
-    synchronized(runnableMap) {
-      return runnableMap.remove(cacheKey)
-    }
   }
 }
