@@ -49,9 +49,13 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) {
     defValue: Boolean,
     writeData: ((Parcel) -> Unit)?
   ): Boolean {
-    val data = Parcel.obtain()
-    val reply = Parcel.obtain()
+    var data: Parcel? = null
+    var reply: Parcel? = null
+
     try {
+      data = Parcel.obtain()
+      reply = Parcel.obtain()
+
       data.writeInterfaceToken(getInterfaceName())
       writeData?.invoke(data)
       remote.transact(code, data, reply, 0)
@@ -60,8 +64,8 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) {
     } catch (t: Throwable) {
       return defValue
     } finally {
-      reply.recycle()
-      data.recycle()
+      reply?.recycle()
+      data?.recycle()
     }
   }
 
@@ -82,9 +86,13 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) {
   }
 
   protected fun getId(remote: IBinder, code: Int): BinderResult {
-    val data = Parcel.obtain()
-    val reply = Parcel.obtain()
+    var data: Parcel? = null
+    var reply: Parcel? = null
+
     try {
+      data = Parcel.obtain()
+      reply = Parcel.obtain()
+
       data.writeInterfaceToken(getInterfaceName())
       data.writeString(config.context.packageName)
       remote.transact(code, data, reply, 0)
@@ -93,8 +101,8 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) {
     } catch (t: Throwable) {
       return Failed(EXCEPTION_THROWN, t)
     } finally {
-      reply.recycle()
-      data.recycle()
+      reply?.recycle()
+      data?.recycle()
     }
   }
 

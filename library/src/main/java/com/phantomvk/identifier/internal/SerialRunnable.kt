@@ -98,16 +98,16 @@ internal class SerialRunnable(
   }
 
   private fun execute(index: Int, providers: List<AbstractProvider>) {
+    if (disposed.get()) {
+      return
+    }
+
     if (index == providers.size) {
       if (config.idConfig.isGoogleAdsIdEnabled) {
         getGoogleAdsId(null)
       } else {
         getConsumer().onError(NO_IMPLEMENTATION_FOUND)
       }
-      return
-    }
-
-    if (disposed.get()) {
       return
     }
 
