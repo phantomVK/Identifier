@@ -19,19 +19,18 @@ internal class NubiaProvider(config: ProviderConfig) : AbstractProvider(config) 
       return
     }
 
-    if (config.isVerifyLimitAdTracking) {
-      val bundle = client.call("isSupport", null, null)
-      if (bundle?.getInt("code", -1) == 0) {
-        val isSupported = bundle.getBoolean("issupport", false)
-        if (!isSupported) {
-          releaseContentProviderClient(client)
-          getConsumer().onError(LIMIT_AD_TRACKING_IS_ENABLED)
-          return
+    try {
+      if (config.isVerifyLimitAdTracking) {
+        val bundle = client.call("isSupport", null, null)
+        if (bundle?.getInt("code", -1) == 0) {
+          val isSupported = bundle.getBoolean("issupport", false)
+          if (!isSupported) {
+            getConsumer().onError(LIMIT_AD_TRACKING_IS_ENABLED)
+            return
+          }
         }
       }
-    }
 
-    try {
       when (val r = getId(client, "getOAID")) {
         is Failed -> getConsumer().onError(r.msg, r.throwable)
         is Success -> {

@@ -12,6 +12,7 @@ import java.lang.ref.WeakReference
 import java.text.DecimalFormat
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.Executor
+import java.util.concurrent.TimeUnit
 
 object MainManager {
   private val decimalFormat = DecimalFormat("#,###")
@@ -58,7 +59,7 @@ object MainManager {
         latch.countDown()
       }
 
-      latch.await()
+      latch.await(5, TimeUnit.SECONDS)
     }
 
     return list
