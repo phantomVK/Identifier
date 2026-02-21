@@ -209,10 +209,6 @@ internal class SerialRunnable(
   }
 
   override fun dispose() {
-    if (config.isMergeRequests) {
-      CacheCenter.removeRunnable(config.getCacheKey(), this)
-    }
-
     invokeCallback(null)
   }
 
@@ -243,6 +239,10 @@ internal class SerialRunnable(
       }
 
       config.consumer.clear()
+
+      if (config.isMergeRequests) {
+        CacheCenter.removeRunnable(config.getCacheKey(), this)
+      }
     }
   }
 
