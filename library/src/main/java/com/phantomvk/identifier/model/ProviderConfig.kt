@@ -4,7 +4,6 @@ import android.content.Context
 import com.phantomvk.identifier.functions.Consumer
 import com.phantomvk.identifier.functions.OnPrivacyAcceptedListener
 import java.lang.ref.WeakReference
-import java.lang.reflect.Method
 import java.util.concurrent.Executor
 
 internal class ProviderConfig(val context: Context) {
@@ -21,6 +20,7 @@ internal class ProviderConfig(val context: Context) {
   var isVerifyLimitAdTracking = false
   var idConfig = IdConfig()
   var memoryConfig = MemoryConfig(false)
+  val countDownLatchAwaitMilliSec = 3000L
   lateinit var consumer: WeakReference<Consumer>
 
   fun clone(): ProviderConfig {

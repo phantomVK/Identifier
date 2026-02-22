@@ -12,7 +12,7 @@ internal abstract class HuaweiBaseProvider(config: ProviderConfig) : AbstractPro
     }
 
     val latch = CountDownLatch(1)
-    var result: BinderResult = Failed(EXCEPTION_THROWN)
+    var result: BinderResult = Failed(COUNTDOWN_LATCH_TIMEOUT)
 
     try {
       com.huawei.hms.aaid.HmsInstanceId.getInstance(config.context).aaid
@@ -29,7 +29,7 @@ internal abstract class HuaweiBaseProvider(config: ProviderConfig) : AbstractPro
       latch.countDown()
     }
 
-    latch.await(5, TimeUnit.SECONDS)
+    latch.await(config.countDownLatchAwaitMilliSec, TimeUnit.MILLISECONDS)
     return result.id
   }
 
@@ -39,7 +39,7 @@ internal abstract class HuaweiBaseProvider(config: ProviderConfig) : AbstractPro
     }
 
     val latch = CountDownLatch(1)
-    var result: BinderResult = Failed(EXCEPTION_THROWN)
+    var result: BinderResult = Failed(COUNTDOWN_LATCH_TIMEOUT)
 
     try {
       com.huawei.hms.opendevice.OpenDevice.getOpenDeviceClient(config.context).odid
@@ -56,7 +56,7 @@ internal abstract class HuaweiBaseProvider(config: ProviderConfig) : AbstractPro
       latch.countDown()
     }
 
-    latch.await(5, TimeUnit.SECONDS)
+    latch.await(config.countDownLatchAwaitMilliSec, TimeUnit.MILLISECONDS)
     return result.id
   }
 }
