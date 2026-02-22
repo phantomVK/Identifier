@@ -28,7 +28,9 @@ internal class MeizuProvider(config: ProviderConfig) : AbstractProvider(config) 
     }
 
     cursor.use { c ->
-      c.moveToFirst()
+      if (c.moveToFirst() == false) {
+        return Failed(FAILED_TO_MOVE_CURSOR)
+      }
 
       if (config.isVerifyLimitAdTracking) {
         val code = c.getColumnIndex("code")

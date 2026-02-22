@@ -45,7 +45,9 @@ internal class VivoProvider(config: ProviderConfig) : AbstractProvider(config) {
     }
 
     return cursor.use { c ->
-      c.moveToFirst()
+      if (c.moveToFirst() == false) {
+        return Failed(FAILED_TO_MOVE_CURSOR)
+      }
 
       val index = c.getColumnIndex("value")
       if (index == -1) {

@@ -19,18 +19,23 @@ internal class HuaweiContentProvider(config: ProviderConfig) : HuaweiBaseProvide
     }
 
     cursor.use { c ->
-      c.moveToFirst()
+      if (c.moveToFirst() == false) {
+        getConsumer().onError(FAILED_TO_MOVE_CURSOR)
+        return
+      }
 
       if (config.isVerifyLimitAdTracking) {
         val code = c.getColumnIndex("limit_track")
         if (code >= 0 && c.getString(code).toBoolean()) {
-          return getConsumer().onError(LIMIT_AD_TRACKING_IS_ENABLED)
+          getConsumer().onError(LIMIT_AD_TRACKING_IS_ENABLED)
+          return
         }
       }
 
       val code = c.getColumnIndex("oaid")
       if (code == -1) {
-        return getConsumer().onError(NO_AVAILABLE_COLUMN_INDEX)
+        getConsumer().onError(NO_AVAILABLE_COLUMN_INDEX)
+        return
       }
 
       when (val r = checkId(c.getString(code))) {
