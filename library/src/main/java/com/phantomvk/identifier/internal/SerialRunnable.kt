@@ -44,13 +44,12 @@ import com.phantomvk.identifier.provider.XiaomiProvider
 import com.phantomvk.identifier.provider.XtcProvider
 import com.phantomvk.identifier.provider.ZteProvider
 import com.phantomvk.identifier.provider.ZuiProvider
-import java.util.concurrent.atomic.AtomicBoolean
 
 internal class SerialRunnable(
   config: ProviderConfig
 ) : AbstractProvider(config), Consumer, Disposable {
 
-  private val disposed = AtomicBoolean()
+  private val disposed = config.isDisposed
 
   init {
     setConsumer(this)
@@ -222,6 +221,9 @@ internal class SerialRunnable(
     }
 
     if (disposed.compareAndSet(false, true)) {
+      // Unbind all running service connections.
+      config.clearServiceConn().forEach { unbindServiceQuietly(it) }
+
       if (callback != null) {
         config.consumer.get()?.let {
           if (config.isAsyncCallback && Looper.getMainLooper() == Looper.myLooper()) {

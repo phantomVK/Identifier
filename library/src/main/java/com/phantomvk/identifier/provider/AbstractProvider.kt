@@ -133,6 +133,11 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) {
 
   private fun unbindServiceOnError(conn: ServiceConnection, msg: String, t: Throwable?) {
     getConsumer().onError(msg, t)
+    unbindServiceQuietly(conn)
+  }
+
+  protected fun unbindServiceQuietly(conn: ServiceConnection) {
+    config.removeServiceConn(conn)
 
     try {
       config.context.unbindService(conn)
@@ -151,6 +156,13 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) {
   protected fun bindService(intent: Intent, callback: ((service: IBinder) -> Unit)? = null) {
     val conn = object : ServiceConnection {
       override fun onServiceConnected(name: ComponentName, service: IBinder) {
+        if (config.isDisposed.get()) {
+          unbindServiceQuietly(this)
+          return
+        }
+
+        config.addServiceConn(this)
+
         config.executor.execute {
           try {
             if (callback != null) {
@@ -158,13 +170,10 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) {
             } else {
               verifyResult(call(service))
             }
+
+            unbindServiceQuietly(this)
           } catch (t: Throwable) {
             unbindServiceOnError(this, EXCEPTION_THROWN, t)
-          }
-
-          try {
-            config.context.unbindService(this)
-          } catch (ignore: Throwable) {
           }
         }
       }

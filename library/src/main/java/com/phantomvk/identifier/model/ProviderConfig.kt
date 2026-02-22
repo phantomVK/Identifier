@@ -1,10 +1,12 @@
 package com.phantomvk.identifier.model
 
 import android.content.Context
+import android.content.ServiceConnection
 import com.phantomvk.identifier.functions.Consumer
 import com.phantomvk.identifier.functions.OnPrivacyAcceptedListener
 import java.lang.ref.WeakReference
 import java.util.concurrent.Executor
+import java.util.concurrent.atomic.AtomicBoolean
 
 internal class ProviderConfig(val context: Context) {
   // Global configs.
@@ -21,6 +23,10 @@ internal class ProviderConfig(val context: Context) {
   var idConfig = IdConfig()
   var memoryConfig = MemoryConfig(false)
   val countDownLatchAwaitMilliSec = 3000L
+
+  // Runtime configs.
+  val isDisposed = AtomicBoolean()
+  private val serviceConnList = ArrayList<ServiceConnection>()
   lateinit var consumer: WeakReference<Consumer>
 
   fun clone(): ProviderConfig {
@@ -47,5 +53,25 @@ internal class ProviderConfig(val context: Context) {
     if (idConfig.isVaidEnabled) flag += 2
     if (idConfig.isGoogleAdsIdEnabled) flag += 4
     return flag.toString()
+  }
+
+  internal fun addServiceConn(conn: ServiceConnection) {
+    synchronized(serviceConnList) {
+      serviceConnList.add(conn)
+    }
+  }
+
+  internal fun removeServiceConn(conn: ServiceConnection) {
+    synchronized(serviceConnList) {
+      serviceConnList.remove(conn)
+    }
+  }
+
+  internal fun clearServiceConn(): List<ServiceConnection> {
+    synchronized(serviceConnList) {
+      val list = serviceConnList.toList()
+      serviceConnList.clear()
+      return list
+    }
   }
 }
