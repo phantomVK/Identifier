@@ -12,13 +12,13 @@ internal class HuaweiContentProvider(config: ProviderConfig) : HuaweiBaseProvide
 
   override fun run() {
     val uri = Uri.parse("content://com.huawei.hwid.pps.apiprovider/oaid/query")
-    val cursor = config.context.contentResolver.query(uri, null, null, null, null)
-    if (cursor == null) {
+    val c = config.context.contentResolver.query(uri, null, null, null, null)
+    if (c == null) {
       getConsumer().onError(QUERY_CURSOR_IS_NULL)
       return
     }
 
-    cursor.use { c ->
+    try {
       if (c.moveToFirst() == false) {
         getConsumer().onError(FAILED_TO_MOVE_CURSOR)
         return
@@ -42,6 +42,10 @@ internal class HuaweiContentProvider(config: ProviderConfig) : HuaweiBaseProvide
         is Failed -> getConsumer().onError(r.msg, r.throwable)
         is Success -> getConsumer().onSuccess(IdentifierResult(r.id, getAAID(), getVAID()))
       }
+    } catch (t: Throwable) {
+      getConsumer().onError(EXCEPTION_THROWN, t)
+    } finally {
+      try { c.close() } catch (t: Throwable) { }
     }
   }
 }

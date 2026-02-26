@@ -22,12 +22,12 @@ internal class MeizuProvider(config: ProviderConfig) : AbstractProvider(config) 
 
   private fun getId(name: String): BinderResult {
     val uri = Uri.parse("content://com.meizu.flyme.openidsdk/")
-    val cursor = config.context.contentResolver.query(uri, null, null, arrayOf(name), null)
-    if (cursor == null) {
+    val c = config.context.contentResolver.query(uri, null, null, arrayOf(name), null)
+    if (c == null) {
       return Failed(QUERY_CURSOR_IS_NULL)
     }
 
-    cursor.use { c ->
+    try {
       if (c.moveToFirst() == false) {
         return Failed(FAILED_TO_MOVE_CURSOR)
       }
@@ -50,6 +50,10 @@ internal class MeizuProvider(config: ProviderConfig) : AbstractProvider(config) 
       }
 
       return checkId(c.getString(index))
+    } catch (t: Throwable) {
+      return Failed(EXCEPTION_THROWN, t)
+    } finally {
+      try { c.close() } catch (t: Throwable) { }
     }
   }
 }

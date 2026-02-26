@@ -39,12 +39,12 @@ internal class VivoProvider(config: ProviderConfig) : AbstractProvider(config) {
   private fun getId(code: String): BinderResult {
     val prefix = "content://com.vivo.vms.IdProvider/IdentifierId/${code}_"
     val uri = Uri.parse(prefix + config.context.packageName)
-    val cursor = config.context.contentResolver.query(uri, null, null, null, null)
-    if (cursor == null) {
+    val c = config.context.contentResolver.query(uri, null, null, null, null)
+    if (c == null) {
       return Failed(QUERY_CURSOR_IS_NULL)
     }
 
-    return cursor.use { c ->
+    try {
       if (c.moveToFirst() == false) {
         return Failed(FAILED_TO_MOVE_CURSOR)
       }
@@ -54,11 +54,15 @@ internal class VivoProvider(config: ProviderConfig) : AbstractProvider(config) {
         return Failed(NO_AVAILABLE_COLUMN_INDEX)
       }
 
-      if (code == "OAIDSTATUS") {
+      return if (code == "OAIDSTATUS") {
         Success(c.getString(index) ?: "1", null, null)
       } else {
         checkId(c.getString(index))
       }
+    } catch (t: Throwable) {
+      return Failed(EXCEPTION_THROWN, t)
+    } finally {
+      try { c.close() } catch (t: Throwable) { }
     }
   }
 }
