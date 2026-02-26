@@ -232,7 +232,7 @@ internal class SerialRunnable(
           }
 
           if (!config.isAsyncCallback && Looper.getMainLooper() != Looper.myLooper()) {
-            Handler(Looper.getMainLooper()).post { callback.invoke(it) }
+            mainHandler.post { callback.invoke(it) }
             return@let
           }
 
@@ -397,5 +397,9 @@ internal class SerialRunnable(
 
   private fun isSysPropertyContainsKey(key: String): Boolean {
     return getSysProperty(key, null)?.isNotBlank() == true
+  }
+
+  private companion object {
+    private val mainHandler = Handler(Looper.getMainLooper())
   }
 }

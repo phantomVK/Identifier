@@ -2,8 +2,6 @@ package com.phantomvk.identifier.internal
 
 import com.phantomvk.identifier.model.IdentifierResult
 import com.phantomvk.identifier.model.ProviderConfig
-import kotlin.collections.remove
-import kotlin.text.get
 
 internal object CacheCenter {
 

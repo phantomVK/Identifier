@@ -17,7 +17,12 @@ internal class PicoProvider(config: ProviderConfig) : AbstractProvider(config) {
       return
     }
 
-    val bundle = client.call("request_oaid", null, null)
+    val bundle = try {
+      client.call("request_oaid", null, null)
+    } catch (t: Throwable) {
+      null
+    }
+
     releaseContentProviderClient(client)
 
     if (bundle == null) {
