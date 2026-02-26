@@ -26,12 +26,7 @@ internal object CacheCenter {
 
   internal fun put(config: ProviderConfig, result: IdentifierResult) {
     if (config.memoryConfig.isEnabled) {
-      // fail-fast
       val cacheKey = config.getCacheKey()
-      if (map[cacheKey] == result) {
-        return
-      }
-
       synchronized(CacheCenter::class.java) {
         if (map[cacheKey] == result) {
           return
