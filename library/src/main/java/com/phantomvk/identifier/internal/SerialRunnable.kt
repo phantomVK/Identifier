@@ -15,6 +15,7 @@ import com.phantomvk.identifier.provider.AsusProvider
 import com.phantomvk.identifier.provider.CoolpadServiceProvider
 import com.phantomvk.identifier.provider.CoolpadSettingsProvider
 import com.phantomvk.identifier.provider.CooseaProvider
+import com.phantomvk.identifier.provider.EXCEPTION_THROWN
 import com.phantomvk.identifier.provider.FreemeProvider
 import com.phantomvk.identifier.provider.GoogleAdsIdProvider
 import com.phantomvk.identifier.provider.HonorSdkProvider
@@ -37,7 +38,6 @@ import com.phantomvk.identifier.provider.PRIVACY_IS_NOT_ACCEPTED
 import com.phantomvk.identifier.provider.PicoProvider
 import com.phantomvk.identifier.provider.QikuBinderProvider
 import com.phantomvk.identifier.provider.QikuServiceProvider
-import com.phantomvk.identifier.provider.SYSTEM_PROPS_METHOD_NOT_FOUND
 import com.phantomvk.identifier.provider.SamsungProvider
 import com.phantomvk.identifier.provider.VivoProvider
 import com.phantomvk.identifier.provider.XiaomiProvider
@@ -49,6 +49,7 @@ internal class SerialRunnable(
   config: ProviderConfig
 ) : AbstractProvider(config), Consumer, Disposable {
 
+  private var index = -1
   private val disposed = config.isDisposed
 
   init {
@@ -67,37 +68,40 @@ internal class SerialRunnable(
     }
 
     val cached = CacheCenter.get(config)
-    if (cached == null) {
-      if (config.isMergeRequests) {
-        val isExist = CacheCenter.putRunnable(config.getCacheKey(), this)
-        if (isExist) return
-      }
-
-      config.executor.execute {
-        val providers = ArrayList<AbstractProvider>()
-        addProviders(providers)
-
-        if (config.isExperimental) {
-          addExperimentalProviders(providers)
-        }
-
-        try {
-          execute(0, providers)
-        } catch (t: Throwable) {
-          getConsumer().onError(SYSTEM_PROPS_METHOD_NOT_FOUND, t)
-        }
-      }
-    } else {
+    if (cached != null) {
       getConsumer().onSuccess(cached)
+      return
+    }
+
+    if (config.isMergeRequests) {
+      val isExist = CacheCenter.putRunnable(config.getCacheKey(), this)
+      if (isExist) {
+        return
+      }
+    }
+
+    config.executor.execute {
+      val providers = ArrayList<AbstractProvider>()
+      addProviders(providers)
+
+      if (config.isExperimental) {
+        addExperimentalProviders(providers)
+      }
+
+      try {
+        execute(providers)
+      } catch (t: Throwable) {
+        getConsumer().onError(EXCEPTION_THROWN, t)
+      }
     }
   }
 
-  private fun execute(index: Int, providers: List<AbstractProvider>) {
+  private fun execute(providers: List<AbstractProvider>) {
     if (disposed.get()) {
       return
     }
 
-    if (index == providers.size) {
+    if ((++index) == providers.size) {
       if (config.idConfig.isGoogleAdsIdEnabled) {
         getGoogleAdsId(null)
       } else {
@@ -114,7 +118,7 @@ internal class SerialRunnable(
     }
 
     if (!isSupported) {
-      execute(index + 1, providers)
+      execute(providers)
       return
     }
 
@@ -131,7 +135,7 @@ internal class SerialRunnable(
 
       override fun onError(msg: String, t: Throwable?) {
         Log.e("SerialRunnable", "${provider.javaClass.simpleName} onError.", t)
-        execute(index + 1, providers)
+        execute(providers)
       }
     })
 
@@ -140,7 +144,7 @@ internal class SerialRunnable(
       provider.run()
     } catch (t: Throwable) {
       Log.e("SerialRunnable", "${provider.javaClass.simpleName} onRun.", t)
-      execute(index + 1, providers)
+      execute(providers)
     }
   }
 
