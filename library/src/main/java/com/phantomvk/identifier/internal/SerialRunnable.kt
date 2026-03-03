@@ -61,6 +61,10 @@ internal class SerialRunnable(
   }
 
   override fun run() {
+    if (disposed.get()) {
+      return
+    }
+
     val l = config.onPrivacyAcceptedListener
     if (l != null && !l.isAccepted()) {
       getConsumer().onError(PRIVACY_IS_NOT_ACCEPTED)
@@ -149,19 +153,18 @@ internal class SerialRunnable(
   }
 
   private fun getGoogleAdsId(r: IdentifierResult?) {
-    val provider = GoogleAdsIdProvider(config)
-    val isSupported = try {
-      provider.isSupported()
-    } catch (t: Throwable) {
-      false
+    if (disposed.get()) {
+      return
     }
 
-    if (!isSupported) {
-      if (r == null) {
-        getConsumer().onError(NO_IMPLEMENTATION_FOUND)
-      } else {
-        getConsumer().onSuccess(r)
+    val provider = GoogleAdsIdProvider(config)
+    try {
+      if (provider.isSupported() == false) {
+        setGoogleAdsIdResult(r, null)
+        return
       }
+    } catch (t: Throwable) {
+      setGoogleAdsIdResult(r, t)
       return
     }
 
@@ -178,15 +181,23 @@ internal class SerialRunnable(
       }
 
       override fun onError(msg: String, throwable: Throwable?) {
-        if (r == null) {
-          getConsumer().onError(NO_IMPLEMENTATION_FOUND)
-        } else {
-          getConsumer().onSuccess(r)
-        }
+        setGoogleAdsIdResult(r, throwable)
       }
     })
 
-    provider.run()
+    try {
+      provider.run()
+    } catch (t: Throwable) {
+      setGoogleAdsIdResult(r, t)
+    }
+  }
+
+  private fun setGoogleAdsIdResult(r: IdentifierResult?, t: Throwable?) {
+    if (r == null) {
+      getConsumer().onError(NO_IMPLEMENTATION_FOUND, t)
+    } else {
+      getConsumer().onSuccess(r)
+    }
   }
 
   override fun onError(msg: String, throwable: Throwable?) {
