@@ -49,9 +49,13 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) {
     defValue: Boolean,
     writeData: ((Parcel) -> Unit)?
   ): Boolean {
-    val data = Parcel.obtain()
-    val reply = Parcel.obtain()
+    var data: Parcel? = null
+    var reply: Parcel? = null
+
     try {
+      data = Parcel.obtain()
+      reply = Parcel.obtain()
+
       data.writeInterfaceToken(getInterfaceName())
       writeData?.invoke(data)
       remote.transact(code, data, reply, 0)
@@ -60,8 +64,8 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) {
     } catch (t: Throwable) {
       return defValue
     } finally {
-      reply.recycle()
-      data.recycle()
+      reply?.recycle()
+      data?.recycle()
     }
   }
 
@@ -82,9 +86,13 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) {
   }
 
   protected fun getId(remote: IBinder, code: Int): BinderResult {
-    val data = Parcel.obtain()
-    val reply = Parcel.obtain()
+    var data: Parcel? = null
+    var reply: Parcel? = null
+
     try {
+      data = Parcel.obtain()
+      reply = Parcel.obtain()
+
       data.writeInterfaceToken(getInterfaceName())
       data.writeString(config.context.packageName)
       remote.transact(code, data, reply, 0)
@@ -93,8 +101,8 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) {
     } catch (t: Throwable) {
       return Failed(EXCEPTION_THROWN, t)
     } finally {
-      reply.recycle()
-      data.recycle()
+      reply?.recycle()
+      data?.recycle()
     }
   }
 
@@ -125,6 +133,11 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) {
 
   private fun unbindServiceOnError(conn: ServiceConnection, msg: String, t: Throwable?) {
     getConsumer().onError(msg, t)
+    unbindServiceQuietly(conn)
+  }
+
+  protected fun unbindServiceQuietly(conn: ServiceConnection) {
+    config.removeServiceConn(conn)
 
     try {
       config.context.unbindService(conn)
@@ -143,6 +156,13 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) {
   protected fun bindService(intent: Intent, callback: ((service: IBinder) -> Unit)? = null) {
     val conn = object : ServiceConnection {
       override fun onServiceConnected(name: ComponentName, service: IBinder) {
+        if (config.isDisposed.get()) {
+          unbindServiceQuietly(this)
+          return
+        }
+
+        config.addServiceConn(this)
+
         config.executor.execute {
           try {
             if (callback != null) {
@@ -150,13 +170,10 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) {
             } else {
               verifyResult(call(service))
             }
+
+            unbindServiceQuietly(this)
           } catch (t: Throwable) {
             unbindServiceOnError(this, EXCEPTION_THROWN, t)
-          }
-
-          try {
-            config.context.unbindService(this)
-          } catch (ignore: Throwable) {
           }
         }
       }
@@ -217,8 +234,10 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) {
 //    public static final String BLANK_ID_FORMAT_MEIZU = "00000000000000000000000000000000";
 internal const val AIDL_INTERFACE_IS_NULL: String = "Aidl interface is null."
 internal const val CONTENT_PROVIDER_CLIENT_IS_NULL: String = "ContentProvider client is null."
+internal const val COUNTDOWN_LATCH_TIMEOUT: String = "CountDownLatch timeout."
 internal const val BUNDLE_IS_NULL: String = "Bundle is null."
 internal const val EXCEPTION_THROWN: String = "Exception thrown when querying id."
+internal const val FAILED_TO_MOVE_CURSOR: String = "Failed to move cursor."
 internal const val ID_INFO_IS_NULL: String = "Advertising identifier info is null."
 internal const val ID_IS_NULL_OR_BLANK: String = "ID is null or blank."
 internal const val ID_IS_INVALID: String = "ID is invalid."

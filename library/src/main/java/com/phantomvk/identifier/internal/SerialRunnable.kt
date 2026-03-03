@@ -6,6 +6,7 @@ import android.os.Looper
 import android.os.SystemProperties
 import com.phantomvk.identifier.disposable.Disposable
 import com.phantomvk.identifier.functions.Consumer
+import com.phantomvk.identifier.internal.CacheCenter.removeRunnableSet
 import com.phantomvk.identifier.log.Log
 import com.phantomvk.identifier.model.IdentifierResult
 import com.phantomvk.identifier.model.ProviderConfig
@@ -43,18 +44,13 @@ import com.phantomvk.identifier.provider.XiaomiProvider
 import com.phantomvk.identifier.provider.XtcProvider
 import com.phantomvk.identifier.provider.ZteProvider
 import com.phantomvk.identifier.provider.ZuiProvider
-import java.util.concurrent.atomic.AtomicBoolean
 
 internal class SerialRunnable(
   config: ProviderConfig
 ) : AbstractProvider(config), Consumer, Disposable {
 
-  private val disposed = AtomicBoolean()
-
-  /**
-   * HashMap<CacheKey: String, runnable: HashSet<SerialRunnable>>
-   */
-  private val runnableMap = HashMap<String, HashSet<SerialRunnable>>()
+  private var index = -1
+  private val disposed = config.isDisposed
 
   init {
     setConsumer(this)
@@ -76,37 +72,40 @@ internal class SerialRunnable(
     }
 
     val cached = CacheCenter.get(config)
-    if (cached == null) {
-      if (config.isMergeRequests) {
-        val isExist = putRunnable(config.getCacheKey(), this)
-        if (isExist) return
-      }
-
-      config.executor.execute {
-        val providers = ArrayList<AbstractProvider>()
-        addProviders(providers)
-
-        if (config.isExperimental) {
-          addExperimentalProviders(providers)
-        }
-
-        try {
-          execute(0, providers)
-        } catch (t: Throwable) {
-          getConsumer().onError(EXCEPTION_THROWN, t)
-        }
-      }
-    } else {
+    if (cached != null) {
       getConsumer().onSuccess(cached)
+      return
+    }
+
+    if (config.isMergeRequests) {
+      val isExist = CacheCenter.putRunnable(config.getCacheKey(), this)
+      if (isExist) {
+        return
+      }
+    }
+
+    config.executor.execute {
+      val providers = ArrayList<AbstractProvider>()
+      addProviders(providers)
+
+      if (config.isExperimental) {
+        addExperimentalProviders(providers)
+      }
+
+      try {
+        execute(providers)
+      } catch (t: Throwable) {
+        getConsumer().onError(EXCEPTION_THROWN, t)
+      }
     }
   }
 
-  private fun execute(index: Int, providers: List<AbstractProvider>) {
+  private fun execute(providers: List<AbstractProvider>) {
     if (disposed.get()) {
       return
     }
 
-    if (index == providers.size) {
+    if ((++index) == providers.size) {
       if (config.idConfig.isGoogleAdsIdEnabled) {
         getGoogleAdsId(null)
       } else {
@@ -123,7 +122,7 @@ internal class SerialRunnable(
     }
 
     if (!isSupported) {
-      execute(index + 1, providers)
+      execute(providers)
       return
     }
 
@@ -140,7 +139,7 @@ internal class SerialRunnable(
 
       override fun onError(msg: String, t: Throwable?) {
         Log.e("SerialRunnable", "${provider.javaClass.simpleName} onError.", t)
-        execute(index + 1, providers)
+        execute(providers)
       }
     })
 
@@ -149,7 +148,7 @@ internal class SerialRunnable(
       provider.run()
     } catch (t: Throwable) {
       Log.e("SerialRunnable", "${provider.javaClass.simpleName} onRun.", t)
-      execute(index + 1, providers)
+      execute(providers)
     }
   }
 
@@ -224,10 +223,6 @@ internal class SerialRunnable(
   }
 
   override fun dispose() {
-    if (config.isMergeRequests) {
-      removeRunnable(config.getCacheKey(), this)
-    }
-
     invokeCallback(null)
   }
 
@@ -241,6 +236,9 @@ internal class SerialRunnable(
     }
 
     if (disposed.compareAndSet(false, true)) {
+      // Unbind all running service connections.
+      config.clearServiceConn().forEach { unbindServiceQuietly(it) }
+
       if (callback != null) {
         config.consumer.get()?.let {
           if (config.isAsyncCallback && Looper.getMainLooper() == Looper.myLooper()) {
@@ -249,7 +247,7 @@ internal class SerialRunnable(
           }
 
           if (!config.isAsyncCallback && Looper.getMainLooper() != Looper.myLooper()) {
-            Handler(Looper.getMainLooper()).post { callback.invoke(it) }
+            mainHandler.post { callback.invoke(it) }
             return@let
           }
 
@@ -258,6 +256,10 @@ internal class SerialRunnable(
       }
 
       config.consumer.clear()
+
+      if (config.isMergeRequests) {
+        CacheCenter.removeRunnable(config.getCacheKey(), this)
+      }
     }
   }
 
@@ -412,43 +414,7 @@ internal class SerialRunnable(
     return getSysProperty(key, null)?.isNotBlank() == true
   }
 
-  /**
-   * Put runnable into the HashSet of SerialRunnable which is associated with the same cacheKey.
-   *
-   * @return return ture if HashSet is existed, otherwise return false.
-   */
-  private fun putRunnable(cacheKey: String, runnable: SerialRunnable): Boolean {
-    synchronized(runnableMap) {
-      var set = runnableMap[cacheKey]
-      if (set != null) {
-        set.add(runnable)
-        return true
-      }
-
-      set = HashSet()
-      set.add(runnable)
-      runnableMap[cacheKey] = set
-      return false
-    }
-  }
-
-  /**
-   * Remove runnable from the HashSet of SerialRunnable which is associated with the same cacheKey.
-   *
-   * Returns: true if the set contained the specified element
-   */
-  private fun removeRunnable(cacheKey: String, runnable: SerialRunnable) {
-    synchronized(runnableMap) {
-      runnableMap[cacheKey]?.remove(runnable)
-    }
-  }
-
-  /**
-   * Return the HashSet of SerialRunnable which is associated with the same cacheKey.
-   */
-  internal fun removeRunnableSet(cacheKey: String): HashSet<SerialRunnable>? {
-    synchronized(runnableMap) {
-      return runnableMap.remove(cacheKey)
-    }
+  private companion object {
+    private val mainHandler = Handler(Looper.getMainLooper())
   }
 }

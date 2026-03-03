@@ -3,6 +3,7 @@ package com.phantomvk.identifier.provider
 import com.phantomvk.identifier.model.ProviderConfig
 import com.phantomvk.identifier.provider.AbstractProvider.BinderResult
 import java.util.concurrent.CountDownLatch
+import java.util.concurrent.TimeUnit
 
 internal abstract class HuaweiBaseProvider(config: ProviderConfig) : AbstractProvider(config) {
   protected fun getAAID(): String? {
@@ -11,7 +12,7 @@ internal abstract class HuaweiBaseProvider(config: ProviderConfig) : AbstractPro
     }
 
     val latch = CountDownLatch(1)
-    var result: BinderResult = Failed(EXCEPTION_THROWN)
+    var result: BinderResult = Failed(COUNTDOWN_LATCH_TIMEOUT)
 
     try {
       com.huawei.hms.aaid.HmsInstanceId.getInstance(config.context).aaid
@@ -28,7 +29,7 @@ internal abstract class HuaweiBaseProvider(config: ProviderConfig) : AbstractPro
       latch.countDown()
     }
 
-    latch.await()
+    latch.await(config.countDownLatchAwaitMilliSec, TimeUnit.MILLISECONDS)
     return result.id
   }
 
@@ -38,7 +39,7 @@ internal abstract class HuaweiBaseProvider(config: ProviderConfig) : AbstractPro
     }
 
     val latch = CountDownLatch(1)
-    var result: BinderResult = Failed(EXCEPTION_THROWN)
+    var result: BinderResult = Failed(COUNTDOWN_LATCH_TIMEOUT)
 
     try {
       com.huawei.hms.opendevice.OpenDevice.getOpenDeviceClient(config.context).odid
@@ -55,7 +56,7 @@ internal abstract class HuaweiBaseProvider(config: ProviderConfig) : AbstractPro
       latch.countDown()
     }
 
-    latch.await()
+    latch.await(config.countDownLatchAwaitMilliSec, TimeUnit.MILLISECONDS)
     return result.id
   }
 }
