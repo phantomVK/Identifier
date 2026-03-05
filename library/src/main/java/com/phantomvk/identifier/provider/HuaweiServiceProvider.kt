@@ -39,7 +39,7 @@ internal class HuaweiServiceProvider(config: ProviderConfig) : HuaweiBaseProvide
 
   override fun call(binder: IBinder): BinderResult {
     if (config.isVerifyLimitAdTracking) {
-      if (readBoolean(binder, 2, false, null)) {
+      if (readBoolean(binder, 2, false)) {
         return Failed(LIMIT_AD_TRACKING_IS_ENABLED)
       }
     }
