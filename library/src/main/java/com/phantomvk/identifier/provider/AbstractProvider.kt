@@ -46,8 +46,7 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) {
   protected fun readBoolean(
     remote: IBinder,
     code: Int,
-    defValue: Boolean,
-    writeData: ((Parcel) -> Unit)?
+    defValue: Boolean
   ): Boolean {
     var data: Parcel? = null
     var reply: Parcel? = null
@@ -57,7 +56,6 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) {
       reply = Parcel.obtain()
 
       data.writeInterfaceToken(getInterfaceName())
-      writeData?.invoke(data)
       remote.transact(code, data, reply, 0)
       reply.readException()
       return 0 != reply.readInt()
