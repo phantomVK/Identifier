@@ -34,22 +34,22 @@
       android:textSize="12sp" />
 
     <Button
-      android:id="@+id/appSettings"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:minWidth="0dp"
-      android:minHeight="0dp"
-      android:text="App Settings"
-      android:textAllCaps="false"
-      android:textSize="12sp" />
-
-    <Button
       android:id="@+id/configs"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:minWidth="0dp"
       android:minHeight="0dp"
       android:text="Configs"
+      android:textAllCaps="false"
+      android:textSize="12sp" />
+
+    <Button
+      android:id="@+id/appSettings"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:minWidth="0dp"
+      android:minHeight="0dp"
+      android:text="App Settings"
       android:textAllCaps="false"
       android:textSize="12sp" />
   </LinearLayout>
