@@ -2,7 +2,7 @@ package com.phantomvk.identifier.app.main
 
 import android.content.Context
 import android.os.Looper
-import com.phantomvk.identifier.app.Application
+import com.android.id.impl.IdProviderImpl
 import com.phantomvk.identifier.app.settings.Settings
 import com.phantomvk.identifier.functions.Consumer
 import com.phantomvk.identifier.model.IdConfig
@@ -16,6 +16,7 @@ import java.util.concurrent.TimeUnit
 
 object MainManager {
   private val decimalFormat = DecimalFormat("#,###")
+  private val keys = listOf("com.android.id.impl.IdProviderImpl.", "android.content.", "java.lang.")
 
   fun getResultList(context: Context): List<ResultDetail> {
     val absProviderClass = Class.forName("com.phantomvk.identifier.provider.AbstractProvider")
@@ -62,7 +63,35 @@ object MainManager {
       latch.await(5, TimeUnit.SECONDS)
     }
 
+    if (Settings.AndroidIdImpl.getValue()) {
+      list.add(getAndroidIdImpl())
+    }
+
     return list
+  }
+
+  private fun getAndroidIdImpl(): ResultDetail {
+    val builder = StringBuilder()
+    val nanoTime = System.nanoTime()
+    val result = try {
+      IdProviderImpl::class.java.declaredMethods.map {
+        builder.setLength(0)
+        builder.append(it.toString())
+        keys.forEach {
+          var index = builder.indexOf(it)
+          while (index >= 0) {
+            builder.delete(index, index + it.length)
+            index = builder.indexOf(it)
+          }
+        }
+        builder
+      }.joinToString("\n * ", "\n * ")
+    } catch (t: Throwable) {
+      t.toString()
+    }
+
+    val ts = getNanoTimeStamp(nanoTime)
+    return ResultDetail("IdProviderImpl", null, ts, result)
   }
 
   private fun getNanoTimeStamp(time: Long): String {

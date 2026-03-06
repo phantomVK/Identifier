@@ -72,6 +72,7 @@ android {
 
 dependencies {
     implementation project(":library")
+    compileOnly project(":dependencies")
 //    implementation "com.github.phantomVK:Identifier:latest.release@aar"
 
 //    implementation("com.huawei.hms:ads-identifier:$hms")
