@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit
 object MainManager {
   private val decimalFormat = DecimalFormat("#,###")
 
-  fun getResultList(): List<ResultDetail> {
+  fun getResultList(context: Context): List<ResultDetail> {
     val absProviderClass = Class.forName("com.phantomvk.identifier.provider.AbstractProvider")
     val isSupportedMethod = absProviderClass.getMethod("isSupported")
     val consumerClass = Class.forName("com.phantomvk.identifier.functions.Consumer")
@@ -25,7 +25,7 @@ object MainManager {
     val runMethod = absProviderClass.getMethod("run")
 
     val list = ArrayList<ResultDetail>()
-    for (provider in getProviderList()) {
+    for (provider in getProviderList(context)) {
       val isSupported = try {
         isSupportedMethod.invoke(provider) as Boolean
       } catch (t: Throwable) {
@@ -70,9 +70,9 @@ object MainManager {
     return decimalFormat.format(consumed)
   }
 
-  private fun getProviderList(): List<*> {
+  private fun getProviderList(context: Context): List<*> {
     val c = Class.forName("com.phantomvk.identifier.model.ProviderConfig")
-    val config = c.getConstructor(Context::class.java).newInstance(Application.applicationInstance)
+    val config = c.getConstructor(Context::class.java).newInstance(context)
     c.getMethod("setAsyncCallback", Boolean::class.java).invoke(config, Settings.AsyncCallback.getValue())
     c.getMethod("setDebug", Boolean::class.java).invoke(config, Settings.Debug.getValue())
     c.getMethod("setExperimental", Boolean::class.java).invoke(config, Settings.Experimental.getValue())

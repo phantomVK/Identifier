@@ -6,6 +6,7 @@ import android.os.Looper
 import android.os.SystemProperties
 import com.phantomvk.identifier.disposable.Disposable
 import com.phantomvk.identifier.functions.Consumer
+import com.phantomvk.identifier.internal.CacheCenter.MAIN_HANDLER
 import com.phantomvk.identifier.internal.CacheCenter.removeRunnableSet
 import com.phantomvk.identifier.log.Log
 import com.phantomvk.identifier.model.IdentifierResult
@@ -247,7 +248,7 @@ internal class SerialRunnable(
           }
 
           if (!config.isAsyncCallback && Looper.getMainLooper() != Looper.myLooper()) {
-            mainHandler.post { callback.invoke(it) }
+            MAIN_HANDLER.post { callback.invoke(it) }
             return@let
           }
 
@@ -412,9 +413,5 @@ internal class SerialRunnable(
 
   private fun isSysPropertyContainsKey(key: String): Boolean {
     return getSysProperty(key, null)?.isNotBlank() == true
-  }
-
-  private companion object {
-    private val mainHandler = Handler(Looper.getMainLooper())
   }
 }

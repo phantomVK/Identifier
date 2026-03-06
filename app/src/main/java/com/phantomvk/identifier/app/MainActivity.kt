@@ -60,14 +60,14 @@ class MainActivity : AppCompatActivity() {
           val deviceStr = deviceInfo()
             .append("\n- Count: success->${successCount.incrementAndGet()}, error->${errorCount.get()}")
             .append("\n- oaid: ${result.oaid}")
-          showInfo(deviceStr.toString())
+          showInfo(deviceStr)
         }
 
         override fun onError(msg: String, throwable: Throwable?) {
           val deviceStr = deviceInfo()
             .append("\n- Count: success->${successCount.get()}, error->${errorCount.incrementAndGet()}")
             .append("\n- ErrMsg: $msg")
-          showInfo(deviceStr.toString(), throwable)
+          showInfo(deviceStr, throwable)
         }
       }
 
@@ -122,30 +122,27 @@ class MainActivity : AppCompatActivity() {
           "\n * oaid: ${if (msg.oaid.isNotBlank()) msg.oaid else "null"}" +
           "\n * aaid: ${msg.aaid}" +
           "\n * vaid: ${msg.vaid}" +
-          "\n * gaid: ${msg.gaid}\n\n"
+          "\n * gaid: ${msg.gaid}"
     )
 
     if (!Settings.ProvidersDetails.getValue()) {
-      showInfo(deviceStr.toString())
+      showInfo(deviceStr)
       return
     }
 
     lifecycleScope.launch(Dispatchers.IO) {
-      val builder = StringBuilder()
-      val str = getResultList().joinToString("\n\n") { model ->
-        builder.setLength(0)
-        builder.append("# ${model.tag} (${model.ts}μs)\n")
-        if (model.result == null) {
-          builder.append("-msg: ${model.msg}")
+      getResultList(this@MainActivity).forEach { r ->
+        deviceStr.append("\n\n# ${r.tag} (${r.ts}μs)\n")
+        if (r.result == null) {
+          deviceStr.append("-msg: ${r.msg}")
         } else {
-          val list = arrayListOf(" * oaid: ${model.result.oaid}")
-          model.result.aaid?.let { list.add(" * aaid: $it") }
-          model.result.vaid?.let { list.add(" * vaid: $it") }
-          builder.append(list.joinToString("\n"))
+          deviceStr.append(" * oaid: ${r.result.oaid}")
+          r.result.aaid?.let { deviceStr.append("\n * aaid: $it") }
+          r.result.vaid?.let { deviceStr.append("\n * vaid: $it") }
         }
       }
 
-      showInfo(deviceStr.append(str).toString())
+      showInfo(deviceStr)
     }
   }
 
@@ -154,11 +151,10 @@ class MainActivity : AppCompatActivity() {
     showInfo(deviceStr, t)
   }
 
-  private fun showInfo(deviceStr: String, t: Throwable? = null) {
-    Log.i("IdentifierTAG", deviceStr, t)
+  private fun showInfo(deviceStr: CharSequence, t: Throwable? = null) {
     Log.i("IdentifierTAG", "| ${Build.MANUFACTURER} | ${Build.BRAND} | === " +
         "| ${Build.MODEL} | ${Build.DEVICE} " +
-        "| ${Build.VERSION.SDK_INT} | ${Build.FINGERPRINT} |")
+        "| ${Build.VERSION.SDK_INT} | ${Build.FINGERPRINT} |" + deviceStr, t)
 
     lifecycleScope.launch(Dispatchers.Main) {
       textView.text = deviceStr
@@ -180,7 +176,7 @@ class MainActivity : AppCompatActivity() {
       .append("- Incremental: ${Build.VERSION.INCREMENTAL}")
   }
 
-  private fun copyToClipboard(text: String) {
+  private fun copyToClipboard(text: CharSequence) {
     try {
       val manager = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
       val clipData = ClipData.newPlainText("IdentifierTAG", text)
