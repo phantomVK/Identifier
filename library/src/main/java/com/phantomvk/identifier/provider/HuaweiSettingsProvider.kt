@@ -21,7 +21,7 @@ internal class HuaweiSettingsProvider(config: ProviderConfig) : HuaweiBaseProvid
           getConsumer().onError(LIMIT_AD_TRACKING_IS_ENABLED)
           return
         }
-      } catch (t: Throwable) {
+      } catch (_: Throwable) {
       }
     }
 
