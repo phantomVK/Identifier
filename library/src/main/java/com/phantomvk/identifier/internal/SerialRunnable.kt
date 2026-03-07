@@ -118,7 +118,7 @@ internal class SerialRunnable(
     val provider = providers[index]
     val isSupported = try {
       provider.isSupported()
-    } catch (t: Throwable) {
+    } catch (_: Throwable) {
       false
     }
 
@@ -406,7 +406,7 @@ internal class SerialRunnable(
   private fun getSysProperty(key: String, defValue: String?): String? {
     return try {
       SystemProperties.get(key, defValue)
-    } catch (t: Throwable) {
+    } catch (_: Throwable) {
       defValue
     }
   }

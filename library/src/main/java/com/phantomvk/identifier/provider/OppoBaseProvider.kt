@@ -44,7 +44,7 @@ internal abstract class OppoBaseProvider(config: ProviderConfig) : AbstractProvi
       }
 
       String(chars)
-    } catch (t: Throwable) {
+    } catch (_: Throwable) {
       null
     }
   }

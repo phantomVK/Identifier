@@ -29,7 +29,7 @@ object MainManager {
     for (provider in getProviderList(context)) {
       val isSupported = try {
         isSupportedMethod.invoke(provider) as Boolean
-      } catch (t: Throwable) {
+      } catch (_: Throwable) {
         false
       }
 

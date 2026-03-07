@@ -19,7 +19,7 @@ internal class PicoProvider(config: ProviderConfig) : AbstractProvider(config) {
 
     val bundle = try {
       client.call("request_oaid", null, null)
-    } catch (t: Throwable) {
+    } catch (_: Throwable) {
       null
     }
 
