@@ -181,7 +181,7 @@ class MainActivity : AppCompatActivity() {
       val manager = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
       val clipData = ClipData.newPlainText("IdentifierTAG", text)
       manager.setPrimaryClip(clipData)
-    } catch (ignore: Throwable) {
+    } catch (_: Throwable) {
     }
   }
 

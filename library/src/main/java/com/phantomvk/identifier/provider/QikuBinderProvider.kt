@@ -39,7 +39,7 @@ internal class QikuBinderProvider(config: ProviderConfig) : AbstractProvider(con
 //    return try {
 //      remote.transact(2, data, reply, 0)
 //      reply.readInt() == 1
-//    } catch (t: Throwable) {
+//    } catch (_: Throwable) {
 //      false
 //    } finally {
 //      reply.recycle()
@@ -67,8 +67,8 @@ internal class QikuBinderProvider(config: ProviderConfig) : AbstractProvider(con
     val reply = Parcel.obtain()
     try {
       iBinder.transact(9, data, reply, 0)
-      return reply.readBoolean()
-    } catch (t: Throwable) {
+      return reply.readInt() != 0
+    } catch (_: Throwable) {
       return false
     } finally {
       reply.recycle()

@@ -45,7 +45,7 @@ internal class HuaweiContentProvider(config: ProviderConfig) : HuaweiBaseProvide
     } catch (t: Throwable) {
       getConsumer().onError(EXCEPTION_THROWN, t)
     } finally {
-      try { c.close() } catch (t: Throwable) { }
+      try { c.close() } catch (_: Throwable) { }
     }
   }
 }

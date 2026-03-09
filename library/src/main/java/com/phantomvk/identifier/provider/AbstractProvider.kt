@@ -59,7 +59,7 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) {
       remote.transact(code, data, reply, 0)
       reply.readException()
       return 0 != reply.readInt()
-    } catch (t: Throwable) {
+    } catch (_: Throwable) {
       return defValue
     } finally {
       reply?.recycle()
@@ -125,6 +125,7 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
       client.close()
     } else {
+      @Suppress("DEPRECATION")
       client.release()
     }
   }
@@ -139,7 +140,7 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) {
 
     try {
       config.context.unbindService(conn)
-    } catch (ignore: Throwable) {
+    } catch (_: Throwable) {
       // Caused by: java.lang.IllegalArgumentException: Service not registered
     }
   }
@@ -205,7 +206,7 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) {
 //  protected inline fun <reified T> getResult(clazz: String, method: String, context: Context): T? {
 //    return try {
 //      Class.forName(clazz).getMethod(method, Context::class.java).invoke(null, context) as? T
-//    } catch (t: Throwable) {
+//    } catch (_: Throwable) {
 //      null
 //    }
 //  }
@@ -213,7 +214,7 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) {
 //  protected inline fun <reified T> getMethodResult(obj: Any, name: String): T? {
 //    return try {
 //      obj::class.java.getMethod(name).invoke(obj) as? T
-//    } catch (t: Throwable) {
+//    } catch (_: Throwable) {
 //      null
 //    }
 //  }
@@ -221,7 +222,7 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) {
 //  protected inline fun <reified T> getFieldResult(obj: Any, name: String): T? {
 //    return try {
 //      obj::class.java.getField(name).get(obj) as? T
-//    } catch (t: Throwable) {
+//    } catch (_: Throwable) {
 //      null
 //    }
 //  }

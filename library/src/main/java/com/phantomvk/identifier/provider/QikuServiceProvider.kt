@@ -37,7 +37,7 @@ internal class QikuServiceProvider(config: ProviderConfig) : AbstractProvider(co
 //      remote.transact(1, data, reply, 0)
 //      reply.readException()
 //      return reply.readInt()
-//    } catch (t: Throwable) {
+//    } catch (_: Throwable) {
 //      return 0
 //    } finally {
 //      reply.recycle()

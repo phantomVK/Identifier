@@ -12,7 +12,7 @@ internal class ZteProvider(config: ProviderConfig) : AbstractProvider(config) {
     try {
       manager = ZteDeviceIdentifyManager(config.context)
       return true
-    } catch (ignore: Throwable) {
+    } catch (_: Throwable) {
       return false
     }
   }
@@ -25,7 +25,7 @@ internal class ZteProvider(config: ProviderConfig) : AbstractProvider(config) {
           getConsumer().onError(LIMIT_AD_TRACKING_IS_ENABLED)
           return
         }
-      } catch (ignore: Throwable) {
+      } catch (_: Throwable) {
       }
     }
 

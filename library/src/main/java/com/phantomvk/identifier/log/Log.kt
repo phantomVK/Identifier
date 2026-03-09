@@ -31,7 +31,7 @@ object Log {
   private fun log(level: TraceLevel, tag: String, msg: String, throwable: Throwable?) {
     try {
       sLogger?.log(level, tag, msg, throwable)
-    } catch (ignore: Throwable) {
+    } catch (_: Throwable) {
     }
   }
 }
