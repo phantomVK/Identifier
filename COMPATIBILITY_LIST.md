@@ -202,6 +202,7 @@
 |   samsung    | samsung |   Galaxy a53   | SM-A5360 |     a53x     |   33    |    samsung/a53xzc/a53x:13/TP1A.220624.014/A5360ZCS5CWC1:user/release-keys    |
 |   samsung    | samsung |   Galaxy S22   | SM-S9080 |     b0q      |   33    |    samsung/b0qzcx/b0q:13/TP1A.220624.014/S9080ZCS4CWJ1:user/release-keys     |
 |   samsung    | samsung |   Galaxy a53   | SM-A5360 |     a53x     |   34    |    samsung/a53xzc/a53x:14/UP1A.231005.007/A5360ZCU7DWK7:user/release-keys    |
+|   samsung    | samsung |   Galaxy S23   | SM-S9110 |     dm1q     |   36    |  samsung/dm1qzcx/dm1q:16/BP2A.250605.031.A3/S9110ZCS7EZB6:user/release-keys  |
 
 #### Vivo
 
