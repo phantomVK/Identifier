@@ -53,7 +53,7 @@ internal class MeizuProvider(config: ProviderConfig) : AbstractProvider(config) 
     } catch (t: Throwable) {
       return Failed(EXCEPTION_THROWN, t)
     } finally {
-      try { c.close() } catch (t: Throwable) { }
+      try { c.close() } catch (_: Throwable) { }
     }
   }
 }

@@ -45,7 +45,7 @@ internal class XiaomiProvider(config: ProviderConfig) : AbstractProvider(config)
 //      sMethodGetOAID = clazz.getMethod("getOAID", Context::class.java)
 //      sMethodGetVAID = clazz.getMethod("getVAID", Context::class.java)
 //      sMethodGetAAID = clazz.getMethod("getAAID", Context::class.java)
-//    } catch (t: Throwable) {
+//    } catch (_: Throwable) {
 //      sInstance = null
 //      sMethodGetUDID = null
 //      sMethodGetOAID = null
