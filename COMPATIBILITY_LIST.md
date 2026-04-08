@@ -74,6 +74,7 @@
 |    HONOR     | HONOR |   Honor 70    | FNE-AN00 |  HNFNE   |   31    |        HONOR/FNE-AN00/HNFNE:12/HONORFNE-AN00/7.0.0.183C00:user/release-keys        |
 |    HONOR     | HONOR |   Honor 70    | FNE-AN00 |  HNFNE   |   34    |   HONOR/FNE-AN00/HNFNE:14/HONORFNE-AN00/8.0.0.181C00E173R10P6:user/release-keys    |
 |    HONOR     | HONOR |    Magic5     | PGT-AN00 |  HNPGT   |   34    | HONOR/PGT-AN00/HNPGT:14/HONORPGT-AN00/8.0.0.158SP1CHNC00E158R7P7:user/release-keys |
+|    HONOR     | HONOR |   Honor 80    | REA-AN00 |  HNREA   |   35    |   HONOR/REA-AN00/HNREA:15/HONORREA-AN00/9DLDLD210SP1CHNC00E206:user/release-keys   |
 |    HONOR     | HONOR |   Honor 90    | REA-AN00 |  HNREA   |   34    |  HONOR/REA-AN00/HNREA:14/HONORREA-AN00/8.0.0.143CHNC00E143R4P3:user/release-keys   |
 |    HONOR     | HONOR | Honor 100 Pro | MAA-AN10 |  HNMAP   |   34    |    HONOR/MAA-AN10/HNMAP:14/HONORMAA-AN10/8.0.0.128C00E128R6P1:user/release-keys    |
 

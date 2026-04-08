@@ -152,9 +152,11 @@ class MainActivity : AppCompatActivity() {
   }
 
   private fun showInfo(deviceStr: CharSequence, t: Throwable? = null) {
-    Log.i("IdentifierTAG", "| ${Build.MANUFACTURER} | ${Build.BRAND} | === " +
+    val msg = "| ${Build.MANUFACTURER} | ${Build.BRAND} | === " +
         "| ${Build.MODEL} | ${Build.DEVICE} " +
-        "| ${Build.VERSION.SDK_INT} | ${Build.FINGERPRINT} |\n" + deviceStr, t)
+        "| ${Build.VERSION.SDK_INT} | ${Build.FINGERPRINT} |"
+
+    Log.i("IdentifierTAG", msg + '\n' + deviceStr, t)
 
     lifecycleScope.launch(Dispatchers.Main) {
       textView.text = deviceStr
