@@ -28,7 +28,7 @@ internal class OppoContentProvider(config: ProviderConfig) : OppoBaseProvider(co
       return
     }
 
-    val extras = Bundle();
+    val extras = Bundle(2)
     extras.putString("packageName", config.context.packageName)
     extras.putString("signature", sign.id)
 

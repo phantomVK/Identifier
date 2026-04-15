@@ -8,7 +8,10 @@ import com.phantomvk.identifier.model.ProviderConfig
 import java.security.MessageDigest
 
 internal abstract class OppoBaseProvider(config: ProviderConfig) : AbstractProvider(config) {
-  private fun getSignatures(pm: PackageManager, packageName: String): Array<Signature>? {
+  private fun getSignatures(): Array<Signature>? {
+    val pm = config.context.packageManager
+    val packageName = config.context.packageName
+
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
       val info = pm.getPackageInfo(packageName, PackageManager.GET_SIGNING_CERTIFICATES)?.signingInfo ?: return null
       return if (info.hasMultipleSigners()) {
@@ -50,12 +53,8 @@ internal abstract class OppoBaseProvider(config: ProviderConfig) : AbstractProvi
   }
 
   protected fun getSignatureHash(): BinderResult {
-    val signature = getSignatures(config.context.packageManager, config.context.packageName)
-      ?.firstOrNull()
-      ?: return Failed(SIGNATURE_IS_NULL)
-
-    val byteArray = signature.toByteArray()
-    val sign = sha1(byteArray)
+    val signature = getSignatures()?.firstOrNull() ?: return Failed(SIGNATURE_IS_NULL)
+    val sign = sha1(signature.toByteArray())
     if (sign.isNullOrBlank()) {
       return Failed(SIGNATURE_HASH_IS_NULL)
     }

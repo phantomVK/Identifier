@@ -71,12 +71,10 @@ object MainManager {
   }
 
   private fun getAndroidIdImpl(): ResultDetail {
-    val builder = StringBuilder()
     val nanoTime = System.nanoTime()
     val result = try {
       IdProviderImpl::class.java.declaredMethods.map {
-        builder.setLength(0)
-        builder.append(it.toString())
+        val builder = StringBuilder(it.toString())
         keys.forEach {
           var index = builder.indexOf(it)
           while (index >= 0) {
@@ -85,7 +83,7 @@ object MainManager {
           }
         }
         builder
-      }.joinToString("\n * ", "\n * ")
+      }.joinToString("\n * ", " * ")
     } catch (t: Throwable) {
       t.toString()
     }

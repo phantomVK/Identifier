@@ -134,7 +134,7 @@ class MainActivity : AppCompatActivity() {
       getResultList(this@MainActivity).forEach { r ->
         deviceStr.append("\n\n# ${r.tag} (${r.ts}μs)\n")
         if (r.result == null) {
-          deviceStr.append("-msg: ${r.msg}")
+          deviceStr.append("${r.msg}")
         } else {
           deviceStr.append(" * oaid: ${r.result.oaid}")
           r.result.aaid?.let { deviceStr.append("\n * aaid: $it") }
