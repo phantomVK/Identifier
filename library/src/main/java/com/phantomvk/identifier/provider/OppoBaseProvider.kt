@@ -62,10 +62,10 @@ internal abstract class OppoBaseProvider(config: ProviderConfig) : AbstractProvi
     return Success(sign, null, null)
   }
 
-  protected enum class OppoID(val id: String) {
-    UDID("GUID"),
-    OAID("OUID"),
-    VAID("DUID"),
-    AAID("AUID");
+  protected sealed class OppoID(val id: String) {
+    object UDID : OppoID("GUID")
+    object OAID : OppoID("OUID")
+    object VAID : OppoID("DUID")
+    object AAID : OppoID("AUID")
   }
 }
