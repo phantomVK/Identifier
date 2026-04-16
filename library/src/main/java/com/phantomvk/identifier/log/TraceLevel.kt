@@ -1,10 +1,10 @@
 package com.phantomvk.identifier.log
 
-enum class TraceLevel(val level: Int, val levelString: String) {
-  VERBOSE(2, "V"),
-  DEBUG(3, "D"),
-  INFO(4, "I"),
-  WARN(5, "W"),
-  ERROR(6, "E"),
-  ASSERT(7, "A")
+sealed class TraceLevel(val level: Int, val levelString: String) {
+  object VERBOSE : TraceLevel(2, "V")
+  object DEBUG : TraceLevel(3, "D")
+  object INFO : TraceLevel(4, "I")
+  object WARN : TraceLevel(5, "W")
+  object ERROR : TraceLevel(6, "E")
+  object ASSERT : TraceLevel(7, "A")
 }
