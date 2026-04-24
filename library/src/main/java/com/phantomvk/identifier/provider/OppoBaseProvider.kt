@@ -62,10 +62,10 @@ internal abstract class OppoBaseProvider(config: ProviderConfig) : AbstractProvi
     return Success(sign, null, null)
   }
 
-  protected sealed class OppoID(val id: String) {
-    object UDID : OppoID("GUID")
-    object OAID : OppoID("OUID")
-    object VAID : OppoID("DUID")
-    object AAID : OppoID("AUID")
+  protected companion object {
+    const val UDID = "GUID"
+    const val OAID = "OUID"
+    const val VAID = "DUID"
+    const val AAID = "AUID"
   }
 }
