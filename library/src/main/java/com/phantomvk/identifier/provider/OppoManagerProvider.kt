@@ -19,11 +19,11 @@ internal class OppoManagerProvider(config: ProviderConfig) : OppoBaseProvider(co
     val u = Binder.getCallingUid()
 
     try {
-      when (val r = checkId(o.getStdid(p, u, OppoID.OAID.id))) {
+      when (val r = checkId(o.getStdid(p, u, OAID))) {
         is Failed -> getConsumer().onError(r.msg, r.throwable)
         is Success -> {
-          val aaid = if (config.idConfig.isAaidEnabled) checkId(o.getStdid(p, u, OppoID.AAID.id)).id else null
-          val vaid = if (config.idConfig.isVaidEnabled) checkId(o.getStdid(p, u, OppoID.VAID.id)).id else null
+          val aaid = if (config.idConfig.isAaidEnabled) checkId(o.getStdid(p, u, AAID)).id else null
+          val vaid = if (config.idConfig.isVaidEnabled) checkId(o.getStdid(p, u, VAID)).id else null
           getConsumer().onSuccess(IdentifierResult(r.id, aaid, vaid))
         }
       }

@@ -33,11 +33,11 @@ internal class OppoContentProvider(config: ProviderConfig) : OppoBaseProvider(co
     extras.putString("signature", sign.id)
 
     try {
-      when (val r = getId(client, OppoID.OAID.id, extras)) {
+      when (val r = getId(client, OAID, extras)) {
         is Failed -> getConsumer().onError(r.msg, r.throwable)
         is Success -> {
-          val aaid = if (config.idConfig.isAaidEnabled) getId(client, OppoID.AAID.id, extras).id else null
-          val vaid = if (config.idConfig.isVaidEnabled) getId(client, OppoID.VAID.id, extras).id else null
+          val aaid = if (config.idConfig.isAaidEnabled) getId(client, AAID, extras).id else null
+          val vaid = if (config.idConfig.isVaidEnabled) getId(client, VAID, extras).id else null
           getConsumer().onSuccess(IdentifierResult(r.id, aaid, vaid))
         }
       }
