@@ -2,6 +2,9 @@ package com.phantomvk.identifier.app.main
 
 import android.content.Context
 import android.os.Looper
+import android.view.View
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import com.android.id.impl.IdProviderImpl
 import com.phantomvk.identifier.app.settings.Settings
 import com.phantomvk.identifier.functions.Consumer
@@ -150,5 +153,13 @@ object MainManager {
     }
 
     runnable.run()
+  }
+
+  fun edgeToEdge(view: View) {
+    ViewCompat.setOnApplyWindowInsetsListener(view) { v, insets ->
+      val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+      v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+      insets
+    }
   }
 }

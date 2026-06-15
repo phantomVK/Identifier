@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.phantomvk.identifier.IdentifierManager
 import com.phantomvk.identifier.app.R
+import com.phantomvk.identifier.app.main.MainManager.edgeToEdge
 
 
 class SettingsActivity : AppCompatActivity() {
@@ -15,6 +16,7 @@ class SettingsActivity : AppCompatActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_settings)
+    edgeToEdge(findViewById(R.id.main))
 
     val toolbar: Toolbar = findViewById(R.id.toolbar)
     setSupportActionBar(toolbar)
