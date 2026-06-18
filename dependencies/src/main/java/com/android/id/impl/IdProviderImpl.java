@@ -49,7 +49,7 @@ public class IdProviderImpl {
     }
 
     /**
-     * OAID For OPPO
+     * OAID For Oppo
      */
     public String getOUID(Context context) {
         return null;
