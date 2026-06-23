@@ -1,5 +1,6 @@
 package com.android.id.impl;
 
+import android.app.Activity;
 import android.content.Context;
 
 import androidx.annotation.Keep;
@@ -67,5 +68,34 @@ public class IdProviderImpl {
      */
     public String getAUID(Context context) {
         return null;
+    }
+
+    /**
+     * OpenId for Oppo
+     */
+    public String getOpenid(Context context, String appId) {
+        return null;
+    }
+
+    /**
+     * StdId for Oppo
+     */
+    public String getStdid(Context context, String appId) {
+        return null;
+    }
+
+    /**
+     * checkSelfOAIDPermission for Oppo
+     *
+     * @return 0:enable -1:disable
+     */
+    public static int checkSelfOAIDPermission(Context context) {
+        return 0;
+    }
+
+    /**
+     * requestOAIDPermission for Oppo, show only once.
+     */
+    public static void requestOAIDPermission(Activity activity, int flag) {
     }
 }
