@@ -30,7 +30,7 @@ class SettingsActivity : AppCompatActivity() {
 
     val v = findViewById<RecyclerView>(R.id.recycler_view_settings)
     v.setLayoutManager(LinearLayoutManager(this))
-    v.setAdapter(SettingsAdapter(layoutInflater, Settings.values(), { isConfChanged = true }))
+    v.setAdapter(SettingsAdapter(this) { isConfChanged = true })
   }
 
   private fun updateProviderConfig() {
