@@ -20,7 +20,6 @@ import com.phantomvk.identifier.app.BuildConfig.BUILD_TYPE
 import com.phantomvk.identifier.app.BuildConfig.GIT_REVISION
 import com.phantomvk.identifier.app.BuildConfig.VERSION_NAME
 import com.phantomvk.identifier.app.main.MainManager.assertThread
-import com.phantomvk.identifier.app.main.MainManager.edgeToEdge
 import com.phantomvk.identifier.app.main.MainManager.getResultList
 import com.phantomvk.identifier.app.settings.Settings
 import com.phantomvk.identifier.app.settings.SettingsActivity
@@ -41,7 +40,6 @@ class MainActivity : AppCompatActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_main)
-    edgeToEdge(findViewById(R.id.main))
 
     textView = findViewById(R.id.system_textview)
     textView.movementMethod = ScrollingMovementMethod.getInstance()
