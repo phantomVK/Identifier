@@ -6,11 +6,12 @@ import com.phantomvk.identifier.functions.Consumer
 import com.phantomvk.identifier.functions.OnPrivacyAcceptedListener
 import java.lang.ref.WeakReference
 import java.util.concurrent.Executor
+import java.util.concurrent.Executors
 import java.util.concurrent.atomic.AtomicBoolean
 
 internal class ProviderConfig(val context: Context) {
   // Global configs.
-  var executor = Executor { c: Runnable -> Thread(c).start() }
+  var executor: Executor = Executors.newCachedThreadPool()
   var isDebug = false
   var isMergeRequests = false
   var onPrivacyAcceptedListener: OnPrivacyAcceptedListener? = null
