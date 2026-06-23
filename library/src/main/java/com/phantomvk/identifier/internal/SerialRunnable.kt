@@ -138,8 +138,8 @@ internal class SerialRunnable(
         getConsumer().onSuccess(result)
       }
 
-      override fun onError(msg: String, t: Throwable?) {
-        Log.e("SerialRunnable", "${provider.javaClass.simpleName} onError.", t)
+      override fun onError(msg: String, throwable: Throwable?) {
+        Log.e("SerialRunnable", "${provider.javaClass.simpleName} onError.", throwable)
         execute(providers)
       }
     })

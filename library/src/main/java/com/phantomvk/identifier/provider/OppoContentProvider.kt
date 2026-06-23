@@ -22,9 +22,9 @@ internal class OppoContentProvider(config: ProviderConfig) : OppoBaseProvider(co
     }
 
     val sign = getSignatureHash()
-    if (sign !is Success) {
+    if (sign is Failed) {
       releaseContentProviderClient(client)
-      getConsumer().onError(SIGNATURE_HASH_IS_NULL)
+      getConsumer().onError(sign.msg)
       return
     }
 
