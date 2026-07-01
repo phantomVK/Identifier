@@ -8,13 +8,13 @@ android {
     compileSdk rootProject.ext.compileSdk
 
     defaultConfig {
-        multiDexEnabled true
-        minSdk rootProject.ext.minSdk
+        minSdk 21 // rootProject.ext.minSdk
         targetSdk rootProject.ext.targetSdk
         versionCode rootProject.ext.versionCode
         versionName rootProject.ext.versionName
 
         buildConfigField "String", "GIT_REVISION", "\"${rootProject.ext.gitRevision}\""
+        resConfigs "en"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -67,6 +67,9 @@ android {
     packagingOptions {
         exclude "DebugProbesKt.bin"
         exclude "androidsupportmultidexversion.txt"
+        exclude "META-INF/*.version"
+        exclude "kotlin/**"
+        exclude "**.kotlin_module"
     }
 }
 
