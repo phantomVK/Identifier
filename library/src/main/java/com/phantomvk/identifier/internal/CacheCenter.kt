@@ -4,6 +4,7 @@ import android.os.Handler
 import android.os.Looper
 import com.phantomvk.identifier.model.IdentifierResult
 import com.phantomvk.identifier.model.ProviderConfig
+import java.util.concurrent.ConcurrentHashMap
 
 internal object CacheCenter {
 
@@ -14,9 +15,7 @@ internal object CacheCenter {
 
   val MAIN_HANDLER = Handler(Looper.getMainLooper())
 
-  // https://issuetracker.google.com/issues/37042460
-  @Volatile
-  private var map = HashMap<String, IdentifierResult>()
+  private val map = ConcurrentHashMap<String, IdentifierResult>()
 
   /**
    * Visible to ALL SerialRunnable instances.
@@ -36,22 +35,12 @@ internal object CacheCenter {
   internal fun put(config: ProviderConfig, result: IdentifierResult) {
     if (config.memoryConfig.isEnabled) {
       val cacheKey = config.getCacheKey()
-      synchronized(CacheCenter::class.java) {
-        if (map[cacheKey] == result) {
-          return
-        }
-
-        val hm = HashMap(map)
-        hm[cacheKey] = result
-        map = hm
-      }
+      map.put(cacheKey, result)
     }
   }
 
   fun clear() {
-    synchronized(CacheCenter::class.java) {
-      map = HashMap()
-    }
+    map.clear()
   }
 
   /**
