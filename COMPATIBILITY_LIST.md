@@ -55,10 +55,11 @@
 
 ### Google
 
-| Manufacturer | Brand  |  Name   |  Model  | Device | SDK_INT |                               FingerPrint                                |
-|:------------:|:------:|:-------:|:-------:|:------:|:-------:|:------------------------------------------------------------------------:|
-|    Google    | google | Pixel 4 | Pixel 4 | flame  |   33    |    google/flame/flame:13/TP1A.221005.002.B2/9382335:user/release-keys    |
-|    Google    | google | Pixel 8 | Pixel 8 | shiba  |   36    | google/shiba_beta/shiba:16/BP41.250916.015.A1/14394230:user/release-keys |
+| Manufacturer | Brand  |   Name   |  Model   | Device  | SDK_INT |                               FingerPrint                                |
+|:------------:|:------:|:--------:|:--------:|:-------:|:-------:|:------------------------------------------------------------------------:|
+|    Google    | google | Pixel 4a | Pixel 4a | sunfish |   33    |   google/sunfish/sunfish:13/TQ3A.230705.001/10216780:user/release-keys   |
+|    Google    | google | Pixel 4  | Pixel 4  |  flame  |   33    |    google/flame/flame:13/TP1A.221005.002.B2/9382335:user/release-keys    |
+|    Google    | google | Pixel 8  | Pixel 8  |  shiba  |   36    | google/shiba_beta/shiba:16/BP41.250916.015.A1/14394230:user/release-keys |
 
 ### Honor
 
