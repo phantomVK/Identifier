@@ -18,6 +18,13 @@ internal class OppoManagerProvider(config: ProviderConfig) : OppoBaseProvider(co
     val p = config.context.packageName
     val u = Binder.getCallingUid()
 
+    if (config.isVerifyLimitAdTracking) {
+      if (!o.checkGetStdid(p, u, OAID)) {
+        getConsumer().onError(LIMIT_AD_TRACKING_IS_ENABLED)
+        return
+      }
+    }
+
     try {
       when (val r = checkId(o.getStdid(p, u, OAID))) {
         is Failed -> getConsumer().onError(r.msg, r.throwable)
