@@ -40,7 +40,10 @@ internal class HuaweiContentProvider(config: ProviderConfig) : HuaweiBaseProvide
 
       when (val r = checkId(c.getString(code))) {
         is Failed -> getConsumer().onError(r.msg, r.throwable)
-        is Success -> getConsumer().onSuccess(IdentifierResult(r.id, getAAID(), getVAID()))
+        is Success -> {
+          val (aaid, vaid) = getAAIDAndVAID()
+          getConsumer().onSuccess(IdentifierResult(r.id, aaid, vaid))
+        }
       }
     } catch (t: Throwable) {
       getConsumer().onError(EXCEPTION_THROWN, t)

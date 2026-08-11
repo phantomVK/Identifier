@@ -46,7 +46,10 @@ internal class HuaweiServiceProvider(config: ProviderConfig) : HuaweiBaseProvide
 
     return when (val r = getId(binder, 1)) {
       is Failed -> r
-      is Success -> Success(r.id, getVAID(), getAAID())
+      is Success -> {
+        val (aaid, vaid) = getAAIDAndVAID()
+        Success(r.id, vaid, aaid)
+      }
     }
   }
 }

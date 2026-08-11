@@ -26,7 +26,10 @@ internal class HuaweiSdkProvider(config: ProviderConfig) : HuaweiBaseProvider(co
 
     when (val r = checkId(info.id)) {
       is Failed -> getConsumer().onError(r.msg, r.throwable)
-      is Success -> getConsumer().onSuccess(IdentifierResult(r.id, getAAID(), getVAID()))
+      is Success -> {
+        val (aaid, vaid) = getAAIDAndVAID()
+        getConsumer().onSuccess(IdentifierResult(r.id, aaid, vaid))
+      }
     }
   }
 }
