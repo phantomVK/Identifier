@@ -3,7 +3,6 @@ package com.phantomvk.identifier.provider
 import android.content.pm.PackageManager
 import android.content.pm.Signature
 import android.os.Build
-import com.phantomvk.identifier.internal.CacheCenter
 import com.phantomvk.identifier.model.ProviderConfig
 import java.security.MessageDigest
 
@@ -37,13 +36,12 @@ internal abstract class OppoBaseProvider(config: ProviderConfig) : AbstractProvi
 
     return try {
       val chars = CharArray(40)
-      val hexDigits = CacheCenter.HEX_DIGITS
       val byteArray = MessageDigest.getInstance("SHA1").digest(bytes)
 
       for (index in byteArray.indices) {
         val intValue = byteArray[index].toInt() and 0xFF
-        chars[index * 2] = hexDigits[intValue ushr 4]
-        chars[index * 2 + 1] = hexDigits[intValue and 0x0F]
+        chars[index * 2] = HEX_DIGITS[intValue ushr 4]
+        chars[index * 2 + 1] = HEX_DIGITS[intValue and 0x0F]
       }
 
       String(chars)
@@ -67,5 +65,10 @@ internal abstract class OppoBaseProvider(config: ProviderConfig) : AbstractProvi
     const val OAID = "OUID"
     const val VAID = "DUID"
     const val AAID = "AUID"
+
+    private val HEX_DIGITS = charArrayOf(
+      '0', '1', '2', '3', '4', '5', '6', '7',
+      '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'
+    )
   }
 }

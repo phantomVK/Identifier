@@ -6,7 +6,6 @@ import android.os.Looper
 import android.os.SystemProperties
 import com.phantomvk.identifier.disposable.Disposable
 import com.phantomvk.identifier.functions.Consumer
-import com.phantomvk.identifier.internal.CacheCenter.MAIN_HANDLER
 import com.phantomvk.identifier.internal.CacheCenter.removeRunnableSet
 import com.phantomvk.identifier.log.Log
 import com.phantomvk.identifier.model.IdentifierResult
@@ -248,7 +247,7 @@ internal class SerialRunnable(
           }
 
           if (!config.isAsyncCallback && Looper.getMainLooper() != Looper.myLooper()) {
-            MAIN_HANDLER.post { callback.invoke(it) }
+            Handler(Looper.getMainLooper()).post { callback.invoke(it) }
             return@let
           }
 
