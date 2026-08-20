@@ -28,7 +28,10 @@ internal class HuaweiSettingsProvider(config: ProviderConfig) : HuaweiBaseProvid
     val id = Settings.Global.getString(config.context.contentResolver, "pps_oaid")
     when (val r = checkId(id)) {
       is Failed -> getConsumer().onError(r.msg, r.throwable)
-      is Success -> getConsumer().onSuccess(IdentifierResult(r.id, getAAID(), getVAID()))
+      is Success -> {
+        val (aaid, vaid) = getAAIDAndVAID()
+        getConsumer().onSuccess(IdentifierResult(r.id, aaid, vaid))
+      }
     }
   }
 }
