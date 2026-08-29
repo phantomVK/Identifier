@@ -7,7 +7,6 @@ import android.os.SystemProperties
 import com.phantomvk.identifier.disposable.Disposable
 import com.phantomvk.identifier.functions.Consumer
 import com.phantomvk.identifier.internal.CacheCenter.removeRunnableSet
-import com.phantomvk.identifier.log.Log
 import com.phantomvk.identifier.model.IdentifierResult
 import com.phantomvk.identifier.model.ProviderConfig
 import com.phantomvk.identifier.provider.AbstractProvider
@@ -138,7 +137,6 @@ internal class SerialRunnable(
       }
 
       override fun onError(msg: String, throwable: Throwable?) {
-        Log.e("SerialRunnable", "${provider.javaClass.simpleName} onError.", throwable)
         execute(providers)
       }
     })
@@ -147,7 +145,6 @@ internal class SerialRunnable(
     try {
       provider.run()
     } catch (t: Throwable) {
-      Log.e("SerialRunnable", "${provider.javaClass.simpleName} onRun.", t)
       execute(providers)
     }
   }
