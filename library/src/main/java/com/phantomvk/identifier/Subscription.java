@@ -9,8 +9,6 @@ import com.phantomvk.identifier.model.IdConfig;
 import com.phantomvk.identifier.model.MemoryConfig;
 import com.phantomvk.identifier.model.ProviderConfig;
 
-import java.lang.ref.WeakReference;
-
 public class Subscription {
     private final ProviderConfig conf;
 
@@ -57,7 +55,7 @@ public class Subscription {
     @NonNull
     public Disposable subscribe(@NonNull Consumer consumer) {
         ProviderConfig conf = this.conf.clone();
-        conf.consumer = new WeakReference<>(consumer);
+        conf.setConsumer(consumer);
         SerialRunnable runnable = new SerialRunnable(conf);
         runnable.run();
         return runnable;

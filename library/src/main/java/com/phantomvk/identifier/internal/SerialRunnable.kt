@@ -237,23 +237,18 @@ internal class SerialRunnable(
       // Unbind all running service connections.
       config.clearServiceConn().forEach { unbindServiceQuietly(it) }
 
-      if (callback != null) {
-        config.consumer.get()?.let {
-          if (config.isAsyncCallback && Looper.getMainLooper() == Looper.myLooper()) {
-            config.executor.execute { callback.invoke(it) }
-            return@let
-          }
-
-          if (!config.isAsyncCallback && Looper.getMainLooper() != Looper.myLooper()) {
-            Handler(Looper.getMainLooper()).post { callback.invoke(it) }
-            return@let
-          }
-
-          callback.invoke(it)
+      val consumer = config.consumer
+      if (callback != null && consumer != null) {
+        if (config.isAsyncCallback && Looper.getMainLooper() == Looper.myLooper()) {
+          config.executor.execute { callback.invoke(consumer) }
+        } else if (!config.isAsyncCallback && Looper.getMainLooper() != Looper.myLooper()) {
+          Handler(Looper.getMainLooper()).post { callback.invoke(consumer) }
+        } else {
+          callback.invoke(consumer)
         }
       }
 
-      config.consumer.clear()
+      config.consumer = null
 
       if (config.isMergeRequests) {
         CacheCenter.removeRunnable(config.getCacheKey(), this)
