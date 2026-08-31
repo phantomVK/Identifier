@@ -43,12 +43,13 @@ import com.phantomvk.identifier.provider.XiaomiProvider
 import com.phantomvk.identifier.provider.XtcProvider
 import com.phantomvk.identifier.provider.ZteProvider
 import com.phantomvk.identifier.provider.ZuiProvider
+import java.util.concurrent.atomic.AtomicInteger
 
 internal class SerialRunnable(
   config: ProviderConfig
 ) : AbstractProvider(config), Consumer, Disposable {
 
-  private var index = -1
+  private var index = AtomicInteger(-1)
   private val disposed = config.isDisposed
 
   init {
@@ -104,7 +105,7 @@ internal class SerialRunnable(
       return
     }
 
-    if ((++index) == providers.size) {
+    if ((index.incrementAndGet()) == providers.size) {
       if (config.idConfig.isGoogleAdsIdEnabled) {
         getGoogleAdsId(null)
       } else {
@@ -113,7 +114,7 @@ internal class SerialRunnable(
       return
     }
 
-    val provider = providers[index]
+    val provider = providers[index.get()]
     val isSupported = try {
       provider.isSupported()
     } catch (_: Throwable) {
