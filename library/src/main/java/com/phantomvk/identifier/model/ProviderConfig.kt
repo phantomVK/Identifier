@@ -27,7 +27,7 @@ internal class ProviderConfig(val context: Context) {
   // Runtime configs.
   val isDisposed = AtomicBoolean()
   private val serviceConnList = ArrayList<ServiceConnection>()
-  @Volatile var consumer: Consumer? = null
+  var consumer: Consumer? = null
 
   fun clone(): ProviderConfig {
     val config = ProviderConfig(context)
@@ -52,6 +52,7 @@ internal class ProviderConfig(val context: Context) {
     var flag = if (idConfig.isAaidEnabled) 1 else 0
     if (idConfig.isVaidEnabled) flag += 2
     if (idConfig.isGoogleAdsIdEnabled) flag += 4
+    if (isVerifyLimitAdTracking) flag += 8
     return flag.toString()
   }
 
