@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.ServiceConnection
 import com.phantomvk.identifier.functions.Consumer
 import com.phantomvk.identifier.functions.OnPrivacyAcceptedListener
-import java.lang.ref.WeakReference
 import java.util.concurrent.Executor
 import java.util.concurrent.Executors
 import java.util.concurrent.atomic.AtomicBoolean
@@ -28,7 +27,7 @@ internal class ProviderConfig(val context: Context) {
   // Runtime configs.
   val isDisposed = AtomicBoolean()
   private val serviceConnList = ArrayList<ServiceConnection>()
-  lateinit var consumer: WeakReference<Consumer>
+  var consumer: Consumer? = null
 
   fun clone(): ProviderConfig {
     val config = ProviderConfig(context)
@@ -53,6 +52,7 @@ internal class ProviderConfig(val context: Context) {
     var flag = if (idConfig.isAaidEnabled) 1 else 0
     if (idConfig.isVaidEnabled) flag += 2
     if (idConfig.isGoogleAdsIdEnabled) flag += 4
+    if (isVerifyLimitAdTracking) flag += 8
     return flag.toString()
   }
 

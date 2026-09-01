@@ -4,7 +4,6 @@ import android.app.Application
 import com.phantomvk.identifier.functions.Consumer
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import java.lang.ref.WeakReference
 import java.util.concurrent.Executor
 
 class ProviderConfigTest {
@@ -23,7 +22,7 @@ class ProviderConfigTest {
     providerConfig.memoryConfig = MemoryConfig(true)
     providerConfig.idConfig = IdConfig(true, true, true)
     providerConfig.isVerifyLimitAdTracking = true
-    providerConfig.consumer = WeakReference(mockConsumer)
+    providerConfig.consumer = mockConsumer
 
     val clonedConfig = providerConfig.clone()
 

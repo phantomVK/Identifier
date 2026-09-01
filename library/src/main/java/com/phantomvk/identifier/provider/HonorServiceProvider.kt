@@ -1,6 +1,7 @@
 package com.phantomvk.identifier.provider
 
 import android.content.Intent
+import android.content.ServiceConnection
 import android.os.Bundle
 import android.os.IBinder
 import android.os.Parcel
@@ -15,14 +16,21 @@ internal class HonorServiceProvider(config: ProviderConfig) : AbstractProvider(c
 
   override fun run() {
     val intent = Intent("com.hihonor.id.HnOaIdService").setPackage("com.hihonor.id")
-    bindService(intent) { b -> if (config.isVerifyLimitAdTracking) callBinder(3, b) else callBinder(2, b) }
+    val callback = object : ConnectionCallback {
+      override fun invoke(service: IBinder, conn: ServiceConnection) {
+        val code = if (config.isVerifyLimitAdTracking) 3 else 2
+        callBinder(code, service, conn)
+      }
+    }
+    bindService(intent, callback)
   }
 
   /**
    * @param code 2:getId(), 3:isLimited()
    * @param remote binder instance
+   * @param conn service connection, unbound once the async result is delivered
    */
-  private fun callBinder(code: Int, remote: IBinder) {
+  private fun callBinder(code: Int, remote: IBinder, conn: ServiceConnection) {
     val callback = object : IOAIDCallBack.Stub() {
       override fun a(i: Int, j: Long, z: Boolean, f: Float, d: Double, str: String?) {}
       override fun onResult(i: Int, bundle: Bundle?) {
@@ -33,13 +41,15 @@ internal class HonorServiceProvider(config: ProviderConfig) : AbstractProvider(c
             } else {
               getConsumer().onError(BUNDLE_IS_NULL)
             }
+            unbindServiceQuietly(conn)
           }
 
           3 -> { // isLimited()
             if (i == 0 && bundle?.getBoolean("oa_id_limit_state") == true) {
               getConsumer().onError(LIMIT_AD_TRACKING_IS_ENABLED)
+              unbindServiceQuietly(conn)
             } else {
-              callBinder(2, remote)
+              callBinder(2, remote, conn)
             }
           }
         }
@@ -55,6 +65,7 @@ internal class HonorServiceProvider(config: ProviderConfig) : AbstractProvider(c
       reply.readException()
     } catch (t: Throwable) {
       getConsumer().onError(EXCEPTION_THROWN, t)
+      unbindServiceQuietly(conn)
     } finally {
       reply.recycle()
       data.recycle()

@@ -43,12 +43,13 @@ import com.phantomvk.identifier.provider.XiaomiProvider
 import com.phantomvk.identifier.provider.XtcProvider
 import com.phantomvk.identifier.provider.ZteProvider
 import com.phantomvk.identifier.provider.ZuiProvider
+import java.util.concurrent.atomic.AtomicInteger
 
 internal class SerialRunnable(
   config: ProviderConfig
 ) : AbstractProvider(config), Consumer, Disposable {
 
-  private var index = -1
+  private var index = AtomicInteger(-1)
   private val disposed = config.isDisposed
 
   init {
@@ -104,7 +105,7 @@ internal class SerialRunnable(
       return
     }
 
-    if ((++index) == providers.size) {
+    if ((index.incrementAndGet()) == providers.size) {
       if (config.idConfig.isGoogleAdsIdEnabled) {
         getGoogleAdsId(null)
       } else {
@@ -113,7 +114,7 @@ internal class SerialRunnable(
       return
     }
 
-    val provider = providers[index]
+    val provider = providers[index.get()]
     val isSupported = try {
       provider.isSupported()
     } catch (_: Throwable) {
@@ -236,23 +237,18 @@ internal class SerialRunnable(
       // Unbind all running service connections.
       config.clearServiceConn().forEach { unbindServiceQuietly(it) }
 
-      if (callback != null) {
-        config.consumer.get()?.let {
-          if (config.isAsyncCallback && Looper.getMainLooper() == Looper.myLooper()) {
-            config.executor.execute { callback.invoke(it) }
-            return@let
-          }
-
-          if (!config.isAsyncCallback && Looper.getMainLooper() != Looper.myLooper()) {
-            Handler(Looper.getMainLooper()).post { callback.invoke(it) }
-            return@let
-          }
-
-          callback.invoke(it)
+      val consumer = config.consumer
+      if (callback != null && consumer != null) {
+        if (config.isAsyncCallback && Looper.getMainLooper() == Looper.myLooper()) {
+          config.executor.execute { callback.invoke(consumer) }
+        } else if (!config.isAsyncCallback && Looper.getMainLooper() != Looper.myLooper()) {
+          Handler(Looper.getMainLooper()).post { callback.invoke(consumer) }
+        } else {
+          callback.invoke(consumer)
         }
       }
 
-      config.consumer.clear()
+      config.consumer = null
 
       if (config.isMergeRequests) {
         CacheCenter.removeRunnable(config.getCacheKey(), this)

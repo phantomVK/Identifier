@@ -46,7 +46,8 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) {
   protected fun readBoolean(
     remote: IBinder,
     code: Int,
-    defValue: Boolean
+    defValue: Boolean,
+    arg: Int? = null
   ): Boolean {
     var data: Parcel? = null
     var reply: Parcel? = null
@@ -56,6 +57,7 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) {
       reply = Parcel.obtain()
 
       data.writeInterfaceToken(getInterfaceName())
+      arg?.let { data.writeInt(it) }
       remote.transact(code, data, reply, 0)
       reply.readException()
       return 0 != reply.readInt()
@@ -152,7 +154,7 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) {
     }
   }
 
-  protected fun bindService(intent: Intent, callback: ((service: IBinder) -> Unit)? = null) {
+  protected fun bindService(intent: Intent, callback: ConnectionCallback? = null) {
     val conn = object : ServiceConnection {
       override fun onServiceConnected(name: ComponentName, service: IBinder) {
         if (config.isDisposed.get()) {
@@ -165,12 +167,11 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) {
         config.executor.execute {
           try {
             if (callback != null) {
-              callback.invoke(service)
+              callback.invoke(service, this)
             } else {
               verifyResult(call(service))
+              unbindServiceQuietly(this)
             }
-
-            unbindServiceQuietly(this)
           } catch (t: Throwable) {
             unbindServiceOnError(this, EXCEPTION_THROWN, t)
           }
@@ -197,6 +198,10 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) {
     } catch (t: Throwable) {
       unbindServiceOnError(conn, "Bind service error.", t)
     }
+  }
+
+  protected interface ConnectionCallback {
+    fun invoke(service: IBinder, conn: ServiceConnection)
   }
 
   protected sealed interface BinderResult { val id: String? }

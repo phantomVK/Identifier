@@ -11,7 +11,6 @@ import com.phantomvk.identifier.functions.Consumer
 import com.phantomvk.identifier.model.IdConfig
 import com.phantomvk.identifier.model.IdentifierResult
 import com.phantomvk.identifier.model.MemoryConfig
-import java.lang.ref.WeakReference
 import java.text.DecimalFormat
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.Executor
@@ -117,10 +116,10 @@ object MainManager {
     c.getMethod("setIdConfig", IdConfig::class.java).invoke(config, idConfig)
 
     c.getMethod("setExecutor", Executor::class.java).invoke(config, Executor { r -> Thread(r).start() })
-    c.getMethod("setConsumer", WeakReference::class.java).invoke(config, WeakReference(object : Consumer {
+    c.getMethod("setConsumer", Consumer::class.java).invoke(config, object : Consumer {
       override fun onSuccess(result: IdentifierResult) {}
       override fun onError(msg: String, throwable: Throwable?) {}
-    }))
+    })
 
     val clz = Class.forName("com.phantomvk.identifier.internal.SerialRunnable")
     val instance = clz.getConstructor(c).newInstance(config)
