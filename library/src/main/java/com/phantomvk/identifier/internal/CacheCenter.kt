@@ -1,10 +1,14 @@
 package com.phantomvk.identifier.internal
 
+import android.os.Handler
+import android.os.Looper
 import com.phantomvk.identifier.model.IdentifierResult
 import com.phantomvk.identifier.model.ProviderConfig
 import java.util.concurrent.ConcurrentHashMap
 
 internal object CacheCenter {
+
+  val mainHandler = Handler(Looper.getMainLooper())
 
   private val map = ConcurrentHashMap<String, IdentifierResult>()
 

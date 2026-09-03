@@ -14,7 +14,7 @@ internal class VivoProvider(config: ProviderConfig) : AbstractProvider(config) {
   override fun run() {
     if (config.isVerifyLimitAdTracking) {
       val status = getId("OAIDSTATUS")
-      if (status.id == "0") {
+      if (status is Failed || status.id == "0") {
         getConsumer().onError(LIMIT_AD_TRACKING_IS_ENABLED)
         return
       }
