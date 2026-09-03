@@ -239,7 +239,7 @@ internal class SerialRunnable(
         if (config.isAsyncCallback && Looper.getMainLooper() == Looper.myLooper()) {
           config.executor.execute { callback.invoke(consumer) }
         } else if (!config.isAsyncCallback && Looper.getMainLooper() != Looper.myLooper()) {
-          Handler(Looper.getMainLooper()).post { callback.invoke(consumer) }
+          CacheCenter.mainHandler.post { callback.invoke(consumer) }
         } else {
           callback.invoke(consumer)
         }
