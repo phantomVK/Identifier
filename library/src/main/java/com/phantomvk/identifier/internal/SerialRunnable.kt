@@ -43,13 +43,11 @@ import com.phantomvk.identifier.provider.XiaomiProvider
 import com.phantomvk.identifier.provider.XtcProvider
 import com.phantomvk.identifier.provider.ZteProvider
 import com.phantomvk.identifier.provider.ZuiProvider
-import java.util.concurrent.atomic.AtomicInteger
 
 internal class SerialRunnable(
   config: ProviderConfig
 ) : AbstractProvider(config), Consumer, Disposable {
 
-  private var index = AtomicInteger(-1)
   private val disposed = config.isDisposed
 
   init {
@@ -93,19 +91,19 @@ internal class SerialRunnable(
       }
 
       try {
-        execute(providers)
+        execute(providers, 0)
       } catch (t: Throwable) {
         getConsumer().onError(EXCEPTION_THROWN, t)
       }
     }
   }
 
-  private fun execute(providers: List<AbstractProvider>) {
+  private fun execute(providers: List<AbstractProvider>, index: Int) {
     if (disposed.get()) {
       return
     }
 
-    if ((index.incrementAndGet()) == providers.size) {
+    if (index == providers.size) {
       if (config.idConfig.isGoogleAdsIdEnabled) {
         getGoogleAdsId(null)
       } else {
@@ -114,7 +112,7 @@ internal class SerialRunnable(
       return
     }
 
-    val provider = providers[index.get()]
+    val provider = providers[index]
     val isSupported = try {
       provider.isSupported()
     } catch (_: Throwable) {
@@ -122,7 +120,7 @@ internal class SerialRunnable(
     }
 
     if (!isSupported) {
-      execute(providers)
+      execute(providers, index + 1)
       return
     }
 
@@ -138,15 +136,14 @@ internal class SerialRunnable(
       }
 
       override fun onError(msg: String, throwable: Throwable?) {
-        execute(providers)
+        execute(providers, index + 1)
       }
     })
 
-    // execute Runnable safely.
     try {
       provider.run()
     } catch (t: Throwable) {
-      execute(providers)
+      execute(providers, index + 1)
     }
   }
 
