@@ -249,6 +249,7 @@
 |    Xiaomi    | Xiaomi |      14       |  23127PN0CC  |   houji    |   34    |     Xiaomi/houji/houji:14/UKQ1.230804.001/V816.0.36.0.UNCCNXM:user/release-keys     |
 |    Xiaomi    | Xiaomi |      14       |  23127PN0CC  |   houji    |   34    |     Xiaomi/houji/houji:14/UKQ1.230804.001/V816.0.47.0.UNCCNXM:user/release-keys     |
 |    Xiaomi    | Xiaomi |      15       |  24129PN74C  |    dada    |   35    |      Xiaomi/dada/dada:15/AQ3A.240812.002/OS2.0.215.0.VOCCNXM:user/release-keys      |
+|    Xiaomi    | Xiaomi |      15       |  24129PN74C  |    dada    |   37    |       Xiaomi/dada/dada:17/CP2A.260605.016/OS4.0.0.8.XOCCNXM:user/release-keys       |
 |    Xiaomi    | Xiaomi |     Pad6      |  23043RP34C  |    pipa    |   34    |      Xiaomi/pipa/pipa:14/UKQ1.230917.001/V816.0.13.0.UMZCNXM:user/release-keys      |
 |    Xiaomi    | Xiaomi |     Pad7      |  2410CRP4CC  |    uke     |   35    |       Xiaomi/uke/uke:15/AQ3A.240801.002/OS2.0.208.0.VOZCNXM:user/release-keys       |
 |    Xiaomi    | Xiaomi |     Pad7      |  2410CRP4CC  |    uke     |   36    |     Xiaomi/uke/uke:16/BP2A.250605.031.A3/OS3.0.301.0.WOZCNXM:user/release-keys      |
