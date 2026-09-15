@@ -25,17 +25,12 @@ internal class HonorServiceProvider(config: ProviderConfig) : AbstractProvider(c
     bindService(intent, callback)
   }
 
-  /**
-   * @param code 2:getId(), 3:isLimited()
-   * @param remote binder instance
-   * @param conn service connection, unbound once the async result is delivered
-   */
   private fun callBinder(code: Int, remote: IBinder, conn: ServiceConnection) {
     val callback = object : IOAIDCallBack.Stub() {
       override fun a(i: Int, j: Long, z: Boolean, f: Float, d: Double, str: String?) {}
       override fun onResult(i: Int, bundle: Bundle?) {
         when (code) {
-          2 -> { // getId()
+          2 -> {
             if (i == 0 && bundle != null) {
               verifyResult(checkId(bundle.getString("oa_id_flag")))
             } else {
@@ -44,12 +39,19 @@ internal class HonorServiceProvider(config: ProviderConfig) : AbstractProvider(c
             unbindServiceQuietly(conn)
           }
 
-          3 -> { // isLimited()
-            if (i == 0 && bundle?.getBoolean("oa_id_limit_state") == true) {
-              getConsumer().onError(LIMIT_AD_TRACKING_IS_ENABLED)
-              unbindServiceQuietly(conn)
-            } else {
-              callBinder(2, remote, conn)
+          3 -> {
+            when {
+              i != 0 -> {
+                getConsumer().onError(BUNDLE_IS_NULL)
+                unbindServiceQuietly(conn)
+              }
+
+              bundle?.getBoolean("oa_id_limit_state") == true -> {
+                getConsumer().onError(LIMIT_AD_TRACKING_IS_ENABLED)
+                unbindServiceQuietly(conn)
+              }
+
+              else -> callBinder(2, remote, conn)
             }
           }
         }

@@ -209,23 +209,24 @@
 
 #### Vivo
 
-| Manufacturer | Brand |   Name    |   Model   | Device  | SDK_INT |                                   FingerPrint                                    |
-|:------------:|:-----:|:---------:|:---------:|:-------:|:-------:|:--------------------------------------------------------------------------------:|
-|     vivo     | vivo  |    Y93    |  V1818A   | PD1818  |   27    |    vivo/PD1818/PD1818:8.1.0/OPM1.171019.026/compil08311833:user/release-keys     |
-|     vivo     | vivo  |    Y93    |  V1818CA  | PD1818C |   27    |          vivo/PD1818C/PD1818C:8.1.0/O11019/1692149494:user/release-keys          |
-|     vivo     | vivo  |   X21A    | vivo X21A | PD1728  |   28    |     vivo/PD1728/PD1728:9/PKQ1.180819.001/compiler07281740:user/release-keys      |
-|     vivo     | vivo  |    Y97    |  V1813A   | PD1813E |   28    |         vivo/PD1813E/PD1813E:9/P00610/compiler11141745:user/release-keys         |
-|     vivo     | vivo  |    S1     |  V1831A   | PD1831  |   29    |     vivo/PD1831/PD1831:10/QP1A.190711.020/compiler07281042:user/release-keys     |
-|     vivo     | vivo  |   Y31s    |  V2068A   | PD2068  |   30    |    vivo/PD2068/PD2068:11/RP1A.200720.012/compiler1103182652:user/release-keys    |
-|     vivo     | vivo  |  iQOO 9   |  V2171A   | PD2171  |   33    |     vivo/PD2171/PD2171:13/TP1A.220624.014/compiler11011726:user/release-keys     |
-|     vivo     | vivo  |    T2x    |  V2188A   | PD2188  |   33    |     vivo/PD2188/PD2188:13/TP1A.220624.014/compiler05081743:user/release-keys     |
-|     vivo     | vivo  | iQOO Neo6 |  V2196A   | PD2196  |   33    |     vivo/PD2196/PD2196:13/TP1A.220624.014/compiler12121642:user/release-keys     |
-|     vivo     | vivo  | iQOO Neo7 |  V2231A   | PD2231  |   33    |     vivo/PD2231/PD2231:13/TP1A.220624.014/compiler11171508:user/release-keys     |
-|     vivo     | vivo  | iQOO Neo7 |  V2231A   | PD2231  |   34    |     vivo/PD2231/PD2231:14/UP1A.231005.007/compiler03072119:user/release-keys     |
-|     vivo     | vivo  | IQOO Neo9 |  V2338A   | PD2338  |   34    |     vivo/PD2338/PD2338:14/UP1A.231005.007/compiler02221956:user/release-keys     |
-|     vivo     | vivo  |    Pad    |  PA2373   | DPD2221 |   34    |    vivo/DPD2221/DPD2221:14/UP1A.231005.007/compiler12161130:user/release-keys    |
-|     vivo     | vivo  |   X100s   |  V2359A   | PD2309  |   35    |   vivo/PD2309M/PD2309:15/AP3A.240905.015.A1/compiler11060027:user/release-keys   |
-|     vivo     | vivo  |   X100s   |  V2359A   | PD2309  |   36    | vivo/PD2309M/PD2309:16/BP2A.250605.031.A3/compiler260611211327:user/release-keys |
+| Manufacturer | Brand |   Name    |   Model   | Device  | SDK_INT |                                      FingerPrint                                       |
+|:------------:|:-----:|:---------:|:---------:|:-------:|:-------:|:--------------------------------------------------------------------------------------:|
+|     vivo     | vivo  |    Y93    |  V1818A   | PD1818  |   27    |       vivo/PD1818/PD1818:8.1.0/OPM1.171019.026/compil08311833:user/release-keys        |
+|     vivo     | vivo  |    Y93    |  V1818CA  | PD1818C |   27    |             vivo/PD1818C/PD1818C:8.1.0/O11019/1692149494:user/release-keys             |
+|     vivo     | vivo  |   X21A    | vivo X21A | PD1728  |   28    |        vivo/PD1728/PD1728:9/PKQ1.180819.001/compiler07281740:user/release-keys         |
+|     vivo     | vivo  |    Y97    |  V1813A   | PD1813E |   28    |            vivo/PD1813E/PD1813E:9/P00610/compiler11141745:user/release-keys            |
+|     vivo     | vivo  |    S1     |  V1831A   | PD1831  |   29    |        vivo/PD1831/PD1831:10/QP1A.190711.020/compiler07281042:user/release-keys        |
+|     vivo     | vivo  |   Y31s    |  V2068A   | PD2068  |   30    |       vivo/PD2068/PD2068:11/RP1A.200720.012/compiler1103182652:user/release-keys       |
+|     vivo     | vivo  |  iQOO 9   |  V2171A   | PD2171  |   33    |        vivo/PD2171/PD2171:13/TP1A.220624.014/compiler11011726:user/release-keys        |
+|     vivo     | vivo  |    T2x    |  V2188A   | PD2188  |   33    |        vivo/PD2188/PD2188:13/TP1A.220624.014/compiler05081743:user/release-keys        |
+|     vivo     | vivo  | iQOO Neo6 |  V2196A   | PD2196  |   33    |        vivo/PD2196/PD2196:13/TP1A.220624.014/compiler12121642:user/release-keys        |
+|     vivo     | vivo  | iQOO Neo7 |  V2231A   | PD2231  |   33    |        vivo/PD2231/PD2231:13/TP1A.220624.014/compiler11171508:user/release-keys        |
+|     vivo     | vivo  | iQOO Neo7 |  V2231A   | PD2231  |   34    |        vivo/PD2231/PD2231:14/UP1A.231005.007/compiler03072119:user/release-keys        |
+|     vivo     | vivo  | IQOO Neo9 |  V2338A   | PD2338  |   34    |        vivo/PD2338/PD2338:14/UP1A.231005.007/compiler02221956:user/release-keys        |
+|     vivo     | vivo  |    Pad    |  PA2373   | DPD2221 |   34    |       vivo/DPD2221/DPD2221:14/UP1A.231005.007/compiler12161130:user/release-keys       |
+|     vivo     | vivo  |   X100s   |  V2359A   | PD2309  |   35    |      vivo/PD2309M/PD2309:15/AP3A.240905.015.A1/compiler11060027:user/release-keys      |
+|     vivo     | vivo  |   X100s   |  V2359A   | PD2309  |   36    |    vivo/PD2309M/PD2309:16/BP2A.250605.031.A3/compiler260611211327:user/release-keys    |
+|     vivo     | vivo  |    S50    |  V2528A   | PD2528  |   36    | vivo/PD2528/PD2528:16/BP2A.250605.031.A3_V000L1/compiler260720211707:user/release-keys |
 
 #### Xiaomi
 
@@ -248,6 +249,7 @@
 |    Xiaomi    | Xiaomi |      14       |  23127PN0CC  |   houji    |   34    |     Xiaomi/houji/houji:14/UKQ1.230804.001/V816.0.36.0.UNCCNXM:user/release-keys     |
 |    Xiaomi    | Xiaomi |      14       |  23127PN0CC  |   houji    |   34    |     Xiaomi/houji/houji:14/UKQ1.230804.001/V816.0.47.0.UNCCNXM:user/release-keys     |
 |    Xiaomi    | Xiaomi |      15       |  24129PN74C  |    dada    |   35    |      Xiaomi/dada/dada:15/AQ3A.240812.002/OS2.0.215.0.VOCCNXM:user/release-keys      |
+|    Xiaomi    | Xiaomi |      15       |  24129PN74C  |    dada    |   37    |       Xiaomi/dada/dada:17/CP2A.260605.016/OS4.0.0.8.XOCCNXM:user/release-keys       |
 |    Xiaomi    | Xiaomi |     Pad6      |  23043RP34C  |    pipa    |   34    |      Xiaomi/pipa/pipa:14/UKQ1.230917.001/V816.0.13.0.UMZCNXM:user/release-keys      |
 |    Xiaomi    | Xiaomi |     Pad7      |  2410CRP4CC  |    uke     |   35    |       Xiaomi/uke/uke:15/AQ3A.240801.002/OS2.0.208.0.VOZCNXM:user/release-keys       |
 |    Xiaomi    | Xiaomi |     Pad7      |  2410CRP4CC  |    uke     |   36    |     Xiaomi/uke/uke:16/BP2A.250605.031.A3/OS3.0.301.0.WOZCNXM:user/release-keys      |

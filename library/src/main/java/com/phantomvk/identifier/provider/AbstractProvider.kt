@@ -162,8 +162,6 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) {
           return
         }
 
-        config.addServiceConn(this)
-
         config.executor.execute {
           try {
             if (callback != null) {
@@ -191,6 +189,8 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) {
       }
     }
 
+    config.addServiceConn(conn)
+
     try {
       if (!config.context.bindService(intent, conn, Context.BIND_AUTO_CREATE)) {
         unbindServiceOnError(conn, "Bind service return false.", null)
@@ -207,30 +207,6 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) {
   protected sealed interface BinderResult { val id: String? }
   class Success(override val id: String, val vaid: String?, val aaid: String?) : BinderResult
   class Failed(val msg: String, val throwable: Throwable? = null, override val id: String? = null) : BinderResult
-
-//  protected inline fun <reified T> getResult(clazz: String, method: String, context: Context): T? {
-//    return try {
-//      Class.forName(clazz).getMethod(method, Context::class.java).invoke(null, context) as? T
-//    } catch (_: Throwable) {
-//      null
-//    }
-//  }
-//
-//  protected inline fun <reified T> getMethodResult(obj: Any, name: String): T? {
-//    return try {
-//      obj::class.java.getMethod(name).invoke(obj) as? T
-//    } catch (_: Throwable) {
-//      null
-//    }
-//  }
-//
-//  protected inline fun <reified T> getFieldResult(obj: Any, name: String): T? {
-//    return try {
-//      obj::class.java.getField(name).get(obj) as? T
-//    } catch (_: Throwable) {
-//      null
-//    }
-//  }
 }
 
 //    public static final String BLANK_ID_FORMAT = "00000000-0000-0000-0000-000000000000";
