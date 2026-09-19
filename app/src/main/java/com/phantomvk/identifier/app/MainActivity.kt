@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS
 import android.text.method.ScrollingMovementMethod
 import android.util.Log
+import android.webkit.WebSettings
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
@@ -45,8 +46,6 @@ class MainActivity : AppCompatActivity() {
     textView.movementMethod = ScrollingMovementMethod.getInstance()
 
     findViewById<Button>(R.id.refresh).setOnClickListener { getId() }
-    findViewById<Button>(R.id.clear_cache).setOnClickListener { IdentifierManager.clearMemoryCache() }
-    findViewById<Button>(R.id.appSettings).setOnClickListener { openAppDetailsSettings() }
     findViewById<Button>(R.id.configs).setOnClickListener { startActivity(Intent(this, SettingsActivity::class.java)) }
     getId()
   }
@@ -118,8 +117,8 @@ class MainActivity : AppCompatActivity() {
 
   private fun updateSuccessInfo(msg: IdentifierResult) {
     val deviceStr = deviceInfo().append(
-      "\n- Result:" +
-          "\n * oaid: ${if (msg.oaid.isNotBlank()) msg.oaid else "null"}" +
+      "\n# Result:" +
+          "\n * oaid: ${msg.oaid.ifBlank { "null" }}" +
           "\n * aaid: ${msg.aaid}" +
           "\n * vaid: ${msg.vaid}" +
           "\n * gaid: ${msg.gaid}"
@@ -175,7 +174,8 @@ class MainActivity : AppCompatActivity() {
       .append("- Model: ${Build.MODEL}, Device: ${Build.DEVICE}\n")
       .append("- Release: Android ${Build.VERSION.RELEASE} (SDK_INT: ${Build.VERSION.SDK_INT})\n")
       .append("- Display: ${Build.DISPLAY}\n")
-      .append("- Incremental: ${Build.VERSION.INCREMENTAL}")
+      .append("- Incremental: ${Build.VERSION.INCREMENTAL}\n")
+      .append("- UserAgent: ${WebSettings.getDefaultUserAgent(this)}\n")
   }
 
   private fun copyToClipboard(text: CharSequence) {

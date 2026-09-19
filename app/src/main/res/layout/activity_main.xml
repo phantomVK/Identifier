@@ -7,59 +7,34 @@
   android:fitsSystemWindows="true"
   tools:context=".MainActivity">
 
-  <LinearLayout
-    android:id="@+id/button_list"
-    android:layout_width="match_parent"
+  <Button
+    android:id="@+id/refresh"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_alignParentBottom="true"
-    android:orientation="horizontal">
+    android:minWidth="0dp"
+    android:minHeight="0dp"
+    android:text="Refresh"
+    android:textAllCaps="false"
+    android:textSize="12sp" />
 
-    <Button
-      android:id="@+id/refresh"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:minWidth="0dp"
-      android:minHeight="0dp"
-      android:text="Refresh"
-      android:textAllCaps="false"
-      android:textSize="12sp" />
-
-    <Button
-      android:id="@+id/clear_cache"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:minWidth="0dp"
-      android:minHeight="0dp"
-      android:text="Clear cache"
-      android:textAllCaps="false"
-      android:textSize="12sp" />
-
-    <Button
-      android:id="@+id/configs"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:minWidth="0dp"
-      android:minHeight="0dp"
-      android:text="Configs"
-      android:textAllCaps="false"
-      android:textSize="12sp" />
-
-    <Button
-      android:id="@+id/appSettings"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:minWidth="0dp"
-      android:minHeight="0dp"
-      android:text="App Settings"
-      android:textAllCaps="false"
-      android:textSize="12sp" />
-  </LinearLayout>
+  <Button
+    android:id="@+id/configs"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:layout_toRightOf="@id/refresh"
+    android:minWidth="0dp"
+    android:minHeight="0dp"
+    android:text="Configs"
+    android:textAllCaps="false"
+    android:textSize="12sp" />
 
   <TextView
     android:id="@+id/system_textview"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_above="@+id/button_list"
+    android:layout_above="@+id/refresh"
     android:layout_marginStart="8dp"
     android:layout_marginTop="8dp"
     android:layout_marginEnd="8dp"

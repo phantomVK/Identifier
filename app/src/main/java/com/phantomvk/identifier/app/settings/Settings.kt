@@ -1,7 +1,13 @@
 package com.phantomvk.identifier.app.settings
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
+import android.net.Uri
+import android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+import android.view.View
+import android.widget.Toast
+import com.phantomvk.identifier.IdentifierManager
 import com.phantomvk.identifier.app.Application
 import com.phantomvk.identifier.app.BuildConfig
 
@@ -11,6 +17,23 @@ object SettingsManager {
   fun init(application: Application) {
     sharedPreferences = application.getSharedPreferences("identifier_config", Context.MODE_PRIVATE)
   }
+}
+
+enum class Actions(
+  val title: String,
+  val listener: View.OnClickListener
+) {
+  ClearCache("Clear cache", View.OnClickListener { v ->
+    IdentifierManager.clearMemoryCache()
+    Toast.makeText(v.context, "Cache cleared", Toast.LENGTH_SHORT).show()
+  }),
+
+  AppSettings("App settings", View.OnClickListener { v ->
+    val i = Intent(ACTION_APPLICATION_DETAILS_SETTINGS)
+    i.setData(Uri.parse("package:${v.context.packageName}"))
+    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+    v.context.startActivity(i)
+  });
 }
 
 enum class Settings(
