@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
+import android.os.StrictMode
 import android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS
 import android.view.View
 import android.widget.Toast
@@ -16,6 +17,20 @@ private lateinit var sharedPreferences: SharedPreferences
 object SettingsManager {
   fun init(application: Application) {
     sharedPreferences = application.getSharedPreferences("identifier_config", Context.MODE_PRIVATE)
+
+    if (Settings.StrictMode.getValue()) {
+      StrictMode.ThreadPolicy.Builder()
+        .detectAll()
+        .penaltyLog()
+        .build()
+        .let { StrictMode.setThreadPolicy(it) }
+
+      StrictMode.VmPolicy.Builder()
+        .detectAll()
+        .penaltyLog()
+        .build()
+        .let { StrictMode.setVmPolicy(it) }
+    }
   }
 }
 

@@ -1,10 +1,10 @@
 package com.phantomvk.identifier.app.main
 
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
+import android.content.Context.CLIPBOARD_SERVICE
 import android.os.Looper
-import android.view.View
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.android.id.impl.IdProviderImpl
 import com.phantomvk.identifier.app.settings.Settings
 import com.phantomvk.identifier.functions.Consumer
@@ -75,17 +75,17 @@ object MainManager {
   private fun getAndroidIdImpl(): ResultDetail {
     val nanoTime = System.nanoTime()
     val result = try {
-      IdProviderImpl::class.java.declaredMethods.map {
+      IdProviderImpl::class.java.declaredMethods.joinToString("\n * ", " * ") {
         val builder = StringBuilder(it.toString())
-        keys.forEach {
-          var index = builder.indexOf(it)
+        keys.forEach { key ->
+          var index = builder.indexOf(key)
           while (index >= 0) {
-            builder.delete(index, index + it.length)
-            index = builder.indexOf(it)
+            builder.delete(index, index + key.length)
+            index = builder.indexOf(key)
           }
         }
         builder
-      }.joinToString("\n * ", " * ")
+      }
     } catch (t: Throwable) {
       t.toString()
     }
@@ -154,11 +154,12 @@ object MainManager {
     runnable.run()
   }
 
-  fun edgeToEdge(view: View) {
-    ViewCompat.setOnApplyWindowInsetsListener(view) { v, insets ->
-      val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-      v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-      insets
+  fun copyToClipboard(context: Context, text: CharSequence) {
+    try {
+      val manager = context.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+      val clipData = ClipData.newPlainText("IdentifierTAG", text)
+      manager.setPrimaryClip(clipData)
+    } catch (_: Throwable) {
     }
   }
 }

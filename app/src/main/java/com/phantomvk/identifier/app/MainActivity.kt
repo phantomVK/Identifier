@@ -1,15 +1,10 @@
 package com.phantomvk.identifier.app
 
-import android.content.ClipData
-import android.content.ClipboardManager
 import android.content.Intent
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS
 import android.text.method.ScrollingMovementMethod
 import android.util.Log
-import android.webkit.WebSettings
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
@@ -20,6 +15,7 @@ import com.phantomvk.identifier.Subscription
 import com.phantomvk.identifier.app.BuildConfig.BUILD_TYPE
 import com.phantomvk.identifier.app.BuildConfig.GIT_REVISION
 import com.phantomvk.identifier.app.BuildConfig.VERSION_NAME
+import com.phantomvk.identifier.app.main.MainManager
 import com.phantomvk.identifier.app.main.MainManager.assertThread
 import com.phantomvk.identifier.app.main.MainManager.getResultList
 import com.phantomvk.identifier.app.settings.Settings
@@ -83,7 +79,7 @@ class MainActivity : AppCompatActivity() {
       }
 
       override fun onError(msg: String, throwable: Throwable?) {
-        assertThread(isAsync) { updateErrorInfo(msg, throwable) }
+        assertThread(isAsync) { showInfo("\n- ErrMsg: $msg", throwable) }
       }
     })
   }
@@ -145,11 +141,6 @@ class MainActivity : AppCompatActivity() {
     }
   }
 
-  private fun updateErrorInfo(msg: String? = null, t: Throwable? = null) {
-    val deviceStr = deviceInfo().append("\n- ErrMsg: $msg").toString()
-    showInfo(deviceStr, t)
-  }
-
   private fun showInfo(deviceStr: CharSequence, t: Throwable? = null) {
     val msg = "| ${Build.MANUFACTURER} | ${Build.BRAND} | === " +
         "| ${Build.MODEL} | ${Build.DEVICE} " +
@@ -160,7 +151,7 @@ class MainActivity : AppCompatActivity() {
     lifecycleScope.launch(Dispatchers.Main) {
       textView.text = deviceStr
       textView.setOnLongClickListener {
-        copyToClipboard(deviceStr)
+        MainManager.copyToClipboard(this@MainActivity, deviceStr)
         Toast.makeText(baseContext, "Message copied.", Toast.LENGTH_SHORT).show()
         return@setOnLongClickListener true
       }
@@ -175,16 +166,6 @@ class MainActivity : AppCompatActivity() {
       .append("- Release: Android ${Build.VERSION.RELEASE} (SDK_INT: ${Build.VERSION.SDK_INT})\n")
       .append("- Display: ${Build.DISPLAY}\n")
       .append("- Incremental: ${Build.VERSION.INCREMENTAL}\n")
-      .append("- UserAgent: ${WebSettings.getDefaultUserAgent(this)}\n")
-  }
-
-  private fun copyToClipboard(text: CharSequence) {
-    try {
-      val manager = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
-      val clipData = ClipData.newPlainText("IdentifierTAG", text)
-      manager.setPrimaryClip(clipData)
-    } catch (_: Throwable) {
-    }
   }
 
   override fun onDestroy() {
@@ -192,12 +173,5 @@ class MainActivity : AppCompatActivity() {
     if (disposable?.isDisposed == false) {
       disposable?.dispose()
     }
-  }
-
-  private fun openAppDetailsSettings() {
-    val i = Intent(ACTION_APPLICATION_DETAILS_SETTINGS)
-    i.setData(Uri.parse("package:$packageName"))
-    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-    startActivity(i)
   }
 }

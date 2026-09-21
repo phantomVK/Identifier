@@ -52,48 +52,75 @@ class SettingsAdapter(
   }
 
   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-    return if (viewType == 0) {
-      val switch = SwitchCompat(parent.context).apply {
-        layoutParams = lpSwitch
-        setPadding(density16Int, density16Int, density16Int, density16Int)
+    return when (viewType) {
+      0 -> {
+        val switch = SwitchCompat(parent.context).apply {
+          layoutParams = lpSwitch
+          setPadding(density16Int, density16Int, density16Int, density16Int)
+        }
+
+        CardView(switch.context).apply {
+          radius = density8Float
+          cardElevation = density4Float
+          layoutParams = lpCardView
+          addView(switch)
+        }
+
+        SettingsViewHolder(switch)
       }
 
-      CardView(switch.context).apply {
-        radius = density8Float
-        cardElevation = density4Float
-        layoutParams = lpCardView
-        addView(switch)
+      1 -> {
+        val textView = AppCompatTextView(parent.context).apply {
+          gravity = Gravity.CENTER
+          layoutParams = lpText
+          setTextColor(Color.BLACK)
+          setPadding(density16Int, density16Int, density16Int, density16Int)
+        }
+
+        CardView(textView.context).apply {
+          radius = density8Float
+          cardElevation = density4Float
+          layoutParams = lpCardView
+          addView(textView)
+        }
+
+        ActionsViewHolder(textView)
       }
 
-      SettingsViewHolder(switch)
-    } else {
-      val textView = AppCompatTextView(parent.context).apply {
-        gravity = Gravity.CENTER
-        layoutParams = lpText
-        setTextColor(Color.BLACK)
-        setPadding(density16Int, density16Int, density16Int, density16Int)
-      }
+      else -> {
+        val textView = AppCompatTextView(parent.context).apply {
+          layoutParams = lpText
+          setTextColor(Color.BLACK)
+          setPadding(density16Int, density16Int, density16Int, density16Int)
+        }
 
-      CardView(textView.context).apply {
-        radius = density8Float
-        cardElevation = density4Float
-        layoutParams = lpCardView
-        addView(textView)
-      }
+        CardView(textView.context).apply {
+          radius = density8Float
+          cardElevation = density4Float
+          layoutParams = lpCardView
+          addView(textView)
+        }
 
-      ActionsViewHolder(textView)
+        DisplaysViewHolder(textView)
+      }
     }
   }
 
   override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+    val item = settings[position]
     when (holder) {
-      is SettingsViewHolder -> holder.onBind(settings[position] as Settings)
-      is ActionsViewHolder -> holder.onBind(settings[position] as Actions)
+      is SettingsViewHolder -> holder.onBind(item as Settings)
+      is ActionsViewHolder -> holder.onBind(item as Actions)
+      is DisplaysViewHolder -> holder.onBind(item as String)
     }
   }
 
   override fun getItemViewType(position: Int): Int {
-    return if (settings[position] is Settings) 0 else 1
+    return when (settings[position]) {
+      is Settings -> 0
+      is Actions -> 1
+      else -> 2
+    }
   }
 
   override fun getItemCount(): Int {
@@ -119,6 +146,14 @@ class SettingsAdapter(
     fun onBind(item: Actions) {
       textView.text = item.title
       textView.setOnClickListener(item.listener)
+    }
+  }
+
+  private inner class DisplaysViewHolder(
+    private val textView: AppCompatTextView
+  ) : ViewHolder(textView.parent as View) {
+    fun onBind(item: String) {
+      textView.text = item
     }
   }
 }
