@@ -31,7 +31,7 @@ import java.util.concurrent.atomic.AtomicInteger
 
 class MainActivity : AppCompatActivity() {
 
-  private var disposable: Disposable? = null
+  private val subscriptions = ArrayList<Disposable>()
   private lateinit var textView: TextView
 
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,12 +66,13 @@ class MainActivity : AppCompatActivity() {
         }
       }
 
-      getSubscriptionList(100).forEach { it.subscribe(mergeConsumer) }
+      disposeSubscriptions()
+      getSubscriptionList(100).forEach { subscriptions.add(it.subscribe(mergeConsumer)) }
       return
     }
 
-    disposable?.dispose()
-    disposable = getSubscriptionList(1).first().subscribe(object : Consumer {
+    disposeSubscriptions()
+    getSubscriptionList(1).first().subscribe(object : Consumer {
       private val isAsync = Settings.AsyncCallback.getValue()
 
       override fun onSuccess(result: IdentifierResult) {
@@ -81,7 +82,7 @@ class MainActivity : AppCompatActivity() {
       override fun onError(msg: String, throwable: Throwable?) {
         assertThread(isAsync) { showInfo("\n- ErrMsg: $msg", throwable) }
       }
-    })
+    }).let { subscriptions.add(it) }
   }
 
   private fun getSubscriptionList(capacity: Int): List<Subscription> {
@@ -168,10 +169,13 @@ class MainActivity : AppCompatActivity() {
       .append("- Incremental: ${Build.VERSION.INCREMENTAL}\n")
   }
 
+  private fun disposeSubscriptions() {
+    subscriptions.forEach { it.dispose() }
+    subscriptions.clear()
+  }
+
   override fun onDestroy() {
     super.onDestroy()
-    if (disposable?.isDisposed == false) {
-      disposable?.dispose()
-    }
+    disposeSubscriptions()
   }
 }
