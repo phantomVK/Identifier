@@ -33,6 +33,7 @@ class MainActivity : AppCompatActivity() {
 
   private val subscriptions = ArrayList<Disposable>()
   private lateinit var textView: TextView
+  private var lastDeviceStr: CharSequence = ""
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -40,6 +41,11 @@ class MainActivity : AppCompatActivity() {
 
     textView = findViewById(R.id.system_textview)
     textView.movementMethod = ScrollingMovementMethod.getInstance()
+    textView.setOnLongClickListener {
+      MainManager.copyToClipboard(this, lastDeviceStr)
+      Toast.makeText(applicationContext, "Message copied.", Toast.LENGTH_SHORT).show()
+      true
+    }
 
     findViewById<Button>(R.id.refresh).setOnClickListener { getId() }
     findViewById<Button>(R.id.configs).setOnClickListener { startActivity(Intent(this, SettingsActivity::class.java)) }
@@ -150,12 +156,8 @@ class MainActivity : AppCompatActivity() {
     Log.i("IdentifierTAG", msg + '\n' + deviceStr, t)
 
     lifecycleScope.launch(Dispatchers.Main) {
+      lastDeviceStr = deviceStr
       textView.text = deviceStr
-      textView.setOnLongClickListener {
-        MainManager.copyToClipboard(this@MainActivity, deviceStr)
-        Toast.makeText(baseContext, "Message copied.", Toast.LENGTH_SHORT).show()
-        return@setOnLongClickListener true
-      }
     }
   }
 
