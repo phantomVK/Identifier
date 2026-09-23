@@ -132,6 +132,7 @@ class SettingsAdapter(
   ) : ViewHolder(switch.parent as View) {
     fun onBind(item: Settings) {
       switch.text = item.title
+      switch.setOnCheckedChangeListener(null)
       switch.isChecked = item.getValue()
       switch.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
         item.setValue(isChecked)
