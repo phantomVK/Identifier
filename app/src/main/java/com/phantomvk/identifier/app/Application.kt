@@ -31,7 +31,9 @@ class Application : Application() {
 
     IdentifierManager.Builder(this)
       .setDebug(Settings.Debug.getValue())
-      .setExecutor(Executors.newFixedThreadPool(1)) // optional: setup custom ThreadPoolExecutor
+      .setExecutor(Executors.newFixedThreadPool(4) {
+        Thread(it, "IdCallback").apply { isDaemon = true }
+      })
       .setMergeRequests(Settings.MergeRequests.getValue())
       .setLogger(logger)
       .setPrivacyAcceptedListener { Settings.PrivacyAccepted.getValue() }
