@@ -53,7 +53,7 @@ class SettingsAdapter(
 
   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
     return when (viewType) {
-      0 -> {
+      TYPE_SETTINGS -> {
         val switch = SwitchCompat(parent.context).apply {
           layoutParams = lpSwitch
           setPadding(density16Int, density16Int, density16Int, density16Int)
@@ -69,7 +69,7 @@ class SettingsAdapter(
         SettingsViewHolder(switch)
       }
 
-      1 -> {
+      TYPE_ACTIONS -> {
         val textView = AppCompatTextView(parent.context).apply {
           gravity = Gravity.CENTER
           layoutParams = lpText
@@ -87,22 +87,7 @@ class SettingsAdapter(
         ActionsViewHolder(textView)
       }
 
-      else -> {
-        val textView = AppCompatTextView(parent.context).apply {
-          layoutParams = lpText
-          setTextColor(Color.BLACK)
-          setPadding(density16Int, density16Int, density16Int, density16Int)
-        }
-
-        CardView(textView.context).apply {
-          radius = density8Float
-          cardElevation = density4Float
-          layoutParams = lpCardView
-          addView(textView)
-        }
-
-        DisplaysViewHolder(textView)
-      }
+      else -> throw IllegalArgumentException("Unknown viewType: $viewType")
     }
   }
 
@@ -111,15 +96,14 @@ class SettingsAdapter(
     when (holder) {
       is SettingsViewHolder -> holder.onBind(item as Settings)
       is ActionsViewHolder -> holder.onBind(item as Actions)
-      is DisplaysViewHolder -> holder.onBind(item as String)
     }
   }
 
   override fun getItemViewType(position: Int): Int {
     return when (settings[position]) {
-      is Settings -> 0
-      is Actions -> 1
-      else -> 2
+      is Settings -> TYPE_SETTINGS
+      is Actions -> TYPE_ACTIONS
+      else -> throw IllegalArgumentException("Unknown item type at position $position")
     }
   }
 
@@ -150,11 +134,8 @@ class SettingsAdapter(
     }
   }
 
-  private inner class DisplaysViewHolder(
-    private val textView: AppCompatTextView
-  ) : ViewHolder(textView.parent as View) {
-    fun onBind(item: String) {
-      textView.text = item
-    }
+  private companion object {
+    private const val TYPE_SETTINGS = 0
+    private const val TYPE_ACTIONS = 1
   }
 }
