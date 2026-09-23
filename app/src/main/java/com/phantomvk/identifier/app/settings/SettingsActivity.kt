@@ -5,12 +5,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.phantomvk.identifier.IdentifierManager
 import com.phantomvk.identifier.app.R
 
 
 class SettingsActivity : AppCompatActivity() {
-  private var isConfChanged = false
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -28,22 +26,6 @@ class SettingsActivity : AppCompatActivity() {
 
     val v = findViewById<RecyclerView>(R.id.recycler_view_settings)
     v.setLayoutManager(LinearLayoutManager(this))
-    v.setAdapter(SettingsAdapter(this) { isConfChanged = true })
-  }
-
-  private fun updateProviderConfig() {
-    if (!isConfChanged) return
-    val m = IdentifierManager::class.java
-    val i = m.getDeclaredField("sInstance").apply { isAccessible = true }.get(null)
-    val config = m.getDeclaredField("config").apply { isAccessible = true }.get(i)
-    val c = Class.forName("com.phantomvk.identifier.model.ProviderConfig")
-    val booleanClass = Boolean::class.java
-    c.getMethod("setDebug", booleanClass).invoke(config, Settings.Debug.getValue())
-    c.getMethod("setMergeRequests", booleanClass).invoke(config, Settings.MergeRequests.getValue())
-  }
-
-  override fun onPause() {
-    super.onPause()
-    updateProviderConfig()
+    v.setAdapter(SettingsAdapter(this))
   }
 }

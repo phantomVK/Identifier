@@ -57,12 +57,12 @@ enum class Settings(
   private val defValue: Boolean
 ) {
   AsyncCallback("Async callback", "is_async_callback", false),
-  Debug("Debug mode", "is_debug", BuildConfig.DEBUG),
+  Debug("Debug mode (Restart Required)", "is_debug", BuildConfig.DEBUG),
   Experimental("Experimental mode", "is_experimental", true),
   ExternalSdkQuerying("External SDK Querying", "is_external_sdk_querying", true),
   LimitAdTracking("Limit Ad Tracking", "is_limit_ad_tracking", true),
-  MemCache("Enable Memory Cache", "is_mem_cache_enable", false),
-  MergeRequests("Enable Merge-Requests", "is_merge_requests_enable", false),
+  MemCache("Memory Cache", "is_mem_cache_enable", false),
+  MergeRequests("Merge-Requests (Restart Required)", "is_merge_requests_enable", false),
   Aaid("Enable AAID", "is_aaid_enable", true),
   Vaid("Enable VAID", "is_vaid_enable", true),
   GoogleAdsId("Enable Google Ads ID", "is_google_ads_id_enable", true),

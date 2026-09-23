@@ -14,8 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 
 class SettingsAdapter(
-  activity: AppCompatActivity,
-  private val listener: Runnable
+  activity: AppCompatActivity
 ) : RecyclerView.Adapter<ViewHolder>() {
 
   private val settings: ArrayList<Any>
@@ -120,7 +119,6 @@ class SettingsAdapter(
       switch.isChecked = item.getValue()
       switch.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
         item.setValue(isChecked)
-        listener.run()
       }
     }
   }
