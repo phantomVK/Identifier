@@ -17,7 +17,10 @@ import java.util.concurrent.Executor
 import java.util.concurrent.TimeUnit
 
 object MainManager {
-  private val decimalFormat = DecimalFormat("#,###")
+  private val decimalFormat = object : ThreadLocal<DecimalFormat>() {
+    override fun initialValue() = DecimalFormat("#,###")
+  }
+
   private val keys = listOf("com.android.id.impl.IdProviderImpl.", "android.content.", "java.lang.")
 
   fun getResultList(context: Context): List<ResultDetail> {
@@ -96,7 +99,7 @@ object MainManager {
 
   private fun getNanoTimeStamp(time: Long): String {
     val consumed = (System.nanoTime() - time) / 1000L
-    return decimalFormat.format(consumed)
+    return decimalFormat.get().format(consumed)
   }
 
   private fun getProviderList(context: Context): List<*> {

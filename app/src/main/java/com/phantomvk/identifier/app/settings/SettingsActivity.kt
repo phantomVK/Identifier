@@ -42,8 +42,8 @@ class SettingsActivity : AppCompatActivity() {
     c.getMethod("setMergeRequests", booleanClass).invoke(config, Settings.MergeRequests.getValue())
   }
 
-  override fun onDestroy() {
-    super.onDestroy()
+  override fun onPause() {
+    super.onPause()
     updateProviderConfig()
   }
 }
