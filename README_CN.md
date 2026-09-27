@@ -11,7 +11,21 @@ Identifier
 
 安卓开放匿名设备标识符，[设备兼容性列表](./COMPATIBILITY_LIST.md)
 
-<img src="./static/sample.png" alt="png" width="480" height="349" style="display: inline;"/>
+```text
+# Information
+- Ver: v0.8.26_9b7e227_debug
+- Manufacturer: OnePlus, Brand: OnePlus
+- Model: KB2000, Device: OnePlus8T
+- Release: Android 14 (SDK_INT: 34)
+- Display: KB2000_14.0.0.602(CN01)
+- Incremental: R.1983865_1_2
+
+# Result:
+ * oaid: 85308E3D0E7C460000B39738D507BD4Ab2a66a8bfc942a3fdf61c856e1f38ac0
+ * aaid: E72DD59E5382420000497925A6624CC910d2461ae6f547cd490cee4be85b52cb
+ * vaid: null
+ * gaid: abbb733d-0000-4680-9664-a458d4a2437d
+```
 
 下载
 -----------
