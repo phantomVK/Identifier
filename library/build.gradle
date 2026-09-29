@@ -10,7 +10,6 @@ android {
 
     defaultConfig {
         minSdk rootProject.ext.minSdk
-        targetSdk rootProject.ext.targetSdk
         versionCode rootProject.ext.versionCode
         versionName rootProject.ext.versionName
 
@@ -30,8 +29,14 @@ android {
     }
     kotlinOptions {
         jvmTarget = '1.8'
-        languageVersion = '1.5'
-        apiVersion = '1.5'
+        languageVersion = '1.6'
+        apiVersion = '1.6'
+    }
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
+            withJavadocJar()
+        }
     }
 }
 
@@ -58,4 +63,8 @@ afterEvaluate {
             }
         }
     }
+}
+
+tasks.withType(GenerateModuleMetadata).configureEach {
+    enabled = false
 }
