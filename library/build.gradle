@@ -32,6 +32,12 @@ android {
         languageVersion = '1.6'
         apiVersion = '1.6'
     }
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
+            withJavadocJar()
+        }
+    }
 }
 
 dependencies {
