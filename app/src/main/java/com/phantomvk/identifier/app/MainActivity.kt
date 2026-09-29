@@ -5,6 +5,7 @@ import android.os.Build
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
 import android.util.Log
+import android.webkit.WebSettings
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
@@ -34,6 +35,7 @@ class MainActivity : AppCompatActivity() {
   private val subscriptions = ArrayList<Disposable>()
   private lateinit var textView: TextView
   private var lastDeviceStr: CharSequence = ""
+  private val userAgent by lazy(LazyThreadSafetyMode.NONE) { WebSettings.getDefaultUserAgent(this) }
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -169,6 +171,7 @@ class MainActivity : AppCompatActivity() {
       .append("- Release: Android ${Build.VERSION.RELEASE} (SDK_INT: ${Build.VERSION.SDK_INT})\n")
       .append("- Display: ${Build.DISPLAY}\n")
       .append("- Incremental: ${Build.VERSION.INCREMENTAL}\n")
+      .append("- UserAgent: ${userAgent}\n")
   }
 
   private fun disposeSubscriptions() {
