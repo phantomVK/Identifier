@@ -1,0 +1,46 @@
+name: Consumer Compatibility
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  publish-and-consume:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Cache Gradle
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: gradle-${{ hashFiles('**/*.gradle', '**/gradle-wrapper.properties') }}
+
+      - name: Publish library AAR to mavenLocal
+        run: ./gradlew :library:publishToMavenLocal --no-daemon --no-configuration-cache
+
+      - name: Read published version
+        id: ver
+        run: echo "libVersion=$(ls ~/.m2/repository/com/phantomvk/identifier/identifier/ | grep -v maven-metadata | head -1)" >> "$GITHUB_OUTPUT"
+
+      - name: Consumer AGP 7.0 (Kotlin 1.6.21)
+        working-directory: samples/consumer-agp7
+        run: |
+          echo "sdk.dir=$ANDROID_SDK_ROOT" > local.properties
+          ./gradlew :app:assembleDebug -PlibVersion=${{ steps.ver.outputs.libVersion }} --no-daemon --no-configuration-cache
+
+      - name: Consumer AGP 4.2 (Kotlin 1.6.21)
+        working-directory: samples/consumer-agp4
+        run: |
+          echo "sdk.dir=$ANDROID_SDK_ROOT" > local.properties
+          ./gradlew :app:assembleDebug -PlibVersion=${{ steps.ver.outputs.libVersion }} --no-daemon --no-configuration-cache

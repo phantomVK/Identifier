@@ -102,6 +102,20 @@ R8 / Proguard
 --------
 The specific rules are already bundled into the aar which can be interpreted by R8 automatically
 
+Requirements
+--------
+The published AAR is built to stay compatible with a wide range of consumer toolchains:
+
+| Consumer side  | Minimum |
+|----------------|---------|
+| Android Gradle Plugin | 4.0     |
+| Gradle | 6.1.1   |
+| JDK | 8       |
+| Kotlin (if any) | 1.6     |
+| Android compileSdk | 21+ recommended |
+
+The AAR ships with `@kotlin.Metadata(mv=[1,6,0])` and no `.module` metadata, so consumers on older Gradle or R8 versions can still resolve and dex it.
+
 License
 --------
 

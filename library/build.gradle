@@ -30,8 +30,13 @@ android {
     }
     kotlinOptions {
         jvmTarget = '1.8'
-        languageVersion = '1.5'
-        apiVersion = '1.5'
+        languageVersion = '1.6'
+        apiVersion = '1.6'
+        freeCompilerArgs += [
+                '-Xjvm-default=all-compatibility',
+                '-Xmetadata-version=1.6.0',
+                '-Xsuppress-version-warnings',
+        ]
     }
 }
 
@@ -39,12 +44,19 @@ dependencies {
     implementation "androidx.annotation:annotation:$annotation"
     compileOnly project(":dependencies")
 
+    compileOnly "org.jetbrains.kotlin:kotlin-stdlib:1.6.21"
+
 //    compileOnly("com.huawei.hms:ads-identifier:$hms")
 //    compileOnly("com.hihonor.mcs:ads-identifier:$mcs")
 
     testImplementation "junit:junit:$junit"
+    testImplementation "org.jetbrains.kotlin:kotlin-stdlib:1.6.21"
     androidTestImplementation "androidx.test.ext:junit:$android_junit"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_core"
+}
+
+tasks.withType(GenerateModuleMetadata).configureEach {
+    enabled = false
 }
 
 afterEvaluate {

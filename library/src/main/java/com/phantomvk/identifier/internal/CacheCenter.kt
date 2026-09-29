@@ -8,7 +8,7 @@ import java.util.concurrent.ConcurrentHashMap
 
 internal object CacheCenter {
 
-  val mainHandler = Handler(Looper.getMainLooper())
+  val mainHandler: Handler by lazy { Handler(Looper.getMainLooper()) }
 
   private val map = ConcurrentHashMap<String, IdentifierResult>()
 

@@ -1,0 +1,2 @@
+rootProject.name = 'consumer-agp4'
+include ':app'

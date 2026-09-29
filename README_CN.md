@@ -103,6 +103,20 @@ R8 / Proguard
 --------
 特定规则已内置到aar，并在R8编译过程自动应用
 
+兼容性要求
+--------
+发布的 AAR 与以下消费端最低工具链兼容:
+
+| 消费端 | 最低版本 |
+|-------|---------|
+| Android Gradle Plugin | 4.0 |
+| Gradle | 6.1.1 |
+| JDK | 8 |
+| Kotlin (若使用) | 1.6 |
+| Android compileSdk | 建议 21+ |
+
+AAR 标记 `@kotlin.Metadata(mv=[1,6,0])`，不发布 `.module` 元数据，老版本 Gradle / R8 消费方可以正常解析与打 dex。
+
 许可证
 --------
 
