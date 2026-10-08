@@ -7,16 +7,17 @@ import com.phantomvk.identifier.model.ProviderConfig
 
 internal class AsusProvider(config: ProviderConfig) : AbstractProvider(config) {
 
-  override fun isSupported(): Boolean {
-    return isPackageInfoExisted("com.asus.msa.SupplementaryDID")
-  }
-
   override fun getInterfaceName(): String {
     return "com.asus.msa.SupplementaryDID.IDidAidlInterface"
   }
 
   // udid:2, oaid:3, vaid:4, aaid:5
   override fun run() {
+    if (!isPackageInfoExisted("com.asus.msa.SupplementaryDID")) {
+      getConsumer().onError(NOT_SUPPORTED)
+      return
+    }
+
     val componentName = ComponentName("com.asus.msa.SupplementaryDID", "com.asus.msa.SupplementaryDID.SupplementaryDIDService")
     val intent = Intent("com.asus.msa.action.ACCESS_DID").setComponent(componentName)
     bindService(intent)

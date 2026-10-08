@@ -7,11 +7,14 @@ import com.phantomvk.identifier.model.ProviderConfig
 
 internal class HuaweiServiceProvider(config: ProviderConfig) : HuaweiBaseProvider(config) {
 
-  private lateinit var packageName: String
+  override fun getInterfaceName(): String {
+    return "com.uodis.opendevice.aidl.OpenDeviceIdentifierService"
+  }
 
-  override fun isSupported(): Boolean {
+  override fun run() {
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-      return false
+      getConsumer().onError(NOT_SUPPORTED)
+      return
     }
 
     val name = listOf(
@@ -21,19 +24,11 @@ internal class HuaweiServiceProvider(config: ProviderConfig) : HuaweiBaseProvide
     ).firstOrNull { try { isPackageInfoExisted(it) } catch (_: Throwable) { false } }
 
     if (name == null) {
-      return false
+      getConsumer().onError(NOT_SUPPORTED)
+      return
     }
 
-    packageName = name
-    return true
-  }
-
-  override fun getInterfaceName(): String {
-    return "com.uodis.opendevice.aidl.OpenDeviceIdentifierService"
-  }
-
-  override fun run() {
-    val intent = Intent("com.uodis.opendevice.OPENIDS_SERVICE").setPackage(packageName)
+    val intent = Intent("com.uodis.opendevice.OPENIDS_SERVICE").setPackage(name)
     bindService(intent)
   }
 

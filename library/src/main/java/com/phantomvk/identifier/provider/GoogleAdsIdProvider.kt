@@ -11,15 +11,16 @@ import com.phantomvk.identifier.model.ProviderConfig
  */
 internal class GoogleAdsIdProvider(config: ProviderConfig) : AbstractProvider(config) {
 
-  override fun isSupported(): Boolean {
-    return isPackageInfoExisted("com.android.vending")
-  }
-
   override fun getInterfaceName(): String {
     return "com.google.android.gms.ads.identifier.internal.IAdvertisingIdService"
   }
 
   override fun run() {
+    if (!isPackageInfoExisted("com.android.vending")) {
+      getConsumer().onError(NOT_SUPPORTED)
+      return
+    }
+
     val intent = Intent("com.google.android.gms.ads.identifier.service.START").setPackage("com.google.android.gms")
     bindService(intent)
   }

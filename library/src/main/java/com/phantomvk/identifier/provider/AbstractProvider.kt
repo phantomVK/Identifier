@@ -14,8 +14,6 @@ import com.phantomvk.identifier.model.ProviderConfig
 
 internal abstract class AbstractProvider(protected val config: ProviderConfig) {
 
-  abstract fun isSupported(): Boolean
-
   abstract fun run()
 
   protected open fun getInterfaceName(): String = ""
@@ -228,3 +226,4 @@ internal const val QUERY_CURSOR_IS_NULL: String = "Query cursor is null."
 internal const val SIGNATURE_IS_NULL: String = "Signature is null."
 internal const val SIGNATURE_HASH_IS_NULL: String = "Signature hash is null."
 internal const val PRIVACY_IS_NOT_ACCEPTED: String = "Privacy is not accepted."
+internal const val NOT_SUPPORTED = "Not supported."

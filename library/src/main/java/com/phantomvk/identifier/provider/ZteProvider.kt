@@ -6,18 +6,9 @@ import com.phantomvk.identifier.model.ProviderConfig
 
 internal class ZteProvider(config: ProviderConfig) : AbstractProvider(config) {
 
-  private lateinit var manager: ZteDeviceIdentifyManager
-
-  override fun isSupported(): Boolean {
-    try {
-      manager = ZteDeviceIdentifyManager(config.context)
-      return true
-    } catch (_: Throwable) {
-      return false
-    }
-  }
-
   override fun run() {
+    val manager = ZteDeviceIdentifyManager(config.context)
+
     if (config.isVerifyLimitAdTracking) {
       try {
         val isSupported = manager.isSupported(config.context)

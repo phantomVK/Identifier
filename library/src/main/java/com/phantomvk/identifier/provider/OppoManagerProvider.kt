@@ -7,14 +7,8 @@ import com.phantomvk.identifier.model.ProviderConfig
 
 internal class OppoManagerProvider(config: ProviderConfig) : OppoBaseProvider(config) {
 
-  private lateinit var o: OplusNotificationManager
-
-  override fun isSupported(): Boolean {
-    o = OplusNotificationManager()
-    return true
-  }
-
   override fun run() {
+    val o = OplusNotificationManager()
     val p = config.context.packageName
     val u = Binder.getCallingUid()
 

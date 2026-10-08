@@ -10,11 +10,12 @@ import generated.com.hihonor.cloudservice.oaid.IOAIDCallBack
 
 internal class HonorServiceProvider(config: ProviderConfig) : AbstractProvider(config) {
 
-  override fun isSupported(): Boolean {
-    return isPackageInfoExisted("com.hihonor.id")
-  }
-
   override fun run() {
+    if (!isPackageInfoExisted("com.hihonor.id")) {
+      getConsumer().onError(NOT_SUPPORTED)
+      return
+    }
+
     val intent = Intent("com.hihonor.id.HnOaIdService").setPackage("com.hihonor.id")
     val callback = object : ConnectionCallback {
       override fun invoke(service: IBinder, conn: ServiceConnection) {

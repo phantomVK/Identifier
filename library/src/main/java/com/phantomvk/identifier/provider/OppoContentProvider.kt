@@ -9,11 +9,12 @@ import com.phantomvk.identifier.model.ProviderConfig
 
 internal class OppoContentProvider(config: ProviderConfig) : OppoBaseProvider(config) {
 
-  override fun isSupported(): Boolean {
-    return isContentProviderExisted("com.oplus.omes.ids_provider")
-  }
-
   override fun run() {
+    if (!isContentProviderExisted("com.oplus.omes.ids_provider")) {
+      getConsumer().onError(NOT_SUPPORTED)
+      return
+    }
+
     val uri = Uri.parse("content://com.oplus.omes.ids_provider")
     val client = config.context.contentResolver.acquireContentProviderClient(uri)
     if (client == null) {
