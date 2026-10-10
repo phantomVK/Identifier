@@ -34,3 +34,17 @@
 -keepclassmembernames class com.phantomvk.identifier.provider.AbstractProvider {
     public void setConsumer(com.phantomvk.identifier.functions.Consumer);
 }
+
+-assumenosideeffects class kotlin.jvm.internal.Intrinsics {
+    static void checkNotNullParameter(java.lang.Object, java.lang.String);
+    static void checkParameterIsNotNull(java.lang.Object, java.lang.String);
+    static void checkNotNullExpressionValue(java.lang.Object, java.lang.String);
+    static void checkExpressionValueIsNotNull(java.lang.Object, java.lang.String);
+    static void checkReturnedValueIsNotNull(java.lang.Object, java.lang.String);
+    static void checkReturnedValueIsNotNull(java.lang.Object, java.lang.String, java.lang.String);
+    static void checkFieldIsNotNull(java.lang.Object, java.lang.String, java.lang.String);
+    static void throwUninitializedPropertyAccessException(java.lang.String);
+    static void throwNpe(java.lang.String);
+    static void throwNpe();
+    static void throwJavaNpe();
+}
