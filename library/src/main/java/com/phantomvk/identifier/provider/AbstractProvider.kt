@@ -18,9 +18,7 @@ internal abstract class AbstractProvider(protected val config: ProviderConfig) {
 
   protected open fun getInterfaceName(): String = ""
 
-  protected open fun call(binder: IBinder): BinderResult {
-    return Failed("Not supported.")
-  }
+  protected open fun call(binder: IBinder): BinderResult = Failed(NOT_SUPPORTED)
 
   private lateinit var consumer: Consumer
 
