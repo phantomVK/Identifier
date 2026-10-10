@@ -8,8 +8,8 @@ android {
     compileSdk rootProject.ext.compileSdk
 
     defaultConfig {
-        minSdk 21 // rootProject.ext.minSdk
-        targetSdk rootProject.ext.targetSdk
+        minSdk 21
+        targetSdk 35
         versionCode rootProject.ext.versionCode
         versionName rootProject.ext.versionName
 
