@@ -9,14 +9,8 @@ import com.phantomvk.identifier.model.ProviderConfig
  */
 internal class XiaomiProvider(config: ProviderConfig) : AbstractProvider(config) {
 
-  private lateinit var impl: IdProviderImpl
-
-  override fun isSupported(): Boolean {
-    impl = IdProviderImpl()
-    return true
-  }
-
   override fun run() {
+    val impl = IdProviderImpl()
     when (val r = checkId(impl.getOAID(config.context))) {
       is Failed -> getConsumer().onError(r.msg, r.throwable)
       is Success -> {

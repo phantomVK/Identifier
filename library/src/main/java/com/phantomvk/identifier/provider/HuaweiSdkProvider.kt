@@ -6,11 +6,12 @@ import com.phantomvk.identifier.model.ProviderConfig
 
 internal class HuaweiSdkProvider(config: ProviderConfig) : HuaweiBaseProvider(config) {
 
-  override fun isSupported(): Boolean {
-    return AdvertisingIdClient.isAdvertisingIdAvailable(config.context)
-  }
-
   override fun run() {
+    if (!AdvertisingIdClient.isAdvertisingIdAvailable(config.context)) {
+      getConsumer().onError(NOT_SUPPORTED)
+      return
+    }
+
     val info = AdvertisingIdClient.getAdvertisingIdInfo(config.context)
     if (info == null) {
       getConsumer().onError(ID_INFO_IS_NULL)

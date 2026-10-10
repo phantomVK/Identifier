@@ -7,10 +7,6 @@ import com.phantomvk.identifier.model.ProviderConfig
 
 internal class NubiaProvider(config: ProviderConfig) : AbstractProvider(config) {
 
-  override fun isSupported(): Boolean {
-    return true
-  }
-
   override fun run() {
     val uri = Uri.parse("content://cn.nubia.identity/identity")
     val client = config.context.contentResolver.acquireContentProviderClient(uri)

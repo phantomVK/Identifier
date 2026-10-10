@@ -7,16 +7,17 @@ import com.phantomvk.identifier.model.ProviderConfig
 
 internal class CoolpadServiceProvider(config: ProviderConfig) : AbstractProvider(config) {
 
-  override fun isSupported(): Boolean {
-    return isPackageInfoExisted("com.coolpad.deviceidsupport")
-  }
-
   override fun getInterfaceName(): String {
     return "com.coolpad.deviceidsupport.IDeviceIdManager"
   }
 
   // udid:1, oaid:2, vaid:3, aaid:4
   override fun run() {
+    if (!isPackageInfoExisted("com.coolpad.deviceidsupport")) {
+      getConsumer().onError(NOT_SUPPORTED)
+      return
+    }
+
     val componentName = ComponentName("com.coolpad.deviceidsupport", "com.coolpad.deviceidsupport.DeviceIdService")
     val intent = Intent().setComponent(componentName)
     bindService(intent)

@@ -5,11 +5,12 @@ import com.phantomvk.identifier.model.ProviderConfig
 
 internal class HonorSdkProvider(config: ProviderConfig) : AbstractProvider(config) {
 
-  override fun isSupported(): Boolean {
-    return AdvertisingIdClient.isAdvertisingIdAvailable(config.context)
-  }
-
   override fun run() {
+    if (!AdvertisingIdClient.isAdvertisingIdAvailable(config.context)) {
+      getConsumer().onError(NOT_SUPPORTED)
+      return
+    }
+
     val info = AdvertisingIdClient.getAdvertisingIdInfo(config.context)
     if (info == null) {
       getConsumer().onError(ID_INFO_IS_NULL)

@@ -6,16 +6,20 @@ import com.phantomvk.identifier.model.ProviderConfig
 
 internal class CooseaProvider(config: ProviderConfig) : AbstractProvider(config) {
 
-  private val manager = config.context.getSystemService(KEYGUARD_SERVICE) as? KeyguardManager
-
-  override fun isSupported(): Boolean {
-    if (manager == null) return false
-    val method = manager::class.java.getDeclaredMethod("isSupported")
-    return (method.invoke(manager) as? Boolean) == true
-  }
-
   override fun run() {
-    val method = manager!!::class.java.getDeclaredMethod("obtainOaid")
+    val manager = config.context.getSystemService(KEYGUARD_SERVICE) as? KeyguardManager
+    if (manager == null) {
+      getConsumer().onError(NOT_SUPPORTED)
+      return
+    }
+
+    val isSupported = manager::class.java.getDeclaredMethod("isSupported")
+    if ((isSupported.invoke(manager) as? Boolean) != true) {
+      getConsumer().onError(NOT_SUPPORTED)
+      return
+    }
+
+    val method = manager::class.java.getDeclaredMethod("obtainOaid")
     checkId(method.invoke(manager) as? String, getConsumer())
   }
 }

@@ -7,11 +7,12 @@ import com.phantomvk.identifier.model.ProviderConfig
 
 internal class VivoProvider(config: ProviderConfig) : AbstractProvider(config) {
 
-  override fun isSupported(): Boolean {
-    return isContentProviderExisted("com.vivo.vms.IdProvider")
-  }
-
   override fun run() {
+    if (!isContentProviderExisted("com.vivo.vms.IdProvider")) {
+      getConsumer().onError(NOT_SUPPORTED)
+      return
+    }
+
     if (config.isVerifyLimitAdTracking) {
       val status = getId("OAIDSTATUS")
       if (status is Failed || status.id == "0") {

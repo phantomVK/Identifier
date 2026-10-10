@@ -5,10 +5,6 @@ import com.phantomvk.identifier.model.ProviderConfig
 
 internal class PicoProvider(config: ProviderConfig) : AbstractProvider(config) {
 
-  override fun isSupported(): Boolean {
-    return true // isBrand("Pico")
-  }
-
   override fun run() {
     val uri = Uri.parse("content://com.pico.idprovider")
     val client = config.context.contentResolver.acquireContentProviderClient(uri)
