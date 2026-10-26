@@ -227,6 +227,8 @@
 |     vivo     | vivo  |   X100s   |  V2359A   | PD2309  |   35    |      vivo/PD2309M/PD2309:15/AP3A.240905.015.A1/compiler11060027:user/release-keys      |
 |     vivo     | vivo  |   X100s   |  V2359A   | PD2309  |   36    |    vivo/PD2309M/PD2309:16/BP2A.250605.031.A3/compiler260611211327:user/release-keys    |
 |     vivo     | vivo  |    S50    |  V2528A   | PD2528  |   36    | vivo/PD2528/PD2528:16/BP2A.250605.031.A3_V000L1/compiler260720211707:user/release-keys |
+|     vivo     | vivo  |   X300    |  V2509A   | PD2509  |   36    | vivo/PD2509/PD2509:16/BP2A.250605.031.A3_V000L1/compiler260724175823:user/release-keys |
+|     vivo     | vivo  |    S60    |  V2571A   | PD2571  |   36    | vivo/PD2571/PD2571:16/BP2A.250605.031.A3_V000L1/compiler260728152519:user/release-keys |
 
 #### Xiaomi
 
