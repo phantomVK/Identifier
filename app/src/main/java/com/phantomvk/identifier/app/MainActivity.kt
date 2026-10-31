@@ -19,6 +19,7 @@ import com.phantomvk.identifier.app.BuildConfig.VERSION_NAME
 import com.phantomvk.identifier.app.main.MainManager
 import com.phantomvk.identifier.app.main.MainManager.assertThread
 import com.phantomvk.identifier.app.main.MainManager.getResultList
+import com.phantomvk.identifier.app.main.SysMark
 import com.phantomvk.identifier.app.settings.Settings
 import com.phantomvk.identifier.app.settings.SettingsActivity
 import com.phantomvk.identifier.disposable.Disposable
@@ -171,6 +172,8 @@ class MainActivity : AppCompatActivity() {
       .append("- Release: Android ${Build.VERSION.RELEASE} (SDK_INT: ${Build.VERSION.SDK_INT})\n")
       .append("- Display: ${Build.DISPLAY}\n")
       .append("- Incremental: ${Build.VERSION.INCREMENTAL}\n")
+      .append("- BootMark: ${SysMark.getBootMark()}\n")
+      .append("- UpdateMark: ${SysMark.getUpdateMark()}\n")
       .append("- UserAgent: ${userAgent}\n")
   }
 
