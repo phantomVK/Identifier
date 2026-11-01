@@ -6,15 +6,16 @@ import com.phantomvk.identifier.model.ProviderConfig
 
 internal class QikuServiceProvider(config: ProviderConfig) : AbstractProvider(config) {
 
-  override fun isSupported(): Boolean {
-    return isPackageInfoExisted("com.qiku.id")
-  }
-
   override fun getInterfaceName(): String {
     return "com.qiku.id.IOAIDInterface"
   }
 
   override fun run() {
+    if (!isPackageInfoExisted("com.qiku.id")) {
+      getConsumer().onError(NOT_SUPPORTED)
+      return
+    }
+
     val intent = Intent("qiku.service.action.id").setPackage("com.qiku.id")
     bindService(intent)
   }

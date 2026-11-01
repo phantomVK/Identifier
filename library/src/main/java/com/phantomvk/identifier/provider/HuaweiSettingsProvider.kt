@@ -8,12 +8,12 @@ import com.phantomvk.identifier.model.ProviderConfig
 
 internal class HuaweiSettingsProvider(config: ProviderConfig) : HuaweiBaseProvider(config) {
 
-  @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.N)
-  override fun isSupported(): Boolean {
-    return Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
-  }
-
   override fun run() {
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+      getConsumer().onError(NOT_SUPPORTED)
+      return
+    }
+
     if (config.isVerifyLimitAdTracking) {
       try {
         val isLimited = Settings.Global.getString(config.context.contentResolver, "pps_track_limit")

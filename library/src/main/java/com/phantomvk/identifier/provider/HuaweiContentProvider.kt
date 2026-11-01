@@ -6,11 +6,12 @@ import com.phantomvk.identifier.model.ProviderConfig
 
 internal class HuaweiContentProvider(config: ProviderConfig) : HuaweiBaseProvider(config) {
 
-  override fun isSupported(): Boolean {
-    return isContentProviderExisted("com.huawei.hwid.pps.apiprovider")
-  }
-
   override fun run() {
+    if (!isContentProviderExisted("com.huawei.hwid.pps.apiprovider")) {
+      getConsumer().onError(NOT_SUPPORTED)
+      return
+    }
+
     val uri = Uri.parse("content://com.huawei.hwid.pps.apiprovider/oaid/query")
     val c = config.context.contentResolver.query(uri, null, null, null, null)
     if (c == null) {
@@ -19,7 +20,7 @@ internal class HuaweiContentProvider(config: ProviderConfig) : HuaweiBaseProvide
     }
 
     try {
-      if (c.moveToFirst() == false) {
+      if (!c.moveToFirst()) {
         getConsumer().onError(FAILED_TO_MOVE_CURSOR)
         return
       }

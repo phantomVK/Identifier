@@ -7,11 +7,12 @@ import generated.com.android.creator.IdsSupplier
 
 internal class FreemeProvider(config: ProviderConfig) : AbstractProvider(config) {
 
-  override fun isSupported(): Boolean {
-    return isPackageInfoExisted("com.android.creator")
-  }
-
   override fun run() {
+    if (!isPackageInfoExisted("com.android.creator")) {
+      getConsumer().onError(NOT_SUPPORTED)
+      return
+    }
+
     val intent = Intent("android.service.action.msa").setPackage("com.android.creator")
     bindService(intent)
   }

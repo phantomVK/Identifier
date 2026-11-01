@@ -6,11 +6,12 @@ import com.phantomvk.identifier.model.ProviderConfig
 
 internal class MeizuProvider(config: ProviderConfig) : AbstractProvider(config) {
 
-  override fun isSupported(): Boolean {
-    return isContentProviderExisted("com.meizu.flyme.openidsdk")
-  }
-
   override fun run() {
+    if (!isContentProviderExisted("com.meizu.flyme.openidsdk")) {
+      getConsumer().onError(NOT_SUPPORTED)
+      return
+    }
+
     when (val r = getId("oaid")) {
       is Failed -> getConsumer().onError(r.msg, r.throwable)
       is Success -> {

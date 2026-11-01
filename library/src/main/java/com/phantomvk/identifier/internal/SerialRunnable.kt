@@ -54,10 +54,6 @@ internal class SerialRunnable(
     setConsumer(this)
   }
 
-  override fun isSupported(): Boolean {
-    return true
-  }
-
   override fun run() {
     if (disposed.get()) {
       return
@@ -113,17 +109,6 @@ internal class SerialRunnable(
     }
 
     val provider = providers[index]
-    val isSupported = try {
-      provider.isSupported()
-    } catch (_: Throwable) {
-      false
-    }
-
-    if (!isSupported) {
-      execute(providers, index + 1)
-      return
-    }
-
     provider.setConsumer(object : Consumer {
       override fun onSuccess(result: IdentifierResult) {
         if (config.idConfig.isGoogleAdsIdEnabled) {
@@ -142,7 +127,7 @@ internal class SerialRunnable(
 
     try {
       provider.run()
-    } catch (t: Throwable) {
+    } catch (_: Throwable) {
       execute(providers, index + 1)
     }
   }
@@ -153,16 +138,6 @@ internal class SerialRunnable(
     }
 
     val provider = GoogleAdsIdProvider(config)
-    try {
-      if (provider.isSupported() == false) {
-        setGoogleAdsIdResult(r, null)
-        return
-      }
-    } catch (t: Throwable) {
-      setGoogleAdsIdResult(r, t)
-      return
-    }
-
     provider.setConsumer(object : Consumer {
       override fun onSuccess(result: IdentifierResult) {
         if (r == null) {

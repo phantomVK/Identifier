@@ -25,23 +25,12 @@ object MainManager {
 
   fun getResultList(context: Context): List<ResultDetail> {
     val absProviderClass = Class.forName("com.phantomvk.identifier.provider.AbstractProvider")
-    val isSupportedMethod = absProviderClass.getMethod("isSupported")
     val consumerClass = Class.forName("com.phantomvk.identifier.functions.Consumer")
     val setCallbackMethod = absProviderClass.getDeclaredMethod("setConsumer", consumerClass)
     val runMethod = absProviderClass.getMethod("run")
 
     val list = ArrayList<ResultDetail>()
     for (provider in getProviderList(context)) {
-      val isSupported = try {
-        isSupportedMethod.invoke(provider) as Boolean
-      } catch (_: Throwable) {
-        false
-      }
-
-      if (!isSupported) {
-        continue
-      }
-
       val latch = CountDownLatch(1)
       val simpleName = (provider as Any).javaClass.simpleName
       val nanoTime = System.nanoTime()

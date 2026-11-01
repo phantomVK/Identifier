@@ -8,22 +8,21 @@ import com.phantomvk.identifier.model.ProviderConfig
 
 internal class QikuBinderProvider(config: ProviderConfig) : AbstractProvider(config) {
 
-  private lateinit var iBinder: IBinder
-
-  override fun isSupported(): Boolean {
-    iBinder = ServiceManager.getService("qikuid") ?: return false
-    return true
-  }
-
   override fun run() {
+    val iBinder = ServiceManager.getService("qikuid")
+    if (iBinder == null) {
+      getConsumer().onError(NOT_SUPPORTED)
+      return
+    }
+
     if (config.isVerifyLimitAdTracking) {
-      if (isLimited()) {
+      if (isLimited(iBinder)) {
         getConsumer().onError(LIMIT_AD_TRACKING_IS_ENABLED)
         return
       }
     }
 
-    when (val r = getId(4)) {
+    when (val r = getId(4, iBinder)) {
       is Failed -> getConsumer().onError(r.msg, r.throwable)
       is Success -> {
 //        val vaid = invokeById(IdEnum.VAID) { getId(5) }
@@ -47,7 +46,7 @@ internal class QikuBinderProvider(config: ProviderConfig) : AbstractProvider(con
 //    }
 //  }
 
-  private fun getId(code: Int): BinderResult {
+  private fun getId(code: Int, iBinder: IBinder): BinderResult {
     val data = Parcel.obtain()
     val reply = Parcel.obtain()
     try {
@@ -62,7 +61,7 @@ internal class QikuBinderProvider(config: ProviderConfig) : AbstractProvider(con
     }
   }
 
-  private fun isLimited(): Boolean {
+  private fun isLimited(iBinder: IBinder): Boolean {
     val data = Parcel.obtain()
     val reply = Parcel.obtain()
     try {

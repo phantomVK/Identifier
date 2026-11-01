@@ -14,11 +14,12 @@ internal open class OppoHeyTapProvider(
   private val action: String = "action.com.heytap.openid.OPEN_ID_SERVICE"
 ) : OppoBaseProvider(config) {
 
-  override fun isSupported(): Boolean {
-    return isPackageInfoExisted(pkg)
-  }
-
   override fun run() {
+    if (!isPackageInfoExisted(pkg)) {
+      getConsumer().onError(NOT_SUPPORTED)
+      return
+    }
+
     val intent = Intent(action).setComponent(ComponentName(pkg, cls))
     bindService(intent)
   }
