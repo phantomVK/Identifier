@@ -16,7 +16,7 @@
     android:minHeight="0dp"
     android:text="Refresh"
     android:textAllCaps="false"
-    android:textSize="12sp" />
+    android:textSize="11sp" />
 
   <Button
     android:id="@+id/configs"
@@ -28,17 +28,17 @@
     android:minHeight="0dp"
     android:text="Configs"
     android:textAllCaps="false"
-    android:textSize="12sp" />
+    android:textSize="11sp" />
 
   <TextView
     android:id="@+id/system_textview"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_above="@+id/refresh"
-    android:layout_marginStart="8dp"
-    android:layout_marginTop="8dp"
-    android:layout_marginEnd="8dp"
+    android:layout_marginStart="6dp"
+    android:layout_marginTop="6dp"
+    android:layout_marginEnd="6dp"
     android:textColor="#FF000000"
-    android:textSize="12sp"
+    android:textSize="11sp"
     android:textStyle="bold" />
 </RelativeLayout>

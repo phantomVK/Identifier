@@ -165,14 +165,12 @@ class MainActivity : AppCompatActivity() {
   }
 
   private fun deviceInfo(): StringBuilder {
-    return StringBuilder("# Information\n")
-      .append("- Ver: v${VERSION_NAME}_${GIT_REVISION}_${BUILD_TYPE}\n")
-      .append("- Manufacturer: ${Build.MANUFACTURER}, Brand: ${Build.BRAND}\n")
-      .append("- Model: ${Build.MODEL}, Device: ${Build.DEVICE}\n")
+    return StringBuilder("# Information (v${VERSION_NAME}_${GIT_REVISION}_${BUILD_TYPE})\n")
+      .append("- Manufacturer/Brand: ${Build.MANUFACTURER}/${Build.BRAND}\n")
+      .append("- Model/Device: ${Build.MODEL}/${Build.DEVICE}\n")
       .append("- Release: Android ${Build.VERSION.RELEASE} (API ${Build.VERSION.SDK_INT})\n")
       .append("- Display: ${Build.DISPLAY}\n")
-      .append("- ID: ${Build.ID}\n")
-      .append("- Incremental: ${Build.VERSION.INCREMENTAL}\n")
+      .append("- Incremental/ID: ${Build.VERSION.INCREMENTAL}/${Build.ID}\n")
       .append("- BootMark: ${SysMark.getBootMark()}\n")
       .append("- UpdateMark: ${SysMark.getUpdateMark()}\n")
       .append("- UserAgent: ${userAgent}\n")
