@@ -1,6 +1,7 @@
 ext {
     compileSdk = 33
     minSdk = 17
+    ndkVersion = "28.2.13676358"
     versionCode = getVersionCode()
     versionName = getVersionName()
     gitRevision = getGitRevision()
