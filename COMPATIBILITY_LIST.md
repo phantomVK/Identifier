@@ -73,6 +73,7 @@
 |    HONOR     | HONOR |   Honor 60    | LSA-AN00 |  HNLSA   |   31    |        HONOR/LSA-AN00/HNLSA:12/HONORLSA-AN00/6.1.0.150C00:user/release-keys        |
 |    HONOR     | HONOR |    X30 Max    | KKG-AN70 | HNKKG-M  |   30    |       HONOR/KKG-AN70/HNKKG-M:11/HONORKKG-AN70/5.0.0.186C00:user/release-keys       |
 |    HONOR     | HONOR |     X30i      | TFY-AN00 | HNTFY-M  |   31    |       HONOR/TFY-AN00/HNTFY-M:12/HONORTFY-AN00/6.1.0.127C00:user/release-keys       |
+|    HONOR     | HONOR |   Honor X50   | ALI-AN00 | HNALI-Q  |   35    |   HONOR/ALI-AN00/HNALI-Q:15/HONORALI-AN00/9DLDLD205CHNC00E200:user/release-keys    |
 |    HONOR     | HONOR |   Honor 70    | FNE-AN00 |  HNFNE   |   31    |        HONOR/FNE-AN00/HNFNE:12/HONORFNE-AN00/7.0.0.183C00:user/release-keys        |
 |    HONOR     | HONOR |   Honor 70    | FNE-AN00 |  HNFNE   |   34    |   HONOR/FNE-AN00/HNFNE:14/HONORFNE-AN00/8.0.0.181C00E173R10P6:user/release-keys    |
 |    HONOR     | HONOR |    Magic5     | PGT-AN00 |  HNPGT   |   34    | HONOR/PGT-AN00/HNPGT:14/HONORPGT-AN00/8.0.0.158SP1CHNC00E158R7P7:user/release-keys |
